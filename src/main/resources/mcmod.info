@@ -2,7 +2,7 @@
 {
         "modid": "subsistence",
         "name": "Subsistence",
-        "version": "@VERSION@",
+        "version": "$version",
         "description": "[description pending]",
         "credits": "",
         "url": "",
