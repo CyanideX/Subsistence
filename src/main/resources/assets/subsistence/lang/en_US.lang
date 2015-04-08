@@ -1,0 +1,97 @@
+# GUI
+gui.container.infernal_furnace=Infernal Furnace
+
+# CHAT
+chat.hammer_mill.stage=Stage set to %s
+
+# RESOURCES
+ore.copper=Copper
+ore.gold=Gold
+ore.graphite=Graphite
+ore.iron=Iron
+ore.lead=Lead
+ore.nickel=Nickel
+ore.silver=Silver
+ore.steel=Steel
+ore.tin=Tin
+
+# ITEM GROUP
+itemGroup.subsistence.blocks=Subsistence Blocks
+itemGroup.subsistence.items=Subsistence Items
+itemGroup.subsistence.tools=Subsistence Tools
+
+# COMPONENT BLOCKS
+tile.component_ground.fine_sand.name=Fine Sand
+tile.component_ground.nether_grit.name=Nether Grit
+tile.component_ground.nether_rind.name=Netherrind
+tile.component_ground.soul_dust.name=Soul Dust
+
+tile.component_wood.sawdust.name=Sawdust
+tile.component_wood.sawdust_nether.name=Infernal Sawdust
+tile.component_wood.sawdust_nether_glow.name=Glowing Infernal Sawdust
+tile.component_wood.woodchips.name=Woodchips
+tile.component_wood.woodchips_nether.name=Infernal Woodchips
+tile.component_wood.woodchips_nether_glow.name=Glowing Infernal Woodchips
+
+# MISC BLOCKS
+tile.nether_grass.name=Nether Grass
+tile.spawn_marker.name=Nether Spawn Marker
+tile.infernal_log.name=Infernal Log
+tile.infernal_leaves.name=Infernal Leaves
+tile.infernal_sapling.name=Hellfire Sapling
+
+# MACHINES
+tile.table.wood.name=Wooden Table
+tile.table.stone.name=Smashing Table
+tile.table_sieve.name=Table Sieve
+tile.sintering_oven.name=Sintering Oven
+tile.hammer_mill.name=Hammer Mill
+tile.water_mill.name=Water Mill
+tile.kiln.name=Kiln
+tile.metal_press.name=Metal Press
+tile.barrel.wood.name=Wooden Barrel
+tile.barrel.stone.name=Stone Barrel
+tile.infernal_furnace.name=Hellfire Furnace
+
+# LIMESTONE
+tile.limestone.limestone.name=Limestone
+tile.limestone.limestoneCobblestone.name=Limestone Cobblestone
+tile.limestone.limestoneBricks.name=Limestone Bricks
+tile.limestone.limestoneScorched.name=Scorched Limestone
+tile.limestone.limestoneScorcedBricks.name=Scorched Limestone Bricks
+tile.limestone.limestoneTiled.name=Tiled Limestone
+
+# INGOT STORAGE
+tile.storage.copper.name=Copper Block
+tile.storage.lead.name=Lead Block
+tile.storage.nickel.name=Nickel Block
+tile.storage.silver.name=Silver Block
+tile.storage.steel.name=Steel Block
+tile.storage.tin.name=Tin Block
+
+# MISC TOOLS
+item.net.name=Net
+item.hand_sieve.name=Hand Sieve
+item.boiling_bucket.name=Boiling Water Bucket
+
+# MISC ITEMS
+item.component_item.twine.name=Twine
+item.component_item.twine_mesh.name=Twine Mesh
+item.seed.grass.name=Grass Seeds
+item.seed.nether_grass=Nether Grass Seeds
+
+# RESOURCE ITEMS
+item.resource.chunk.name=%s Chunk
+item.resource.clump.name=%s Clump
+item.resource.dust.name=%s Dust
+item.resource.flakes.name=%s Flakes
+item.resource.ingot.name=%s Ingot
+item.resource.nugget.name=%s Nugget
+item.resource.pebbles.name=%s Pebbles
+
+# HAMMERS
+item.hammer_wood.name=Wooden Mallet
+item.hammer_stone.name=Stone Hammer
+item.hammer_iron.name=Iron Hammer
+item.hammer_steel.name=Steel Hammer
+item.hammer_diamond.name=Diamond Hammer

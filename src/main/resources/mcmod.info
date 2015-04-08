@@ -1,0 +1,14 @@
+[
+{
+        "modid": "subsistence",
+        "name": "Subsistence",
+        "version": "@VERSION@",
+        "description": "[description pending]",
+        "credits": "",
+        "url": "",
+        "authors": [ "CyanideX", "Royalixor", "dmillerw", "Mrabow", "Thlaylii", "pixlepix" ],
+        "dependencies": [
+                "mod_MinecraftForge"
+        ]
+}
+]
