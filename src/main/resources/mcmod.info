@@ -2,11 +2,11 @@
 {
         "modid": "subsistence",
         "name": "Subsistence",
-        "version": "@VERSION@",
-        "description": "[description pending]",
+        "version": "Alpha",
+        "description": "Maintaining or supporting oneself at a minimum level. That's what this mod does.",
         "credits": "",
-        "url": "",
-        "authors": [ "CyanideX", "Royalixor", "dmillerw", "Mrabow", "Thlaylii", "pixlepix" ],
+        "url": "http://www.cyanidex.com/subsistence",
+        "authors": [ "CyanideX", "dmillerw", "Royalixor", "lclc98" ],
         "dependencies": [
                 "mod_MinecraftForge"
         ]
