@@ -27,7 +27,7 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
 
     @NBTHandler.NBTData
     @NBTHandler.DescriptionData
-    private boolean lidOff = true;
+    private boolean hasLid = false;
 
     public ItemStack[] getInput() {
         return input;
@@ -41,12 +41,17 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
         this.fluid = fluid;
     }
 
-    public boolean lidOff() {
-        return this.lidOff;
+    public boolean hasLid() {
+        return this.hasLid;
+    }
+
+    public void setLid(boolean lid) {
+        this.hasLid = lid;
+        this.worldObj.markBlockRangeForRenderUpdate(this.xCoord, this.yCoord, this.zCoord, this.xCoord, this.yCoord, this.zCoord);
     }
 
     public void toggleLid() {
-        this.lidOff = !this.lidOff;
+        this.hasLid = !this.hasLid;
         this.worldObj.markBlockRangeForRenderUpdate(this.xCoord, this.yCoord, this.zCoord, this.xCoord, this.yCoord, this.zCoord);
     }
 

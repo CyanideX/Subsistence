@@ -2,6 +2,7 @@ package com.subsistence.client.render.item;
 
 import com.subsistence.client.lib.Model;
 import com.subsistence.client.lib.Texture;
+import com.subsistence.common.item.ItemBarrel;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
@@ -36,9 +37,13 @@ public class RenderItemBarrel implements IItemRenderer {
         if (item.getItemDamage() == 0) {
             Texture.BARREL_WOOD.bindTexture();
             Model.BARREL_WOOD.renderAllExcept("lid", "lidHandle");
+            if (((ItemBarrel) item.getItem()).hasLid(item))
+                Model.BARREL_WOOD.renderOnly("lid", "lidHandle");
         } else {
             Texture.BARREL_STONE.bindTexture();
             Model.BARREL_STONE.renderAllExcept("lid", "lidHandle");
+            if (((ItemBarrel) item.getItem()).hasLid(item))
+                Model.BARREL_STONE.renderOnly("lid", "lidHandle");
         }
         GL11.glPopMatrix();
     }

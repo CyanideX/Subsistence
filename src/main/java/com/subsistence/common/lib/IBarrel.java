@@ -11,4 +11,8 @@ public interface IBarrel {
     ItemStack[] getInput(ItemStack stack);
 
     FluidStack getFluid(ItemStack stack);
+
+    void setLid(ItemStack stack, boolean hasLid);
+
+    boolean hasLid(ItemStack stack);
 }

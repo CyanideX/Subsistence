@@ -2,7 +2,6 @@ package com.subsistence.common.item;
 
 import com.subsistence.common.block.machine.BlockBarrel;
 import com.subsistence.common.core.SubsistenceCreativeTab;
-import com.subsistence.common.lib.SubsistenceTag;
 import com.subsistence.common.lib.IBarrel;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
@@ -30,7 +29,12 @@ public final class ItemBarrel extends ItemBlock implements IBarrel {
 
     @Override
     public void setInput(ItemStack stack, ItemStack[] inv) {
-        NBTTagCompound comp = SubsistenceTag.get(stack);
+        if (!stack.hasTagCompound()) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+
+        NBTTagCompound nbt = stack.getTagCompound();
+
         NBTTagList items = new NBTTagList();
         for (int i = 0; i < inv.length; i++) {
             if (inv[i] != null) {
@@ -40,22 +44,30 @@ public final class ItemBarrel extends ItemBlock implements IBarrel {
                 items.appendTag(c);
             }
         }
-        comp.setTag("Items", items);
+        nbt.setTag("Items", items);
     }
 
     @Override
     public void setFluid(ItemStack stack, FluidStack fluid) {
-        NBTTagCompound comp = SubsistenceTag.get(stack);
+        if (!stack.hasTagCompound()) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+
+        NBTTagCompound nbt = stack.getTagCompound();
         NBTTagCompound fluidTag = new NBTTagCompound();
         fluid.writeToNBT(fluidTag);
-        comp.setTag("Fluid", fluidTag);
+        nbt.setTag("Fluid", fluidTag);
     }
 
     @Override
     public ItemStack[] getInput(ItemStack stack) {
-        NBTTagCompound comp = SubsistenceTag.get(stack);
+        if (!stack.hasTagCompound()) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+
+        NBTTagCompound nbt = stack.getTagCompound();
         ItemStack[] inv = new ItemStack[2];
-        NBTTagList items = comp.getTagList("Items", 10);
+        NBTTagList items = nbt.getTagList("Items", 10);
         for (int i = 0; i < items.tagCount(); i++) {
             NBTTagCompound c = items.getCompoundTagAt(i);
             inv[c.getByte("Slot")] = ItemStack.loadItemStackFromNBT(c);
@@ -65,7 +77,29 @@ public final class ItemBarrel extends ItemBlock implements IBarrel {
 
     @Override
     public FluidStack getFluid(ItemStack stack) {
-        NBTTagCompound comp = SubsistenceTag.get(stack);
-        return FluidStack.loadFluidStackFromNBT(comp.getCompoundTag("Fluid"));
+        if (!stack.hasTagCompound()) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+
+        NBTTagCompound nbt = stack.getTagCompound();
+        return FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag("Fluid"));
+    }
+
+    @Override
+    public void setLid(ItemStack stack, boolean hasLid) {
+        if (!stack.hasTagCompound())
+            stack.setTagCompound(new NBTTagCompound());
+
+        NBTTagCompound nbt = stack.getTagCompound();
+        nbt.setBoolean("hasLid", hasLid);
+    }
+
+    @Override
+    public boolean hasLid(ItemStack stack) {
+        if (!stack.hasTagCompound())
+            stack.setTagCompound(new NBTTagCompound());
+
+        NBTTagCompound nbt = stack.getTagCompound();
+        return nbt.getBoolean("hasLid");
     }
 }

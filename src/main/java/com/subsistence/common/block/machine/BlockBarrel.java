@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
@@ -21,12 +22,16 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.Random;
+
 public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     private static final String[] NAMES = new String[]{"Wood", "Stone"};
 
     public BlockBarrel() {
         super(Material.wood);
+        this.setTickRandomly(true);
+        this.setHardness(0.5f);
     }
 
     @Override
@@ -59,7 +64,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
         ItemStack stack = player.getCurrentEquippedItem();
         TileBarrel tile = (TileBarrel) world.getTileEntity(x, y, z);
 
-        if (stack == null && !tile.lidOff()) {
+        if (stack == null && tile.hasLid()) {
             tile.toggleLid();
 
             if (!world.isRemote)
@@ -69,7 +74,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
         if (stack != null && stack.getItem() instanceof ItemBarrelLid) {
             return true;
-        } else if (stack != null && tile.lidOff()) {
+        } else if (stack != null && !tile.hasLid()) {
             if (FluidContainerRegistry.isFilledContainer(stack)) {
                 FluidUtils.fillTankWithContainer(tile, player);
             } else if (FluidContainerRegistry.isEmptyContainer(stack)) {
@@ -92,15 +97,16 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase living, ItemStack stack) {
         TileBarrel tile = (TileBarrel) world.getTileEntity(x, y, z);
-        tile.setInput(((IBarrel) stack.getItem()).getInput(stack));
-        tile.setFluid(((IBarrel) stack.getItem()).getFluid(stack));
+        tile.setLid(((IBarrel) stack.getItem()).hasLid(stack));
+        if (tile.hasLid()) {
+            tile.setInput(((IBarrel) stack.getItem()).getInput(stack));
+            tile.setFluid(((IBarrel) stack.getItem()).getFluid(stack));
+        }
     }
 
     @Override
     public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean harvest) {
-        if (!player.capabilities.isCreativeMode &&
-                !world.isRemote &&
-                this.canHarvestBlock(player, world.getBlockMetadata(x, y, z))) {
+        if (!player.capabilities.isCreativeMode && !world.isRemote && this.canHarvestBlock(player, world.getBlockMetadata(x, y, z))) {
 
             float motion = 0.7F;
             double motX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
@@ -117,36 +123,54 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
     @Override
     public ItemStack getPickBlock(MovingObjectPosition mop, World world, int x, int y, int z, EntityPlayer player) {
         TileBarrel tile = (TileBarrel) world.getTileEntity(x, y, z);
-        ItemStack stack = new ItemStack(SubsistenceBlocks.barrel);
+        ItemStack stack = new ItemStack(SubsistenceBlocks.barrel, 1, tile.getBlockMetadata());
         IBarrel barrel = (IBarrel) stack.getItem();
 
-        if (tile.getInput() != null) {
-            barrel.setInput(stack, tile.getInput());
-        }
+        barrel.setLid(stack, tile.hasLid());
+        if (tile.hasLid()) {
+            if (tile.getInput() != null) {
+                barrel.setInput(stack, tile.getInput());
+            }
 
-        if (tile.getFluid() != null) {
-            barrel.setFluid(stack, tile.getFluid());
+            if (tile.getFluid() != null) {
+                barrel.setFluid(stack, tile.getFluid());
+            }
         }
 
         return stack;
     }
 
     @Override
-    public void fillWithRain(World world, int x, int y, int z) {
+    public void updateTick(World world, int x, int y, int z, Random random) {
+        rainWater(world, x, y, z);
+    }
+
+    public void rainWater(World world, int x, int y, int z) {
         TileBarrel barrel = (TileBarrel) world.getTileEntity(x, y, z);
 
-        if (barrel != null && barrel.lidOff()) {
+        if (barrel != null && !barrel.hasLid()) {
             //if (barrel.itemStack == null) {
             if (barrel.getFluid() == null) {
                 barrel.setFluid(new FluidStack(FluidRegistry.WATER, 100));
             } else {
                 if (barrel.getFluid().getFluid() == FluidRegistry.WATER) {
-                    barrel.getFluid().amount += 1000;
+                    barrel.getFluid().amount += 100;
+                    System.out.println(x + ":" + y + ":" + z + ":" + barrel.getFluid().amount);
                 }
             }
             // }
 
             barrel.markForUpdate();
         }
+    }
+
+    @Override
+    public int quantityDropped(Random rand) {
+        return 0;
+    }
+
+    @Override
+    public Item getItemDropped(int i, Random rand, int j) {
+        return null;
     }
 }

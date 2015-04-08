@@ -20,7 +20,7 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         else
             Texture.BARREL_STONE.bindTexture();
 
-        if (tile.lidOff()) {
+        if (!tile.hasLid()) {
             if (tile.getBlockMetadata() == 0)
                 Model.BARREL_WOOD.renderAllExcept("lid", "lidHandle");
             else

@@ -43,7 +43,7 @@ public class ItemBarrelLid extends SubsistenceMultiItem {
         TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile != null && tile instanceof TileBarrel && stack.getItemDamage() == tile.getBlockMetadata()) {
-            if (((TileBarrel) tile).lidOff()) {
+            if (!((TileBarrel) tile).hasLid()) {
                 ((TileBarrel) tile).toggleLid();
                 stack.stackSize = 0;
             }
