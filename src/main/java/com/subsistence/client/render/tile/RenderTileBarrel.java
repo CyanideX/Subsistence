@@ -37,6 +37,7 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         }
 
         GL11.glPopMatrix();
+
     }
 
     private void renderLiquid(TileBarrel tile) {
@@ -46,25 +47,22 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         float s = 1.0F / 256.0F * 14.0F;
         float level = (float) tile.getFluidAmount() / (float) tile.getCapacity();
 
-        GL11.glTranslatef(0.0F, 0.9F, 0.0F);
-        GL11.glTranslatef(-0.43F, -1.0F - (0.43F - level), -0.43F);
-        GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
+        GL11.glTranslatef(-0.40F, (TileBarrel.DIMENSION_FILL * level) - TileBarrel.DIMENSION_FILL / 2, -0.40F);
         GL11.glScalef(s / 1.0F, s / 1.0F, s / 1.0F);
 
         this.bindTexture(TextureMap.locationBlocksTexture);
-        this.renderIcon(0, 0, icon, 15, 15, 240);
+        this.renderIcon(0, 0, icon, 15, 15);
 
         GL11.glPopMatrix();
     }
 
-    private void renderIcon(int x, int y, IIcon icon, int width, int height, int brightness) {
+    private void renderIcon(int x, int y, IIcon icon, int width, int height) {
         Tessellator tess = Tessellator.instance;
         tess.startDrawingQuads();
-        tess.setBrightness(brightness);
-        tess.addVertexWithUV(x, y + width, 0, icon.getMinU(), icon.getMaxV());
-        tess.addVertexWithUV(x + width, y + height, 0, icon.getMaxU(), icon.getMaxV());
-        tess.addVertexWithUV(x + width, y, 0, icon.getMaxU(), icon.getMinV());
-        tess.addVertexWithUV(x, y, 0, icon.getMinU(), icon.getMinV());
+        tess.addVertexWithUV(x, 0, y + width, icon.getMinU(), icon.getMaxV());
+        tess.addVertexWithUV(x + width, 0, y + height, icon.getMaxU(), icon.getMaxV());
+        tess.addVertexWithUV(x + width, 0, y, icon.getMaxU(), icon.getMinV());
+        tess.addVertexWithUV(x, 0, y, icon.getMinU(), icon.getMinV());
         tess.draw();
     }
 }

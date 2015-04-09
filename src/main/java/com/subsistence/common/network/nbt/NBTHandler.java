@@ -24,7 +24,7 @@ public class NBTHandler {
 
     private static boolean validField(Field field) {
         if (Modifier.isPrivate(field.getModifiers())) {
-            return false;
+            field.setAccessible(true);
         }
 
         if (Modifier.isStatic(field.getModifiers())) {
@@ -60,7 +60,7 @@ public class NBTHandler {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.FIELD})
-    public static @interface ArrayDefault {
+    public @interface ArrayDefault {
         int value() default 0;
     }
 

@@ -25,18 +25,6 @@ import java.util.Random;
  */
 public class TileTable extends TileCore {
 
-//    private static final List<Item> PARISHABLE_ITEMS = Arrays.asList(new Item[]{
-//            Items.rotten_flesh,
-//            Items.cooked_beef,
-//            Items.cooked_chicken,
-//            Items.cooked_fished,
-//            Items.cooked_porkchop,
-//            Items.beef,
-//            Items.chicken,
-//            Items.fish,
-//            Items.porkchop
-//    });
-
     @NBTHandler.NBTData
     @NBTHandler.DescriptionData
     public ItemStack stack;

@@ -17,12 +17,18 @@ import net.minecraftforge.fluids.FluidEvent.FluidDrainingEvent;
 import net.minecraftforge.fluids.FluidEvent.FluidFillingEvent;
 
 public final class TileBarrel extends TileCore implements IInventory, IFluidTank {
+
+    public static final float DIMENSION_MIN = 0.0625F;
+    public static final float DIMENSION_MAX = 0.9375F;
+    public static final float DIMENSION_FILL = DIMENSION_MAX - DIMENSION_MIN;
+
     @NBTHandler.NBTData
     @NBTHandler.DescriptionData
     private FluidStack fluid;
 
     @NBTHandler.NBTData
     @NBTHandler.DescriptionData
+    @NBTHandler.ArrayDefault(2)
     private ItemStack[] input = new ItemStack[2];
 
     @NBTHandler.NBTData

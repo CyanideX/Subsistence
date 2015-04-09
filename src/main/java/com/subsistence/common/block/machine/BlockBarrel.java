@@ -142,7 +142,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
-        rainWater(world, x, y, z);
+        if (world.isRaining() && world.getTopBlock(x, z) == this) rainWater(world, x, y, z);
     }
 
     public void rainWater(World world, int x, int y, int z) {
@@ -153,9 +153,11 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
             if (barrel.getFluid() == null) {
                 barrel.setFluid(new FluidStack(FluidRegistry.WATER, 100));
             } else {
-                if (barrel.getFluid().getFluid() == FluidRegistry.WATER) {
+                if (barrel.getFluid().getFluid() == FluidRegistry.WATER && !(barrel.getFluid().amount > barrel.getCapacity())) {
                     barrel.getFluid().amount += 100;
-                    System.out.println(x + ":" + y + ":" + z + ":" + barrel.getFluid().amount);
+                    if (barrel.getFluid().amount > barrel.getCapacity()) {
+                        barrel.getFluid().amount = barrel.getCapacity();
+                    }
                 }
             }
             // }
