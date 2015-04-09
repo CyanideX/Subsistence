@@ -56,13 +56,13 @@ public abstract class TileCore extends TileEntity {
         readCustomNBT(nbt);
     }
 
-    private final void writeDescriptionPacket(NBTTagCompound nbt) {
+    private void writeDescriptionPacket(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
         handler.writeSelectedToNBT(descriptionPacketFields(), nbt);
         writeCustomNBT(nbt);
     }
 
-    private final void readDescriptionPacket(NBTTagCompound nbt) {
+    private void readDescriptionPacket(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
         handler.readSelectedFromNBT(descriptionPacketFields(), nbt);
         readCustomNBT(nbt);

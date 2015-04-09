@@ -27,7 +27,11 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
 
     @NBTHandler.NBTData
     @NBTHandler.DescriptionData
-    private boolean hasLid = false;
+    private boolean hasLid;
+
+    @NBTHandler.NBTData
+    @NBTHandler.DescriptionData
+    private int lavaTick;
 
     public ItemStack[] getInput() {
         return input;
@@ -59,7 +63,15 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
     public void updateEntity() {
         super.updateEntity();
         if (getBlockMetadata() == 0 && this.fluid != null && this.fluid.getFluid() == FluidRegistry.LAVA) {
-            this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.lava);
+            lavaTick++;
+            if (worldObj.isAirBlock(xCoord, yCoord + 1, zCoord)) {
+                worldObj.setBlock(xCoord, yCoord + 1, zCoord, Blocks.fire);
+                this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord + 1, this.zCoord);
+
+            }
+        }
+        if (lavaTick == 60) {
+            this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.flowing_lava);
             this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
             VanillaPacketHelper.sendToAllWatchingTile(this, new S29PacketSoundEffect("random.fizz", this.xCoord, this.yCoord, this.zCoord, 1.0F, 1.0F));
         }

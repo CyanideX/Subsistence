@@ -149,10 +149,9 @@ public class TileTable extends TileCore {
                             tool.damageItem(1, player);
                         }
                         amountHammer++;
-                        if (amountHammer >= output.getSpeed()) {
-                            stack = output.getOutput(false);
-                            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                        }
+                        if (amountHammer >= output.getSpeed())
+                            setStack(output.getOutput(false));
+
                         return true;
                     }
                 }
