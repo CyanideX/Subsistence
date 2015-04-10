@@ -157,8 +157,8 @@ public class TileCompost extends TileCoreMachine {
     }
 
     private boolean findItemInStack(ItemStack itemStack){
-        for(int i = 0; i < binContents.length;i++){
-            if(binContents[i].isItemEqual(itemStack)) {
+        for (ItemStack binContent : binContents) {
+            if (binContent.isItemEqual(itemStack)) {
                 return true;
             }
         }

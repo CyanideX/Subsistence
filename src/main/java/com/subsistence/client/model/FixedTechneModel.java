@@ -248,11 +248,7 @@ public class FixedTechneModel extends ModelBase implements IModelCustom {
         setup();
         bindTexture();
 
-        Iterator<Entry<String, ModelRenderer>> it = parts.entrySet().iterator();
-
-        while (it.hasNext()) {
-            Entry<String, ModelRenderer> entry = it.next();
-
+        for (Entry<String, ModelRenderer> entry : parts.entrySet()) {
             for (String groupName : groupNames) {
                 if (entry.getKey().equalsIgnoreCase(groupName)) {
                     entry.getValue().render(0.0625f);
@@ -268,11 +264,7 @@ public class FixedTechneModel extends ModelBase implements IModelCustom {
         setup();
         bindTexture();
 
-        Iterator<Entry<String, ModelRenderer>> it = parts.entrySet().iterator();
-
-        while (it.hasNext()) {
-            Entry<String, ModelRenderer> entry = it.next();
-
+        for (Entry<String, ModelRenderer> entry : parts.entrySet()) {
             for (String groupName : groupNames) {
                 if (entry.getKey().equalsIgnoreCase(groupName)) {
                     GL11.glPushMatrix();

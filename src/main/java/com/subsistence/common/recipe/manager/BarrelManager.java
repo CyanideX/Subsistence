@@ -2,7 +2,7 @@ package com.subsistence.common.recipe.manager;
 
 import com.subsistence.common.recipe.wrapper.BarrelRecipe;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +18,9 @@ public class BarrelManager {
         recipes.add(recipe);
     }
 
-    public BarrelRecipe get(Fluid fluid, ItemStack stack) {
+    public BarrelRecipe get(FluidStack fluid, ItemStack stack, boolean wood) {
         for (BarrelRecipe recipe : recipes) {
-            if (recipe.valid(fluid, stack)) {
+            if (recipe.valid(fluid, stack, wood)) {
                 return recipe;
             }
         }

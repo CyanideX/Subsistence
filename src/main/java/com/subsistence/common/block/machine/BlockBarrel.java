@@ -28,6 +28,8 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     private static final String[] NAMES = new String[]{"Wood", "Stone"};
 
+    private int rain;
+
     public BlockBarrel() {
         super(Material.wood);
         this.setTickRandomly(true);
@@ -142,13 +144,17 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
-        if (world.isRaining() && world.getTopBlock(x, z) == this) rainWater(world, x, y, z);
+
+        if (world.isRaining() && world.getTopBlock(x, z) == this) {
+            rain++;
+            rainWater(world, x, y, z);
+        }
     }
 
-    public void rainWater(World world, int x, int y, int z) {
+    private void rainWater(World world, int x, int y, int z) {
         TileBarrel barrel = (TileBarrel) world.getTileEntity(x, y, z);
 
-        if (barrel != null && !barrel.hasLid()) {
+        if (barrel != null && !barrel.hasLid() && rain == TileBarrel.rain) {
             //if (barrel.itemStack == null) {
             if (barrel.getFluid() == null) {
                 barrel.setFluid(new FluidStack(FluidRegistry.WATER, 100));

@@ -19,7 +19,7 @@ public class SieveParser {
 
     public static class ParsedSieveRecipe {
 
-        public boolean crash_on_fail;
+        public boolean crash_on_fail = true;
         public Recipe[] recipes;
 
         @Override

@@ -47,7 +47,7 @@ public enum EnumParticle {
 
     private String particle;
 
-    private EnumParticle(String particle) {
+    EnumParticle(String particle) {
         this.particle = particle;
     }
 

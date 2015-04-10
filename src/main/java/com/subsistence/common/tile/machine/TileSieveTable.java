@@ -78,9 +78,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
             // Set timing if need be
             if (currentProcessingTime == 0 && maxProcessingTime == 0) {
-                for (int i = 0; i < processing.length; i++) {
-                    ItemStack processed = processing[i];
-
+                for (ItemStack processed : processing) {
                     if (processed != null) {
                         SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed, true);
 

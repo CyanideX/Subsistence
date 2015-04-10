@@ -8,7 +8,7 @@ import net.minecraftforge.common.MinecraftForge;
  */
 public class EventUtil {
 
-    public static enum Type {
+    public enum Type {
         FML,
         FORGE,
         BOTH

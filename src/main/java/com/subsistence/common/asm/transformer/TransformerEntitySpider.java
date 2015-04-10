@@ -46,7 +46,7 @@ public class TransformerEntitySpider implements IClassTransformer {
             if (methodNode.name.equals(getMappedName("findPlayerToAttack"))) {
                 methodNode.instructions.clear();
                 methodNode.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                methodNode.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, INVOKE_TARGET_CLASS_NAME, "findPlayerToAttack", "(Lnet/minecraft/entity/monster/EntitySpider;)Lnet/minecraft/entity/player/EntityPlayer;"));
+                methodNode.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, INVOKE_TARGET_CLASS_NAME, "findPlayerToAttack", "(Lnet/minecraft/entity/monster/EntitySpider;)Lnet/minecraft/entity/player/EntityPlayer;", false));
                 methodNode.instructions.add(new InsnNode(Opcodes.ARETURN));
             }
         }

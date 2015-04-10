@@ -52,8 +52,8 @@ public class ContainerInfernalFurnace extends Container {
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
 
-        for (int i = 0; i < crafters.size(); ++i) {
-            ICrafting icrafting = (ICrafting) crafters.get(i);
+        for (Object crafter : crafters) {
+            ICrafting icrafting = (ICrafting) crafter;
 
             if (lastCookTime != tile.furnaceCookTime) {
                 icrafting.sendProgressBarUpdate(this, 0, tile.furnaceCookTime);

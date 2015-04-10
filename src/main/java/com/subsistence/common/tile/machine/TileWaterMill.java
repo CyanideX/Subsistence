@@ -30,6 +30,8 @@ public class TileWaterMill extends TileCoreMachine {
     @SideOnly(Side.CLIENT)
     public float angle = 0F;
 
+    private float sources;
+
     @Override
     public void updateEntity() {
         // Roughly two times per second
@@ -61,6 +63,7 @@ public class TileWaterMill extends TileCoreMachine {
     }
 
     public void updateSpeed() {
+        sources = 0;
         // Basic for now, may change later
         // Basically, we check for the number of FLOWING water blocks in the 3x3 PERIMATER of the mill
         // and use that to determine the current speed
@@ -88,11 +91,14 @@ public class TileWaterMill extends TileCoreMachine {
 
                             if (!below.isAir(worldObj, sx, sy, sz) && block.getMaterial() != Material.water) {
                                 // It's flowing on something solid
-                                count++;
+                                if (count > 0) {
+                                    count--;
+                                } else if (count < 0)
+                                    count++;
                             } else {
                                 Vec3 vec = SubsistenceReflectionHelper.getFlowVector(worldObj, sx, sy, sz);
-                                System.out.println(vec.xCoord + ":" + vec.yCoord + ":" + vec.zCoord);
-                                count += getDir(right, vec);
+                                int test = SubsistenceReflectionHelper.getEffectiveFlowDecay(worldObj, sx, sy, sz);
+                                count += getDir(right, vec, test, Vec3.createVectorHelper(sx, sy, sz));
                             }
                         } else {
                             if (block != null && block != SubsistenceBlocks.waterMill && !block.isAir(worldObj, sx, sy, sz)) {
@@ -106,41 +112,47 @@ public class TileWaterMill extends TileCoreMachine {
             }
         }
 
-        speed = MAX_SPEED * ((float) count / (float) 8);
+        speed = MAX_SPEED * ((float) count / (sources * 8));
         crank.speed = speed;
 
         if (lastSpeed != speed) {
-            if (lastSpeed > 0 && speed <= 0) {
+            if (lastSpeed > 0 && speed <= 0)
                 crank.stopTick = true;
-            }
+
             lastSpeed = speed;
 
             markForUpdate();
         }
     }
 
-    public double getDir(ForgeDirection dir, Vec3 vec) {
-        if (vec.xCoord != 0) {
-            if (dir.offsetX < 0 && vec.xCoord > 0) {
-                return -2;
-            }
-            if (dir.offsetX > 0 && vec.xCoord < 0) {
-                return -2;
-            }
-            return 2;
-        }
-        if (vec.zCoord != 0) {
-            if (dir.offsetZ < 0 && vec.zCoord > 0) {
-                return -2;
-            }
-            if (dir.offsetZ > 0 && vec.zCoord < 0) {
-                return -2;
-            }
-            return 2;
-        }
+    public double getDir(ForgeDirection dir, Vec3 vec, int test, Vec3 block) {
 
-        if (vec.yCoord != 0) {
-            return 3;
+        // handles water rotation and returns a speed
+        sources++;
+        // which direction is water coming from
+        if (vec.xCoord != 0)
+            if ((dir.offsetX < 0 && vec.xCoord > 0) || (dir.offsetX > 0 && vec.xCoord < 0))
+                return test - 7;
+            else
+                return 7 - test;
+
+        if (vec.zCoord != 0)
+            if ((dir.offsetZ < 0 && vec.zCoord > 0) || (dir.offsetZ > 0 && vec.zCoord < 0))
+                return test - 7;
+            else
+                return 7 - test;
+
+        if (vec.yCoord == -1) {
+            sources = 1;
+            if (block.xCoord < xCoord)
+                return -10;
+            else if (block.xCoord > xCoord)
+                return 10;
+
+            if (block.zCoord < zCoord)
+                return -10;
+            else if (block.zCoord > zCoord)
+                return 10;
         }
         return 0;
     }

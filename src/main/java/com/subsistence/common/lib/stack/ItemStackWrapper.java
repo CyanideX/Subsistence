@@ -19,11 +19,8 @@ public class ItemStackWrapper extends GenericStackWrapper<ItemStack> {
 
     @Override
     public boolean equals(GenericStackWrapper<ItemStack> wrapper) {
-        if (wrapper.contents == null || wrapper.contents.getItem() == null) {
-            return false;
-        }
+        return !(wrapper.contents == null || wrapper.contents.getItem() == null) && StackHelper.areStacksSimilar(wrapper.contents, contents, false);
 
-        return StackHelper.areStacksSimilar(wrapper.contents, contents, false);
     }
 
     @Override

@@ -8,10 +8,7 @@ import com.subsistence.common.item.ItemHammer;
 import com.subsistence.common.lib.tool.ToolDefinition;
 import com.subsistence.common.recipe.SubsistenceRecipes;
 import com.subsistence.common.recipe.core.RecipeParser;
-import com.subsistence.common.recipe.core.SieveParser;
-import com.subsistence.common.recipe.core.TableParser;
 import com.subsistence.common.util.EventUtil;
-import com.subsistence.common.world.WorldProviderSkyblockHell;
 import com.subsistence.common.network.nbt.data.AbstractSerializer;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameData;
@@ -19,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import net.minecraftforge.common.DimensionManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,11 +56,6 @@ public class CommonProxy {
             e.printStackTrace();
         }
 
-        DimensionManager.unregisterProviderType(-1);
-        DimensionManager.unregisterDimension(-1);
-        DimensionManager.registerProviderType(-1, WorldProviderSkyblockHell.class, false);
-        DimensionManager.registerDimension(-1, -1);
-
         // Tool registration
         ToolDefinition.register(new ItemStack(SubsistenceItems.hammerWood), ToolDefinition.HAMMER, ItemHammer.STRENGTH[0]);
         ToolDefinition.register(new ItemStack(SubsistenceItems.hammerStone), ToolDefinition.HAMMER, ItemHammer.STRENGTH[1]);
@@ -82,34 +73,29 @@ public class CommonProxy {
         }
     }
 
-    public static void loadJson(){
+    public static void loadJson() {
         File recipes = new File(Subsistence.configPath, "recipes/");
         if (!recipes.exists()) {
             recipes.mkdirs();
         }
-        File[] dir = new File(recipes, "sieve").listFiles();
-        if (dir != null)
-            for (File file : dir) {
-                String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
 
-                if (extension.equalsIgnoreCase("json")) {
-                    SieveParser.parseFile(file);
-                }
-            }
+        loadJson(recipes, "sieve", "");
 
-        loadTableJson(new File(recipes, "table"), "hammer");
-        loadTableJson(new File(recipes, "table"), "drying");
-        loadTableJson(new File(recipes, "table"), "axe");
+        loadJson(recipes, "barrel", "");
+
+        loadJson(recipes, "table", "hammer");
+        loadJson(recipes, "table", "drying");
+        loadJson(recipes, "table", "axe");
     }
 
-    private static void loadTableJson(File recipes, String folder) {
-        File[] dir = new File(recipes, folder).listFiles();
+    private static void loadJson(File recipes, String type, String subDir) {
+        File[] dir = new File(recipes, type + "/" + subDir).listFiles();
         if (dir != null)
             for (File file : dir) {
                 String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
 
                 if (extension.equalsIgnoreCase("json")) {
-                    TableParser.parseFile(file, folder);
+                    RecipeParser.parseFile(file, type, subDir);
                 }
             }
     }

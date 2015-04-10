@@ -18,11 +18,8 @@ public class OreStackWrapper extends GenericStackWrapper<String> {
 
     @Override
     public boolean equals(GenericStackWrapper<String> wrapper) {
-        if (wrapper.contents.isEmpty() || OreDictionary.getOres(wrapper.contents).isEmpty()) {
-            return false;
-        }
+        return !(wrapper.contents.isEmpty() || OreDictionary.getOres(wrapper.contents).isEmpty()) && wrapper.contents.equals(contents);
 
-        return wrapper.contents.equals(contents);
     }
 
     @Override

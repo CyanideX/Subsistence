@@ -39,11 +39,8 @@ public class NBTHandler {
             return false;
         }
 
-        if (field.getAnnotation(NBTData.class) == null) {
-            return false;
-        }
+        return field.getAnnotation(NBTData.class) != null;
 
-        return true;
     }
 
     @Retention(RetentionPolicy.RUNTIME)

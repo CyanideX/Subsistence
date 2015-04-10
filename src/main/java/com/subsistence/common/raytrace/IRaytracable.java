@@ -13,17 +13,17 @@ import java.util.List;
  */
 public interface IRaytracable {
 
-    public List<IndexedAABB> getTargets(World world, int x, int y, int z);
+    List<IndexedAABB> getTargets(World world, int x, int y, int z);
 
     /**
      * Not pretty, but should only be used to call the super collisionRayTrace method
      */
-    public MovingObjectPosition raytrace(World world, int x, int y, int z, Vec3 origin, Vec3 direction);
+    MovingObjectPosition raytrace(World world, int x, int y, int z, Vec3 origin, Vec3 direction);
 
     // These next three methods are to be overridden from Block
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity);
+    void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity);
 
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z);
+    AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z);
 
-    public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 origin, Vec3 direction);
+    MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 origin, Vec3 direction);
 }

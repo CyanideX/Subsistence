@@ -18,6 +18,17 @@ import java.util.List;
  */
 public class RecipeParser {
 
+
+    public static void parseFile(File file, String type, String subType) {
+        if (type.equalsIgnoreCase("sieve")) {
+            SieveParser.parseFile(file);
+        } else if (type.equalsIgnoreCase("table")) {
+            TableParser.parseFile(file, subType);
+        } else if (type.equalsIgnoreCase("barrel")) {
+            BarrelParser.parseFile(file);
+        }
+    }
+
     public static void dumpItems(File file) throws IOException {
         if (!file.exists()) {
             file.createNewFile();

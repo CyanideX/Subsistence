@@ -20,7 +20,7 @@ public class TableParser {
 
         public Recipe[] recipes;
         public Perishable[] perishable;
-        public boolean crash_on_fail;
+        public boolean crash_on_fail = true;
     }
 
     public static class Perishable {

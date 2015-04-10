@@ -24,8 +24,8 @@ import java.util.Random;
 public class BlockFluidBoiling extends SubsistenceBasicFluid {
     EnumParticle particleBubble;
 
-    public BlockFluidBoiling(Fluid fluid, Material material) {
-        super(fluid, material);
+    public BlockFluidBoiling(Fluid fluid) {
+        super(fluid, Material.water);
         setQuantaPerBlock(4);
         particleBubble = EnumParticle.BUBBLE;
     }

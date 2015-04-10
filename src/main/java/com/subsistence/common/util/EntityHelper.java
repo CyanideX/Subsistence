@@ -37,7 +37,7 @@ public class EntityHelper {
 
             in.setDead();
             out.worldObj.spawnEntityInWorld(out);
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
 
         }
     }

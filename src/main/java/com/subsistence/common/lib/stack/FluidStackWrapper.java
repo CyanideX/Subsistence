@@ -18,11 +18,8 @@ public class FluidStackWrapper extends GenericStackWrapper<FluidStack> {
 
     @Override
     public boolean equals(GenericStackWrapper<FluidStack> wrapper) {
-        if (wrapper.contents == null || wrapper.contents.getFluid() == null) {
-            return false;
-        }
+        return !(wrapper.contents == null || wrapper.contents.getFluid() == null) && (wrapper.contents.isFluidEqual(this.contents));
 
-        return (wrapper.contents.isFluidEqual(this.contents));
     }
 
     @Override

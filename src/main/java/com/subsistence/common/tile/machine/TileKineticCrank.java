@@ -1,7 +1,6 @@
 package com.subsistence.common.tile.machine;
 
 import com.subsistence.common.tile.core.TileCoreMachine;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
@@ -103,7 +102,7 @@ public class TileKineticCrank extends TileCoreMachine {
             TileEntity tile = worldObj.getTileEntity(x, y, z);
             TileEntity beyond = worldObj.getTileEntity(x + orientation.getOpposite().offsetX, y + orientation.getOpposite().offsetY, z + orientation.getOpposite().offsetZ);
 
-            System.out.println(FMLCommonHandler.instance().getEffectiveSide() + " " + tile);
+       //     System.out.println(FMLCommonHandler.instance().getEffectiveSide() + " " + tile);
 
             if (tile instanceof TileHammerMill) {
                 // Don't let hammer mills get strung together

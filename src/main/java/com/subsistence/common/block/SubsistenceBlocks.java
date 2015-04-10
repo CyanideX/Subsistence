@@ -80,7 +80,7 @@ public class SubsistenceBlocks {
         infernalLeaves = new BlockInfernaLeaves().setBlockName("infernal_leaves");
         infernalSapling = new BlockInfernalSapling().setBlockName("infernal_sapling");
 
-        boilingWater = new BlockFluidBoiling(SubsistenceFluids.boilingWaterFluid, Material.water).setBlockName("boiling_water");
+        boilingWater = new BlockFluidBoiling(SubsistenceFluids.boilingWaterFluid).setBlockName("boiling_water");
 
 
         registerBlock(table, SubsistenceItemMultiBlock.class);

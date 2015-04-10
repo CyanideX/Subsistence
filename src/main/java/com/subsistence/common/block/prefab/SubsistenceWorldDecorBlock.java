@@ -19,10 +19,7 @@ public class SubsistenceWorldDecorBlock extends BlockBush {
     }
 
     public boolean isValidPosition(World world, int x, int y, int z, int meta) {
-        if (world.getBlock(x, y - 1, z) == Blocks.air) {
-            return false;
-        }
-        return canPlaceBlockAt(world, x, y, z);
+        return world.getBlock(x, y - 1, z) != Blocks.air && canPlaceBlockAt(world, x, y, z);
     }
 
     @Override
@@ -40,10 +37,7 @@ public class SubsistenceWorldDecorBlock extends BlockBush {
 
     @Override
     public boolean canReplace(World world, int x, int y, int z, int side, ItemStack itemStack) {
-        if (world.getBlock(x, y - 1, z) == Blocks.air) {
-            return false;
-        }
-        return isValidPosition(world, x, y, z, itemStack.getItemDamage());
+        return world.getBlock(x, y - 1, z) != Blocks.air && isValidPosition(world, x, y, z, itemStack.getItemDamage());
     }
 
     @Override
