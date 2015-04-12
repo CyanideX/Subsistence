@@ -7,11 +7,11 @@
 !/src/
 !/gradle/
 !/gradlew
+!/gradlew.bat
 !/README
 !/LICENSE
 !/build.properties
 !/build.gradle
 !/.travis.yml
-!/build.sh
 =======
 !/build.gradle
