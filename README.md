@@ -1,4 +1,4 @@
-![Subsistence](http://i.imgur.com/CRhirEa.png)
+![Subsistence](http://i.imgur.com/ywOH1bf.png)
 
 Definition: maintaining or supporting oneself at a minimum level. That's what this mod does.
 
