@@ -13,5 +13,6 @@
 !/build.properties
 !/build.gradle
 !/.travis.yml
+!/build.sh
 =======
 !/build.gradle
