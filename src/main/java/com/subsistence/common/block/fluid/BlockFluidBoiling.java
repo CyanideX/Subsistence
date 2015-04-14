@@ -4,7 +4,6 @@ import com.subsistence.common.block.prefab.SubsistenceBasicFluid;
 import com.subsistence.common.fluid.SubsistenceFluids;
 import com.subsistence.common.lib.SubsistenceProps;
 import com.subsistence.common.lib.client.EnumParticle;
-import com.subsistence.common.particle.SteamFX;
 import com.subsistence.common.util.SubsistenceDamageSource;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -43,7 +42,7 @@ public class BlockFluidBoiling extends SubsistenceBasicFluid {
     public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
         super.randomDisplayTick(world, x, y, z, rand);
         particleBubble.display(world, x + rand.nextDouble(), y, z + rand.nextDouble(), 0, 0.5, 0);
-        FMLClientHandler.instance().getClient().effectRenderer.addEffect(new SteamFX(world, x + rand.nextDouble(), y + 1, z + rand.nextDouble(), rand.nextInt(2), 0));
+        FMLClientHandler.instance().getClient().effectRenderer.addEffect(new com.subsistence.common.particle.SteamFX(world, x + rand.nextDouble(), y + 1, z + rand.nextDouble(), rand.nextInt(2), 0));
     }
 
     @Override

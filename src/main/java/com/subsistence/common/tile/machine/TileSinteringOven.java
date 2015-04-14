@@ -10,7 +10,6 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class TileSinteringOven extends TileCoreMachine {
 
-    @SideOnly(Side.CLIENT)
     public float currentAngle = 0.0F;
 
     @NBTHandler.NBTData

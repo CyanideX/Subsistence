@@ -88,6 +88,12 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
                 } else if (tile.getStackInSlot(1) == null) {
                     tile.setInventorySlotContents(1, new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
                     player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                } else if (tile.getStackInSlot(0).getItem() == stack.getItem()) {
+                    tile.setInventorySlotContents(0, new ItemStack(stack.getItem(), tile.getStackInSlot(0).stackSize + 1, stack.getItemDamage()));
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                } else if (tile.getStackInSlot(1).getItem() == stack.getItem()) {
+                    tile.setInventorySlotContents(1, new ItemStack(stack.getItem(), tile.getStackInSlot(1).stackSize + 1, stack.getItemDamage()));
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
                 } else {
                     return false;
                 }

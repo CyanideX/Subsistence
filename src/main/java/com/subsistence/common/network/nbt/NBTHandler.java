@@ -35,7 +35,7 @@ public class NBTHandler {
             return false;
         }
 
-        if (field.getAnnotation(SideOnly.class) != null) {
+        if (field.isAnnotationPresent(SideOnly.class)) {
             return false;
         }
 

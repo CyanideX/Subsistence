@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 public class SubsistenceReflectionHelper {
 
     private static String[] GET_FLOW_VECTOR = new String[]{"getFlowVector", "func_149800_f", "f"};
-    private static String[] GET_EFFECTIVE_FLOW_DECAY = new String[]{"getEffectiveFlowDecay", "func_149800_f", "f"};
+    private static String[] GET_EFFECTIVE_FLOW_DECAY = new String[]{"getEffectiveFlowDecay", "func_149798_e", "e"};
     private static Method getFlowVector;
     private static Method getEffectiveFlowDecay;
 
@@ -25,7 +25,7 @@ public class SubsistenceReflectionHelper {
             if (getFlowVector == null) {
                 getFlowVector = ReflectionHelper.findMethod(BlockLiquid.class, Blocks.flowing_water, GET_FLOW_VECTOR, IBlockAccess.class, int.class, int.class, int.class);
             }
-            return (Vec3) getFlowVector.invoke(world.getBlock(x, y, z), world, x, y, z);
+            return (Vec3) getFlowVector.invoke(Blocks.flowing_water, world, x, y, z);
         } catch (IllegalAccessException ex) {
             ex.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -39,7 +39,7 @@ public class SubsistenceReflectionHelper {
             if (getEffectiveFlowDecay == null) {
                 getEffectiveFlowDecay = ReflectionHelper.findMethod(BlockLiquid.class, Blocks.flowing_water, GET_EFFECTIVE_FLOW_DECAY, IBlockAccess.class, int.class, int.class, int.class);
             }
-            return (Integer) getEffectiveFlowDecay.invoke(world.getBlock(x, y, z), world, x, y, z);
+            return (Integer) getEffectiveFlowDecay.invoke(Blocks.flowing_water, world, x, y, z);
         } catch (IllegalAccessException ex) {
             ex.printStackTrace();
         } catch (InvocationTargetException e) {

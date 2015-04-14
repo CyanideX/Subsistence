@@ -113,7 +113,7 @@ public class TileTable extends TileCore {
 
         if (meta == 0) {
             if (stack != null && ItemHelper.isBlock(stack, Blocks.stone_slab) && stack.getItemDamage() == 0 && ToolDefinition.isType(tool, ToolDefinition.HAMMER)) {
-                PacketFX.breakFX(worldObj, xCoord, yCoord, zCoord, new ItemStack(Blocks.stone_slab));
+                PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, new ItemStack(Blocks.stone_slab));
                 getWorldObj().playSoundEffect(xCoord, yCoord, zCoord, "subsistence:oreCrumble", 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
 
                 stack = null;
@@ -130,7 +130,7 @@ public class TileTable extends TileCore {
 
                     if (durability <= 0F) {
                         if (stack.getItem() instanceof ItemBlock) {
-                            PacketFX.breakFX(worldObj, xCoord, yCoord, zCoord, stack);
+                            PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, stack);
                         }
 
                         if (output.damageTool) {

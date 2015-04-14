@@ -4,6 +4,10 @@ import com.subsistence.common.util.StackHelper;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import org.objectweb.asm.ClassReader;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -69,11 +73,11 @@ public class RecipeParser {
         }
 
         if (input_str.contains(";")) {
-            meta = Integer.parseInt(input_str.substring(input_str.indexOf(";") + 1));
+            meta = getInt(input_str, ';', 0);
             input_str = input_str.substring(0, input_str.indexOf(";"));
         }
         if (input_str.contains("/")) {
-            quantity = Integer.parseInt(input_str.substring(input_str.indexOf("/") + 1));
+            quantity = getInt(input_str, '/', 1);
             input_str = input_str.substring(0, input_str.indexOf("/"));
         }
 
@@ -90,7 +94,30 @@ public class RecipeParser {
         if (stack != null) {
             stack.setItemDamage(meta);
         }
-
         return stack;
+    }
+
+    public static Integer getInt(String text, Character symbol, int defaultInt) {
+        int s = text.indexOf(symbol);
+        if (s == -1)
+            return defaultInt;
+        for (int i = s + 1; i < text.length(); i++) {
+            if (new String(new char[]{'/', ';'}).contains(Character.toString(text.charAt(i)))) {
+                return Integer.parseInt(text.substring(s + 1, i));
+            }
+        }
+        return Integer.parseInt(text.substring(s + 1));
+    }
+
+    public static FluidStack getLiquid(String liquid) {
+        String input_str = liquid;
+        int quantity = 100;
+
+        if (input_str.contains("/")) {
+            quantity = getInt(input_str, '/', 100);
+            input_str = input_str.substring(0, input_str.indexOf("/"));
+        }
+
+        return new FluidStack(FluidRegistry.getFluid(input_str), quantity);
     }
 }

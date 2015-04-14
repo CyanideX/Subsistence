@@ -1,6 +1,7 @@
 package com.subsistence.common.recipe.manager;
 
-import com.subsistence.common.recipe.wrapper.BarrelRecipe;
+import com.subsistence.common.recipe.wrapper.BarrelStoneRecipe;
+import com.subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -12,18 +13,33 @@ import java.util.List;
  */
 public class BarrelManager {
 
-    private List<BarrelRecipe> recipes = new ArrayList<BarrelRecipe>();
+    private List<BarrelWoodRecipe> recipeWood = new ArrayList<BarrelWoodRecipe>();
+    private List<BarrelStoneRecipe> recipeStone = new ArrayList<BarrelStoneRecipe>();
 
-    public void register(BarrelRecipe recipe) {
-        recipes.add(recipe);
-    }
-
-    public BarrelRecipe get(FluidStack fluid, ItemStack stack, boolean wood) {
-        for (BarrelRecipe recipe : recipes) {
-            if (recipe.valid(fluid, stack, wood)) {
+    public BarrelWoodRecipe getWooden(FluidStack fluid, ItemStack[] stack) {
+        for (BarrelWoodRecipe recipe : recipeWood) {
+            if (recipe.valid(fluid, stack)) {
                 return recipe;
             }
         }
         return null;
+    }
+
+    public BarrelStoneRecipe getStone(FluidStack fluid, ItemStack[] stack) {
+        for (BarrelStoneRecipe recipe : recipeStone) {
+            if (recipe.valid(fluid, stack)) {
+                return recipe;
+            }
+        }
+        return null;
+    }
+
+
+    public void registerWood(BarrelWoodRecipe barrelRecipe) {
+        recipeWood.add(barrelRecipe);
+    }
+
+    public void registerStone(BarrelStoneRecipe barrelRecipe) {
+        recipeStone.add(barrelRecipe);
     }
 }

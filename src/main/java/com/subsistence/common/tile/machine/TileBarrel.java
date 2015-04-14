@@ -2,6 +2,9 @@ package com.subsistence.common.tile.machine;
 
 import com.subsistence.common.network.VanillaPacketHelper;
 import com.subsistence.common.network.nbt.NBTHandler;
+import com.subsistence.common.recipe.SubsistenceRecipes;
+import com.subsistence.common.recipe.wrapper.BarrelStoneRecipe;
+import com.subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 import com.subsistence.common.tile.core.TileCore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -29,8 +32,8 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
 
     @NBTHandler.NBTData
     @NBTHandler.DescriptionData
-    @NBTHandler.ArrayDefault(2)
-    private ItemStack[] input = new ItemStack[2];
+    @NBTHandler.ArrayDefault(64)
+    private ItemStack[] input = new ItemStack[64];
 
     @NBTHandler.NBTData
     @NBTHandler.DescriptionData
@@ -38,7 +41,7 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
 
     @NBTHandler.NBTData
     @NBTHandler.DescriptionData
-    private int lavaTick;
+    private int tick;
 
     public ItemStack[] getInput() {
         return input;
@@ -70,17 +73,107 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
     public void updateEntity() {
         super.updateEntity();
         if (getBlockMetadata() == 0 && this.fluid != null && this.fluid.getFluid() == FluidRegistry.LAVA) {
-            lavaTick++;
+            tick++;
             if (worldObj.isAirBlock(xCoord, yCoord + 1, zCoord)) {
                 worldObj.setBlock(xCoord, yCoord + 1, zCoord, Blocks.fire);
                 this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord + 1, this.zCoord);
 
             }
-        }
-        if (lavaTick == 60) {
-            this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.flowing_lava);
-            this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-            VanillaPacketHelper.sendToAllWatchingTile(this, new S29PacketSoundEffect("random.fizz", this.xCoord, this.yCoord, this.zCoord, 1.0F, 1.0F));
+
+            if (tick == 60) {
+                this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.flowing_lava);
+                this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+                VanillaPacketHelper.sendToAllWatchingTile(this, new S29PacketSoundEffect("random.fizz", this.xCoord, this.yCoord, this.zCoord, 1.0F, 1.0F));
+            }
+        } else {
+            if (getBlockMetadata() == 0) {
+                BarrelWoodRecipe recipe = SubsistenceRecipes.BARREL.getWooden(fluid, input);
+                if (recipe != null) {
+                    tick++;
+
+                    if (tick >= recipe.getTime()) {
+                        tick = 0;
+                        if (recipe.getOutputItem() != null) {
+                            input = new ItemStack[64];
+                            input[0] = recipe.getOutputItem();
+                        }
+                        if (recipe.getOutputLiquid() != null) {
+                            fluid = recipe.getOutputLiquid();
+                        }
+                        markForRenderUpdate();
+                    }
+                }
+            } else if (getBlockMetadata() == 1) {
+                BarrelWoodRecipe recipe = SubsistenceRecipes.BARREL.getWooden(fluid, input);
+                if (recipe != null) {
+                    tick++;
+
+                    if (tick >= recipe.getTime()) {
+                        tick = 0;
+                        if (recipe.getOutputItem() != null) {
+                            input = new ItemStack[64];
+                            input[0] = recipe.getOutputItem();
+                        }
+                        if (recipe.getOutputLiquid() != null) {
+                            fluid = recipe.getOutputLiquid();
+                        }
+                        markForRenderUpdate();
+                    }
+                } else {
+                    BarrelStoneRecipe recipe1 = SubsistenceRecipes.BARREL.getStone(fluid, input);
+                    if (recipe1 != null) {
+                        if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.torch) {
+                            if (recipe1.getTimeTorch() > 0) {
+                                tick++;
+                                if (tick >= recipe1.getTimeTorch()) {
+                                    if (recipe1.getOutputItem() != null) {
+                                        input = new ItemStack[64];
+                                        input[0] = recipe1.getOutputItem();
+                                    }
+                                    if (recipe1.getOutputLiquid() != null) {
+                                        fluid = recipe1.getOutputLiquid();
+                                    }
+                                    markForRenderUpdate();
+                                }
+                            } else {
+                                tick = 0;
+                            }
+                        } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.lava || worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.flowing_lava) {
+                            if (recipe1.getTimeLava() > 0) {
+                                tick++;
+                                if (tick >= recipe1.getTimeLava()) {
+                                    if (recipe1.getOutputItem() != null) {
+                                        input = new ItemStack[64];
+                                        input[0] = recipe1.getOutputItem();
+                                    }
+                                    if (recipe1.getOutputLiquid() != null) {
+                                        fluid = recipe1.getOutputLiquid();
+                                    }
+                                    markForRenderUpdate();
+                                }
+                            } else {
+                                tick = 0;
+                            }
+                        } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.fire) {
+                            if (recipe1.getTimeFire() > 0) {
+                                tick++;
+                                if (tick >= recipe1.getTimeFire()) {
+                                    if (recipe1.getOutputItem() != null) {
+                                        input = new ItemStack[64];
+                                        input[0] = recipe1.getOutputItem();
+                                    }
+                                    if (recipe1.getOutputLiquid() != null) {
+                                        fluid = recipe1.getOutputLiquid();
+                                    }
+                                    markForRenderUpdate();
+                                }
+                            } else {
+                                tick = 0;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -195,7 +288,7 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
 
     @Override
     public int getSizeInventory() {
-        return 2;
+        return 64;
     }
 
     @Override
@@ -214,7 +307,6 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
                 this.setInventorySlotContents(slot, null);
             }
         }
-
         return stack;
     }
 

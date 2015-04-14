@@ -1,8 +1,9 @@
 package com.subsistence.common.lib.client;
 
 import com.subsistence.client.render.tile.RenderTileTable;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityBreakingFX;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -51,11 +52,13 @@ public enum EnumParticle {
         this.particle = particle;
     }
 
+    @SideOnly(Side.CLIENT)
     public void display(World world, double x, double y, double z, double vx, double vy, double vz) {
         world.spawnParticle(this.particle, x, y, z, vx, vy, vz);
     }
 
     // Special particles
+    @SideOnly(Side.CLIENT)
     public static void ITEM_BREAK(ItemStack stack, World world, double x, double y, double z) {
         Random rand = new Random();
         for (int i = 0; i < 10; i++) {
@@ -65,7 +68,7 @@ public enum EnumParticle {
             double motionX = vec3.xCoord + 0.5F * (rand.nextFloat() * (rand.nextBoolean() ? -1.0F : 1.0F));
             double motionZ = vec3.xCoord + 0.5F * (rand.nextFloat() * (rand.nextBoolean() ? -1.0F : 1.0F));
 
-            EntityBreakingFX entityBreakingFX = new EntityBreakingFX(world, x, y + RenderTileTable.STONE_RENDER_MAX, z, motionX, 0.25, motionZ, stack.getItem(), stack.getItemDamage());
+            net.minecraft.client.particle.EntityBreakingFX entityBreakingFX = new net.minecraft.client.particle.EntityBreakingFX(world, x, y + RenderTileTable.STONE_RENDER_MAX, z, motionX, 0.25, motionZ, stack.getItem(), stack.getItemDamage());
             Minecraft.getMinecraft().effectRenderer.addEffect(entityBreakingFX);
         }
     }

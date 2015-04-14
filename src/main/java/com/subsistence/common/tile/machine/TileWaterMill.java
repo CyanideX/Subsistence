@@ -24,14 +24,13 @@ public class TileWaterMill extends TileCoreMachine {
     @NBTHandler.DescriptionData
     public float speed = 0F;
 
-    @SideOnly(Side.CLIENT)
     private float clientSpeed = 0F;
 
-    @SideOnly(Side.CLIENT)
     public float angle = 0F;
 
     private float sources;
 
+    private boolean spin;
     @Override
     public void updateEntity() {
         // Roughly two times per second
@@ -71,7 +70,7 @@ public class TileWaterMill extends TileCoreMachine {
         TileKineticCrank crank = (TileKineticCrank) worldObj.getTileEntity(xCoord + orientation.offsetX, yCoord, zCoord + orientation.offsetZ);
         ForgeDirection right = orientation.getRotation(ForgeDirection.UP).getOpposite();
         boolean xAxis = right.offsetX != 0;
-
+        spin = true;
         int count = 0;
         crank.stopTick = false;
         for (int ix = -1; ix < 2; ix++) {
@@ -91,14 +90,17 @@ public class TileWaterMill extends TileCoreMachine {
 
                             if (!below.isAir(worldObj, sx, sy, sz) && block.getMaterial() != Material.water) {
                                 // It's flowing on something solid
+                                spin = false;
                                 if (count > 0) {
                                     count--;
                                 } else if (count < 0)
                                     count++;
                             } else {
-                                Vec3 vec = SubsistenceReflectionHelper.getFlowVector(worldObj, sx, sy, sz);
-                                int test = SubsistenceReflectionHelper.getEffectiveFlowDecay(worldObj, sx, sy, sz);
-                                count += getDir(right, vec, test, Vec3.createVectorHelper(sx, sy, sz));
+                                if(spin) {
+                                    Vec3 vec = SubsistenceReflectionHelper.getFlowVector(worldObj, sx, sy, sz);
+                                    int flow = SubsistenceReflectionHelper.getEffectiveFlowDecay(worldObj, sx, sy, sz);
+                                    count += getDir(right, vec, flow, Vec3.createVectorHelper(sx, sy, sz));
+                                }
                             }
                         } else {
                             if (block != null && block != SubsistenceBlocks.waterMill && !block.isAir(worldObj, sx, sy, sz)) {
@@ -125,22 +127,22 @@ public class TileWaterMill extends TileCoreMachine {
         }
     }
 
-    public double getDir(ForgeDirection dir, Vec3 vec, int test, Vec3 block) {
+    public double getDir(ForgeDirection dir, Vec3 vec, int flow, Vec3 block) {
 
         // handles water rotation and returns a speed
         sources++;
         // which direction is water coming from
         if (vec.xCoord != 0)
             if ((dir.offsetX < 0 && vec.xCoord > 0) || (dir.offsetX > 0 && vec.xCoord < 0))
-                return test - 7;
+                return flow - 7;
             else
-                return 7 - test;
+                return 7 - flow;
 
         if (vec.zCoord != 0)
             if ((dir.offsetZ < 0 && vec.zCoord > 0) || (dir.offsetZ > 0 && vec.zCoord < 0))
-                return test - 7;
+                return flow - 7;
             else
-                return 7 - test;
+                return 7 - flow;
 
         if (vec.yCoord == -1) {
             sources = 1;

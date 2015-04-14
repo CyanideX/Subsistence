@@ -1,7 +1,7 @@
 package com.subsistence;
 
 import com.subsistence.common.command.CommandSubsistence;
-import com.subsistence.common.network.PacketHandler;
+import com.subsistence.common.network.PacketFX;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import com.subsistence.common.lib.SubsistenceProps;
 import cpw.mods.fml.common.Mod;
@@ -9,6 +9,9 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.relauncher.Side;
 
 import java.io.File;
 
@@ -18,6 +21,7 @@ import java.io.File;
 @Mod(modid = SubsistenceProps.ID, name = SubsistenceProps.NAME, version = SubsistenceProps.VERSION, dependencies = SubsistenceProps.DEPENDENCIES)
 public class Subsistence {
 
+    public static SimpleNetworkWrapper network;
     @Mod.Instance(SubsistenceProps.ID)
     public static Subsistence instance;
 
@@ -28,6 +32,9 @@ public class Subsistence {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        network = NetworkRegistry.INSTANCE.newSimpleChannel("subsistence");
+        network.registerMessage(PacketFX.PacketFXHandler.class, PacketFX.class, 0, Side.CLIENT);
+
         configPath = event.getModConfigurationDirectory().getPath() + File.separator + "/Subsistence/";
 
         proxy.preInit();
@@ -35,7 +42,6 @@ public class Subsistence {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        PacketHandler.initialize();
         proxy.init();
     }
 

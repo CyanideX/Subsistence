@@ -3,6 +3,8 @@ package com.subsistence.common.lib;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.ArrayList;
+
 public interface IBarrel {
     void setInput(ItemStack stack, ItemStack[] inv);
 

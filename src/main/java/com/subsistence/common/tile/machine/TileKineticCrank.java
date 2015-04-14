@@ -16,7 +16,6 @@ public class TileKineticCrank extends TileCoreMachine {
 
     private static final int MAX_LENGTH = 8;
 
-    @SideOnly(Side.CLIENT)
     public float angle = 0F;
 
     public float speed = 0F;

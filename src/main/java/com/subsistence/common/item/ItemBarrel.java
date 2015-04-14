@@ -10,6 +10,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public final class ItemBarrel extends ItemBlock implements IBarrel {
     public ItemBarrel(Block b) {
         super(b);
@@ -66,7 +69,7 @@ public final class ItemBarrel extends ItemBlock implements IBarrel {
         }
 
         NBTTagCompound nbt = stack.getTagCompound();
-        ItemStack[] inv = new ItemStack[2];
+        ItemStack[] inv = new ItemStack[64];
         NBTTagList items = nbt.getTagList("Items", 10);
         for (int i = 0; i < items.tagCount(); i++) {
             NBTTagCompound c = items.getCompoundTagAt(i);

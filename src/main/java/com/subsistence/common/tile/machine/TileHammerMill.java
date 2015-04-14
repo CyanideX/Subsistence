@@ -48,7 +48,6 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
     @NBTHandler.NBTData
     public float charge = 0F;
 
-    @SideOnly(Side.CLIENT)
     public float angle = 0F;
 
     @Override
@@ -79,7 +78,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
             // Processing
             if (charge >= 4 && canFunction()) {
                 ItemStack output = getOutput(processing);
-                PacketFX.breakFX(worldObj, xCoord, yCoord, zCoord, processing);
+                PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, processing);
                 worldObj.addBlockEvent(xCoord, yCoord, zCoord, SubsistenceBlocks.hammerMill, Item.getIdFromItem(output.getItem()), output.getItemDamage());
 
                 if (output != null) {

@@ -43,7 +43,6 @@ public class TileCompost extends TileCoreMachine {
     @NBTHandler.NBTData
     public float currentTemperature = 0F;
 
-    @SideOnly(Side.CLIENT)
     public float currentAngle = 0f;
 
     public TileCompost(){
