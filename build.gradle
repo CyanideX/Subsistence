@@ -33,11 +33,11 @@ minecraft {
     runDir = "run/assets"
     version = config.minecraft_version + "-" + config.forge_version
     replaceIn config.mod_info_path
-    replace "%MOD_VERSION%", "${config.mod_version}.${System.getenv("BUILD_NUMBER") ?: 0}"
+    replace "%MOD_VERSION%", "${config.mod_version}.${System.getenv("BUILD_NUMBER") ?: 6}"
     replace "%FORGE_VERSION%", config.forge_version
 }
 
-version = "${config.minecraft_version}-${config.mod_version}.${System.getenv("BUILD_NUMBER") ?: 0}"
+version = "${config.minecraft_version}-${config.mod_version}.${System.getenv("BUILD_NUMBER") ?: 6}"
 
 processResources {
     inputs.property "version", project.version

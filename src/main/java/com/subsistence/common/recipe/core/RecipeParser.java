@@ -30,6 +30,8 @@ public class RecipeParser {
             TableParser.parseFile(file, subType);
         } else if (type.equalsIgnoreCase("barrel")) {
             BarrelParser.parseFile(file);
+        } else if (type.equalsIgnoreCase("compost")) {
+            CompostParser.parseFile(file);
         }
     }
 
@@ -111,10 +113,10 @@ public class RecipeParser {
 
     public static FluidStack getLiquid(String liquid) {
         String input_str = liquid;
-        int quantity = 100;
+        int quantity = 1000;
 
         if (input_str.contains("/")) {
-            quantity = getInt(input_str, '/', 100);
+            quantity = getInt(input_str, '/', 1000);
             input_str = input_str.substring(0, input_str.indexOf("/"));
         }
 

@@ -140,11 +140,12 @@ public class NBTHandler {
             NBTTagList list = (NBTTagList) arrayTag.getTag("contents");
             Object[] array = new Object[arrayTag.getInteger("size")];
 
-            for (int i = 0; i < list.tagCount(); i++) {
-                NBTTagCompound tag = list.getCompoundTagAt(i);
-                array[tag.getInteger("index")] = NBTHandler.readObject(name + "_" + i, type, tag);
-            }
-
+            if (list != null)
+                for (int i = 0; i < list.tagCount(); i++) {
+                    NBTTagCompound tag = list.getCompoundTagAt(i);
+                    array[tag.getInteger("index")] = NBTHandler.readObject(name + "_" + i, type, tag);
+                }
+            else return null;
             return array;
         } else {
             for (AbstractSerializer<?> serializer : AbstractSerializer.serializerList) {
@@ -278,8 +279,8 @@ public class NBTHandler {
                 ArrayDefault arrayDefault = field.getAnnotation(ArrayDefault.class);
                 if (arrayDefault != null) {
                     field.set(parent, Array.newInstance(field.getType().getComponentType(), arrayDefault.value()));
+                    field.set(parent, ArrayHelper.handleGenericArray(NBTHandler.readObject(name, field.getType(), nbt), field.getType().getComponentType()));
                 }
-                field.set(parent, ArrayHelper.handleGenericArray(NBTHandler.readObject(name, field.getType(), nbt), field.getType().getComponentType()));
             } else {
                 field.set(parent, NBTHandler.readObject(name, field.getType(), nbt));
             }

@@ -31,6 +31,7 @@ public class TileWaterMill extends TileCoreMachine {
     private float sources;
 
     private boolean spin;
+
     @Override
     public void updateEntity() {
         // Roughly two times per second
@@ -96,18 +97,16 @@ public class TileWaterMill extends TileCoreMachine {
                                 } else if (count < 0)
                                     count++;
                             } else {
-                                if(spin) {
+                                if (spin) {
                                     Vec3 vec = SubsistenceReflectionHelper.getFlowVector(worldObj, sx, sy, sz);
                                     int flow = SubsistenceReflectionHelper.getEffectiveFlowDecay(worldObj, sx, sy, sz);
                                     count += getDir(right, vec, flow, Vec3.createVectorHelper(sx, sy, sz));
                                 }
                             }
-                        } else {
-                            if (block != null && block != SubsistenceBlocks.waterMill && !block.isAir(worldObj, sx, sy, sz)) {
-                                crank.stopTick = true;
-                                count = 0;
-                                break;
-                            }
+                        } else if (block != null && block != SubsistenceBlocks.waterMill && !block.isAir(worldObj, sx, sy, sz)) {
+                            crank.stopTick = true;
+                            count = 0;
+                            break;
                         }
                     }
                 }

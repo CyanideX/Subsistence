@@ -55,7 +55,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                     ItemStack stack = item.getEntityItem().copy();
                     stack.stackSize = 1;
 
-                    SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(item.getEntityItem(), true);
+                    SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(item.getEntityItem());
 
                     if (recipe != null) {
                         if (TileEntityHopper.func_145889_a(this, stack, 1) == null) {
@@ -80,7 +80,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
             if (currentProcessingTime == 0 && maxProcessingTime == 0) {
                 for (ItemStack processed : processing) {
                     if (processed != null) {
-                        SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed, true);
+                        SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed);
 
                         if (processingRecipe != null) {
                             maxProcessingTime = processingRecipe.getDurationBlock();
@@ -96,7 +96,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                     ItemStack processed = processing[i];
 
                     if (processed != null && processed.stackSize > 0) {
-                        SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed, true);
+                        SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed);
                         ItemStack[] output = processingRecipe.get(processed, true);
                         Random random = new Random();
 
@@ -215,7 +215,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
     @Override
     public boolean canInsertItem(int slot, ItemStack stack, int side) {
-        return side == 1 && SubsistenceRecipes.SIEVE.get(stack, true) != null;
+        return side == 1 && SubsistenceRecipes.SIEVE.get(stack) != null;
     }
 
     @Override

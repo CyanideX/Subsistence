@@ -3,53 +3,41 @@ package com.subsistence.common.tile.machine;
 import com.subsistence.common.network.VanillaPacketHelper;
 import com.subsistence.common.network.nbt.NBTHandler;
 import com.subsistence.common.recipe.SubsistenceRecipes;
+import com.subsistence.common.recipe.manager.GeneralManager;
 import com.subsistence.common.recipe.wrapper.BarrelStoneRecipe;
 import com.subsistence.common.recipe.wrapper.BarrelWoodRecipe;
-import com.subsistence.common.tile.core.TileCore;
-import net.minecraft.entity.player.EntityPlayer;
+import com.subsistence.common.tile.core.TileCoreMachine;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S29PacketSoundEffect;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.fluids.*;
-import net.minecraftforge.fluids.FluidEvent.FluidDrainingEvent;
-import net.minecraftforge.fluids.FluidEvent.FluidFillingEvent;
 
-public final class TileBarrel extends TileCore implements IInventory, IFluidTank {
+import java.util.ArrayList;
+import java.util.Arrays;
 
-    public static final float DIMENSION_MIN = 0.0625F;
-    public static final float DIMENSION_MAX = 0.9375F;
-    public static final float DIMENSION_FILL = DIMENSION_MAX - DIMENSION_MIN;
-    public static int rain;
+public final class TileBarrel extends TileCoreMachine {
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
-    private FluidStack fluid;
+    public final float maxTemperature = 32;
+
+    public boolean needHeat = false;
 
     @NBTHandler.NBTData
     @NBTHandler.DescriptionData
-    @NBTHandler.ArrayDefault(64)
-    private ItemStack[] input = new ItemStack[64];
+    public FluidStack fluid;
+
+    @NBTHandler.NBTData
+    @NBTHandler.DescriptionData
+    public ItemStack[] contents;
+
+    @NBTHandler.NBTData
+    public int processTimeElapsed = 0;
+
+    @NBTHandler.NBTData
+    public float currentTemperature = 0F;
 
     @NBTHandler.NBTData
     @NBTHandler.DescriptionData
     private boolean hasLid;
-
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
-    private int tick;
-
-    public ItemStack[] getInput() {
-        return input;
-    }
-
-    public void setInput(ItemStack[] input) {
-        this.input = input;
-    }
 
     public void setFluid(FluidStack fluid) {
         this.fluid = fluid;
@@ -57,11 +45,6 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
 
     public boolean hasLid() {
         return this.hasLid;
-    }
-
-    public void setLid(boolean lid) {
-        this.hasLid = lid;
-        this.worldObj.markBlockRangeForRenderUpdate(this.xCoord, this.yCoord, this.zCoord, this.xCoord, this.yCoord, this.zCoord);
     }
 
     public void toggleLid() {
@@ -72,103 +55,75 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
     @Override
     public void updateEntity() {
         super.updateEntity();
+        if (worldObj.isRaining() && worldObj.getTopBlock(xCoord, zCoord) == this.getBlockType()) {
+            if (!this.hasLid()) {
+                if (this.fluid == null) {
+                    this.setFluid(new FluidStack(FluidRegistry.WATER, GeneralManager.rain));
+                } else {
+
+                    if (this.fluid.getFluid() == FluidRegistry.WATER) {
+                        this.addFluid(new FluidStack(this.fluid, 100));
+                    }
+                }
+                this.markForUpdate();
+            }
+        }
+
         if (getBlockMetadata() == 0 && this.fluid != null && this.fluid.getFluid() == FluidRegistry.LAVA) {
-            tick++;
+
+            processTimeElapsed++;
             if (worldObj.isAirBlock(xCoord, yCoord + 1, zCoord)) {
                 worldObj.setBlock(xCoord, yCoord + 1, zCoord, Blocks.fire);
                 this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord + 1, this.zCoord);
 
             }
 
-            if (tick == 60) {
+            if (processTimeElapsed == 60) {
                 this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.flowing_lava);
                 this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
                 VanillaPacketHelper.sendToAllWatchingTile(this, new S29PacketSoundEffect("random.fizz", this.xCoord, this.yCoord, this.zCoord, 1.0F, 1.0F));
             }
         } else {
             if (getBlockMetadata() == 0) {
-                BarrelWoodRecipe recipe = SubsistenceRecipes.BARREL.getWooden(fluid, input);
+                BarrelWoodRecipe recipe = SubsistenceRecipes.BARREL.getWooden(fluid, contents);
                 if (recipe != null) {
-                    tick++;
+                    processTimeElapsed++;
 
-                    if (tick >= recipe.getTime()) {
-                        tick = 0;
-                        if (recipe.getOutputItem() != null) {
-                            input = new ItemStack[64];
-                            input[0] = recipe.getOutputItem();
-                        }
-                        if (recipe.getOutputLiquid() != null) {
-                            fluid = recipe.getOutputLiquid();
-                        }
-                        markForRenderUpdate();
+                    if (processTimeElapsed >= recipe.getTime()) {
+                        processTimeElapsed = 0;
+                        contents = new ItemStack[0];
+                        removeFluid();
+                        addItemToStack(recipe.getOutputItem());
+                        addFluid(recipe.getOutputLiquid());
                     }
                 }
             } else if (getBlockMetadata() == 1) {
-                BarrelWoodRecipe recipe = SubsistenceRecipes.BARREL.getWooden(fluid, input);
+                BarrelWoodRecipe recipe = SubsistenceRecipes.BARREL.getWooden(fluid, contents);
                 if (recipe != null) {
-                    tick++;
+                    processTimeElapsed++;
 
-                    if (tick >= recipe.getTime()) {
-                        tick = 0;
-                        if (recipe.getOutputItem() != null) {
-                            input = new ItemStack[64];
-                            input[0] = recipe.getOutputItem();
-                        }
-                        if (recipe.getOutputLiquid() != null) {
-                            fluid = recipe.getOutputLiquid();
-                        }
-                        markForRenderUpdate();
+                    if (processTimeElapsed >= recipe.getTime()) {
+                        processTimeElapsed = 0;
+                        contents = new ItemStack[0];
+                        removeFluid();
+                        addItemToStack(recipe.getOutputItem());
+                        addFluid(recipe.getOutputLiquid());
                     }
                 } else {
-                    BarrelStoneRecipe recipe1 = SubsistenceRecipes.BARREL.getStone(fluid, input);
+                    BarrelStoneRecipe recipe1 = SubsistenceRecipes.BARREL.getStone(fluid, contents);
                     if (recipe1 != null) {
-                        if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.torch) {
-                            if (recipe1.getTimeTorch() > 0) {
-                                tick++;
-                                if (tick >= recipe1.getTimeTorch()) {
-                                    if (recipe1.getOutputItem() != null) {
-                                        input = new ItemStack[64];
-                                        input[0] = recipe1.getOutputItem();
-                                    }
-                                    if (recipe1.getOutputLiquid() != null) {
-                                        fluid = recipe1.getOutputLiquid();
-                                    }
-                                    markForRenderUpdate();
-                                }
+                        updateTemperature(recipe1);
+                        if (!needHeat || currentTemperature >= maxTemperature) {
+                            if (recipe1.getTime() > 0) {
+                                processTimeElapsed++;
                             } else {
-                                tick = 0;
+                                processTimeElapsed = 0;
                             }
-                        } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.lava || worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.flowing_lava) {
-                            if (recipe1.getTimeLava() > 0) {
-                                tick++;
-                                if (tick >= recipe1.getTimeLava()) {
-                                    if (recipe1.getOutputItem() != null) {
-                                        input = new ItemStack[64];
-                                        input[0] = recipe1.getOutputItem();
-                                    }
-                                    if (recipe1.getOutputLiquid() != null) {
-                                        fluid = recipe1.getOutputLiquid();
-                                    }
-                                    markForRenderUpdate();
-                                }
-                            } else {
-                                tick = 0;
-                            }
-                        } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.fire) {
-                            if (recipe1.getTimeFire() > 0) {
-                                tick++;
-                                if (tick >= recipe1.getTimeFire()) {
-                                    if (recipe1.getOutputItem() != null) {
-                                        input = new ItemStack[64];
-                                        input[0] = recipe1.getOutputItem();
-                                    }
-                                    if (recipe1.getOutputLiquid() != null) {
-                                        fluid = recipe1.getOutputLiquid();
-                                    }
-                                    markForRenderUpdate();
-                                }
-                            } else {
-                                tick = 0;
+                            if (processTimeElapsed >= recipe1.getTime()) {
+                                contents = new ItemStack[0];
+                                removeFluid();
+                                addItemToStack(recipe1.getOutputItem());
+                                addFluid(recipe1.getOutputLiquid());
                             }
                         }
                     }
@@ -177,29 +132,29 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
         }
     }
 
-    @Override
-    public Packet getDescriptionPacket() {
-        NBTTagCompound comp = new NBTTagCompound();
-        this.writeToNBT(comp);
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, comp);
+    private void updateTemperature(BarrelStoneRecipe recipe) {
+        currentTemperature += checkHeatSource(recipe);
+        if (recipe.getTimeFire() > -1 || recipe.getTimeLava() > -1 && recipe.getTimeTorch() > -1) {
+            needHeat = true;
+        }
+        if (currentTemperature < 0F) {
+            currentTemperature = 0F;
+        }
     }
 
-    @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pck) {
-        this.readFromNBT(pck.func_148857_g());
+    private float checkHeatSource(BarrelStoneRecipe recipe) {
+
+        if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.fire) {
+            return recipe.getTimeFire();
+        } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.lava) {
+            return recipe.getTimeLava();
+        } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.torch) {
+            return recipe.getTimeTorch();
+        } else {
+            return -1F;
+        }
     }
 
-    @Override
-    public FluidStack getFluid() {
-        return this.fluid;
-    }
-
-    @Override
-    public int getFluidAmount() {
-        return this.fluid != null ? this.fluid.amount : 0;
-    }
-
-    @Override
     public int getCapacity() {
         if (getBlockMetadata() == 0)
             return 2 * FluidContainerRegistry.BUCKET_VOLUME;
@@ -207,157 +162,47 @@ public final class TileBarrel extends TileCore implements IInventory, IFluidTank
             return 8 * FluidContainerRegistry.BUCKET_VOLUME;
     }
 
-    @Override
-    public FluidTankInfo getInfo() {
-        return new FluidTankInfo(this);
-    }
-
-    @Override
-    public int fill(FluidStack resource, boolean doFill) {
-        if (resource == null) {
-            return 0;
-        }
-
-        if (!doFill) {
-            if (this.fluid == null) {
-                return Math.min(this.getCapacity(), resource.amount);
-            }
-
-            if (!this.fluid.isFluidEqual(resource)) {
-                return 0;
-            }
-
-            return Math.min(this.getCapacity() - fluid.amount, resource.amount);
-        }
-
-        if (this.fluid == null) {
-            this.fluid = new FluidStack(resource, Math.min(this.getCapacity(), resource.amount));
-            FluidEvent.fireEvent(new FluidFillingEvent(fluid, this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord, this, this.fluid.amount));
-            return fluid.amount;
-        }
-
-        if (!fluid.isFluidEqual(resource)) {
-            return 0;
-        }
-
-        int filled = this.getCapacity() - this.fluid.amount;
-
-        if (resource.amount < filled) {
-            this.fluid.amount += resource.amount;
-            filled = resource.amount;
+    public boolean addItemToStack(ItemStack itemStack) {
+        if (itemStack == null)
+            return false;
+        ArrayList<ItemStack> contentList;
+        if (contents != null && contents.length > 0) {
+            contentList = new ArrayList<ItemStack>(Arrays.asList(contents));
         } else {
-            fluid.amount = this.getCapacity();
+            contentList = new ArrayList<ItemStack>();
         }
 
-        FluidEvent.fireEvent(new FluidFillingEvent(this.fluid, this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord, this, this.fluid.amount));
-        return filled;
-    }
-
-    @Override
-    public FluidStack drain(int maxDrain, boolean doDrain) {
-        if (fluid == null) {
-            return null;
+        if (contentList.size() == 2) {
+            return false;
         }
 
-        int drained = maxDrain;
-        if (this.fluid.amount < drained) {
-            drained = this.fluid.amount;
-        }
-
-        FluidStack stack = new FluidStack(this.fluid, drained);
-        if (doDrain) {
-            this.fluid.amount -= drained;
-            if (fluid.amount <= 0) {
-                this.fluid = null;
-            }
-
-            FluidEvent.fireEvent(new FluidDrainingEvent(this.fluid, this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord, this, drained));
-        }
-
-        return stack;
-    }
-
-    @Override
-    public void markDirty() {
-        for (int i = 0; i < this.getSizeInventory(); i++) {
-            if (this.getStackInSlot(i) != null && this.getStackInSlot(i).stackSize == 0) {
-                this.setInventorySlotContents(i, null);
-            }
-        }
-    }
-
-    @Override
-    public int getSizeInventory() {
-        return 64;
-    }
-
-    @Override
-    public ItemStack getStackInSlot(int slot) {
-        return this.input[slot];
-    }
-
-    @Override
-    public ItemStack decrStackSize(int slot, int amount) {
-        ItemStack stack = this.getStackInSlot(slot);
-        if (stack != null) {
-            if (stack.stackSize > amount) {
-                stack = stack.splitStack(amount);
-                this.markDirty();
-            } else {
-                this.setInventorySlotContents(slot, null);
-            }
-        }
-        return stack;
-    }
-
-    @Override
-    public ItemStack getStackInSlotOnClosing(int slot) {
-        if (this.getStackInSlot(slot) != null) {
-            ItemStack stack = this.getStackInSlot(slot);
-            this.setInventorySlotContents(slot, null);
-            return stack;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public void setInventorySlotContents(int slot, ItemStack stack) {
-        this.input[slot] = stack;
-    }
-
-    @Override
-    public String getInventoryName() {
-        return "barrel_wood";
-    }
-
-    @Override
-    public boolean hasCustomInventoryName() {
-        return false;
-    }
-
-    @Override
-    public int getInventoryStackLimit() {
-        return 1;
-    }
-
-    @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
+        contentList.add(itemStack);
+        contents = contentList.toArray(new ItemStack[contentList.size()]);
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return true;
     }
 
-    @Override
-    public void openInventory() {
-
+    public ItemStack removeItemFromStack() {
+        ArrayList<ItemStack> contentList = new ArrayList<ItemStack>(Arrays.asList(contents));
+        ItemStack itemStack = contentList.remove(contentList.size() - 1);
+        contents = contentList.toArray(new ItemStack[contentList.size()]);
+        processTimeElapsed = 0;
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        return itemStack;
     }
 
-    @Override
-    public void closeInventory() {
-
+    public void addFluid(FluidStack fluid) {
+        if (fluid.fluidID == this.fluid.fluidID) {
+            if (this.fluid.amount + fluid.amount <= getCapacity())
+                this.fluid.amount += fluid.amount;
+        } else this.fluid = fluid;
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
-    @Override
-    public boolean isItemValidForSlot(int slot, ItemStack stack) {
-        return true;
+    public void removeFluid() {
+        this.fluid = null;
+        processTimeElapsed = 0;
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
+
 }

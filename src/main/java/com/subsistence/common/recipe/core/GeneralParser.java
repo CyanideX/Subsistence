@@ -1,6 +1,7 @@
 package com.subsistence.common.recipe.core;
 
 import com.google.gson.Gson;
+import com.subsistence.common.recipe.manager.GeneralManager;
 import com.subsistence.common.tile.machine.TileBarrel;
 import cpw.mods.fml.common.FMLLog;
 
@@ -15,20 +16,25 @@ public class GeneralParser {
 
     public static class ParsedGeneral {
 
-        public int barrelRain;
+        public int barrelRain = 100;
+        public int handCrank = 1;
+        public int waterMill = 2;
     }
 
     public static void parseFile(File file) {
         try {
             FMLLog.info("[Subsistence] Parsing " + file.getName());
             ParsedGeneral recipe = new Gson().fromJson(new FileReader(file), ParsedGeneral.class);
-            verifyParse(file.getName(), recipe);
+            verifyParse(recipe);
         } catch (IOException ex) {
             FMLLog.warning("[Subsistence] Failed to parse " + file.getName());
         }
     }
 
-    private static void verifyParse(String name, ParsedGeneral recipe) {
-        TileBarrel.rain = recipe.barrelRain;
+    private static void verifyParse(ParsedGeneral recipe) {
+
+        GeneralManager.rain = recipe.barrelRain;
+        GeneralManager.handCrank = recipe.handCrank;
+        GeneralManager.waterMill = recipe.waterMill;
     }
 }

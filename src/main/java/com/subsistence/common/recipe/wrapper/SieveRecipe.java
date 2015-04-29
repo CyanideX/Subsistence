@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SieveRecipe implements IGenericRecipe<ItemStack[]> {
+public class SieveRecipe {
 
     private final ItemStack input;
     private final RandomStack[] outputBlock;
@@ -34,12 +34,10 @@ public class SieveRecipe implements IGenericRecipe<ItemStack[]> {
         return durationHand;
     }
 
-    @Override
     public boolean valid(ItemStack stack) {
         return StackHelper.areStacksSimilar(stack, input, ignoreNBT);
     }
 
-    @Override
     public ItemStack[] get(ItemStack input, boolean block) {
         List<ItemStack> out = new ArrayList<ItemStack>();
 

@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class SieveParser {
 
-    public static class ParsedSieveRecipe {
+    public static class ParsedRecipe {
 
         public boolean crash_on_fail = true;
         public Recipe[] recipes;
@@ -63,14 +63,14 @@ public class SieveParser {
     public static void parseFile(File file) {
         try {
             FMLLog.info("[Subsistence] Parsing " + file.getName());
-            ParsedSieveRecipe recipe = new Gson().fromJson(new FileReader(file), ParsedSieveRecipe.class);
+            ParsedRecipe recipe = new Gson().fromJson(new FileReader(file), ParsedRecipe.class);
             verifyParse(file.getName(), recipe);
         } catch (IOException ex) {
             FMLLog.warning("[Subsistence] Failed to parse " + file.getName());
         }
     }
 
-    public static void verifyParse(String name, ParsedSieveRecipe recipe) {
+    public static void verifyParse(String name, ParsedRecipe recipe) {
         for (Recipe recipe1 : recipe.recipes) {
             ItemStack[] input = StackHelper.convert(RecipeParser.getItem(recipe1.input));
 

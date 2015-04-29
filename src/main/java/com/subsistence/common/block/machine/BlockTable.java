@@ -1,6 +1,7 @@
 package com.subsistence.common.block.machine;
 
 import com.subsistence.common.block.prefab.SubsistenceTileMultiBlock;
+import com.subsistence.common.item.ItemHammer;
 import com.subsistence.common.tile.machine.TileTable;
 import com.subsistence.common.util.ArrayHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,6 +27,11 @@ public class BlockTable extends SubsistenceTileMultiBlock {
                 if (!player.isSneaking() && side == 1) {
                     ItemStack held = player.getHeldItem();
 
+                    if (tile.stack != null && !(held.getItem() instanceof ItemHammer)) {
+                        player.setCurrentItemOrArmor(0, tile.stack.copy());
+                        tile.setStack(null);
+                        return true;
+                    }
                     if (held != null && tile.stack == null) {
                         //TODO Check if has to be null
 //                        if (tile.attractedFlies) {
@@ -47,7 +53,7 @@ public class BlockTable extends SubsistenceTileMultiBlock {
                         }
                     } else {
                         if (!tile.smash(player)) {
-                            if (tile.stack != null && held == null) {
+                            if (tile.stack != null) {
                                 player.setCurrentItemOrArmor(0, tile.stack.copy());
                                 tile.setStack(null);
                                 return true;

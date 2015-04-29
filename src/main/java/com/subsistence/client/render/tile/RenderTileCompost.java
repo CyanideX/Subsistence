@@ -41,14 +41,15 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
         swingLid(tile);
         Model.COMPOST.renderOnly(lid);
         GL11.glPopMatrix();
-        if(tile.fluid != null){
+        if (tile.fluid != null) {
             Fluid fluid = tile.fluid.getFluid();
-            renderContents(fluid.getIcon(),fluid.getColor(),0.8F);
-        }
-        else if(tile.binContents != null) {
-            for(int i = 0; i < tile.binContents.length;i++){
-                Block block = Block.getBlockFromItem(tile.binContents[i].getItem());
-                renderContents(block.getIcon(1,0),block.getBlockColor(),0.35F +((float)i * 0.35F));
+            renderContents(fluid.getIcon(), fluid.getColor(), 0.8F);
+        } else if (tile.contents != null) {
+            for (int i = 0; i < tile.contents.length; i++) {
+                if (tile.contents[i] != null) {
+                    Block block = Block.getBlockFromItem(tile.contents[i].getItem());
+                    renderContents(block.getIcon(1, 0), block.getBlockColor(), 0.35F + ((float) i * 0.35F));
+                }
             }
         }
 
@@ -66,7 +67,7 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
         GL11.glTranslated(0, -0.37, -0.29);
     }
 
-    private void renderContents(IIcon icon,  int color, float level){
+    private void renderContents(IIcon icon, int color, float level) {
         float min = -0.5F + 0.125F;
         float max = 0.5F - 0.125F;
 

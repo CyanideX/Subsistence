@@ -3,11 +3,8 @@ package com.subsistence.common.recipe;
 import com.subsistence.common.block.BlockStorage;
 import com.subsistence.common.item.SubsistenceItems;
 import com.subsistence.common.item.resource.ItemResource;
-import com.subsistence.common.recipe.wrapper.SieveRecipe;
+import com.subsistence.common.recipe.manager.*;
 import com.subsistence.common.block.SubsistenceBlocks;
-import com.subsistence.common.recipe.manager.BarrelManager;
-import com.subsistence.common.recipe.manager.GenericRecipeManager;
-import com.subsistence.common.recipe.manager.TableManager;
 import com.subsistence.common.util.StackHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
@@ -23,10 +20,10 @@ import java.util.HashMap;
 public class SubsistenceRecipes {
 
     public static TableManager TABLE = new TableManager();
-
-    public static GenericRecipeManager<SieveRecipe> SIEVE = new GenericRecipeManager<SieveRecipe>();
-
+    public static SieveManager SIEVE = new SieveManager();
     public static BarrelManager BARREL = new BarrelManager();
+    public static CompostManager COMPOST = new CompostManager();
+
     public static HashMap<Item, Integer> PERISHABLE = new HashMap<Item, Integer>();
 
     public static void initialize() {

@@ -1,5 +1,6 @@
 package com.subsistence.common.tile.machine;
 
+import com.subsistence.common.recipe.manager.GeneralManager;
 import com.subsistence.common.tile.core.TileCoreMachine;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,7 +40,7 @@ public class TileKineticCrank extends TileCoreMachine {
             for (TileEntity tile : connectedTilesCache) {
                 if (tile != null && tile instanceof TileHammerMill && (MAX_LENGTH - speed) != 0) {
                     // TODO Fix weird bug, speed??
-                    ((TileHammerMill) tile).charge++;
+                    ((TileHammerMill) tile).charge += GeneralManager.waterMill;
                 }
             }
         } else {
@@ -101,7 +102,7 @@ public class TileKineticCrank extends TileCoreMachine {
             TileEntity tile = worldObj.getTileEntity(x, y, z);
             TileEntity beyond = worldObj.getTileEntity(x + orientation.getOpposite().offsetX, y + orientation.getOpposite().offsetY, z + orientation.getOpposite().offsetZ);
 
-       //     System.out.println(FMLCommonHandler.instance().getEffectiveSide() + " " + tile);
+            //     System.out.println(FMLCommonHandler.instance().getEffectiveSide() + " " + tile);
 
             if (tile instanceof TileHammerMill) {
                 // Don't let hammer mills get strung together

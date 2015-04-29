@@ -16,22 +16,26 @@ public class BarrelStoneRecipe {
     private final FluidStack inputLiquid;
     private final ItemStack outputItem;
     private final FluidStack outputLiquid;
+    private final int time;
     private final int timeTorch;
     private final int timeLava;
     private final int timeFire;
 
-    public BarrelStoneRecipe(ItemStack[] inputItem, FluidStack inputLiquid, ItemStack outputItem, FluidStack outputLiquid, int timeTorch, int timeLava, int timeFire) {
+    public BarrelStoneRecipe(ItemStack[] inputItem, FluidStack inputLiquid, ItemStack outputItem, FluidStack outputLiquid, int time, int timeTorch, int timeLava, int timeFire) {
         this.inputItem = inputItem;
         this.inputLiquid = inputLiquid;
         this.outputItem = outputItem;
         this.outputLiquid = outputLiquid;
 
+        this.time = time;
         this.timeTorch = timeTorch;
         this.timeLava = timeLava;
         this.timeFire = timeFire;
     }
 
     public boolean valid(FluidStack fluid, ItemStack[] currentStack) {
+        if (currentStack == null)
+            return false;
         List<ItemStack> list = Arrays.asList(this.inputItem);
         for (ItemStack stack : currentStack) {
             if (stack != null) {
@@ -51,7 +55,14 @@ public class BarrelStoneRecipe {
             }
         }
 
-        return list.isEmpty() && fluid.isFluidStackIdentical(this.inputLiquid);
+        if (this.inputLiquid != null)
+            return list.isEmpty() && fluid != null && fluid.containsFluid(this.inputLiquid);
+        else
+            return list.isEmpty();
+    }
+
+    public int getTime() {
+        return time;
     }
 
     public int getTimeTorch() {

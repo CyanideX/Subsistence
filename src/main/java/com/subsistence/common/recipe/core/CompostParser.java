@@ -2,24 +2,22 @@ package com.subsistence.common.recipe.core;
 
 import com.google.gson.Gson;
 import com.subsistence.common.recipe.SubsistenceRecipes;
-import com.subsistence.common.recipe.wrapper.BarrelStoneRecipe;
-import com.subsistence.common.recipe.wrapper.BarrelWoodRecipe;
+import com.subsistence.common.recipe.wrapper.CompostRecipe;
 import com.subsistence.common.util.StackHelper;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * @author lclc98
  */
-public class BarrelParser {
+public class CompostParser {
+
 
     public static class ParsedRecipe {
 
@@ -31,20 +29,18 @@ public class BarrelParser {
 
         public String[] inputItem;
         public String inputLiquid;
-        public boolean typeWood = false;
         public Output output;
     }
 
     public static class Output {
 
         public String outputLiquid;
-
-        public int timeTorch;
-        public int timeLava;
-        public int timeFire;
-
         public String outputItem;
+
         public int time;
+        public int timeTorch = -1;
+        public int timeLava = -1;
+        public int timeFire = -1;
     }
 
     public static void parseFile(File file) {
@@ -91,11 +87,7 @@ public class BarrelParser {
             }
 
 
-            if (recipe1.typeWood)
-                SubsistenceRecipes.BARREL.registerWood(new BarrelWoodRecipe(inputItem.toArray(new ItemStack[inputItem.size()]), inputLiquid, outputItem, outputLiquid, recipe1.output.time));
-            else
-                SubsistenceRecipes.BARREL.registerStone(new BarrelStoneRecipe(inputItem.toArray(new ItemStack[inputItem.size()]), inputLiquid, outputItem, outputLiquid, recipe1.output.time, recipe1.output.timeTorch, recipe1.output.timeLava, recipe1.output.timeFire));
-
+            SubsistenceRecipes.COMPOST.register(new CompostRecipe(inputItem.toArray(new ItemStack[inputItem.size()]), inputLiquid, outputItem, outputLiquid, recipe1.output.time, recipe1.output.timeTorch, recipe1.output.timeLava, recipe1.output.timeFire));
         }
 
         int length = recipe.recipes.length;
