@@ -57,6 +57,7 @@ public class TileInfernalFurnace extends TileCoreMachine implements ISidedInvent
     }
 
     public boolean isBurning() {
+        lit = true;
         return furnaceBurnTime > 0;
     }
 

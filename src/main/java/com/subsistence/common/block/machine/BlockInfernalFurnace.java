@@ -6,7 +6,10 @@ import com.subsistence.common.core.handler.GuiHandler;
 import com.subsistence.common.lib.SubsistenceProps;
 import com.subsistence.common.tile.machine.TileInfernalFurnace;
 import com.subsistence.common.util.InventoryHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFurnace;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -21,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
+import java.util.Random;
 
 public class BlockInfernalFurnace extends SubsistenceTileBlock {
 
@@ -28,11 +32,13 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
 
     public BlockInfernalFurnace() {
         super(Material.rock);
+        setTickRandomly(true);
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fx, float fy, float fz) {
         if (!world.isRemote && !player.isSneaking()) {
+
             if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.flint_and_steel) {
                 TileInfernalFurnace tile = (TileInfernalFurnace) world.getTileEntity(x, y, z);
 
@@ -59,9 +65,9 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
             for (int i = 0; i < tile.getSizeInventory(); i++) {
                 ItemStack stack = tile.getStackInSlot(i);
 
-                if (stack != null) {
+                if (stack != null)
                     InventoryHelper.dropItem(world, x, y, z, ForgeDirection.UNKNOWN, stack, world.rand);
-                }
+
             }
         }
 
@@ -87,17 +93,16 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
         TileInfernalFurnace tile = (TileInfernalFurnace) world.getTileEntity(x, y, z);
 
-        if (tile != null) {
-            if (tile.orientation.ordinal() == side) {
+        if (tile != null)
+            if (tile.orientation.ordinal() == side)
                 return icons[world.getBlockMetadata(x, y, z) == 1 ? 2 : 1];
-            }
-        }
 
-        if (side == 1) {
+
+        if (side == 1)
             return icons[3];
-        } else {
+        else
             return icons[0];
-        }
+
     }
 
     @Override
@@ -124,5 +129,33 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
     @Override
     public void getSubBlocks(Item item, CreativeTabs tab, List list) {
         list.add(new ItemStack(this, 1, ForgeDirection.SOUTH.ordinal()));
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+        TileInfernalFurnace tile = (TileInfernalFurnace) world.getTileEntity(x, y, z);
+
+        if (tile != null && tile.lit) {
+            int l = tile.orientation.ordinal();
+            float f = (float) x + 0.5F;
+            float f1 = (float) y + 0.0F + random.nextFloat() * 6.0F / 16.0F;
+            float f2 = (float) z + 0.5F;
+            float f3 = 0.52F;
+            float f4 = random.nextFloat() * 0.6F - 0.3F;
+
+            if (l == 4) {
+                world.spawnParticle("smoke", (double) (f - f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("flame", (double) (f - f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+            } else if (l == 5) {
+                world.spawnParticle("smoke", (double) (f + f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("flame", (double) (f + f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
+            } else if (l == 2) {
+                world.spawnParticle("smoke", (double) (f + f4), (double) f1, (double) (f2 - f3), 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("flame", (double) (f + f4), (double) f1, (double) (f2 - f3), 0.0D, 0.0D, 0.0D);
+            } else if (l == 3) {
+                world.spawnParticle("smoke", (double) (f + f4), (double) f1, (double) (f2 + f3), 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("flame", (double) (f + f4), (double) f1, (double) (f2 + f3), 0.0D, 0.0D, 0.0D);
+            }
+        }
     }
 }
