@@ -89,8 +89,8 @@ item.seeds.nether_grass=Nether Grass Seeds
 item.tray.name=Tray
 item.barrel_lid.Wood.name=Wooden Barrel Lid
 item.barrel_lid.Stone.name=Stone Barrel Lid
-item.cosmetic.corruption.name=Charm of Corruption
-item.cosmetic.righteousness.name=Charm of Righteousness
+item.cosmetic.corruption.name=Heart of Corruption
+item.cosmetic.righteousness.name=Heart of Righteousness
 
 # RESOURCE ITEMS
 item.resource.chunk.name=%s Chunk
