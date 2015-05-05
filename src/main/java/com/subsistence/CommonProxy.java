@@ -8,7 +8,9 @@ import com.subsistence.common.item.ItemHammer;
 import com.subsistence.common.lib.tool.ToolDefinition;
 import com.subsistence.common.recipe.SubsistenceRecipes;
 import com.subsistence.common.recipe.core.CompostParser;
+import com.subsistence.common.recipe.core.GeneralParser;
 import com.subsistence.common.recipe.core.RecipeParser;
+import com.subsistence.common.recipe.manager.SieveManager;
 import com.subsistence.common.util.EventUtil;
 import com.subsistence.common.network.nbt.data.AbstractSerializer;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -83,6 +85,7 @@ public class CommonProxy {
         loadJson(recipes, "sieve", "");
         loadJson(recipes, "barrel", "");
         loadJson(recipes, "compost", "");
+        loadJson(recipes, "metalpress", "");
 
         loadJson(recipes, "table", "hammer");
         loadJson(recipes, "table", "drying");
@@ -90,8 +93,9 @@ public class CommonProxy {
 
         File fileGeneral = new File(recipes, "/general.json");
         if (fileGeneral.exists())
-            CompostParser.parseFile(fileGeneral);
+            GeneralParser.parseFile(fileGeneral);
     }
+
 
     private static void loadJson(File recipes, String type, String subDir) {
         File[] dir = new File(recipes, type + "/" + subDir).listFiles();

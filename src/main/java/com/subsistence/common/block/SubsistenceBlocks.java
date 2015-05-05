@@ -51,7 +51,7 @@ public class SubsistenceBlocks {
     public static Block infernalSapling;
 
     public static Block boilingWater;
-
+    public static Block wormwood;
 
     public static void initialize() {
 
@@ -82,6 +82,7 @@ public class SubsistenceBlocks {
 
         boilingWater = new BlockFluidBoiling(SubsistenceFluids.boilingWaterFluid).setBlockName("boiling_water");
 
+        wormwood = new BlockWormwood().setBlockName("wormwood");
 
         registerBlock(table, SubsistenceItemMultiBlock.class);
         registerBlock(tableSieve, SubsistenceItemBlock.class);
@@ -109,6 +110,7 @@ public class SubsistenceBlocks {
         registerBlock(infernalSapling);
 
         registerBlock(boilingWater, SubsistenceItemBlock.class);
+        registerBlock(wormwood);
 
         GameRegistry.registerTileEntity(TileTable.class, "subsistence:table");
         GameRegistry.registerTileEntity(TileSieveTable.class, "subsistence:table_sieve");

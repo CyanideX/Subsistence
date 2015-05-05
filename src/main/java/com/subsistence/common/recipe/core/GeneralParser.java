@@ -16,9 +16,10 @@ public class GeneralParser {
 
     public static class ParsedGeneral {
 
-        public int barrelRain = 100;
+        public int barrelRain = 1000;
         public int handCrank = 1;
         public int waterMill = 2;
+        public int wormwoodDry = 23000;
     }
 
     public static void parseFile(File file) {
@@ -36,5 +37,6 @@ public class GeneralParser {
         GeneralManager.rain = recipe.barrelRain;
         GeneralManager.handCrank = recipe.handCrank;
         GeneralManager.waterMill = recipe.waterMill;
+        GeneralManager.wormwoodDry = recipe.wormwoodDry;
     }
 }

@@ -2,9 +2,13 @@ package com.subsistence.common.recipe.manager;
 
 import com.subsistence.common.lib.DurabilityMapping;
 import com.subsistence.common.lib.tool.ToolDefinition;
+import com.subsistence.common.recipe.SubsistenceRecipes;
+import com.subsistence.common.recipe.wrapper.BarrelStoneRecipe;
+import com.subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 import com.subsistence.common.recipe.wrapper.TableDryingRecipe;
 import com.subsistence.common.recipe.wrapper.TableRecipe;
 import com.subsistence.common.util.StackHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -87,5 +91,29 @@ public class TableManager {
             }
         }
         return null;
+    }
+
+    public void clear() {
+        recipesTable.clear();
+        recipesDrying.clear();
+    }
+
+    public boolean isAllowed(ItemStack item) {
+        for (TableRecipe recipe : recipesTable) {
+            if (item.getItem() == recipe.getInputItem().getItem()) {
+                return true;
+            }
+        }
+        for (TableDryingRecipe recipe : recipesDrying) {
+            if (item.getItem() == recipe.getInputItem().getItem()) {
+                return true;
+            }
+        }
+        for (Item perishItem : SubsistenceRecipes.PERISHABLE.keySet()) {
+            if (item.getItem() == perishItem) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,6 +1,5 @@
 package com.subsistence.common.recipe.manager;
 
-import com.subsistence.common.recipe.wrapper.CompostRecipe;
 import com.subsistence.common.recipe.wrapper.SieveRecipe;
 import net.minecraft.item.ItemStack;
 
@@ -28,4 +27,7 @@ public class SieveManager {
     }
 
 
+    public void clear() {
+        recipes.clear();
+    }
 }

@@ -1,5 +1,6 @@
 package com.subsistence.common.recipe.core;
 
+import com.subsistence.common.recipe.SubsistenceRecipes;
 import com.subsistence.common.util.StackHelper;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -23,6 +24,15 @@ import java.util.List;
 public class RecipeParser {
 
 
+    public static void resetParsed() {
+        SubsistenceRecipes.SIEVE.clear();
+        SubsistenceRecipes.TABLE.clear();
+        SubsistenceRecipes.BARREL.clear();
+        SubsistenceRecipes.COMPOST.clear();
+        SubsistenceRecipes.METAL_PRESS.clear();
+        SubsistenceRecipes.PERISHABLE.clear();
+    }
+
     public static void parseFile(File file, String type, String subType) {
         if (type.equalsIgnoreCase("sieve")) {
             SieveParser.parseFile(file);
@@ -32,6 +42,8 @@ public class RecipeParser {
             BarrelParser.parseFile(file);
         } else if (type.equalsIgnoreCase("compost")) {
             CompostParser.parseFile(file);
+        } else if (type.equalsIgnoreCase("metalpress")) {
+            MetalPressParser.parseFile(file);
         }
     }
 

@@ -2,8 +2,12 @@ package com.subsistence.common.block.machine;
 
 import com.subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import com.subsistence.common.item.ItemHammer;
+import com.subsistence.common.item.SubsistenceItems;
+import com.subsistence.common.recipe.SubsistenceRecipes;
+import com.subsistence.common.tile.core.TileCore;
 import com.subsistence.common.tile.machine.TileTable;
 import com.subsistence.common.util.ArrayHelper;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -27,29 +31,31 @@ public class BlockTable extends SubsistenceTileMultiBlock {
                 if (!player.isSneaking() && side == 1) {
                     ItemStack held = player.getHeldItem();
 
-                    if (tile.stack != null && !(held.getItem() instanceof ItemHammer)) {
+                    if (tile.stack != null && (held == null || !(held.getItem() instanceof ItemHammer))) {
                         player.setCurrentItemOrArmor(0, tile.stack.copy());
                         tile.setStack(null);
                         return true;
                     }
+
                     if (held != null && tile.stack == null) {
-                        //TODO Check if has to be null
-//                        if (tile.attractedFlies) {
-//                            if (held.getItem() == SubsistenceItems.net && held.getItemDamage() == 0) {
-//                                held.setItemDamage(1);
-//                                tile.attractedFlies = false;
-//                                return true;
-//                            }
-//                        }
+                        if (tile.attractedFlies) {
+                            if (held.getItem() == SubsistenceItems.net && held.getItemDamage() == 0) {
+                                held.setItemDamage(1);
+                                tile.attractedFlies = false;
+                                return true;
+                            }
+                        }
 
                         ItemStack stack = held.copy();
-                        stack.stackSize = 1;
+                        if (SubsistenceRecipes.TABLE.isAllowed(stack)) {
+                            stack.stackSize = 1;
 
-                        tile.setStack(stack);
+                            tile.setStack(stack);
 
-                        held.stackSize--;
-                        if (held.stackSize <= 0) {
-                            player.setCurrentItemOrArmor(0, null);
+                            held.stackSize--;
+                            if (held.stackSize <= 0) {
+                                player.setCurrentItemOrArmor(0, null);
+                            }
                         }
                     } else {
                         if (!tile.smash(player)) {
@@ -79,6 +85,17 @@ public class BlockTable extends SubsistenceTileMultiBlock {
         }
 
         return !player.isSneaking();
+    }
+
+    @Override
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
+        TileCore tile = (TileCore) world.getTileEntity(x, y, z);
+
+        if (tile != null) {
+            tile.onBlockBroken();
+        }
+
+        super.breakBlock(world, x, y, z, block, metadata);
     }
 
     @Override

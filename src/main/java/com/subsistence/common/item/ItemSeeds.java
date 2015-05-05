@@ -1,5 +1,6 @@
 package com.subsistence.common.item;
 
+import com.subsistence.common.block.BlockWormwood;
 import com.subsistence.common.block.SubsistenceBlocks;
 import com.subsistence.common.core.SubsistenceCreativeTab;
 import com.subsistence.common.item.prefab.SubsistenceMultiItem;
@@ -14,7 +15,7 @@ import net.minecraft.world.World;
  */
 public class ItemSeeds extends SubsistenceMultiItem {
 
-    public static final String[] NAMES = new String[]{"grass", "nether_grass"};
+    public static final String[] NAMES = new String[]{"grass", "nether_grass", "wormwoodSeeds"};
 
     public ItemSeeds() {
         super(SubsistenceCreativeTab.ITEMS);
@@ -31,6 +32,10 @@ public class ItemSeeds extends SubsistenceMultiItem {
                 return true;
             } else if (block == Blocks.soul_sand && stack.getItemDamage() == 1) {
                 world.setBlock(x, y, z, SubsistenceBlocks.netherGrass, 0, 3);
+                stack.stackSize--;
+                return true;
+            } else if (((BlockWormwood) SubsistenceBlocks.wormwood).canPlaceBlockOn(block) && stack.getItemDamage() == 2) {
+                world.setBlock(x, y + 1, z, SubsistenceBlocks.wormwood, 0, 3);
                 stack.stackSize--;
                 return true;
             }

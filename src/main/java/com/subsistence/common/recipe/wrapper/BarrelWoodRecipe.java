@@ -64,4 +64,8 @@ public class BarrelWoodRecipe {
     public FluidStack getOutputLiquid() {
         return outputLiquid;
     }
+
+    public ItemStack[] getInputItem() {
+        return inputItem;
+    }
 }

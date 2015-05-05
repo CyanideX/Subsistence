@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public final class TileBarrel extends TileCoreMachine {
+    public static final float DIMENSION_FILL = 0.8F - 0.0625F;
 
     public final float maxTemperature = 32;
 
@@ -72,12 +73,6 @@ public final class TileBarrel extends TileCoreMachine {
         if (getBlockMetadata() == 0 && this.fluid != null && this.fluid.getFluid() == FluidRegistry.LAVA) {
 
             processTimeElapsed++;
-            if (worldObj.isAirBlock(xCoord, yCoord + 1, zCoord)) {
-                worldObj.setBlock(xCoord, yCoord + 1, zCoord, Blocks.fire);
-                this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord + 1, this.zCoord);
-
-            }
-
             if (processTimeElapsed == 60) {
                 this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.flowing_lava);
                 this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
@@ -192,10 +187,12 @@ public final class TileBarrel extends TileCoreMachine {
     }
 
     public void addFluid(FluidStack fluid) {
-        if (fluid.fluidID == this.fluid.fluidID) {
+        if (this.fluid == null) {
+            this.fluid = fluid;
+        } else if (fluid.fluidID == this.fluid.fluidID) {
             if (this.fluid.amount + fluid.amount <= getCapacity())
                 this.fluid.amount += fluid.amount;
-        } else this.fluid = fluid;
+        }
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 

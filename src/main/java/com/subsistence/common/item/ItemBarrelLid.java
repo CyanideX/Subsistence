@@ -14,7 +14,7 @@ import net.minecraft.world.World;
  */
 public class ItemBarrelLid extends SubsistenceMultiItem {
 
-    private static final String[] NAMES = new String[]{"Wood", "Stone"};
+    private static final String[] NAMES = new String[]{"wood", "stone"};
 
     public ItemBarrelLid() {
         super(SubsistenceCreativeTab.ITEMS);

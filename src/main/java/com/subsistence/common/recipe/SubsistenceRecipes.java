@@ -23,6 +23,7 @@ public class SubsistenceRecipes {
     public static SieveManager SIEVE = new SieveManager();
     public static BarrelManager BARREL = new BarrelManager();
     public static CompostManager COMPOST = new CompostManager();
+    public static MetalPressManager METAL_PRESS = new MetalPressManager();
 
     public static HashMap<Item, Integer> PERISHABLE = new HashMap<Item, Integer>();
 
@@ -47,4 +48,5 @@ public class SubsistenceRecipes {
         //Machines
         GameRegistry.addShapedRecipe(new ItemStack(SubsistenceBlocks.tableSieve), "IXI", "SXS", "WWW", 'I', Blocks.wooden_slab, 'X', new ItemStack(SubsistenceItems.component, 1, 1), 'S', new ItemStack(Items.stick), 'W', Blocks.planks);
     }
+
 }

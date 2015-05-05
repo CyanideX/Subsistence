@@ -27,4 +27,7 @@ public class CompostManager {
         recipes.add(barrelRecipe);
     }
 
+    public void clear() {
+        recipes.clear();
+    }
 }

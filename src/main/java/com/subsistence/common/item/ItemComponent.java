@@ -8,7 +8,7 @@ import com.subsistence.common.item.prefab.SubsistenceMultiItem;
  */
 public class ItemComponent extends SubsistenceMultiItem {
 
-    private static final String[] NAMES = {"twine", "twine_mesh"};
+    private static final String[] NAMES = {"twine", "twine_mesh", "wormwoodLeaves", "sap"};
 
     public ItemComponent() {
         super(SubsistenceCreativeTab.ITEMS);

@@ -30,4 +30,8 @@ public class TableDryingRecipe {
     public ItemStack getOutput() {
         return output;
     }
+
+    public ItemStack getInputItem() {
+        return input;
+    }
 }

@@ -19,7 +19,7 @@ import net.minecraft.world.World;
  */
 public class BlockCompost extends SubsistenceTileMultiBlock {
 
-    private static final String[] NAMES = new String[]{"Wood", "Stone"};
+    private static final String[] NAMES = new String[]{"wood", "stone"};
 
     public BlockCompost() {
         super(Material.wood);

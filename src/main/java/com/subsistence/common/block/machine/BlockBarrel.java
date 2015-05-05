@@ -2,6 +2,7 @@ package com.subsistence.common.block.machine;
 
 import com.subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import com.subsistence.common.item.SubsistenceItems;
+import com.subsistence.common.recipe.SubsistenceRecipes;
 import com.subsistence.common.tile.machine.TileBarrel;
 import com.subsistence.common.util.ArrayHelper;
 import net.minecraft.block.Block;
@@ -21,7 +22,7 @@ import java.util.Random;
 
 public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
-    private static final String[] NAMES = new String[]{"Wood", "Stone"};
+    private static final String[] NAMES = new String[]{"wood", "stone"};
 
     public BlockBarrel() {
         super(Material.wood);
@@ -57,7 +58,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
             tile.toggleLid();
 
             if (!world.isRemote)
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(SubsistenceItems.barrelLid, 1, tile.getBlockMetadata()));
+                player.setCurrentItemOrArmor(0, new ItemStack(SubsistenceItems.barrelLid, 1, tile.getBlockMetadata()));
             return true;
         }
         ItemStack held = player.getHeldItem();
@@ -83,13 +84,15 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
                     }
                 } else if (held != null && Block.getBlockFromItem(held.getItem()) != Blocks.air) {
                     ItemStack itemCopy = held.copy();
-                    itemCopy.stackSize = 1;
-                    if (tile.addItemToStack(itemCopy)) {
-                        held.stackSize--;
-                        if (held.stackSize <= 0) {
-                            player.setCurrentItemOrArmor(0, null);
+                    if (SubsistenceRecipes.BARREL.isAllowed(itemCopy)) {
+                        itemCopy.stackSize = 1;
+                        if (tile.addItemToStack(itemCopy)) {
+                            held.stackSize--;
+                            if (held.stackSize <= 0) {
+                                player.setCurrentItemOrArmor(0, null);
+                            }
+                            tile.markForUpdate();
                         }
-                        tile.markForUpdate();
                     }
                 } else {
                     if (tile.contents != null && tile.contents.length > 0) {

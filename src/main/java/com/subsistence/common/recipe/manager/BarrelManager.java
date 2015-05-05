@@ -42,4 +42,27 @@ public class BarrelManager {
     public void registerStone(BarrelStoneRecipe barrelRecipe) {
         recipeStone.add(barrelRecipe);
     }
+
+    public void clear() {
+        recipeStone.clear();
+        recipeWood.clear();
+    }
+
+    public boolean isAllowed(ItemStack itemCopy) {
+        for (BarrelStoneRecipe recipe : recipeStone) {
+            for (ItemStack stack : recipe.getInputItem()) {
+                if (itemCopy.getItem() == stack.getItem()) {
+                    return true;
+                }
+            }
+        }
+        for (BarrelWoodRecipe recipe : recipeWood) {
+            for (ItemStack stack : recipe.getInputItem()) {
+                if (itemCopy.getItem() == stack.getItem()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

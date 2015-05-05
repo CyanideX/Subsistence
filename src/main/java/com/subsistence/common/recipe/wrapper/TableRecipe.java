@@ -54,4 +54,8 @@ public class TableRecipe {
     public float getSpeed() {
         return speed;
     }
+
+    public ItemStack getInputItem() {
+        return input;
+    }
 }
