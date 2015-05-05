@@ -34,6 +34,7 @@ public class TableParser {
         public String output;
         public float durability;
         public float duration;
+        public String type = "both";
     }
 
 
@@ -52,23 +53,28 @@ public class TableParser {
             Object input = RecipeParser.getItem(recipe1.input);
             Object output = RecipeParser.getItem(recipe1.output);
 
+            boolean hammerMill = recipe1.type.equalsIgnoreCase("mill") || recipe1.type.equalsIgnoreCase("both");
+            boolean table = recipe1.type.equalsIgnoreCase("table") || recipe1.type.equalsIgnoreCase("both");
+
             if (recipe.crash_on_fail) {
                 if (input == null) {
                     throw new NullPointerException(recipe1.input + " is not a valid item!");
                 } else if (output == null) {
                     throw new NullPointerException(recipe1.output + " is not a valid item!");
-                }
+                } else if (!table && !hammerMill)
+                    throw new NullPointerException("Please specify table or mill");
             }
 
+
             if (type.equals("hammer"))
-                SubsistenceRecipes.TABLE.registerHammerRecipe(input, output, recipe1.durability, recipe1.duration);
+                SubsistenceRecipes.TABLE.registerHammerRecipe(input, output, recipe1.durability, recipe1.duration, table, hammerMill);
             else if (type.equals("drying")) {
                 SubsistenceRecipes.TABLE.registerDryingRecipe(input, output, recipe1.duration);
                 if (recipe.perishable != null)
                     for (Perishable p : recipe.perishable)
                         SubsistenceRecipes.PERISHABLE.put(StackHelper.convert(RecipeParser.getItem(p.item))[0].getItem(), p.duration);
             } else if (type.equals("axe"))
-                SubsistenceRecipes.TABLE.registerRecipe(input, output, ToolDefinition.AXE, recipe1.durability, recipe1.duration);
+                SubsistenceRecipes.TABLE.registerRecipe(input, output, ToolDefinition.AXE, recipe1.durability, recipe1.duration, table, hammerMill);
         }
 
         int length = recipe.recipes.length;

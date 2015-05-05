@@ -2,7 +2,6 @@ package com.subsistence.common.recipe.core;
 
 import com.google.gson.Gson;
 import com.subsistence.common.recipe.manager.GeneralManager;
-import com.subsistence.common.tile.machine.TileBarrel;
 import cpw.mods.fml.common.FMLLog;
 
 import java.io.File;
@@ -16,10 +15,10 @@ public class GeneralParser {
 
     public static class ParsedGeneral {
 
-        public int barrelRain = 1000;
-        public int handCrank = 1;
-        public int waterMill = 2;
-        public int wormwoodDry = 23000;
+        public int barrelRain;
+        public int handCrank;
+        public int waterMill;
+        public int wormwoodDry;
     }
 
     public static void parseFile(File file) {

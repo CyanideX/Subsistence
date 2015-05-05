@@ -47,7 +47,7 @@ public class BlockTable extends SubsistenceTileMultiBlock {
                         }
 
                         ItemStack stack = held.copy();
-                        if (SubsistenceRecipes.TABLE.isAllowed(stack)) {
+                        if (SubsistenceRecipes.TABLE.isAllowed(stack, true)) {
                             stack.stackSize = 1;
 
                             tile.setStack(stack);
@@ -59,7 +59,7 @@ public class BlockTable extends SubsistenceTileMultiBlock {
                         }
                     } else {
                         if (!tile.smash(player)) {
-                            if (tile.stack != null) {
+                            if (tile.stack != null && held == null) {
                                 player.setCurrentItemOrArmor(0, tile.stack.copy());
                                 tile.setStack(null);
                                 return true;

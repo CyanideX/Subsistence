@@ -4,8 +4,9 @@ package com.subsistence.common.recipe.manager;
  * @author lclc98
  */
 public class GeneralManager {
-    public static int rain;
-    public static int handCrank;
-    public static int waterMill;
-    public static int wormwoodDry;
+    public static int rain = 1000;
+    public static int handCrank = 1;
+    public static int waterMill = 2;
+    public static int processRate = 20;
+    public static int wormwoodDry = 2400;
 }

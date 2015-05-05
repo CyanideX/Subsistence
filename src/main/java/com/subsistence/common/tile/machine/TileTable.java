@@ -123,7 +123,7 @@ public class TileTable extends TileCore {
             }
         } else if (meta == 1) {
             if (stack != null) {
-                TableRecipe output = SubsistenceRecipes.TABLE.get(stack, tool);
+                TableRecipe output = SubsistenceRecipes.TABLE.get(stack, tool, true);
 
                 if (output != null) {
                     durability -= ToolDefinition.getStrength(tool);

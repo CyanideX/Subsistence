@@ -64,7 +64,7 @@ tile.limestone.limestone.name=Limestone
 tile.limestone.limestoneCobblestone.name=Limestone Cobblestone
 tile.limestone.limestoneBricks.name=Limestone Bricks
 tile.limestone.limestoneScorched.name=Scorched Limestone
-tile.limestone.limestoneScorcedBricks.name=Scorched Limestone Bricks
+tile.limestone.limestoneScorchedBricks.name=Scorched Limestone Bricks
 tile.limestone.limestoneTiled.name=Tiled Limestone
 
 # INGOT STORAGE

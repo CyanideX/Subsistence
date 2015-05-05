@@ -22,11 +22,11 @@ public class TableManager {
     private List<TableRecipe> recipesTable = new ArrayList<TableRecipe>();
     private List<TableDryingRecipe> recipesDrying = new ArrayList<TableDryingRecipe>();
 
-    public void registerHammerRecipe(Object input, Object output, float durability, float speed) {
-        registerRecipe(input, output, ToolDefinition.HAMMER, durability, speed);
+    public void registerHammerRecipe(Object input, Object output, float durability, float speed, boolean table, boolean hammerMill) {
+        registerRecipe(input, output, ToolDefinition.HAMMER, durability, speed, table, hammerMill);
     }
 
-    public void registerRecipe(Object input, Object output, ToolDefinition tool, float durability, float speed) {
+    public void registerRecipe(Object input, Object output, ToolDefinition tool, float durability, float speed, boolean table, boolean hammerMill) {
         if (input == null || output == null || tool == null || durability < 0F) {
             return;
         }
@@ -37,7 +37,7 @@ public class TableManager {
         if (out.length > 0) {
             for (ItemStack stack : in) {
                 DurabilityMapping.INSTANCE.registerDurablity(stack, durability);
-                register(new TableRecipe(stack, out[0], tool, speed, true, true));
+                register(new TableRecipe(stack, out[0], tool, speed, table, hammerMill, true, true));
             }
         }
     }
@@ -46,18 +46,18 @@ public class TableManager {
         recipesTable.add(recipe);
     }
 
-    public TableRecipe get(ItemStack input, ItemStack tool) {
+    public TableRecipe get(ItemStack input, ItemStack tool, boolean isTable) {
         for (TableRecipe recipe : recipesTable) {
-            if (recipe.isInput(input, tool)) {
+            if (recipe.isInput(input, tool, isTable)) {
                 return recipe;
             }
         }
         return null;
     }
 
-    public TableRecipe get(ItemStack input, ToolDefinition tool) {
+    public TableRecipe get(ItemStack input, ToolDefinition tool, boolean isTable) {
         for (TableRecipe recipe : recipesTable) {
-            if (recipe.isInput(input, tool)) {
+            if (recipe.isInput(input, tool, isTable)) {
                 return recipe;
             }
         }
@@ -98,9 +98,9 @@ public class TableManager {
         recipesDrying.clear();
     }
 
-    public boolean isAllowed(ItemStack item) {
+    public boolean isAllowed(ItemStack item, boolean isTable) {
         for (TableRecipe recipe : recipesTable) {
-            if (item.getItem() == recipe.getInputItem().getItem()) {
+            if (recipe.isTable() == isTable && item.getItem() == recipe.getInputItem().getItem()) {
                 return true;
             }
         }

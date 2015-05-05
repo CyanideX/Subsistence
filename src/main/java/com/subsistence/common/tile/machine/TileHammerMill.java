@@ -6,6 +6,7 @@ import com.subsistence.common.recipe.SubsistenceRecipes;
 import com.subsistence.common.lib.StackReference;
 import com.subsistence.common.lib.tool.ToolDefinition;
 import com.subsistence.common.network.nbt.NBTHandler;
+import com.subsistence.common.recipe.manager.GeneralManager;
 import com.subsistence.common.tile.core.TileCoreMachine;
 import com.subsistence.common.util.InventoryHelper;
 import com.subsistence.common.util.StackHelper;
@@ -76,7 +77,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
             }
 
             // Processing
-            if (charge >= 4 && canFunction()) {
+            if (charge >= GeneralManager.processRate && canFunction()) {
                 ItemStack output = getOutput(processing);
                 PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, processing);
                 worldObj.addBlockEvent(xCoord, yCoord, zCoord, SubsistenceBlocks.hammerMill, Item.getIdFromItem(output.getItem()), output.getItemDamage());
@@ -159,6 +160,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
         return type;
     }
 
+    //TODO Griding stage
     private ItemStack getOutput(ItemStack stack) {
         int type = getType(stack);
         ItemStack output = null;
@@ -337,7 +339,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
 
     @Override
     public boolean canInsertItem(int slot, ItemStack stack, int side) {
-        return side == 1 && SubsistenceRecipes.TABLE.get(stack, ToolDefinition.HAMMER) != null;
+        return side == 1 && SubsistenceRecipes.TABLE.get(stack, ToolDefinition.HAMMER, false) != null;
     }
 
     @Override

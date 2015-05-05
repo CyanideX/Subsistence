@@ -15,28 +15,31 @@ public class TableRecipe {
     private final ToolDefinition tool;
     private final float speed;
 
+    private final boolean table;
+    private final boolean hammerMill;
+
     private final boolean ignoreNBT;
     public final boolean damageTool;
 
-    public TableRecipe(ItemStack input, ItemStack output, ToolDefinition tool, float speed, boolean ignoreNBT, boolean damageTool) {
+
+    public TableRecipe(ItemStack input, ItemStack output, ToolDefinition tool, float speed, boolean table, boolean hammerMill, boolean ignoreNBT, boolean damageTool) {
         this.input = input;
         this.output = output;
         this.tool = tool;
         this.speed = speed;
         this.ignoreNBT = ignoreNBT;
         this.damageTool = damageTool;
+        this.table = table;
+        this.hammerMill = hammerMill;
     }
 
-    public boolean isInput(ItemStack stack, ItemStack tool) {
-        return isInputStack(stack) && isTool(tool);
+    public boolean isInput(ItemStack stack, ItemStack tool, boolean isTable) {
+
+        return StackHelper.areStacksSimilar(stack, input, ignoreNBT) && isTool(tool) && ((isTable && this.table) || (!isTable && this.hammerMill));
     }
 
-    public boolean isInput(ItemStack stack, ToolDefinition tool) {
-        return isInputStack(stack) && tool == this.tool;
-    }
-
-    private boolean isInputStack(ItemStack stack) {
-        return StackHelper.areStacksSimilar(stack, input, ignoreNBT);
+    public boolean isInput(ItemStack stack, ToolDefinition tool, boolean isTable) {
+        return StackHelper.areStacksSimilar(stack, input, ignoreNBT) && tool == this.tool && ((isTable && this.table) || (!isTable && this.hammerMill));
     }
 
     private boolean isTool(ItemStack stack) {
@@ -57,5 +60,9 @@ public class TableRecipe {
 
     public ItemStack getInputItem() {
         return input;
+    }
+
+    public boolean isTable() {
+        return table;
     }
 }

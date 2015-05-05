@@ -14,7 +14,7 @@ import net.minecraft.util.IIcon;
  */
 public class BlockLimestone extends SubsistenceMultiBlock {
 
-    private static final String[] limestoneTypes = new String[]{"limestone", "limestoneCobblestone", "limestoneBricks", "limestoneScorched", "limestoneScorcedBricks", "limestoneTiled"};
+    private static final String[] limestoneTypes = new String[]{"limestone", "limestoneCobblestone", "limestoneBricks", "limestoneScorched", "limestoneScorchedBricks", "limestoneTiled"};
     private IIcon[] textures;
 
     public BlockLimestone() {
