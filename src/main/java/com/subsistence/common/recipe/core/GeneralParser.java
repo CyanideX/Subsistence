@@ -19,6 +19,7 @@ public class GeneralParser {
         public int handCrank;
         public int waterMill;
         public int wormwoodDry;
+        public int processRate;
     }
 
     public static void parseFile(File file) {
@@ -37,5 +38,6 @@ public class GeneralParser {
         GeneralManager.handCrank = recipe.handCrank;
         GeneralManager.waterMill = recipe.waterMill;
         GeneralManager.wormwoodDry = recipe.wormwoodDry;
+        GeneralManager.processRate = recipe.processRate;
     }
 }

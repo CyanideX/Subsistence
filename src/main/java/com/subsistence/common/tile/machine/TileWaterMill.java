@@ -113,7 +113,9 @@ public class TileWaterMill extends TileCoreMachine {
             }
         }
 
-        speed = MAX_SPEED * ((float) count / (sources * 8));
+        if (sources > 0)
+            speed = MAX_SPEED * ((float) count / (sources * 8));
+        else speed = 0;
         crank.speed = speed;
 
         if (lastSpeed != speed) {
@@ -129,31 +131,30 @@ public class TileWaterMill extends TileCoreMachine {
     public double getDir(ForgeDirection dir, Vec3 vec, int flow, Vec3 block) {
 
         // handles water rotation and returns a speed
-        sources++;
+
         // which direction is water coming from
-        if (vec.xCoord != 0)
+        if (vec.xCoord != 0) {
+            sources++;
             if ((dir.offsetX < 0 && vec.xCoord > 0) || (dir.offsetX > 0 && vec.xCoord < 0))
                 return flow - 7;
             else
                 return 7 - flow;
-
-        if (vec.zCoord != 0)
+        } else if (vec.zCoord != 0) {
+            sources++;
             if ((dir.offsetZ < 0 && vec.zCoord > 0) || (dir.offsetZ > 0 && vec.zCoord < 0))
                 return flow - 7;
             else
                 return 7 - flow;
-
-        if (vec.yCoord == -1) {
+        } else if (vec.yCoord == -1) {
             sources = 1;
             if (block.xCoord < xCoord)
-                return -10;
+                return 10;
             else if (block.xCoord > xCoord)
-                return 10;
-
-            if (block.zCoord < zCoord)
                 return -10;
-            else if (block.zCoord > zCoord)
+            else if (block.zCoord < zCoord)
                 return 10;
+            else if (block.zCoord > zCoord)
+                return -10;
         }
         return 0;
     }
