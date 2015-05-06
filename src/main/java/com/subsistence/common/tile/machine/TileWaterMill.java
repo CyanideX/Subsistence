@@ -8,6 +8,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -49,15 +50,10 @@ public class TileWaterMill extends TileCoreMachine {
                 angle = angle - 360F;
             }
 
-            TileKineticCrank crank = (TileKineticCrank) worldObj.getTileEntity(xCoord + orientation.offsetX, yCoord, zCoord + orientation.offsetZ);
+            TileEntity crank = worldObj.getTileEntity(xCoord + orientation.offsetX, yCoord, zCoord + orientation.offsetZ);
 
-            if (crank != null) {
-//                if (crank.orientation != orientation) {
-//                    crank.orientation = orientation;
-//                    crank.markForUpdate();
-//                }
-
-                crank.angle = angle;
+            if (crank != null && crank instanceof TileKineticCrank) {
+                ((TileKineticCrank) crank).angle = angle;
             }
         }
     }
