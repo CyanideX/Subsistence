@@ -1,6 +1,7 @@
 package com.subsistence.common.network;
 
 import com.subsistence.common.tile.core.TileCore;
+import com.subsistence.common.tile.machine.TileHammerMill;
 import com.subsistence.common.tile.machine.TileMetalPress;
 import com.subsistence.common.tile.machine.TileTable;
 import cpw.mods.fml.common.network.ByteBufUtils;

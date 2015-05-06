@@ -80,9 +80,9 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
             if (charge >= GeneralManager.processRate && canFunction()) {
                 ItemStack output = getOutput(processing);
                 PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, processing);
-                worldObj.addBlockEvent(xCoord, yCoord, zCoord, SubsistenceBlocks.hammerMill, Item.getIdFromItem(output.getItem()), output.getItemDamage());
 
                 if (output != null) {
+                    worldObj.addBlockEvent(xCoord, yCoord, zCoord, SubsistenceBlocks.hammerMill, Item.getIdFromItem(output.getItem()), output.getItemDamage());
                     IInventory below = getBelowInventory();
                     if (below != null) {
                         ItemStack result = TileEntityHopper.func_145889_a(below, output, ForgeDirection.UP.ordinal());

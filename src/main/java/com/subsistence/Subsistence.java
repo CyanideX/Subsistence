@@ -23,6 +23,7 @@ import java.io.File;
 public class Subsistence {
 
     public static SimpleNetworkWrapper network;
+
     @Mod.Instance(SubsistenceProps.ID)
     public static Subsistence instance;
 
@@ -35,8 +36,8 @@ public class Subsistence {
     public void preInit(FMLPreInitializationEvent event) {
         network = NetworkRegistry.INSTANCE.newSimpleChannel("subsistence");
         network.registerMessage(PacketFX.PacketFXHandler.class, PacketFX.class, 0, Side.CLIENT);
-        network.registerMessage(PacketSyncContents.PacketSyncContentsHandler.class, PacketSyncContents.class, 0, Side.CLIENT);
-        network.registerMessage(PacketSyncContents.PacketSyncContentsHandler.class, PacketSyncContents.class, 0, Side.SERVER);
+        network.registerMessage(PacketSyncContents.PacketSyncContentsHandler.class, PacketSyncContents.class, 1, Side.CLIENT);
+        network.registerMessage(PacketSyncContents.PacketSyncContentsHandler.class, PacketSyncContents.class, 1, Side.SERVER);
 
         configPath = event.getModConfigurationDirectory().getPath() + File.separator + "/Subsistence/";
 
