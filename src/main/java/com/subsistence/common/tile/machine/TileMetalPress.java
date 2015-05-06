@@ -1,5 +1,7 @@
 package com.subsistence.common.tile.machine;
 
+import com.subsistence.Subsistence;
+import com.subsistence.common.network.PacketSyncContents;
 import com.subsistence.common.network.nbt.NBTHandler;
 import com.subsistence.common.recipe.SubsistenceRecipes;
 import com.subsistence.common.recipe.wrapper.MetalPressRecipe;
@@ -27,9 +29,7 @@ public class TileMetalPress extends TileCoreMachine {
     @NBTHandler.DescriptionData
     public boolean closed = false;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
-    int switchClosed;
+    public int switchClosed;
 
     @Override
     public void onPoked() {
@@ -42,13 +42,15 @@ public class TileMetalPress extends TileCoreMachine {
 
     @Override
     public void updateEntity() {
-        updateLid();
-        if (!worldObj.isRemote) {
+
+        if (worldObj.isRemote) {
+            updateLid();
             if (itemStack != null) {
                 MetalPressRecipe recipe = SubsistenceRecipes.METAL_PRESS.get(itemStack);
                 if (recipe != null) {
                     if (amount >= recipe.getAmount() && currentAngle == min) {
                         itemStack = recipe.getOutputItem();
+                        Subsistence.network.sendToServer(new PacketSyncContents(this, itemStack));
                         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                     }
                 }

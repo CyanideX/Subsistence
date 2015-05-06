@@ -1,9 +1,11 @@
 package com.subsistence.common.tile.machine;
 
+import com.subsistence.Subsistence;
 import com.subsistence.common.block.SubsistenceBlocks;
 import com.subsistence.common.lib.DurabilityMapping;
 import com.subsistence.common.lib.tool.ToolDefinition;
 import com.subsistence.common.network.PacketFX;
+import com.subsistence.common.network.PacketSyncContents;
 import com.subsistence.common.recipe.SubsistenceRecipes;
 import com.subsistence.common.recipe.wrapper.TableDryingRecipe;
 import com.subsistence.common.recipe.wrapper.TableRecipe;
@@ -55,6 +57,8 @@ public class TileTable extends TileCore {
         if (stack != null) {
             durability = DurabilityMapping.INSTANCE.getDurability(stack);
         }
+
+        Subsistence.network.sendToAll(new PacketSyncContents(this, stack));
 
         decayTimer = 0;
         attractedFlies = false;

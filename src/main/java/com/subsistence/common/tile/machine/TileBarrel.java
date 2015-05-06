@@ -55,15 +55,13 @@ public final class TileBarrel extends TileCoreMachine {
 
     @Override
     public void updateEntity() {
-        super.updateEntity();
         if (worldObj.isRaining() && worldObj.getTopBlock(xCoord, zCoord) == this.getBlockType()) {
             if (!this.hasLid()) {
                 if (this.fluid == null) {
                     this.setFluid(new FluidStack(FluidRegistry.WATER, GeneralManager.rain));
                 } else {
-
                     if (this.fluid.getFluid() == FluidRegistry.WATER) {
-                        this.addFluid(new FluidStack(this.fluid, 100));
+                        this.addFluid(new FluidStack(this.fluid, GeneralManager.rain));
                     }
                 }
                 this.markForUpdate();

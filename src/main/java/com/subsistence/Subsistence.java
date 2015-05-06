@@ -2,6 +2,7 @@ package com.subsistence;
 
 import com.subsistence.common.command.CommandSubsistence;
 import com.subsistence.common.network.PacketFX;
+import com.subsistence.common.network.PacketSyncContents;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import com.subsistence.common.lib.SubsistenceProps;
 import cpw.mods.fml.common.Mod;
@@ -34,6 +35,8 @@ public class Subsistence {
     public void preInit(FMLPreInitializationEvent event) {
         network = NetworkRegistry.INSTANCE.newSimpleChannel("subsistence");
         network.registerMessage(PacketFX.PacketFXHandler.class, PacketFX.class, 0, Side.CLIENT);
+        network.registerMessage(PacketSyncContents.PacketSyncContentsHandler.class, PacketSyncContents.class, 0, Side.CLIENT);
+        network.registerMessage(PacketSyncContents.PacketSyncContentsHandler.class, PacketSyncContents.class, 0, Side.SERVER);
 
         configPath = event.getModConfigurationDirectory().getPath() + File.separator + "/Subsistence/";
 

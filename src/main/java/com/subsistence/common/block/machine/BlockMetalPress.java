@@ -1,6 +1,8 @@
 package com.subsistence.common.block.machine;
 
+import com.subsistence.Subsistence;
 import com.subsistence.common.block.prefab.SubsistenceTileBlock;
+import com.subsistence.common.network.PacketSyncContents;
 import com.subsistence.common.recipe.SubsistenceRecipes;
 import com.subsistence.common.tile.machine.TileCompost;
 import com.subsistence.common.tile.machine.TileMetalPress;
@@ -42,10 +44,6 @@ public class BlockMetalPress extends SubsistenceTileBlock {
             TileMetalPress tile = (TileMetalPress) world.getTileEntity(x, y, z);
             if (tile != null) {
                 if (player.isSneaking()) {
-                    if (!tile.closed && tile.currentAngle == tile.max) {
-                        tile.amount++;
-                        tile.closed = true;
-                    }
                     tile.sendPoke();
                 } else {
                     if (player.getHeldItem() == null) {
@@ -55,6 +53,7 @@ public class BlockMetalPress extends SubsistenceTileBlock {
                         if (tile.itemStack == null) {
                             if (SubsistenceRecipes.METAL_PRESS.isAllowed(player.getHeldItem())) {
                                 tile.itemStack = new ItemStack(player.getHeldItem().getItem());
+                                Subsistence.network.sendToServer(new PacketSyncContents(tile, tile.itemStack));
                                 player.getHeldItem().stackSize--;
                             }
                         }

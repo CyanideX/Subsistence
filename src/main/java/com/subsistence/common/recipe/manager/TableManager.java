@@ -98,22 +98,4 @@ public class TableManager {
         recipesDrying.clear();
     }
 
-    public boolean isAllowed(ItemStack item, boolean isTable) {
-        for (TableRecipe recipe : recipesTable) {
-            if (recipe.isTable() == isTable && item.getItem() == recipe.getInputItem().getItem()) {
-                return true;
-            }
-        }
-        for (TableDryingRecipe recipe : recipesDrying) {
-            if (item.getItem() == recipe.getInputItem().getItem()) {
-                return true;
-            }
-        }
-        for (Item perishItem : SubsistenceRecipes.PERISHABLE.keySet()) {
-            if (item.getItem() == perishItem) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
