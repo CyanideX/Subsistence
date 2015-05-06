@@ -36,17 +36,17 @@ public class PacketSyncContents implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        this.xCoord = buf.readInt();
-        this.yCoord = buf.readInt();
-        this.zCoord = buf.readInt();
+        xCoord = ByteBufUtils.readVarInt(buf, 5);
+        yCoord = ByteBufUtils.readVarInt(buf, 5);
+        zCoord = ByteBufUtils.readVarInt(buf, 5);
         itemStack = ByteBufUtils.readItemStack(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeInt(xCoord);
-        buf.writeInt(yCoord);
-        buf.writeInt(zCoord);
+        ByteBufUtils.writeVarInt(buf, xCoord, 5);
+        ByteBufUtils.writeVarInt(buf, yCoord, 5);
+        ByteBufUtils.writeVarInt(buf, zCoord, 5);
         ByteBufUtils.writeItemStack(buf, itemStack);
     }
 

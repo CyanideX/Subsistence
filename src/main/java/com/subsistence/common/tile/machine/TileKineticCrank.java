@@ -39,7 +39,6 @@ public class TileKineticCrank extends TileCoreMachine {
         if (!worldObj.isRemote) {
             for (TileEntity tile : connectedTilesCache) {
                 if (tile != null && tile instanceof TileHammerMill && (MAX_LENGTH - speed) != 0) {
-                    // TODO Fix weird bug, speed??
                     ((TileHammerMill) tile).charge += GeneralManager.waterMill;
                 }
             }
