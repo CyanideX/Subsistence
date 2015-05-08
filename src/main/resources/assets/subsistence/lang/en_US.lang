@@ -1,5 +1,5 @@
 # GUI
-gui.container.infernal_furnace=Infernal Furnace
+gui.container.hellfire_furnace=Hellfire Furnace
 
 # CHAT
 chat.hammer_mill.stage=Stage set to %s
@@ -54,7 +54,7 @@ tile.barrel.wood.name=Wooden Barrel
 tile.barrel.stone.name=Stone Barrel
 tile.compost.wood.name=Wooden Compost Bin
 tile.compost.stone.name=Stone Compost Bin
-tile.infernal_furnace.name=Hellfire Furnace
+tile.hellfire_furnace.name=Hellfire Furnace
 tile.kinetic_crank.name=Kinetic Crank
 tile.crank.name=Crank
 tile.metal_shaft.name=Metal Shaft

@@ -1,6 +1,6 @@
 package com.subsistence.common.inventory.container;
 
-import com.subsistence.common.tile.machine.TileInfernalFurnace;
+import com.subsistence.common.tile.machine.TileHellfireFurnace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,13 +17,13 @@ import net.minecraft.tileentity.TileEntityFurnace;
  */
 public class ContainerInfernalFurnace extends Container {
 
-    private final TileInfernalFurnace tile;
+    private final TileHellfireFurnace tile;
 
     private int lastCookTime;
     private int lastBurnTime;
     private int lastItemBurnTime;
 
-    public ContainerInfernalFurnace(EntityPlayer player, TileInfernalFurnace tile) {
+    public ContainerInfernalFurnace(EntityPlayer player, TileHellfireFurnace tile) {
         this.tile = tile;
 
         addSlotToContainer(new Slot(tile, 0, 56, 17));

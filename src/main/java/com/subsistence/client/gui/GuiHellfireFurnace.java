@@ -1,7 +1,7 @@
 package com.subsistence.client.gui;
 
 import com.subsistence.common.inventory.container.ContainerInfernalFurnace;
-import com.subsistence.common.tile.machine.TileInfernalFurnace;
+import com.subsistence.common.tile.machine.TileHellfireFurnace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -11,13 +11,13 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class GuiInfernalFurnace extends GuiContainer {
+public class GuiHellfireFurnace extends GuiContainer {
 
     public static final ResourceLocation furnaceGuiTextures = new ResourceLocation("textures/gui/container/furnace.png");
 
-    private final TileInfernalFurnace tile;
+    private final TileHellfireFurnace tile;
 
-    public GuiInfernalFurnace(EntityPlayer player, TileInfernalFurnace tile) {
+    public GuiHellfireFurnace(EntityPlayer player, TileHellfireFurnace tile) {
         super(new ContainerInfernalFurnace(player, tile));
 
         this.tile = tile;

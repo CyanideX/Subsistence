@@ -16,7 +16,6 @@ import com.subsistence.common.block.machine.*;
 import com.subsistence.common.tile.machine.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 
 /**
@@ -64,7 +63,7 @@ public class SubsistenceBlocks {
         waterMill = new BlockWaterMill().setBlockName("water_mill");
         kiln = new BlockKiln().setBlockName("kiln");
         metalPress = new BlockMetalPress().setBlockName("metal_press");
-        infernalFurnace = new BlockInfernalFurnace().setBlockName("infernal_furnace");
+        infernalFurnace = new BlockInfernalFurnace().setBlockName("hellfire_furnace");
         metalShaft = new BlockMetalShaft().setBlockName("metal_shaft");
         compost = new BlockCompost().setBlockName("compost");
         barrel = new BlockBarrel().setBlockName("barrel");
@@ -121,7 +120,7 @@ public class SubsistenceBlocks {
         GameRegistry.registerTileEntity(TileWaterMill.class, "subsistence:water_mill");
         GameRegistry.registerTileEntity(TileKiln.class, "subsistence:kiln");
         GameRegistry.registerTileEntity(TileMetalPress.class, "subsistence:metal_press");
-        GameRegistry.registerTileEntity(TileInfernalFurnace.class, "subsistence:infernal_furnace");
+        GameRegistry.registerTileEntity(TileHellfireFurnace.class, "subsistence:infernal_furnace");
         GameRegistry.registerTileEntity(TileSpawnMarker.class, "subsistence:spawn_marker");
         GameRegistry.registerTileEntity(TileMetalShaft.class, "subsistence:metal_shaft");
         GameRegistry.registerTileEntity(TileCompost.class, "subsistence:compost");

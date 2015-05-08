@@ -4,12 +4,11 @@ import com.subsistence.Subsistence;
 import com.subsistence.common.block.prefab.SubsistenceTileBlock;
 import com.subsistence.common.core.handler.GuiHandler;
 import com.subsistence.common.lib.SubsistenceProps;
-import com.subsistence.common.tile.machine.TileInfernalFurnace;
+import com.subsistence.common.tile.machine.TileHellfireFurnace;
 import com.subsistence.common.util.InventoryHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFurnace;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -40,7 +39,7 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
         if (!world.isRemote && !player.isSneaking()) {
 
             if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.flint_and_steel) {
-                TileInfernalFurnace tile = (TileInfernalFurnace) world.getTileEntity(x, y, z);
+                TileHellfireFurnace tile = (TileHellfireFurnace) world.getTileEntity(x, y, z);
 
                 if (tile != null && !tile.lit) {
                     tile.lit = true;
@@ -59,7 +58,7 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
 
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-        TileInfernalFurnace tile = (TileInfernalFurnace) world.getTileEntity(x, y, z);
+        TileHellfireFurnace tile = (TileHellfireFurnace) world.getTileEntity(x, y, z);
 
         if (tile != null) {
             for (int i = 0; i < tile.getSizeInventory(); i++) {
@@ -81,7 +80,7 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-        return new TileInfernalFurnace();
+        return new TileHellfireFurnace();
     }
 
     @Override
@@ -91,7 +90,7 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
 
     @Override
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        TileInfernalFurnace tile = (TileInfernalFurnace) world.getTileEntity(x, y, z);
+        TileHellfireFurnace tile = (TileHellfireFurnace) world.getTileEntity(x, y, z);
 
         if (tile != null)
             if (tile.orientation.ordinal() == side)
@@ -120,10 +119,10 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
     public void registerBlockIcons(IIconRegister iconRegister) {
         icons = new IIcon[4];
 
-        icons[0] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/infernalFurnace_side");
-        icons[1] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/infernalFurnace_front");
-        icons[2] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/infernalFurnace_front_ON");
-        icons[3] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/infernalFurnace_top");
+        icons[0] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/hellfireFurnace_side");
+        icons[1] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/hellfireFurnace_front");
+        icons[2] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/hellfireFurnace_front_ON");
+        icons[3] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/hellfireFurnace_top");
     }
 
     @Override
@@ -133,9 +132,9 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
 
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-        TileInfernalFurnace tile = (TileInfernalFurnace) world.getTileEntity(x, y, z);
+        TileHellfireFurnace tile = (TileHellfireFurnace) world.getTileEntity(x, y, z);
 
-        if (tile != null && tile.lit) {
+        if (tile != null && world.getBlockMetadata(x,y,z) == 1) {
             int l = tile.orientation.ordinal();
             float f = (float) x + 0.5F;
             float f1 = (float) y + 0.0F + random.nextFloat() * 6.0F / 16.0F;

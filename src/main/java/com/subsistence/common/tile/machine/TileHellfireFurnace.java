@@ -14,7 +14,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 /**
  * @author dmillerw
  */
-public class TileInfernalFurnace extends TileCoreMachine implements ISidedInventory {
+public class TileHellfireFurnace extends TileCoreMachine implements ISidedInventory {
 
     public static final int[] SLOTS_TOP = new int[]{0};
     // Two comes before one to give slot 2 priority
@@ -57,7 +57,6 @@ public class TileInfernalFurnace extends TileCoreMachine implements ISidedInvent
     }
 
     public boolean isBurning() {
-        lit = true;
         return furnaceBurnTime > 0;
     }
 
