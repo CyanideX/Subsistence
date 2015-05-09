@@ -91,7 +91,7 @@ public class CommonProxy {
         loadJson(recipes, "table", "drying");
         loadJson(recipes, "table", "axe");
 
-        File fileGeneral = new File(recipes, "/general.json");
+        File fileGeneral = new File(recipes, "general.json");
         if (fileGeneral.exists())
             GeneralParser.parseFile(fileGeneral);
     }

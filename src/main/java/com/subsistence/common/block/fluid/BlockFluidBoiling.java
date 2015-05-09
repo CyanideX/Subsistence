@@ -8,9 +8,11 @@ import com.subsistence.common.util.SubsistenceDamageSource;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -58,21 +60,14 @@ public class BlockFluidBoiling extends SubsistenceBasicFluid {
             super.updateTick(world, x, y, z, rand);
 
             final int range = 3;
-            if (!this.isSourceBlock(world, x, y, z) && (world.getBlockMetadata(x, y, z) >= range || (world.isAirBlock(x, y - 1, z) || world.getBlock(x, y - 1, z) == this))) {
-                for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-                    if (side == ForgeDirection.DOWN) continue;
+            if (!this.isSourceBlock(world, x, y, z) && !checkSurroundingBlocksForSource(world, x, y, z, range)) {
 
-                    int rx = x + side.offsetX * range;
-                    int ry = y + side.offsetY * range;
-                    int rz = z + side.offsetZ * range;
-
-                    if (world.getBlock(rx, ry, rz) == this && isSourceBlock(world, rx, ry, rz)) {
-                        world.setBlockToAir(rx, ry, rz);
-                        double randSound = rand.nextDouble();
-                        if(randSound > 0.8D) {
-                            world.playSoundEffect(rx, ry, rz, "random.fizz", 0.05f, 0.0f);
-                        }
-                        break;
+                Vec3 b = getSourceBlock(world, x, y, z);
+                if (b != null) {
+                    world.setBlockToAir((int) b.xCoord, (int) b.yCoord, (int) b.zCoord);
+                    double randSound = rand.nextDouble();
+                    if (randSound > 0.8D) {
+                        world.playSoundEffect((int) b.xCoord, (int) b.yCoord, (int) b.zCoord, "random.fizz", 0.05f, 0.0f);
                     }
                 }
             }

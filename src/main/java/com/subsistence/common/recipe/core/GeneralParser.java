@@ -15,11 +15,11 @@ public class GeneralParser {
 
     public static class ParsedGeneral {
 
-        public int barrelRain;
-        public int handCrank;
-        public int waterMill;
-        public int wormwoodDry;
-        public int processRate;
+        public static int barrelRain = 10;
+        public static int handCrank = 1;
+        public static int waterMill = 2;
+        public static int processRate = 20;
+        public static int wormwoodDry = 2400;
     }
 
     public static void parseFile(File file) {
@@ -34,7 +34,7 @@ public class GeneralParser {
 
     private static void verifyParse(ParsedGeneral recipe) {
 
-        GeneralManager.rain = recipe.barrelRain;
+        GeneralManager.barrelRain = recipe.barrelRain;
         GeneralManager.handCrank = recipe.handCrank;
         GeneralManager.waterMill = recipe.waterMill;
         GeneralManager.wormwoodDry = recipe.wormwoodDry;

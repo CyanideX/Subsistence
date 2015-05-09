@@ -82,6 +82,8 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
                         }
                         tile.removeFluid();
                     }
+                } else if (tile.fluid != null && !FluidContainerRegistry.isEmptyContainer(held)) {
+                    tile.addFluid(FluidContainerRegistry.getFluidForFilledItem(held));
                 } else if (held != null && Block.getBlockFromItem(held.getItem()) != Blocks.air) {
                     ItemStack itemCopy = held.copy();
                     if (SubsistenceRecipes.BARREL.isAllowed(itemCopy)) {

@@ -1,8 +1,10 @@
 package com.subsistence.common.block.prefab;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
@@ -41,42 +43,29 @@ public abstract class SubsistenceBasicFluid extends BlockFluidClassic {
 
     public abstract void registerBlockIcons(IIconRegister register);
 
-    protected boolean checkSurroundingBlocksForSource(World world, int x, int y, int z, int range){
-        boolean found = false;
-        for(int i = 1; i <= range;i++){
-            if(this.isSourceBlock(world,x + i,y,z)){
-                found = true;
-                break;
-            }
-            if(this.isSourceBlock(world,x - i,y,z)){
-                found = true;
-                break;
-            }
-            if(this.isSourceBlock(world,x,y,z + i)){
-                found = true;
-                break;
-            }
-            if(this.isSourceBlock(world,x,y,z - i)){
-                found = true;
-                break;
-            }
-            if(this.isSourceBlock(world,x + i,y,z + i)){
-                found = true;
-                break;
-            }
-            if(this.isSourceBlock(world,x + i,y,z - i)){
-                found = true;
-                break;
-            }
-            if(this.isSourceBlock(world,x - i,y,z - i)){
-                found = true;
-                break;
-            }
-            if(this.isSourceBlock(world,x - i,y,z + i)){
-                found = true;
-                break;
+    protected boolean checkSurroundingBlocksForSource(World world, int x, int y, int z, int range) {
+        for (int x1 = 0; x1 < range; x1++)
+            for (int y1 = 0; y1 < range; y1++)
+                for (int z1 = 0; z1 < range; z1++)
+                    if (this.isSourceBlock(world, x + x1, y + y1, z + z1))
+                        return true;
+
+        return false;
+    }
+
+    public Vec3 getSourceBlock(World world, int x, int y, int z) {
+        for (int x1 = -8; x1 < 8; x1++) {
+            for (int y1 = 0; y1 < 8; y1++) {
+                for (int z1 = -8; z1 < 8; z1++) {
+                    Block b = world.getBlock(x, y, z);
+                    if (b instanceof BlockFluidClassic) {
+                        if (((BlockFluidClassic) b).isSourceBlock(world, x + x1, y + y1, z + z1)) {
+                            return Vec3.createVectorHelper(x + x1, y + y1, z + z1);
+                        }
+                    }
+                }
             }
         }
-        return found;
+        return null;
     }
 }

@@ -58,10 +58,10 @@ public final class TileBarrel extends TileCoreMachine {
         if (worldObj.isRaining() && worldObj.getTopBlock(xCoord, zCoord) == this.getBlockType()) {
             if (!this.hasLid()) {
                 if (this.fluid == null) {
-                    this.setFluid(new FluidStack(FluidRegistry.WATER, GeneralManager.rain));
+                    this.setFluid(new FluidStack(FluidRegistry.WATER, GeneralManager.barrelRain));
                 } else {
                     if (this.fluid.getFluid() == FluidRegistry.WATER) {
-                        this.addFluid(new FluidStack(this.fluid, GeneralManager.rain));
+                        this.addFluid(new FluidStack(this.fluid, GeneralManager.barrelRain));
                     }
                 }
                 this.markForUpdate();
@@ -188,8 +188,11 @@ public final class TileBarrel extends TileCoreMachine {
         if (this.fluid == null) {
             this.fluid = fluid;
         } else if (fluid.fluidID == this.fluid.fluidID) {
-            if (this.fluid.amount + fluid.amount <= getCapacity())
-                this.fluid.amount += fluid.amount;
+            this.fluid.amount += fluid.amount;
+
+            if (this.fluid.amount + fluid.amount > getCapacity()) {
+                this.fluid.amount = getCapacity();
+            }
         }
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
