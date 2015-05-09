@@ -44,9 +44,9 @@ public abstract class SubsistenceBasicFluid extends BlockFluidClassic {
     public abstract void registerBlockIcons(IIconRegister register);
 
     protected boolean checkSurroundingBlocksForSource(World world, int x, int y, int z, int range) {
-        for (int x1 = 0; x1 < range; x1++)
-            for (int y1 = 0; y1 < range; y1++)
-                for (int z1 = 0; z1 < range; z1++)
+        for (int x1 = -range + 1; x1 < range; x1++)
+            for (int y1 = -range + 1; y1 < range; y1++)
+                for (int z1 = -range + 1; z1 < range; z1++)
                     if (this.isSourceBlock(world, x + x1, y + y1, z + z1))
                         return true;
 
