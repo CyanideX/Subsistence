@@ -14,8 +14,12 @@ import net.minecraftforge.fluids.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public final class TileBarrel extends TileCoreMachine {
+
+    private static final Random RANDOM = new Random();
+
     public static final float DIMENSION_FILL = 0.8F - 0.0625F;
 
     public final float maxTemperature = 32;
@@ -40,6 +44,9 @@ public final class TileBarrel extends TileCoreMachine {
     @NBTHandler.DescriptionData
     private boolean hasLid;
 
+    private int delayTick = 0;
+    private int randomDelay = -1;
+
     public void setFluid(FluidStack fluid) {
         this.fluid = fluid;
     }
@@ -55,16 +62,30 @@ public final class TileBarrel extends TileCoreMachine {
 
     @Override
     public void updateEntity() {
-        if (worldObj.isRaining() && worldObj.getTopBlock(xCoord, zCoord) == this.getBlockType()) {
-            if (!this.hasLid()) {
-                if (this.fluid == null) {
-                    this.setFluid(new FluidStack(FluidRegistry.WATER, GeneralManager.barrelRain));
-                } else {
-                    if (this.fluid.getFluid() == FluidRegistry.WATER) {
-                        this.addFluid(new FluidStack(this.fluid, GeneralManager.barrelRain));
+        if (worldObj.isRemote)
+            return;
+
+        if (worldObj.isRaining() && worldObj.canBlockSeeTheSky(xCoord, yCoord, zCoord)) {
+            if (randomDelay == -1) {
+                randomDelay = RANDOM.nextInt(500); // 0 to 25 seconds
+            } else {
+                if (delayTick >= randomDelay) {
+                    randomDelay = RANDOM.nextInt(1000);
+                    delayTick = 0;
+
+                    if (!this.hasLid()) {
+                        if (this.fluid == null || this.fluid.getFluid() == FluidRegistry.WATER) {
+                            this.setFluid(new FluidStack(FluidRegistry.WATER, GeneralManager.barrelRain));
+                        } else {
+                            if (this.fluid.getFluid() == FluidRegistry.WATER) {
+                                this.addFluid(new FluidStack(this.fluid, GeneralManager.barrelRain));
+                            }
+                        }
+                        this.markForUpdate();
                     }
+                } else {
+                    delayTick++;
                 }
-                this.markForUpdate();
             }
         }
 
@@ -188,11 +209,7 @@ public final class TileBarrel extends TileCoreMachine {
         if (this.fluid == null) {
             this.fluid = fluid;
         } else if (fluid.fluidID == this.fluid.fluidID) {
-            this.fluid.amount += fluid.amount;
-
-            if (this.fluid.amount + fluid.amount > getCapacity()) {
-                this.fluid.amount = getCapacity();
-            }
+            this.fluid.amount = (Math.min(getCapacity(), this.fluid.amount + fluid.amount));
         }
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }

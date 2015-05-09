@@ -3,15 +3,13 @@ package com.subsistence.client.render.tile;
 import com.subsistence.client.lib.Model;
 import com.subsistence.client.lib.Texture;
 import com.subsistence.client.render.SubsistenceTileRenderer;
-import com.subsistence.common.lib.MathFX;
 import com.subsistence.common.tile.machine.TileBarrel;
-import com.subsistence.common.tile.machine.TileCompost;
 import com.subsistence.common.util.RenderHelper;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import org.lwjgl.opengl.GL11;
 
@@ -65,8 +63,20 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         GL11.glTranslatef(-0.40F, (TileBarrel.DIMENSION_FILL * level) - TileBarrel.DIMENSION_FILL / 2, -0.40F);
         GL11.glScalef(s / 1.0F, s / 1.0F, s / 1.0F);
 
+        if (tile.fluid.getFluid() == FluidRegistry.WATER) {
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glColor4f(1, 1, 1, 0.75F);
+        }
+
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+
         this.bindTexture(TextureMap.locationBlocksTexture);
         this.renderIcon(0, 0, icon, 15, 15);
+
+        if (tile.fluid.getFluid() == FluidRegistry.WATER) {
+            GL11.glColor4f(1, 1, 1, 1);
+            GL11.glDisable(GL11.GL_BLEND);
+        }
 
         GL11.glPopMatrix();
     }
