@@ -66,9 +66,8 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         if (tile.fluid.getFluid() == FluidRegistry.WATER) {
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glColor4f(1, 1, 1, 0.75F);
+            OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
         }
-
-        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 
         this.bindTexture(TextureMap.locationBlocksTexture);
         this.renderIcon(0, 0, icon, 15, 15);
