@@ -53,7 +53,7 @@ processResources {
 
 jar {
     manifest {
-        attributes 'FMLCorePlugin': 'com.subsistence.common.asm.SubsistenceCorePlugin'
+        attributes 'FMLCorePlugin': 'SubsistenceCorePlugin'
         attributes 'FMLCorePluginContainsFMLMod': 'true'
     }
 
