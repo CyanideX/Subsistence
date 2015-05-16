@@ -12,6 +12,7 @@ public class PacketHandler {
         registerMessage(ConfigSyncPacket.class, ConfigSyncPacket.ConfigSyncMessage.class);
         //TODO: fix teh following, its probably wrong
         registerMessage(PacketFX.PacketFXHandler.class, PacketFX.class);
+        registerMessage(PacketSyncContents.PacketSyncContentsHandler.class,PacketSyncContents.class);
     }
     public static int nextPacketId = 0;
     public static void registerMessage (Class packet, Class message) {
