@@ -2,18 +2,13 @@ package subsistence;
 
 import subsistence.common.command.CommandSubsistence;
 import subsistence.common.command.CommandTPX;
-import subsistence.common.network.PacketFX;
 import subsistence.common.network.PacketHandler;
-import subsistence.common.network.PacketSyncContents;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.relauncher.Side;
 
 import java.io.File;
 
@@ -28,8 +23,6 @@ public class Subsistence {
     public static final String VERSION = "Alpha";
     public static final String RESOURCE_PREFIX = "subsistence:";
 
-    public static SimpleNetworkWrapper network;
-
     @Mod.Instance(Subsistence.MODID)
     public static Subsistence instance;
 
@@ -41,9 +34,7 @@ public class Subsistence {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         PacketHandler.initPackets();
-
         configPath = event.getModConfigurationDirectory().getPath() + File.separator + "/Subsistence/";
-
         proxy.preInit();
     }
 
