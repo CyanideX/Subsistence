@@ -1,5 +1,7 @@
 package subsistence;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import subsistence.common.command.CommandSubsistence;
 import subsistence.common.command.CommandTPX;
 import subsistence.common.network.PacketHandler;
@@ -53,5 +55,9 @@ public class Subsistence {
         event.registerServerCommand(new CommandSubsistence());
         event.registerServerCommand(new CommandTPX());
 
+    }
+    @SubscribeEvent
+    public void playerLoggedIn (PlayerEvent.PlayerLoggedInEvent event) {
+        //TODO: send clients the values in server configs
     }
 }

@@ -27,6 +27,7 @@ public class ConfigSyncPacket implements IMessageHandler<ConfigSyncPacket.Config
         }
         @Override
         public void toBytes (ByteBuf buf) {
+            //ORDER STILL MATTERS
             buf.writeInt(value);
         }
     }
