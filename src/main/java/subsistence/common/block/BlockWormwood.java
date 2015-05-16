@@ -35,8 +35,8 @@ public class BlockWormwood extends BlockBush implements IGrowable {
     }
 
     @Override
-    public boolean canPlaceBlockOn(Block p_149854_1_) {
-        return p_149854_1_ == Blocks.grass || p_149854_1_ == Blocks.dirt || p_149854_1_ == SubsistenceBlocks.netherGrass;
+    public boolean canPlaceBlockOn(Block block) {
+        return block == Blocks.grass || block == Blocks.dirt || block == SubsistenceBlocks.netherGrass;
     }
 
     @Override
@@ -45,32 +45,32 @@ public class BlockWormwood extends BlockBush implements IGrowable {
     }
 
     @Override
-    public void updateTick(World world, int x, int y, int z, Random p_149674_5_) {
-        if (world.getWorldTime() % 10 == 0) {
-            if (world.getBlockLightValue(x, y + 1, z) >= 9) {
+    public void updateTick(World world, int x, int y, int z, Random rand) {
+        if (world.getWorldTime() % 10 == 0) { //every 1/2 sec
+            if (world.getBlockLightValue(x, y + 1, z) >= 9) { //if light of block above is 9+
                 int l = world.getBlockMetadata(x, y, z);
 
-                if (l < 7) {
-                    float f = this.func_149864_n(world, x, y, z);
+                if (l < 7) { //if not grown
+                    float f = this.getSurroundingSpeedModifier(world, x, y, z); //get blocks around, to increase speed?
 
-                    if (p_149674_5_.nextInt((int) (25.0F / f) + 1) == 0) {
-                        ++l;
+                    if (rand.nextInt((int) (25.0F / f) + 1) == 0) {
+                        ++l; //add one to current metadata
                         world.setBlockMetadataWithNotify(x, y, z, l, 2);
                     }
                 }
             }
         }
-        if (world.getBlockMetadata(x, y, z) > 7) {
+        if (world.getBlockMetadata(x, y, z) > 7) { //if wormwood is fully grown
             tickDry++;
-            if (tickDry >= GeneralManager.wormwoodDry) {
-                if (world.getBlockLightValue(x, y + 1, z) >= 9) {
+            if (tickDry >= GeneralManager.wormwoodDry) { //if fully dried
+                if (world.getBlockLightValue(x, y + 1, z) >= 9) { //and light above is 9+
                     int l = world.getBlockMetadata(x, y, z);
 
                     if (l < 9) {
-                        float f = this.func_149864_n(world, x, y, z);
+                        float f = this.getSurroundingSpeedModifier(world, x, y, z);
 
-                        if (p_149674_5_.nextInt((int) (25.0F / f) + 1) == 0) {
-                            ++l;
+                        if (rand.nextInt((int) (25.0F / f) + 1) == 0) {
+                            ++l; //add one to current metadata
                             world.setBlockMetadataWithNotify(x, y, z, l, 2);
                         }
                     }
@@ -79,7 +79,7 @@ public class BlockWormwood extends BlockBush implements IGrowable {
         }
     }
 
-    private float func_149864_n(World world, int x, int y, int z) {
+    private float getSurroundingSpeedModifier(World world, int x, int y, int z) {
         float f = 1.0F;
         Block block = world.getBlock(x, y, z - 1);
         Block block1 = world.getBlock(x, y, z + 1);
@@ -89,19 +89,19 @@ public class BlockWormwood extends BlockBush implements IGrowable {
         Block block5 = world.getBlock(x + 1, y, z - 1);
         Block block6 = world.getBlock(x + 1, y, z + 1);
         Block block7 = world.getBlock(x - 1, y, z + 1);
-        boolean flag = block2 == this || block3 == this;
-        boolean flag1 = block == this || block1 == this;
-        boolean flag2 = block4 == this || block5 == this || block6 == this || block7 == this;
+        boolean blocksX = block2 == this || block3 == this; //if block +x or -x is wormwood
+        boolean blocksZ = block == this || block1 == this; //if block +z or -z is wormwood
+        boolean blocksCorners = block4 == this || block5 == this || block6 == this || block7 == this; //if block on any corner is wormwood
 
-        for (int l = x - 1; l <= x + 1; ++l) {
-            for (int i1 = z - 1; i1 <= z + 1; ++i1) {
+        for (int currX = x - 1; currX <= x + 1; ++currX) {
+            for (int currZ = z - 1; currZ <= z + 1; ++currZ) {
                 float f1 = 0.0F;
 
-                if (canPlaceBlockOn(world.getBlock(l, y - 1, i1))) {
+                if (canPlaceBlockOn(world.getBlock(currX, y - 1, currZ))) { //if ground blocks around wormwood can be placed on
                     f1 = 1.0F;
                 }
 
-                if (l != x || i1 != z) {
+                if (currX != x || currZ != z) { //if you're not checking next to you? | checking corners
                     f1 /= 4.0F;
                 }
 
@@ -109,7 +109,7 @@ public class BlockWormwood extends BlockBush implements IGrowable {
             }
         }
 
-        if (flag2 || flag && flag1) {
+        if (blocksCorners || blocksX && blocksZ) { //if wormwood on corner or wormwood adjcent
             f /= 2.0F;
         }
 
@@ -146,12 +146,12 @@ public class BlockWormwood extends BlockBush implements IGrowable {
     }
 
     @Override
-    public boolean func_149851_a(World world, int x, int y, int z, boolean p_149851_5_) {
+    public boolean func_149851_a(World world, int x, int y, int z, boolean p_149851_5_) { //canFertilize
         return world.getBlockMetadata(x, y, z) != 7;
     }
 
     @Override
-    public boolean func_149852_a(World world, Random p_149852_2_, int x, int y, int z) {
+    public boolean func_149852_a(World world, Random p_149852_2_, int x, int y, int z) { //shouldFertilize
         return true;
     }
 
@@ -178,7 +178,7 @@ public class BlockWormwood extends BlockBush implements IGrowable {
     }
 
     @Override
-    public void func_149853_b(World world, Random random, int x, int y, int z) {
+    public void func_149853_b(World world, Random random, int x, int y, int z) { //fertilize
         int l = world.getBlockMetadata(x, y, z) + MathHelper.getRandomIntegerInRange(random, 2, 5);
 
         if (l > 7) {
