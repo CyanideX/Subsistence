@@ -109,7 +109,7 @@ public class BlockWormwood extends BlockBush implements IGrowable {
             }
         }
 
-        if (blocksCorners || blocksX && blocksZ) { //if wormwood on corner or wormwood adjcent
+        if (blocksCorners || blocksX && blocksZ) { //if wormwood on corner or wormwood adjacent
             f /= 2.0F;
         }
 
@@ -131,12 +131,12 @@ public class BlockWormwood extends BlockBush implements IGrowable {
     }
 
     @Override
-    public void dropBlockAsItemWithChance(World world, int x, int y, int z, int metadata, float p_149690_6_, int p_149690_7_) {
-        super.dropBlockAsItemWithChance(world, x, y, z, metadata, p_149690_6_, 0);
+    public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune) {
+        super.dropBlockAsItemWithChance(world, x, y, z, meta, chance, 0);
     }
 
     @Override
-    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+    public Item getItemDropped(int meta, Random random, int fortune) {
         return null;
     }
 
@@ -146,12 +146,12 @@ public class BlockWormwood extends BlockBush implements IGrowable {
     }
 
     @Override
-    public boolean func_149851_a(World world, int x, int y, int z, boolean p_149851_5_) { //canFertilize
-        return world.getBlockMetadata(x, y, z) != 7;
+    public boolean func_149851_a(World world, int x, int y, int z, boolean isClient) { //canFertilize
+        return world.getBlockMetadata(x, y, z) > 7;
     }
 
     @Override
-    public boolean func_149852_a(World world, Random p_149852_2_, int x, int y, int z) { //shouldFertilize
+    public boolean func_149852_a(World world, Random random, int x, int y, int z) { //shouldFertilize
         return true;
     }
 
@@ -163,23 +163,23 @@ public class BlockWormwood extends BlockBush implements IGrowable {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister p_149651_1_) {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         this.textures = new IIcon[10];
 
         for (int i = 0; i < this.textures.length; i++) {
 
             if (i == 8)
-                this.textures[i] = p_149651_1_.registerIcon("subsistence:plants/crops_7_dry_1");
+                this.textures[i] = iconRegister.registerIcon("subsistence:plants/crops_7_dry_1");
             else if (i == 9)
-                this.textures[i] = p_149651_1_.registerIcon("subsistence:plants/crops_7_dry_2");
+                this.textures[i] = iconRegister.registerIcon("subsistence:plants/crops_7_dry_2");
             else
-                this.textures[i] = p_149651_1_.registerIcon("subsistence:plants/crops_" + i);
+                this.textures[i] = iconRegister.registerIcon("subsistence:plants/crops_" + i);
         }
     }
 
     @Override
     public void func_149853_b(World world, Random random, int x, int y, int z) { //fertilize
-        int l = world.getBlockMetadata(x, y, z) + MathHelper.getRandomIntegerInRange(random, 2, 5);
+        int l = world.getBlockMetadata(x, y, z) + MathHelper.getRandomIntegerInRange(random, 2, 4);
 
         if (l > 7) {
             l = 7;
@@ -192,7 +192,7 @@ public class BlockWormwood extends BlockBush implements IGrowable {
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
 
-        if (world.rand.nextInt(20) != 0) {
+        if (world.rand.nextInt(20) != 0) { //pretty much most of the time
             ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3));
         }
         if (metadata >= 7) {
