@@ -59,3 +59,18 @@ jar {
 
     classifier = 'universal'
 }
+
+task devJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'dev'
+}
+
+artifacts {
+    archives devJar
+}
+apply plugin: 'idea'
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+}
