@@ -2,11 +2,12 @@ package subsistence.common.lib;
 
 import cpw.mods.fml.common.FMLLog;
 import org.apache.logging.log4j.Level;
+import subsistence.Subsistence;
 
 public class SubsistenceLogger {
 
     public static void log(Level logLevel, Object object) {
-        FMLLog.log(SubsistenceProps.NAME, logLevel, String.valueOf(object));
+        FMLLog.log(Subsistence.NAME, logLevel, String.valueOf(object));
     }
 
     public static void all(Object object) {
