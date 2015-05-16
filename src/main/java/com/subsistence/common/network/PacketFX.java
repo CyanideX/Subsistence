@@ -11,7 +11,6 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

@@ -1,7 +1,6 @@
 package com.subsistence.common.network;
 
 import com.subsistence.common.tile.core.TileCore;
-import com.subsistence.common.tile.machine.TileHammerMill;
 import com.subsistence.common.tile.machine.TileMetalPress;
 import com.subsistence.common.tile.machine.TileTable;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -9,6 +8,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,7 +56,7 @@ public class PacketSyncContents implements IMessage {
         @Override
         public IMessage onMessage(PacketSyncContents packet, MessageContext ctx) {
 
-            EntityPlayer player = (ctx.side == Side.CLIENT) ? Minecraft.getMinecraft().thePlayer : ctx.getServerHandler().playerEntity;
+            EntityPlayer player = (ctx.side == Side.CLIENT) ? thePlayer() : ctx.getServerHandler().playerEntity;
             TileCore tile = (TileCore) player.worldObj.getTileEntity(packet.xCoord, packet.yCoord, packet.zCoord);
             if (tile != null) {
                 if (tile instanceof TileTable) {
@@ -66,6 +66,11 @@ public class PacketSyncContents implements IMessage {
                 }
             }
             return null;
+        }
+
+        @SideOnly(Side.CLIENT)
+        public EntityPlayer thePlayer() {
+            return Minecraft.getMinecraft().thePlayer;
         }
     }
 }
