@@ -1,6 +1,7 @@
 package com.subsistence;
 
 import com.subsistence.common.command.CommandSubsistence;
+import com.subsistence.common.command.CommandTPX;
 import com.subsistence.common.network.PacketFX;
 import com.subsistence.common.network.PacketSyncContents;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -57,5 +58,7 @@ public class Subsistence {
     @Mod.EventHandler
     public void onServerStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandSubsistence());
+        event.registerServerCommand(new CommandTPX());
+
     }
 }
