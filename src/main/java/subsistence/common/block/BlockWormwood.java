@@ -20,6 +20,7 @@ import java.util.Random;
 
 /**
  * @author lclc98
+ * @author MattDahEpic
  */
 public class BlockWormwood extends BlockBush implements IGrowable {
     private IIcon[] textures;
@@ -189,24 +190,37 @@ public class BlockWormwood extends BlockBush implements IGrowable {
     }
 
     @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune) {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        Random rand = new Random();
 
-        if (world.rand.nextInt(20) != 0) { //pretty much most of the time
-            ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3));
-        }
-        if (metadata >= 7) {
-            if (world.rand.nextInt(20) != 0) {
-                ret.add(new ItemStack(SubsistenceItems.component, 1, 3));
+        if (meta >= 9) { //dry
+            if (this.lessThanOneDropChance(rand)) { //0-1 twine
+                ret.add(new ItemStack(SubsistenceItems.component, 1, 0)); //twine
             }
-            if (world.rand.nextInt(1) == 0) {
-                ret.add(new ItemStack(SubsistenceItems.component, 1, 0));
+            if (this.lessThanOneDropChance(rand)) { //0-1 sap
+                ret.add(new ItemStack(SubsistenceItems.component, 1, 3)); //sap
             }
-        }
-        if (metadata >= 9) {
-            ret.add(new ItemStack(SubsistenceItems.component, 1, 3));
+            ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3)); //always 1 wormwood seed
+            if (rand.nextFloat() <= 0.1F) {
+                ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3)); //maybe an extra wormwood seed
+            }
+        } else if (meta >= 7 && meta < 9) { //fully grown
+            if (this.lessThanOneDropChance(rand)) { //0-1 twine
+                ret.add(new ItemStack(SubsistenceItems.component, 1, 0)); //twine
+            }
+            ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3)); //always 1 wormwood seed
+            if (rand.nextFloat() <= 0.1F) {
+                ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3)); //maybe an extra wormwood seed
+            }
+        } else { //immature
+            ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3)); //always 1 wormwood seed
         }
 
         return ret;
+    }
+
+    private boolean lessThanOneDropChance (Random rand) {
+        return rand.nextFloat() <= rand.nextFloat();
     }
 }
