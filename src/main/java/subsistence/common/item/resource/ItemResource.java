@@ -1,8 +1,8 @@
 package subsistence.common.item.resource;
 
+import subsistence.Subsistence;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.item.prefab.SubsistenceItem;
-import subsistence.common.lib.SubsistenceProps;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -50,7 +50,7 @@ public class ItemResource extends SubsistenceItem {
         icons = new IIcon[NAMES.length];
         if (!getIconPrefix().isEmpty()) {
             for (int i = 0; i < NAMES.length; i++) {
-                icons[i] = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + getIconPrefix() + "/" + NAMES[i] + type);
+                icons[i] = register.registerIcon(Subsistence.RESOURCE_PREFIX + getIconPrefix() + "/" + NAMES[i] + type);
             }
         }
     }

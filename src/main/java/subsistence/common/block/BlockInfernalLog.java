@@ -1,7 +1,7 @@
 package subsistence.common.block;
 
+import subsistence.Subsistence;
 import subsistence.common.core.SubsistenceCreativeTab;
-import subsistence.common.lib.SubsistenceProps;
 import net.minecraft.block.BlockLog;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
@@ -39,9 +39,9 @@ public class BlockInfernalLog extends BlockLog {
     @Override
     public void registerBlockIcons(IIconRegister register) {
         icons = new IIcon[3];
-        icons[0] = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "world/infernalLog");
-        icons[1] = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "world/infernalLog_rich");
-        icons[2] = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "world/infernalLog_top");
+        icons[0] = register.registerIcon(Subsistence.RESOURCE_PREFIX + "world/infernalLog");
+        icons[1] = register.registerIcon(Subsistence.RESOURCE_PREFIX + "world/infernalLog_rich");
+        icons[2] = register.registerIcon(Subsistence.RESOURCE_PREFIX + "world/infernalLog_top");
     }
 
     @Override

@@ -1,7 +1,7 @@
 package subsistence.common.block;
 
+import subsistence.Subsistence;
 import subsistence.common.block.prefab.SubsistenceBasicBlock;
-import subsistence.common.lib.SubsistenceProps;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -74,7 +74,7 @@ public class BlockNetherGrass extends SubsistenceBasicBlock {
 
     @Override
     public void registerBlockIcons(IIconRegister iconRegister) {
-        side = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "world/netherGrass");
-        top = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "world/netherGrass_top");
+        side = iconRegister.registerIcon(Subsistence.RESOURCE_PREFIX + "world/netherGrass");
+        top = iconRegister.registerIcon(Subsistence.RESOURCE_PREFIX + "world/netherGrass_top");
     }
 }

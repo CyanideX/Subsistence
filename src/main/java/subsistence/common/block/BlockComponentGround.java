@@ -1,7 +1,7 @@
 package subsistence.common.block;
 
+import subsistence.Subsistence;
 import subsistence.common.block.prefab.SubsistenceMultiBlock;
-import subsistence.common.lib.SubsistenceProps;
 import subsistence.common.util.ArrayHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -60,7 +60,7 @@ public class BlockComponentGround extends SubsistenceMultiBlock {
     public void registerBlockIcons(IIconRegister register) {
         icons = new IIcon[NAMES.length];
         for (int i = 0; i < NAMES.length; i++) {
-            icons[i] = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "component/" + NAMES[i]);
+            icons[i] = register.registerIcon(Subsistence.RESOURCE_PREFIX + "component/" + NAMES[i]);
         }
     }
 

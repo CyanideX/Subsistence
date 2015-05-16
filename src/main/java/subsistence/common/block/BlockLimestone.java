@@ -1,8 +1,8 @@
 package subsistence.common.block;
 
+import subsistence.Subsistence;
 import subsistence.common.block.prefab.SubsistenceMultiBlock;
 import subsistence.common.core.SubsistenceCreativeTab;
-import subsistence.common.lib.SubsistenceProps;
 import subsistence.common.util.ArrayHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -34,7 +34,7 @@ public class BlockLimestone extends SubsistenceMultiBlock {
     public void registerBlockIcons(IIconRegister iconRegister) {
         textures = new IIcon[limestoneTypes.length];
         for (int i = 0; i < limestoneTypes.length; i++) {
-            textures[i] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "world/" + limestoneTypes[i]);
+            textures[i] = iconRegister.registerIcon(Subsistence.RESOURCE_PREFIX + "world/" + limestoneTypes[i]);
         }
     }
 

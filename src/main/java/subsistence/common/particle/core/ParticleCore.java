@@ -1,18 +1,18 @@
 package subsistence.common.particle.core;
 
-import subsistence.common.lib.SubsistenceProps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import subsistence.Subsistence;
 
 /**
  * Created by Thlayli
  */
 public abstract class ParticleCore extends EntityFX {
 
-    private static final ResourceLocation texture = new ResourceLocation(SubsistenceProps.RESOURCE_PREFIX + "textures/particles/particles.png");
+    private static final ResourceLocation texture = new ResourceLocation(Subsistence.RESOURCE_PREFIX + "textures/particles/particles.png");
 
     protected ParticleCore(World par1World, double par2, double par4, double par6, int indexX, int indexY) {
         super(par1World, par2, par4, par6);

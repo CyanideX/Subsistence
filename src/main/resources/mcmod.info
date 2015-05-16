@@ -6,7 +6,7 @@
         "description": "Maintaining or supporting oneself at a minimum level. That's what this mod does.",
         "credits": "",
         "url": "http://www.cyanidex.com/subsistence",
-        "authors": [ "CyanideX", "dmillerw", "Royalixor", "lclc98" ],
+        "authors": [ "CyanideX", "dmillerw", "Royalixor", "lclc98", "MattDahEpic" ],
         "dependencies": [
                 "mod_MinecraftForge"
         ]

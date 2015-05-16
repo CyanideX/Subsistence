@@ -3,7 +3,6 @@ package subsistence.common.block.machine;
 import subsistence.Subsistence;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.core.handler.GuiHandler;
-import subsistence.common.lib.SubsistenceProps;
 import subsistence.common.tile.machine.TileHellfireFurnace;
 import subsistence.common.util.InventoryHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -119,10 +118,10 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
     public void registerBlockIcons(IIconRegister iconRegister) {
         icons = new IIcon[4];
 
-        icons[0] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/hellfireFurnace_side");
-        icons[1] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/hellfireFurnace_front");
-        icons[2] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/hellfireFurnace_front_ON");
-        icons[3] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "machine/hellfireFurnace_top");
+        icons[0] = iconRegister.registerIcon(Subsistence.RESOURCE_PREFIX + "machine/hellfireFurnace_side");
+        icons[1] = iconRegister.registerIcon(Subsistence.RESOURCE_PREFIX + "machine/hellfireFurnace_front");
+        icons[2] = iconRegister.registerIcon(Subsistence.RESOURCE_PREFIX + "machine/hellfireFurnace_front_ON");
+        icons[3] = iconRegister.registerIcon(Subsistence.RESOURCE_PREFIX + "machine/hellfireFurnace_top");
     }
 
     @Override

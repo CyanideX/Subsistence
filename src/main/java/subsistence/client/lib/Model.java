@@ -1,9 +1,9 @@
 package subsistence.client.lib;
 
-import subsistence.common.lib.SubsistenceProps;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
+import subsistence.Subsistence;
 
 /**
  * @author dmillerw
@@ -29,7 +29,7 @@ public enum Model {
     private IModelCustom model;
 
     Model(String path) {
-        this.model = AdvancedModelLoader.loadModel(new ResourceLocation(SubsistenceProps.RESOURCE_PREFIX + "models/" + path));
+        this.model = AdvancedModelLoader.loadModel(new ResourceLocation(Subsistence.RESOURCE_PREFIX + "models/" + path));
     }
 
     public void renderAll() {

@@ -1,7 +1,7 @@
 package subsistence.common.block;
 
+import subsistence.Subsistence;
 import subsistence.common.core.SubsistenceCreativeTab;
-import subsistence.common.lib.SubsistenceProps;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
@@ -33,8 +33,8 @@ public class BlockInfernaLeaves extends BlockLeaves {
     @Override
     public void registerBlockIcons(IIconRegister register) {
         icons = new IIcon[2];
-        icons[0] = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "world/infernalLeaves_fancy");
-        icons[1] = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "world/infernalLeaves_fast");
+        icons[0] = register.registerIcon(Subsistence.RESOURCE_PREFIX + "world/infernalLeaves_fancy");
+        icons[1] = register.registerIcon(Subsistence.RESOURCE_PREFIX + "world/infernalLeaves_fast");
     }
 
     @Override

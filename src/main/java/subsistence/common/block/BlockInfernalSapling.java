@@ -1,7 +1,7 @@
 package subsistence.common.block;
 
+import subsistence.Subsistence;
 import subsistence.common.core.SubsistenceCreativeTab;
-import subsistence.common.lib.SubsistenceProps;
 import subsistence.common.world.generation.WorldGenInfernalTree;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -54,7 +54,7 @@ public class BlockInfernalSapling extends BlockBush implements IGrowable {
 
     @Override
     public void registerBlockIcons(IIconRegister register) {
-        icon = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "world/hellfireSapling");
+        icon = register.registerIcon(Subsistence.RESOURCE_PREFIX + "world/hellfireSapling");
     }
 
     /* IGROWABLE */

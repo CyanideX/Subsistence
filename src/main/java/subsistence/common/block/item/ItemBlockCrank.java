@@ -1,8 +1,8 @@
 package subsistence.common.block.item;
 
+import subsistence.Subsistence;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.item.SubsistenceItemBlock;
-import subsistence.common.lib.SubsistenceProps;
 import subsistence.common.tile.machine.TileHandCrank;
 import subsistence.common.tile.machine.TileHammerMill;
 import net.minecraft.block.Block;
@@ -37,7 +37,7 @@ public class ItemBlockCrank extends SubsistenceItemBlock {
 
     @Override
     public void registerIcons(IIconRegister register) {
-        icon = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "tools/handCrank");
+        icon = register.registerIcon(Subsistence.RESOURCE_PREFIX + "tools/handCrank");
     }
 
     @Override

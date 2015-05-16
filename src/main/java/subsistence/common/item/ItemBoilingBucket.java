@@ -1,7 +1,7 @@
 package subsistence.common.item;
 
+import subsistence.Subsistence;
 import subsistence.common.core.SubsistenceCreativeTab;
-import subsistence.common.lib.SubsistenceProps;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemBucket;
@@ -19,7 +19,7 @@ public class ItemBoilingBucket extends ItemBucket {
 
     @Override
     public void registerIcons(IIconRegister register) {
-        itemIcon = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "bucketBoilingWater");
+        itemIcon = register.registerIcon(Subsistence.RESOURCE_PREFIX + "bucketBoilingWater");
     }
 
     @Override

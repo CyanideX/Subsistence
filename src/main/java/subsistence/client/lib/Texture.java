@@ -1,6 +1,6 @@
 package subsistence.client.lib;
 
-import subsistence.common.lib.SubsistenceProps;
+import subsistence.Subsistence;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
@@ -29,7 +29,7 @@ public enum Texture {
     protected ResourceLocation path;
 
     Texture(String path) {
-        this.path = new ResourceLocation(SubsistenceProps.RESOURCE_PREFIX + "textures/models/" + path + ".png");
+        this.path = new ResourceLocation(Subsistence.RESOURCE_PREFIX + "textures/models/" + path + ".png");
     }
 
     public void bindTexture() {

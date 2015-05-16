@@ -1,8 +1,8 @@
 package subsistence.common.block;
 
+import subsistence.Subsistence;
 import subsistence.common.block.prefab.SubsistenceMultiBlock;
 import subsistence.common.item.resource.ItemResource;
-import subsistence.common.lib.SubsistenceProps;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.util.ArrayHelper;
 import net.minecraft.block.Block;
@@ -54,7 +54,7 @@ public class BlockStorage extends SubsistenceMultiBlock {
     public void registerBlockIcons(IIconRegister iconRegister) {
         textures = new IIcon[NAMES.length];
         for (int i = 0; i < NAMES.length; i++) {
-            textures[i] = iconRegister.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "ore/storage/" + NAMES[i]);
+            textures[i] = iconRegister.registerIcon(Subsistence.RESOURCE_PREFIX + "ore/storage/" + NAMES[i]);
         }
     }
 

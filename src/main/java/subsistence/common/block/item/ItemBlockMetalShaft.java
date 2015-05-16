@@ -1,8 +1,8 @@
 package subsistence.common.block.item;
 
+import subsistence.Subsistence;
 import subsistence.common.block.prefab.item.SubsistenceItemBlock;
 import subsistence.common.tile.machine.TileHammerMill;
-import subsistence.common.lib.SubsistenceProps;
 import subsistence.common.tile.core.TileCoreMachine;
 import subsistence.common.tile.machine.TileKineticCrank;
 import subsistence.common.tile.machine.TileMetalShaft;
@@ -38,7 +38,7 @@ public class ItemBlockMetalShaft extends SubsistenceItemBlock {
 
     @Override
     public void registerIcons(IIconRegister register) {
-        icon = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "tools/metalBar");
+        icon = register.registerIcon(Subsistence.RESOURCE_PREFIX + "tools/metalBar");
     }
 
     @Override

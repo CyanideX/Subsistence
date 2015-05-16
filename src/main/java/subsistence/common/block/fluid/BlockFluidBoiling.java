@@ -1,8 +1,8 @@
 package subsistence.common.block.fluid;
 
+import subsistence.Subsistence;
 import subsistence.common.block.prefab.SubsistenceBasicFluid;
 import subsistence.common.fluid.SubsistenceFluids;
-import subsistence.common.lib.SubsistenceProps;
 import subsistence.common.lib.client.EnumParticle;
 import subsistence.common.particle.SteamFX;
 import subsistence.common.util.SubsistenceDamageSource;
@@ -32,8 +32,8 @@ public class BlockFluidBoiling extends SubsistenceBasicFluid {
 
     @Override
     public void registerBlockIcons(IIconRegister register) {
-        stillIcon = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "fluid/boilingWater_still");
-        flowingIcon = register.registerIcon(SubsistenceProps.RESOURCE_PREFIX + "fluid/boilingWater_flow");
+        stillIcon = register.registerIcon(Subsistence.RESOURCE_PREFIX + "fluid/boilingWater_still");
+        flowingIcon = register.registerIcon(Subsistence.RESOURCE_PREFIX + "fluid/boilingWater_flow");
         SubsistenceFluids.boilingWaterFluid.setFlowingIcon(flowingIcon);
         SubsistenceFluids.boilingWaterFluid.setStillIcon(stillIcon);
     }

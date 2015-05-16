@@ -20,7 +20,7 @@ import java.util.Random;
 
 /**
  * @author lclc98
- * @author MattDahEpic
+ * @author
  */
 public class BlockWormwood extends BlockBush implements IGrowable {
     private IIcon[] textures;
@@ -201,20 +201,20 @@ public class BlockWormwood extends BlockBush implements IGrowable {
             if (this.lessThanOneDropChance(rand)) { //0-1 sap
                 ret.add(new ItemStack(SubsistenceItems.component, 1, 3)); //sap
             }
-            ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3)); //always 1 wormwood seed
+            ret.add(new ItemStack(SubsistenceItems.seeds, 1, 2)); //always 1 wormwood seed
             if (rand.nextFloat() <= 0.1F) {
-                ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3)); //maybe an extra wormwood seed
+                ret.add(new ItemStack(SubsistenceItems.seeds, 1, 2)); //maybe an extra wormwood seed
             }
         } else if (meta >= 7 && meta < 9) { //fully grown
             if (this.lessThanOneDropChance(rand)) { //0-1 twine
                 ret.add(new ItemStack(SubsistenceItems.component, 1, 0)); //twine
             }
-            ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3)); //always 1 wormwood seed
+            ret.add(new ItemStack(SubsistenceItems.seeds, 1, 2)); //always 1 wormwood seed
             if (rand.nextFloat() <= 0.1F) {
-                ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3)); //maybe an extra wormwood seed
+                ret.add(new ItemStack(SubsistenceItems.seeds, 1, 2)); //maybe an extra wormwood seed
             }
         } else { //immature
-            ret.add(new ItemStack(SubsistenceItems.seeds, 1, 3)); //always 1 wormwood seed
+            ret.add(new ItemStack(SubsistenceItems.seeds, 1, 2)); //always 1 wormwood seed
         }
 
         return ret;
