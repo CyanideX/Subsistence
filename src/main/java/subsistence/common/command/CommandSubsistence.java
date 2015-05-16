@@ -1,11 +1,11 @@
 package subsistence.common.command;
 
-import subsistence.CommonProxy;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import subsistence.common.config.ConfigManager;
 
 /**
  * @author dmillerw
@@ -30,7 +30,7 @@ public class CommandSubsistence extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            CommonProxy.loadJson();
+            ConfigManager.loadAllFiles();
         } else {
             throw new WrongUsageException(getCommandUsage(sender));
         }

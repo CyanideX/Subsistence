@@ -1,13 +1,14 @@
 package subsistence.common.recipe.core;
 
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.util.StackHelper;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.util.StackHelper;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,6 +19,8 @@ import java.util.List;
 /**
  * @author dmillerw
  *         Temporary class?
+ * @author MattDahEpic
+ *         yes. temporary class
  */
 public class RecipeParser {
 
@@ -31,7 +34,7 @@ public class RecipeParser {
         SubsistenceRecipes.PERISHABLE.clear();
     }
 
-    public static void parseFile(File file, String type, String subType) {
+    public static void parseFile(File file, String type, @Nullable String subType) {
         if (type.equalsIgnoreCase("sieve")) {
             SieveParser.parseFile(file);
         } else if (type.equalsIgnoreCase("table")) {

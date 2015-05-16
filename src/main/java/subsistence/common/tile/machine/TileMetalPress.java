@@ -1,12 +1,10 @@
 package subsistence.common.tile.machine;
 
-import subsistence.Subsistence;
-import subsistence.common.network.PacketSyncContents;
+import net.minecraft.item.ItemStack;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.MetalPressRecipe;
 import subsistence.common.tile.core.TileCoreMachine;
-import net.minecraft.item.ItemStack;
 
 /**
  * @author dmillerw
@@ -50,7 +48,6 @@ public class TileMetalPress extends TileCoreMachine {
                 if (recipe != null) {
                     if (amount >= recipe.getAmount() && currentAngle == min) {
                         itemStack = recipe.getOutputItem();
-                        Subsistence.network.sendToServer(new PacketSyncContents(this, itemStack));
                         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                     }
                 }

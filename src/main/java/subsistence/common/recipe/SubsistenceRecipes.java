@@ -1,16 +1,16 @@
 package subsistence.common.recipe;
 
-import subsistence.common.block.BlockStorage;
-import subsistence.common.item.SubsistenceItems;
-import subsistence.common.item.resource.ItemResource;
-import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.recipe.manager.*;
-import subsistence.common.util.StackHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import subsistence.common.block.BlockStorage;
+import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.item.SubsistenceItems;
+import subsistence.common.item.resource.ItemResource;
+import subsistence.common.recipe.manager.*;
+import subsistence.common.util.StackHelper;
 
 import java.util.HashMap;
 
@@ -32,6 +32,7 @@ public class SubsistenceRecipes {
     }
 
     private static void addCraftingRecipes() {
+        //Ingot Blocks
         for (int i = 0; i < ItemResource.NAMES.length; i++) {
             ItemStack ingot = new ItemStack(SubsistenceItems.resourceIngot, 1, i);
             ItemStack storage = BlockStorage.getStorageFromResource(ingot);

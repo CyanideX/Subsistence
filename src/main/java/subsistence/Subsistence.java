@@ -1,21 +1,22 @@
 package subsistence;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import subsistence.common.command.CommandSubsistence;
-import subsistence.common.command.CommandTPX;
-import subsistence.common.network.PacketHandler;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
+import subsistence.common.command.CommandSubsistence;
+import subsistence.common.command.CommandTPX;
+import subsistence.common.network.PacketHandler;
 
 import java.io.File;
 
 /**
  * @author Royalixor.
+ * @author MattDahEpic
  */
 @Mod(modid = Subsistence.MODID, name = Subsistence.NAME, version = Subsistence.VERSION, dependencies = "required-after:Forge@[%FORGE_VERSION%,)")
 public class Subsistence {

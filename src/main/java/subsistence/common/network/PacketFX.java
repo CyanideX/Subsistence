@@ -1,18 +1,17 @@
 package subsistence.common.network;
 
-import subsistence.Subsistence;
-import subsistence.common.lib.client.EnumParticle;
-import subsistence.common.util.ItemHelper;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import subsistence.common.lib.client.EnumParticle;
+import subsistence.common.util.ItemHelper;
 
 /**
  * @author dmillerw
@@ -54,7 +53,7 @@ public class PacketFX implements IMessage {
 
     public static void breakFX(int dim, int x, int y, int z, ItemStack stack) {
         PacketFX packet = new PacketFX(x, y, z, stack);
-        Subsistence.network.sendToAllAround(packet, new NetworkRegistry.TargetPoint(dim, x, y, z, MAX_PARTICLE_RANGE));
+        PacketHandler.net.sendToAllAround(packet, new NetworkRegistry.TargetPoint(dim, x, y, z, MAX_PARTICLE_RANGE));
     }
 
     @Override

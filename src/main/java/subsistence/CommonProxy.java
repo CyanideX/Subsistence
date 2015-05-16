@@ -1,22 +1,22 @@
 package subsistence;
 
-import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.core.handler.*;
-import subsistence.common.fluid.SubsistenceFluids;
-import subsistence.common.item.SubsistenceItems;
-import subsistence.common.item.ItemHammer;
-import subsistence.common.lib.tool.ToolDefinition;
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.core.GeneralParser;
-import subsistence.common.recipe.core.RecipeParser;
-import subsistence.common.util.EventUtil;
-import subsistence.common.network.nbt.data.AbstractSerializer;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.config.ConfigManager;
+import subsistence.common.core.handler.*;
+import subsistence.common.fluid.SubsistenceFluids;
+import subsistence.common.item.ItemHammer;
+import subsistence.common.item.SubsistenceItems;
+import subsistence.common.lib.tool.ToolDefinition;
+import subsistence.common.network.nbt.data.AbstractSerializer;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.core.RecipeParser;
+import subsistence.common.util.EventUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,15 +43,13 @@ public class CommonProxy {
         EventUtil.register(new WebHandler(), EventUtil.Type.FORGE);
     }
 
-    public void init() {
-
-    }
+    public void init() {}
 
     public void postInit() {
 
-        loadJson();
+        ConfigManager.loadAllFiles();
 
-        try {
+        try { //TODO: add config option for dumping this as it adds an extra 2.3 seconds to the loading time for this
             RecipeParser.dumpItems(new File(Subsistence.configPath, "key_dump.txt"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,27 +71,6 @@ public class CommonProxy {
             }
         }
     }
-
-    public static void loadJson() {
-        File recipes = new File(Subsistence.configPath, "recipes/");
-        if (!recipes.exists()) {
-            recipes.mkdirs();
-        }
-
-        loadJson(recipes, "sieve", "");
-        loadJson(recipes, "barrel", "");
-        loadJson(recipes, "compost", "");
-        loadJson(recipes, "metalpress", "");
-
-        loadJson(recipes, "table", "hammer");
-        loadJson(recipes, "table", "drying");
-        loadJson(recipes, "table", "axe");
-
-        File fileGeneral = new File(recipes, "general.json");
-        if (fileGeneral.exists())
-            GeneralParser.parseFile(fileGeneral);
-    }
-
 
     private static void loadJson(File recipes, String type, String subDir) {
         File[] dir = new File(recipes, type + "/" + subDir).listFiles();

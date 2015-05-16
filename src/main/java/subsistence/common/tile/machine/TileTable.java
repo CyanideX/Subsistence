@@ -1,24 +1,22 @@
 package subsistence.common.tile.machine;
 
-import subsistence.Subsistence;
-import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.lib.DurabilityMapping;
-import subsistence.common.lib.tool.ToolDefinition;
-import subsistence.common.network.PacketFX;
-import subsistence.common.network.PacketSyncContents;
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.wrapper.TableDryingRecipe;
-import subsistence.common.recipe.wrapper.TableRecipe;
-import subsistence.common.tile.core.TileCore;
-import subsistence.common.util.ItemHelper;
-import subsistence.common.network.nbt.NBTHandler;
-import subsistence.common.util.InventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
+import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.lib.DurabilityMapping;
+import subsistence.common.lib.tool.ToolDefinition;
+import subsistence.common.network.PacketFX;
+import subsistence.common.network.nbt.NBTHandler;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.wrapper.TableDryingRecipe;
+import subsistence.common.recipe.wrapper.TableRecipe;
+import subsistence.common.tile.core.TileCore;
+import subsistence.common.util.InventoryHelper;
+import subsistence.common.util.ItemHelper;
 
 import java.util.Random;
 
@@ -57,8 +55,6 @@ public class TileTable extends TileCore {
         if (stack != null) {
             durability = DurabilityMapping.INSTANCE.getDurability(stack);
         }
-
-        Subsistence.network.sendToAll(new PacketSyncContents(this, stack));
 
         decayTimer = 0;
         attractedFlies = false;

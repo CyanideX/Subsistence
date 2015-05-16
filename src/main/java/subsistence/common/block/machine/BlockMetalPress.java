@@ -1,16 +1,14 @@
 package subsistence.common.block.machine;
 
-import subsistence.Subsistence;
-import subsistence.common.block.prefab.SubsistenceTileBlock;
-import subsistence.common.network.PacketSyncContents;
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.tile.machine.TileMetalPress;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import subsistence.common.block.prefab.SubsistenceTileBlock;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.tile.machine.TileMetalPress;
 
 /**
  * @author dmillerw
@@ -51,7 +49,6 @@ public class BlockMetalPress extends SubsistenceTileBlock {
                         if (tile.itemStack == null) {
                             if (SubsistenceRecipes.METAL_PRESS.isAllowed(player.getHeldItem())) {
                                 tile.itemStack = new ItemStack(player.getHeldItem().getItem());
-                                Subsistence.network.sendToServer(new PacketSyncContents(tile, tile.itemStack));
                                 player.getHeldItem().stackSize--;
                             }
                         }
