@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * @author dmillerw
@@ -24,12 +23,12 @@ public class BlockMetalShaft extends SubsistenceTileBlock {
 
         if (tile != null) {
             switch (tile.orientation) {
-                case ForgeDirection.NORTH:
-                case ForgeDirection.SOUTH:
+                case NORTH:
+                case SOUTH:
                     setBlockBounds(0, 0.4F, 0.4F, 1, 0.6F, 0.6F);
                     break;
-                case ForgeDirection.EAST:
-                case ForgeDirection.WEST:
+                case EAST:
+                case WEST:
                     setBlockBounds(0.4F, 0.4F, 0, 0.6F, 0.6F, 1);
                     break;
             }
