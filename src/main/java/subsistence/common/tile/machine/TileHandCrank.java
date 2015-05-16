@@ -1,9 +1,9 @@
 package subsistence.common.tile.machine;
 
-import subsistence.common.network.nbt.NBTHandler;
-import subsistence.common.recipe.manager.GeneralManager;
-import subsistence.common.tile.core.TileCoreMachine;
 import net.minecraft.tileentity.TileEntity;
+import subsistence.common.config.MainSettings;
+import subsistence.common.network.nbt.NBTHandler;
+import subsistence.common.tile.core.TileCoreMachine;
 
 /**
  * @author dmillerw
@@ -37,7 +37,7 @@ public class TileHandCrank extends TileCoreMachine {
             TileEntity beyond = worldObj.getTileEntity(tile.xCoord + orientation.offsetX, tile.yCoord + orientation.offsetY, tile.zCoord + orientation.offsetZ);
 
             if (beyond == null || !(beyond instanceof TileHandCrank) && !(beyond instanceof TileKineticCrank) && !(beyond instanceof TileMetalShaft)) {
-                tile.charge += GeneralManager.handCrank;
+                tile.charge += MainSettings.handCrank;
 
                 spin = 360F;
 

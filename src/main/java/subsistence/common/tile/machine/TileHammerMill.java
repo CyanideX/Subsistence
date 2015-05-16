@@ -1,15 +1,5 @@
 package subsistence.common.tile.machine;
 
-import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.network.PacketFX;
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.lib.StackReference;
-import subsistence.common.lib.tool.ToolDefinition;
-import subsistence.common.network.nbt.NBTHandler;
-import subsistence.common.recipe.manager.GeneralManager;
-import subsistence.common.tile.core.TileCoreMachine;
-import subsistence.common.util.InventoryHelper;
-import subsistence.common.util.StackHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -20,6 +10,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
+import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.config.MainSettings;
+import subsistence.common.lib.StackReference;
+import subsistence.common.lib.tool.ToolDefinition;
+import subsistence.common.network.PacketFX;
+import subsistence.common.network.nbt.NBTHandler;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.tile.core.TileCoreMachine;
+import subsistence.common.util.InventoryHelper;
+import subsistence.common.util.StackHelper;
 
 import java.util.List;
 import java.util.Random;
@@ -75,7 +75,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
             }
 
             // Processing
-            if (charge >= GeneralManager.processRate && canFunction()) {
+            if (charge >= MainSettings.processRate && canFunction()) {
                 ItemStack output = getOutput(processing);
                 PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, processing);
 

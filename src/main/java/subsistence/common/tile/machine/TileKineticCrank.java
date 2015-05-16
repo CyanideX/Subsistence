@@ -1,9 +1,9 @@
 package subsistence.common.tile.machine;
 
-import subsistence.common.recipe.manager.GeneralManager;
-import subsistence.common.tile.core.TileCoreMachine;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import subsistence.common.config.MainSettings;
+import subsistence.common.tile.core.TileCoreMachine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class TileKineticCrank extends TileCoreMachine {
         if (!worldObj.isRemote) {
             for (TileEntity tile : connectedTilesCache) {
                 if (tile != null && tile instanceof TileHammerMill && (MAX_LENGTH - speed) != 0) {
-                    ((TileHammerMill) tile).charge += GeneralManager.waterMill;
+                    ((TileHammerMill) tile).charge += MainSettings.waterMill;
                 }
             }
         } else {

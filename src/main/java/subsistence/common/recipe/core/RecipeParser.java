@@ -8,7 +8,6 @@ import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.util.StackHelper;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,20 +31,6 @@ public class RecipeParser {
         SubsistenceRecipes.COMPOST.clear();
         SubsistenceRecipes.METAL_PRESS.clear();
         SubsistenceRecipes.PERISHABLE.clear();
-    }
-
-    public static void parseFile(File file, String type, @Nullable String subType) {
-        if (type.equalsIgnoreCase("sieve")) {
-            SieveParser.parseFile(file);
-        } else if (type.equalsIgnoreCase("table")) {
-            TableParser.parseFile(file, subType);
-        } else if (type.equalsIgnoreCase("barrel")) {
-            BarrelParser.parseFile(file);
-        } else if (type.equalsIgnoreCase("compost")) {
-            CompostParser.parseFile(file);
-        } else if (type.equalsIgnoreCase("metalpress")) {
-            MetalPressParser.parseFile(file);
-        }
     }
 
     public static void dumpItems(File file) throws IOException {

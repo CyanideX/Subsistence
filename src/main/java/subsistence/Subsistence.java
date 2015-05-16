@@ -8,6 +8,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import net.minecraft.util.ChatComponentText;
 import subsistence.common.command.CommandSubsistence;
 import subsistence.common.command.CommandTPX;
 import subsistence.common.network.PacketHandler;
@@ -59,6 +60,14 @@ public class Subsistence {
     }
     @SubscribeEvent
     public void playerLoggedIn (PlayerEvent.PlayerLoggedInEvent event) {
-        //TODO: send clients the values in server configs
+        if (event.player.getUniqueID().equals("54972f65-b920-4a60-b539-dc443c16cd29")) { //CyanideX
+            event.player.addChatMessage(new ChatComponentText("<CyanideX> I'm not so sure that text is such a bad idea Matt."));
+        } else if (event.player.getUniqueID().equals("315f746e-8e38-44c5-b604-fd4b7014ec8c")) { //Yulfie
+            event.player.addChatMessage(new ChatComponentText("<CyanideX> It's Yulife\n" +
+                    "<Inap> no\n" +
+                    "<CyanideX> Yeah it is"));
+        } else if (event.player.getUniqueID().equals("c715991d-e69c-48f9-a92d-8fc60c0829fb")) { //MattDahEpic
+            event.player.addChatComponentMessage(new ChatComponentText("Matt is so great. G. R. A. T."));
+        }
     }
 }

@@ -71,16 +71,4 @@ public class CommonProxy {
             }
         }
     }
-
-    private static void loadJson(File recipes, String type, String subDir) {
-        File[] dir = new File(recipes, type + "/" + subDir).listFiles();
-        if (dir != null)
-            for (File file : dir) {
-                String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
-
-                if (extension.equalsIgnoreCase("json")) {
-                    RecipeParser.parseFile(file, type, subDir);
-                }
-            }
-    }
 }
