@@ -7,7 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.item.prefab.SubsistenceMultiItem;
-import subsistence.common.tile.machine.TileWoodBarrel;
+import subsistence.common.tile.machine.TileBarrel;
 
 /**
  * @author dmillerw
@@ -42,9 +42,9 @@ public class ItemBarrelLid extends SubsistenceMultiItem {
         // if (!world.isRemote) {
         TileEntity tile = world.getTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof TileWoodBarrel && stack.getItemDamage() == tile.getBlockMetadata()) {
-            if (!((TileWoodBarrel) tile).hasLid()) {
-                ((TileWoodBarrel) tile).toggleLid();
+        if (tile != null && tile instanceof TileBarrel && stack.getItemDamage() == tile.getBlockMetadata()) {
+            if (!((TileBarrel) tile).hasLid()) {
+                ((TileBarrel) tile).toggleLid();
                 stack.stackSize = 0;
             }
         }

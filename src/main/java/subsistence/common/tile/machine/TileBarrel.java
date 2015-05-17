@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public final class TileWoodBarrel extends TileCoreMachine {
+public final class TileBarrel extends TileCoreMachine {
 
     private static final Random RANDOM = new Random();
 
@@ -172,7 +172,11 @@ public final class TileWoodBarrel extends TileCoreMachine {
     }
 
     public int getCapacity() {
-        return 2 * FluidContainerRegistry.BUCKET_VOLUME;
+        if (this.blockMetadata == 0) {
+            return 2 * FluidContainerRegistry.BUCKET_VOLUME;
+        } else {
+            return 8 * FluidContainerRegistry.BUCKET_VOLUME;
+        }
     }
 
     public boolean addItemToStack(ItemStack itemStack) {
@@ -205,16 +209,23 @@ public final class TileWoodBarrel extends TileCoreMachine {
     }
 
     public boolean addFluid(FluidStack inFluid) {
-        if (this.fluid.amount + inFluid.amount <= 2*FluidContainerRegistry.BUCKET_VOLUME) { //dont overflow
-           if (this.fluid == null) { //if currently empty
-               this.fluid = inFluid;
-               worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-               return true;
-           } else if (inFluid.fluidID == this.fluid.fluidID) { //if current fluid is same
-               this.fluid.amount = this.fluid.amount + inFluid.amount;
-               worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-               return true;
-           }
+        if (inFluid.getFluid() != null) {
+            if (this.fluid == null) { //if currently empty
+                System.out.println("barrel is empty");
+                this.fluid = inFluid;
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                return true;
+            } else if (inFluid.fluidID == this.fluid.fluidID) { //if current fluid is same
+                System.out.println("same fluid already in barrel");
+                if (this.fluid.amount + inFluid.amount <= this.getCapacity()) { //dont overflow
+                    System.out.println("liquid can fit");
+                    this.fluid.amount = this.fluid.amount + inFluid.amount;
+                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                    return true;
+                }
+            }
+        } else {
+            System.out.println("input fluid is null");
         }
         return false;
     }

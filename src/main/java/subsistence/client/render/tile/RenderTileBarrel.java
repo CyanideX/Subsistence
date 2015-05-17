@@ -10,13 +10,13 @@ import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
 import subsistence.client.render.SubsistenceTileRenderer;
-import subsistence.common.tile.machine.TileWoodBarrel;
+import subsistence.common.tile.machine.TileBarrel;
 import subsistence.common.util.RenderHelper;
 
-public class RenderTileBarrel extends SubsistenceTileRenderer<TileWoodBarrel> {
+public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
 
     @Override
-    public void renderTileAt(TileWoodBarrel tile, double x, double y, double z, float delta) {
+    public void renderTileAt(TileBarrel tile, double x, double y, double z, float delta) {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
         GL11.glRotated(RenderHelper.getRotationAngle(tile.orientation.getOpposite()), 0, 1, 0);
@@ -53,14 +53,14 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileWoodBarrel> {
         GL11.glPopMatrix();
     }
 
-    private void renderLiquid(TileWoodBarrel tile) {
+    private void renderLiquid(TileBarrel tile) {
         GL11.glPushMatrix();
         IIcon icon = FluidRegistry.getFluid(tile.fluid.fluidID).getIcon();
 
         float s = 1.0F / 256.0F * 14.0F;
         float level = (float) tile.fluid.amount / (float) tile.getCapacity();
 
-        GL11.glTranslatef(-0.40F, (TileWoodBarrel.DIMENSION_FILL * level) - TileWoodBarrel.DIMENSION_FILL / 2, -0.40F);
+        GL11.glTranslatef(-0.40F, (TileBarrel.DIMENSION_FILL * level) - TileBarrel.DIMENSION_FILL / 2, -0.40F);
         GL11.glScalef(s / 1.0F, s / 1.0F, s / 1.0F);
 
         if (tile.fluid.getFluid() == FluidRegistry.WATER) {
@@ -88,7 +88,7 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileWoodBarrel> {
         tess.addVertexWithUV(x, 0, y, icon.getMinU(), icon.getMinV());
         tess.draw();
     }
-    private void renderLid(TileWoodBarrel tile) {
+    private void renderLid(TileBarrel tile) {
         if (tile.hasLid()) {
             if (tile.getBlockMetadata() == 0)
                 Model.BARREL_WOOD.renderOnly("lid", "lidHandle");

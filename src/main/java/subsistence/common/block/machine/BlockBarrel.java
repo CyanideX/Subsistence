@@ -14,8 +14,7 @@ import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.item.SubsistenceItems;
 import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.tile.machine.TileStoneBarrel;
-import subsistence.common.tile.machine.TileWoodBarrel;
+import subsistence.common.tile.machine.TileBarrel;
 import subsistence.common.util.ArrayHelper;
 
 import java.util.Random;
@@ -41,11 +40,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-        if (meta == 0) { //wood
-            return new TileWoodBarrel();
-        } else {
-            return new TileStoneBarrel();
-        }
+        return new TileBarrel();
     }
 
     @Override
@@ -56,7 +51,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         ItemStack stack = player.getCurrentEquippedItem();
-        TileWoodBarrel tile = (TileWoodBarrel) world.getTileEntity(x, y, z);
+        TileBarrel tile = (TileBarrel) world.getTileEntity(x, y, z);
 
         if (stack == null && tile.hasLid()) {
             tile.toggleLid();
@@ -68,26 +63,39 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
         ItemStack held = player.getHeldItem();
 
         if (tile != null)
-            if (side == 1 && !tile.hasLid()) {
-
-                if (tile.fluid == null && FluidContainerRegistry.isFilledContainer(held)) {
+            if (side == 1 && !tile.hasLid()) { //only on top
+                if (FluidContainerRegistry.isFilledContainer(held)) { //put fluid in
+                    System.out.println("put fluid in");
                     FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(held);
-                    if (fluidStack != null && tile.addFluid(fluidStack)) {
+                    System.out.println("fluid stack is: "+fluidStack.getLocalizedName());
+                    if (tile.addFluid(fluidStack)) {
+                        System.out.println("actually put things in");
                         if (!player.capabilities.isCreativeMode) {
-                            player.setCurrentItemOrArmor(0, FluidContainerRegistry.EMPTY_BUCKET);
+                            player.setCurrentItemOrArmor(0, FluidContainerRegistry.drainFluidContainer(held));
+                            //TODO: container does not empty when used on partially full barrel
                         }
+                    } else {
+                        System.out.println("apparently you cant...");
                     }
-                } else if (tile.fluid != null && FluidContainerRegistry.isEmptyContainer(held)) {
+                } else if (tile.fluid != null && FluidContainerRegistry.isEmptyContainer(held)) { //take fluid out
+                    System.out.println("take fluid out");
                     ItemStack container = FluidContainerRegistry.fillFluidContainer(tile.fluid, FluidContainerRegistry.EMPTY_BUCKET);
                     FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(container);
                     if (container != null && tile.reduceFluid(fluidStack)) {
                         if (!player.capabilities.isCreativeMode) {
-                            player.setCurrentItemOrArmor(0, container);
+                            if (player.getCurrentEquippedItem().stackSize == 1) {
+                                player.setCurrentItemOrArmor(0, container);
+                            } else {
+                                player.getCurrentEquippedItem().stackSize--;
+                                if (player.inventory.addItemStackToInventory(container)) {
+                                } else {
+                                    player.func_146097_a(container,false,false);
+                                }
+                            }
                         }
                     }
-                } else if (tile.fluid != null && !FluidContainerRegistry.isEmptyContainer(held)) {
-                    tile.addFluid(FluidContainerRegistry.getFluidForFilledItem(held));
-                } else if (held != null && Block.getBlockFromItem(held.getItem()) != Blocks.air) {
+                } else if (held != null && Block.getBlockFromItem(held.getItem()) != Blocks.air) { //add blocks
+                    System.out.println("add blocks");
                     ItemStack itemCopy = held.copy();
                     if (SubsistenceRecipes.BARREL.isAllowed(itemCopy)) {
                         itemCopy.stackSize = 1;

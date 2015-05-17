@@ -124,7 +124,7 @@ public class SubsistenceBlocks {
         GameRegistry.registerTileEntity(TileSpawnMarker.class, "subsistence:spawn_marker");
         GameRegistry.registerTileEntity(TileMetalShaft.class, "subsistence:metal_shaft");
         GameRegistry.registerTileEntity(TileCompost.class, "subsistence:compost");
-        GameRegistry.registerTileEntity(TileWoodBarrel.class, "subsistence:barrel");
+        GameRegistry.registerTileEntity(TileBarrel.class, "subsistence:barrel");
     }
 
     public static void registerBlock(Block block) {
