@@ -1,13 +1,16 @@
 package subsistence.common.config;
 
 import subsistence.Subsistence;
+import subsistence.common.lib.ExtensionFilter;
 
 import java.io.File;
 
 public class ConfigManager {
+
     public static File mainFile = new File(Subsistence.configPath, "main.json");
     public static File recipes = new File(Subsistence.configPath, "recipes/");
-    public static void loadAllFiles () {
+
+    public static void loadAllFiles() {
         genDefaultConfigs();
 
         MainSettings.parseMainSettings(mainFile);
@@ -22,7 +25,7 @@ public class ConfigManager {
         loadFile("table/axe");
     }
 
-    private static void genDefaultConfigs () {
+    private static void genDefaultConfigs() {
         if (!recipes.exists()) {
             recipes.mkdirs();
         }
@@ -30,51 +33,50 @@ public class ConfigManager {
             MainSettings.makeNewFile(mainFile);
         }
         //TODO: make the rest of the stuff
-        File dirBarrel = new File(recipes,"barrel/");
+        File dirBarrel = new File(recipes, "barrel/");
         if (!dirBarrel.exists()) {
             BarrelConfig.makeNewFiles();
         }
-        File dirCompost = new File(recipes,"compost/");
+        File dirCompost = new File(recipes, "compost/");
         if (!dirCompost.exists()) {
             CompostConfig.makeNewFiles();
         }
-        File dirMetalPress = new File(recipes,"metalpress/");
+        File dirMetalPress = new File(recipes, "metalpress/");
         if (!dirMetalPress.exists()) {
             MetalPressConfig.makeNewFiles();
         }
-        File dirSieve = new File(recipes,"sieve/");
+        File dirSieve = new File(recipes, "sieve/");
         if (!dirSieve.exists()) {
             SieveConfig.makeNewFiles();
         }
-        File dirTable = new File(recipes,"table/");
+        File dirTable = new File(recipes, "table/");
         if (!dirTable.exists()) {
             TableConfig.makeNewFiles();
         }
     }
 
-    private static void loadFile (String typeAndSubDir) {
-        File[] recipeFiles = new File(recipes, typeAndSubDir).listFiles();
-        if (recipeFiles != null) {
-            for (File file : recipeFiles) {
-                String fileType = file.getName().substring(file.getName().lastIndexOf(".")+1);
-                if (fileType.equalsIgnoreCase("json")) {
-                    String type = typeAndSubDir.substring(0,typeAndSubDir.lastIndexOf("/"));
-                    if (type.equalsIgnoreCase("sieve")) {
-                        SieveConfig.parseFile(file);
-                    } else if (type.equalsIgnoreCase("table")) {
-                        TableConfig.parseFile(file, typeAndSubDir.substring(typeAndSubDir.lastIndexOf("/")));
-                    } else if (type.equalsIgnoreCase("barrel")) {
-                        BarrelConfig.parseFile(file);
-                    } else if (type.equalsIgnoreCase("compost")) {
-                        CompostConfig.parseFile(file);
-                    } else if (type.equalsIgnoreCase("metalpress")) {
-                        MetalPressConfig.parseFile(file);
-                    }
+    private static void loadFile(String typeAndSubDir) {
+        final File recipeDir = new File(recipes, typeAndSubDir);
+        final String type = typeAndSubDir.substring(0, typeAndSubDir.lastIndexOf("/"));
+
+        if (recipeDir.isDirectory()) {
+            for (File file : recipeDir.listFiles(ExtensionFilter.JSON)) {
+                if (type.equalsIgnoreCase("sieve")) {
+                    SieveConfig.parseFile(file);
+                } else if (type.equalsIgnoreCase("table")) {
+                    TableConfig.parseFile(file, typeAndSubDir.substring(typeAndSubDir.lastIndexOf("/")));
+                } else if (type.equalsIgnoreCase("barrel")) {
+                    BarrelConfig.parseFile(file);
+                } else if (type.equalsIgnoreCase("compost")) {
+                    CompostConfig.parseFile(file);
+                } else if (type.equalsIgnoreCase("metalpress")) {
+                    MetalPressConfig.parseFile(file);
                 }
             }
         }
     }
-    public void tryDumpItems (File file) {
+
+    public void tryDumpItems(File file) {
         if (MainSettingsStatic.dumpItems) {
 
         }
