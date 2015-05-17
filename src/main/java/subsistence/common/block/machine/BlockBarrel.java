@@ -14,7 +14,8 @@ import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.item.SubsistenceItems;
 import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.tile.machine.TileBarrel;
+import subsistence.common.tile.machine.TileStoneBarrel;
+import subsistence.common.tile.machine.TileWoodBarrel;
 import subsistence.common.util.ArrayHelper;
 
 import java.util.Random;
@@ -40,7 +41,11 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-        return new TileBarrel();
+        if (meta == 0) { //wood
+            return new TileWoodBarrel();
+        } else {
+            return new TileStoneBarrel();
+        }
     }
 
     @Override
@@ -51,7 +56,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         ItemStack stack = player.getCurrentEquippedItem();
-        TileBarrel tile = (TileBarrel) world.getTileEntity(x, y, z);
+        TileWoodBarrel tile = (TileWoodBarrel) world.getTileEntity(x, y, z);
 
         if (stack == null && tile.hasLid()) {
             tile.toggleLid();

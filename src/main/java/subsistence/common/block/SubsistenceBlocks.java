@@ -1,7 +1,12 @@
 package subsistence.common.block;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 import subsistence.common.block.core.BlockSpawnMarker;
+import subsistence.common.block.fluid.BlockFluidBoiling;
 import subsistence.common.block.item.ItemBlockCrank;
+import subsistence.common.block.item.ItemBlockMetalShaft;
 import subsistence.common.block.item.ItemBlockWaterMill;
 import subsistence.common.block.machine.*;
 import subsistence.common.block.prefab.item.SubsistenceItemBlock;
@@ -10,13 +15,8 @@ import subsistence.common.block.prefab.item.SubsistenceMachineBlock;
 import subsistence.common.block.prefab.item.SubsistenceMultiMachineBlock;
 import subsistence.common.fluid.SubsistenceFluids;
 import subsistence.common.item.ItemBarrel;
-import subsistence.common.block.fluid.BlockFluidBoiling;
-import subsistence.common.block.item.ItemBlockMetalShaft;
-import subsistence.common.tile.misc.TileSpawnMarker;
-import cpw.mods.fml.common.registry.GameRegistry;
 import subsistence.common.tile.machine.*;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
+import subsistence.common.tile.misc.TileSpawnMarker;
 
 /**
  * @author Royalixor.
@@ -124,7 +124,7 @@ public class SubsistenceBlocks {
         GameRegistry.registerTileEntity(TileSpawnMarker.class, "subsistence:spawn_marker");
         GameRegistry.registerTileEntity(TileMetalShaft.class, "subsistence:metal_shaft");
         GameRegistry.registerTileEntity(TileCompost.class, "subsistence:compost");
-        GameRegistry.registerTileEntity(TileBarrel.class, "subsistence:barrel");
+        GameRegistry.registerTileEntity(TileWoodBarrel.class, "subsistence:barrel");
     }
 
     public static void registerBlock(Block block) {

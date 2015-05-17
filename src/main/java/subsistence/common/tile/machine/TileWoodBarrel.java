@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public final class TileBarrel extends TileCoreMachine {
+public final class TileWoodBarrel extends TileCoreMachine {
 
     private static final Random RANDOM = new Random();
 
@@ -172,10 +172,7 @@ public final class TileBarrel extends TileCoreMachine {
     }
 
     public int getCapacity() {
-        if (getBlockMetadata() == 0)
-            return 2 * FluidContainerRegistry.BUCKET_VOLUME;
-        else
-            return 8 * FluidContainerRegistry.BUCKET_VOLUME;
+        return 2 * FluidContainerRegistry.BUCKET_VOLUME;
     }
 
     public boolean addItemToStack(ItemStack itemStack) {
@@ -207,32 +204,33 @@ public final class TileBarrel extends TileCoreMachine {
         return itemStack;
     }
 
-    public boolean addFluid(FluidStack fluid) {
-        if (this.fluid.amount + fluid.amount > this.getCapacity() || this.fluid.fluidID != fluid.fluidID) {
-            return false;
+    public boolean addFluid(FluidStack inFluid) {
+        if (this.fluid.amount + inFluid.amount <= 2*FluidContainerRegistry.BUCKET_VOLUME) { //dont overflow
+           if (this.fluid == null) { //if currently empty
+               this.fluid = inFluid;
+               worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+               return true;
+           } else if (inFluid.fluidID == this.fluid.fluidID) { //if current fluid is same
+               this.fluid.amount = this.fluid.amount + inFluid.amount;
+               worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+               return true;
+           }
         }
-        if (this.fluid == null) { //if currently empty
-            this.fluid = fluid;
-        } else if (fluid.fluidID == this.fluid.fluidID) { //if current fluid is same
-            this.fluid.amount = this.fluid.amount + fluid.amount;
-        }
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        return true;
+        return false;
     }
 
-    public boolean reduceFluid(FluidStack fluid) {
-        if (this.fluid.fluidID != fluid.fluidID || this.fluid.amount - fluid.amount < 0) {
-            return false;
-        }
-        if (this.fluid.amount - fluid.amount == 0) {
+    public boolean reduceFluid(FluidStack inFluid) {
+        if (this.fluid.amount - inFluid.amount == 0) {
             this.fluid = null;
             processTimeElapsed = 0;
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        } else if (this.fluid.amount - fluid.amount > 0) {
-            this.fluid.amount = this.fluid.amount - fluid.amount;
+            return true;
+        } else if (this.fluid.amount - inFluid.amount > 0) {
+            this.fluid.amount = this.fluid.amount - inFluid.amount;
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            return true;
         }
-        return true;
+        return false;
     }
 
     public void dumpFluid() {

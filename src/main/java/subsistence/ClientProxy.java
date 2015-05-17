@@ -1,16 +1,16 @@
 package subsistence;
 
-import subsistence.client.render.item.*;
-import subsistence.client.render.tile.*;
-import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.item.SubsistenceItems;
-import subsistence.client.model.FixedTechneModelLoader;
-import subsistence.common.tile.machine.*;
-import subsistence.common.tile.misc.TileSpawnMarker;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
+import subsistence.client.model.FixedTechneModelLoader;
+import subsistence.client.render.item.*;
+import subsistence.client.render.tile.*;
+import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.item.SubsistenceItems;
+import subsistence.common.tile.machine.*;
+import subsistence.common.tile.misc.TileSpawnMarker;
 
 /**
  * @author Royalixor.
@@ -38,7 +38,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileSpawnMarker.class, new RenderTileSpawnMarker());
         ClientRegistry.bindTileEntitySpecialRenderer(TileMetalShaft.class, new RenderTileMetalShaft());
         ClientRegistry.bindTileEntitySpecialRenderer(TileCompost.class, new RenderTileCompost());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileBarrel.class, new RenderTileBarrel());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileWoodBarrel.class, new RenderTileBarrel());
         // ITEM
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(SubsistenceBlocks.table), new RenderItemTable());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(SubsistenceBlocks.tableSieve), new RenderItemSieveTable());
