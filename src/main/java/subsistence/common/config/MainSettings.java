@@ -44,7 +44,6 @@ public class MainSettings {
             FMLLog.info("[Subsistence] Creating "+file.getName());
             MainSettings obj = new MainSettings();
             String json = gson.toJson(obj);
-            System.out.println("Created JSON is: "+json);
             FileWriter writer = new FileWriter(file);
             writer.write(json);
             writer.close();

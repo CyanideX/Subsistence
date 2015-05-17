@@ -148,7 +148,7 @@ public class BlockWormwood extends BlockBush implements IGrowable {
 
     @Override
     public boolean func_149851_a(World world, int x, int y, int z, boolean isClient) { //canFertilize
-        return world.getBlockMetadata(x, y, z) < 7;
+        return world.getBlockMetadata(x, y, z) <= 7;
     }
 
     @Override
