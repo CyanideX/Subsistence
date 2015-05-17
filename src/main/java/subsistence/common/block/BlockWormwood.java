@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import subsistence.common.config.staticvals.MainSettingsStatic;
+import subsistence.common.config.MainSettingsStatic;
 import subsistence.common.item.SubsistenceItems;
 
 import java.util.ArrayList;

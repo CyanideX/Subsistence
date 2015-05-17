@@ -1,12 +1,13 @@
-package subsistence.common.recipe.core;
+package subsistence.common.config;
 
 import com.google.gson.Gson;
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.wrapper.CompostRecipe;
-import subsistence.common.util.StackHelper;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.core.RecipeParser;
+import subsistence.common.recipe.wrapper.CompostRecipe;
+import subsistence.common.util.StackHelper;
 
 import java.io.File;
 import java.io.FileReader;
@@ -16,24 +17,20 @@ import java.util.ArrayList;
 /**
  * @author lclc98
  */
-public class CompostParser {
+public class CompostConfig {
 
 
     public static class ParsedRecipe {
-
-        public boolean crash_on_fail = true;
         public Recipe[] recipes;
     }
 
     public static class Recipe {
-
         public String[] inputItem;
         public String inputLiquid;
         public Output output;
     }
 
     public static class Output {
-
         public String outputLiquid;
         public String outputItem;
 
@@ -51,6 +48,10 @@ public class CompostParser {
         } catch (IOException ex) {
             FMLLog.warning("[Subsistence] Failed to parse " + file.getName());
         }
+    }
+
+    public static void makeNewFiles () {
+        //TODO: make default files
     }
 
     private static void verifyParse(String name, ParsedRecipe recipe) {
@@ -78,12 +79,11 @@ public class CompostParser {
                 outputLiquid = RecipeParser.getLiquid(recipe1.output.outputLiquid);
             }
 
-            if (recipe.crash_on_fail) {
-                if (inputItem.size() <= 0 && inputLiquid == null)
-                    throw new NullPointerException("Inputs is null!");
-                if (outputItem == null && outputLiquid == null) {
-                    throw new NullPointerException("Outputs can't be null!");
-                }
+            if (inputItem.size() <= 0 && inputLiquid == null) {
+                throw new NullPointerException("Inputs is null!");
+            }
+            if (outputItem == null && outputLiquid == null) {
+                throw new NullPointerException("Outputs can't be null!");
             }
 
 

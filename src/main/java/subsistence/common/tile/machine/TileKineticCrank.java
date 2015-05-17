@@ -2,7 +2,7 @@ package subsistence.common.tile.machine;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import subsistence.common.config.staticvals.MainSettingsStatic;
+import subsistence.common.config.MainSettingsStatic;
 import subsistence.common.tile.core.TileCoreMachine;
 
 import java.util.ArrayList;

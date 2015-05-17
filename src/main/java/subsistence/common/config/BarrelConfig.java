@@ -1,13 +1,14 @@
-package subsistence.common.recipe.core;
+package subsistence.common.config;
 
 import com.google.gson.Gson;
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
-import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
-import subsistence.common.util.StackHelper;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.core.RecipeParser;
+import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
+import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
+import subsistence.common.util.StackHelper;
 
 import java.io.File;
 import java.io.FileReader;
@@ -17,11 +18,9 @@ import java.util.ArrayList;
 /**
  * @author lclc98
  */
-public class BarrelParser {
+public class BarrelConfig {
 
     public static class ParsedRecipe {
-
-        public boolean crash_on_fail = true;
         public Recipe[] recipes;
     }
 
@@ -55,6 +54,10 @@ public class BarrelParser {
         }
     }
 
+    public static void makeNewFiles () {
+        //TODO: default file
+    }
+
     private static void verifyParse(String name, ParsedRecipe recipe) {
         for (Recipe recipe1 : recipe.recipes) {
             ArrayList<ItemStack> inputItem = new ArrayList<ItemStack>();
@@ -80,12 +83,11 @@ public class BarrelParser {
                 outputLiquid = RecipeParser.getLiquid(recipe1.output.outputLiquid);
             }
 
-            if (recipe.crash_on_fail) {
-                if (inputItem.size() <= 0 && inputLiquid == null)
-                    throw new NullPointerException("Inputs is null!");
-                if (outputItem == null && outputLiquid == null) {
-                    throw new NullPointerException("Outputs can't be null!");
-                }
+            if (inputItem.size() <= 0 && inputLiquid == null) {
+                throw new NullPointerException("Inputs is null!");
+            }
+            if (outputItem == null && outputLiquid == null) {
+                throw new NullPointerException("Outputs can't be null!");
             }
 
 

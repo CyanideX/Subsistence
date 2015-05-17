@@ -1,11 +1,12 @@
-package subsistence.common.recipe.core;
+package subsistence.common.config;
 
 import com.google.gson.Gson;
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.wrapper.MetalPressRecipe;
-import subsistence.common.util.StackHelper;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.item.ItemStack;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.core.RecipeParser;
+import subsistence.common.recipe.wrapper.MetalPressRecipe;
+import subsistence.common.util.StackHelper;
 
 import java.io.File;
 import java.io.FileReader;
@@ -14,16 +15,13 @@ import java.io.IOException;
 /**
  * @author lclc98
  */
-public class MetalPressParser {
+public class MetalPressConfig {
 
     public static class ParsedRecipe {
-
-        public boolean crash_on_fail = true;
         public Recipe[] recipes;
     }
 
     public static class Recipe {
-
         public String inputItem;
         public String outputItem;
         public int amount = 1;
@@ -39,17 +37,19 @@ public class MetalPressParser {
         }
     }
 
+    public static void makeNewFiles () {
+        //TODO: make default recipes
+    }
+
     private static void verifyParse(String name, ParsedRecipe recipe) {
         for (Recipe recipe1 : recipe.recipes) {
             ItemStack inputItem = StackHelper.convert(RecipeParser.getItem(recipe1.inputItem))[0];
             ItemStack outputItem = StackHelper.convert(RecipeParser.getItem(recipe1.outputItem))[0];
-
-            if (recipe.crash_on_fail) {
-                if (inputItem == null)
-                    throw new NullPointerException("Inputs can't be null!");
-                if (outputItem == null) {
-                    throw new NullPointerException("Outputs can't be null!");
-                }
+            if (inputItem == null) {
+                throw new NullPointerException("Inputs can't be null!");
+            }
+            if (outputItem == null) {
+                throw new NullPointerException("Outputs can't be null!");
             }
 
 

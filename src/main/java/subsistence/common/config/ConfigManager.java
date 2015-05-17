@@ -1,8 +1,6 @@
 package subsistence.common.config;
 
 import subsistence.Subsistence;
-import subsistence.common.config.staticvals.MainSettingsStatic;
-import subsistence.common.recipe.core.*;
 
 import java.io.File;
 
@@ -25,13 +23,33 @@ public class ConfigManager {
     }
 
     private static void genDefaultConfigs () {
-         if (!recipes.exists()) {
-             recipes.mkdirs();
-         }
+        if (!recipes.exists()) {
+            recipes.mkdirs();
+        }
         if (!mainFile.exists()) {
             MainSettings.makeNewFile(mainFile);
         }
         //TODO: make the rest of the stuff
+        File dirBarrel = new File(recipes,"barrel/");
+        if (!dirBarrel.exists()) {
+            BarrelConfig.makeNewFiles();
+        }
+        File dirCompost = new File(recipes,"compost/");
+        if (!dirCompost.exists()) {
+            CompostConfig.makeNewFiles();
+        }
+        File dirMetalPress = new File(recipes,"metalpress/");
+        if (!dirMetalPress.exists()) {
+            MetalPressConfig.makeNewFiles();
+        }
+        File dirSieve = new File(recipes,"sieve/");
+        if (!dirSieve.exists()) {
+            SieveConfig.makeNewFiles();
+        }
+        File dirTable = new File(recipes,"table/");
+        if (!dirTable.exists()) {
+            TableConfig.makeNewFiles();
+        }
     }
 
     private static void loadFile (String typeAndSubDir) {
@@ -42,15 +60,15 @@ public class ConfigManager {
                 if (fileType.equalsIgnoreCase("json")) {
                     String type = typeAndSubDir.substring(0,typeAndSubDir.lastIndexOf("/"));
                     if (type.equalsIgnoreCase("sieve")) {
-                        SieveParser.parseFile(file);
+                        SieveConfig.parseFile(file);
                     } else if (type.equalsIgnoreCase("table")) {
-                        TableParser.parseFile(file, typeAndSubDir.substring(typeAndSubDir.lastIndexOf("/")));
+                        TableConfig.parseFile(file, typeAndSubDir.substring(typeAndSubDir.lastIndexOf("/")));
                     } else if (type.equalsIgnoreCase("barrel")) {
-                        BarrelParser.parseFile(file);
+                        BarrelConfig.parseFile(file);
                     } else if (type.equalsIgnoreCase("compost")) {
-                        CompostParser.parseFile(file);
+                        CompostConfig.parseFile(file);
                     } else if (type.equalsIgnoreCase("metalpress")) {
-                        MetalPressParser.parseFile(file);
+                        MetalPressConfig.parseFile(file);
                     }
                 }
             }

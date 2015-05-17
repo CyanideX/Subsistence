@@ -1,7 +1,7 @@
 package subsistence.common.tile.machine;
 
 import net.minecraft.tileentity.TileEntity;
-import subsistence.common.config.staticvals.MainSettingsStatic;
+import subsistence.common.config.MainSettingsStatic;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.tile.core.TileCoreMachine;
 

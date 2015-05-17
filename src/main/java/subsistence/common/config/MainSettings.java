@@ -3,7 +3,6 @@ package subsistence.common.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import cpw.mods.fml.common.FMLLog;
-import subsistence.common.config.staticvals.MainSettingsStatic;
 
 import java.io.File;
 import java.io.FileReader;

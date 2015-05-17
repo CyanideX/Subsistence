@@ -1,4 +1,4 @@
-package subsistence.common.config.staticvals;
+package subsistence.common.config;
 
 public class MainSettingsStatic {
     //Why the hell do I have to do this...

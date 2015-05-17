@@ -6,7 +6,7 @@ import net.minecraft.network.play.server.S29PacketSoundEffect;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import subsistence.common.config.staticvals.MainSettingsStatic;
+import subsistence.common.config.MainSettingsStatic;
 import subsistence.common.network.VanillaPacketHelper;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;

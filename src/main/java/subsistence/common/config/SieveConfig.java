@@ -1,12 +1,13 @@
-package subsistence.common.recipe.core;
+package subsistence.common.config;
 
-import subsistence.common.lib.RandomStack;
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.wrapper.SieveRecipe;
-import subsistence.common.util.StackHelper;
 import com.google.gson.Gson;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.item.ItemStack;
+import subsistence.common.lib.RandomStack;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.core.RecipeParser;
+import subsistence.common.recipe.wrapper.SieveRecipe;
+import subsistence.common.util.StackHelper;
 
 import java.io.File;
 import java.io.FileReader;
@@ -15,17 +16,15 @@ import java.io.IOException;
 /**
  * @author lclc98
  */
-public class SieveParser {
+public class SieveConfig {
 
     public static class ParsedRecipe {
 
-        public boolean crash_on_fail = true;
         public Recipe[] recipes;
 
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            sb.append("CRASH_ON_FAIL: ").append(crash_on_fail);
             sb.append("RECIPES: [");
             for (int i = 0; i < recipes.length; i++) {
                 Recipe output = recipes[i];
@@ -70,6 +69,10 @@ public class SieveParser {
         }
     }
 
+    public static void makeNewFiles () {
+        //TODO: make default files
+    }
+
     public static void verifyParse(String name, ParsedRecipe recipe) {
         for (Recipe recipe1 : recipe.recipes) {
             ItemStack[] input = StackHelper.convert(RecipeParser.getItem(recipe1.input));
@@ -110,11 +113,8 @@ public class SieveParser {
                 }
             }
 
-
-            if (recipe.crash_on_fail) {
-                if (input == null) {
-                    throw new NullPointerException(recipe1.input + " is not a valid item!");
-                }
+            if (input == null) {
+                throw new NullPointerException(recipe1.input + " is not a valid item!");
             }
             for (ItemStack stack : input)
                 SubsistenceRecipes.SIEVE.register(new SieveRecipe(stack, outputBlock, outputHand, recipe1.durationBlock, recipe1.durationHand, true));

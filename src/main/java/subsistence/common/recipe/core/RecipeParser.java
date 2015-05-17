@@ -19,7 +19,6 @@ import java.util.List;
  * @author dmillerw
  *         Temporary class?
  * @author MattDahEpic
- *         yes. temporary class
  */
 public class RecipeParser {
 
