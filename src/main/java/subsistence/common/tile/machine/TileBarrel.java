@@ -77,13 +77,10 @@ public final class TileBarrel extends TileCoreMachine {
 
                     if (!this.hasLid()) {
                         if (this.fluid == null || this.fluid.getFluid() == FluidRegistry.WATER) {
-                            this.setFluid(new FluidStack(FluidRegistry.WATER, MainSettingsStatic.barrelRain));
-                        } else {
-                            if (this.fluid.getFluid() == FluidRegistry.WATER) {
-                                this.addFluid(new FluidStack(this.fluid, MainSettingsStatic.barrelRain));
-                            }
+                            System.out.println("it rained! free water for eveyone!");
+                            this.addFluid(new FluidStack(FluidRegistry.WATER, MainSettingsStatic.barrelRain));
                         }
-                        this.markForUpdate();
+                        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                     }
                 } else {
                     delayTick++;
