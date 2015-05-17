@@ -2,6 +2,7 @@ package subsistence.common.tile.machine;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S29PacketSoundEffect;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -77,7 +78,6 @@ public final class TileBarrel extends TileCoreMachine {
 
                     if (!this.hasLid()) {
                         if (this.fluid == null || this.fluid.getFluid() == FluidRegistry.WATER) {
-                            System.out.println("it rained! free water for eveyone!");
                             this.addFluid(new FluidStack(FluidRegistry.WATER, MainSettingsStatic.barrelRain));
                         }
                         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -240,5 +240,22 @@ public final class TileBarrel extends TileCoreMachine {
         this.fluid = null;
         processTimeElapsed = 0;
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+    @Override
+    public void readCustomNBT(NBTTagCompound nbtRoot) {
+        super.readCustomNBT(nbtRoot);
+        if (fluid.amount > 0) {
+            nbtRoot.setString("fluid_name",FluidRegistry.getFluidName(this.fluid.fluidID));
+        } else {
+
+        }
+        nbtRoot.setString("fluid_name", this.fluid.getFluid().getName());
+        nbtRoot.setInteger("fluid_amount",this.fluid.amount);
+    }
+    @Override
+    public void writeCustomNBT(NBTTagCompound nbtRoot) {
+        super.writeCustomNBT(nbtRoot);
+        this.fluid = nbtRoot.getString("fluid_name")
     }
 }

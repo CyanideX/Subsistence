@@ -8,9 +8,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.item.SubsistenceItems;
 import subsistence.common.recipe.SubsistenceRecipes;
@@ -135,5 +137,12 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
     @Override
     public Item getItemDropped(int i, Random rand, int j) {
         return null;
+    }
+
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+        ItemStack ret = new ItemStack(SubsistenceBlocks.barrel,1,world.getTileEntity(x,y,z).getBlockMetadata());
+        ret.setTagCompound(world.getTileEntity(x,y,z));
+        return  ret;
     }
 }
