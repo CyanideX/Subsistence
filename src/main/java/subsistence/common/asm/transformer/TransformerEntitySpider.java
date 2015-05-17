@@ -1,26 +1,18 @@
 package subsistence.common.asm.transformer;
 
-import com.google.common.collect.Maps;
-import subsistence.common.asm.handler.EntitySpiderMethodHandler;
-import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-
-import java.util.Map;
+import subsistence.common.asm.handler.EntitySpiderMethodHandler;
 
 /**
  * @author dmillerw
  */
-public class TransformerEntitySpider implements IClassTransformer {
+public class TransformerEntitySpider extends CoreTransformer {
 
     public static final String TARGET_CLASS_NAME = "net.minecraft.entity.monster.EntitySpider";
     public static final String INVOKE_TARGET_CLASS_NAME = EntitySpiderMethodHandler.class.getName().replace(".", "/");
-
-    public Map<String, String> mappings = Maps.newHashMap();
-
-    public boolean obfuscated;
 
     public TransformerEntitySpider() {
         mappings.put("isAIEnabled", "func_70650_aV");
@@ -28,16 +20,13 @@ public class TransformerEntitySpider implements IClassTransformer {
     }
 
     @Override
-    public byte[] transform(String name, String deobfName, byte[] bytes) {
-        if (deobfName.equals(TARGET_CLASS_NAME)) {
-            this.obfuscated = !name.equals(deobfName);
-            return transformEntitySpider(name, bytes);
-        }
-        return bytes;
+    public String getApplicableClass() {
+        return TARGET_CLASS_NAME;
     }
 
-    private byte[] transformEntitySpider(String name, byte[] bytes) {
-        ClassReader classReader = new ClassReader(bytes);
+    @Override
+    public byte[] transform(byte[] data) {
+        ClassReader classReader = new ClassReader(data);
         ClassNode classNode = new ClassNode();
         classReader.accept(classNode, 0);
 
@@ -57,12 +46,5 @@ public class TransformerEntitySpider implements IClassTransformer {
 //        classNode.accept(new TraceClassVisitor(new PrintWriter(System.out)));
 
         return classWriter.toByteArray();
-    }
-
-    private String getMappedName(String name) {
-        if (this.obfuscated && this.mappings.containsKey(name)) {
-            return this.mappings.get(name);
-        }
-        return name;
     }
 }

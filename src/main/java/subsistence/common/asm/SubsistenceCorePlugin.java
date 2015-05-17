@@ -12,7 +12,7 @@ public class SubsistenceCorePlugin implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[] {"TransformerEntitySpider"};
+        return new String[] {"subsistence.common.asm.transformer.TransformerDelegate"};
     }
 
     @Override
