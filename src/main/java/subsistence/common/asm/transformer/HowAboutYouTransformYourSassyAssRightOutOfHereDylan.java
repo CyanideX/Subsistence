@@ -9,9 +9,9 @@ import java.util.Iterator;
 /**
  * @author dmillerw
  */
-public class TransformerTrololololol extends CoreTransformer {
+public class HowAboutYouTransformYourSassyAssRightOutOfHereDylan extends CoreTransformer {
 
-    public TransformerTrololololol() {
+    public HowAboutYouTransformYourSassyAssRightOutOfHereDylan() {
         mappings.put("getDisplayName", "func_96678_d");
     }
 

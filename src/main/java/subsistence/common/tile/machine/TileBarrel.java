@@ -211,21 +211,16 @@ public final class TileBarrel extends TileCoreMachine {
     public boolean addFluid(FluidStack inFluid) {
         if (inFluid.getFluid() != null) {
             if (this.fluid == null) { //if currently empty
-                System.out.println("barrel is empty");
                 this.fluid = inFluid;
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 return true;
             } else if (inFluid.fluidID == this.fluid.fluidID) { //if current fluid is same
-                System.out.println("same fluid already in barrel");
                 if (this.fluid.amount + inFluid.amount <= this.getCapacity()) { //dont overflow
-                    System.out.println("liquid can fit");
                     this.fluid.amount = this.fluid.amount + inFluid.amount;
                     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                     return true;
                 }
             }
-        } else {
-            System.out.println("input fluid is null");
         }
         return false;
     }
