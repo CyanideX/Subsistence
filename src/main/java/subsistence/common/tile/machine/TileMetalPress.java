@@ -41,7 +41,7 @@ public class TileMetalPress extends TileCoreMachine {
     @Override
     public void updateEntity() {
 
-        if (worldObj.isRemote) {
+        if (!worldObj.isRemote) {
             updateLid();
             if (itemStack != null) {
                 MetalPressRecipe recipe = SubsistenceRecipes.METAL_PRESS.get(itemStack);
