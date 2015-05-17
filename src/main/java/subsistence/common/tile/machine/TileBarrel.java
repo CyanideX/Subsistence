@@ -6,7 +6,7 @@ import net.minecraft.network.play.server.S29PacketSoundEffect;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import subsistence.common.config.MainSettings;
+import subsistence.common.config.staticvals.MainSettingsStatic;
 import subsistence.common.network.VanillaPacketHelper;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
@@ -77,10 +77,10 @@ public final class TileBarrel extends TileCoreMachine {
 
                     if (!this.hasLid()) {
                         if (this.fluid == null || this.fluid.getFluid() == FluidRegistry.WATER) {
-                            this.setFluid(new FluidStack(FluidRegistry.WATER, MainSettings.barrelRain));
+                            this.setFluid(new FluidStack(FluidRegistry.WATER, MainSettingsStatic.barrelRain));
                         } else {
                             if (this.fluid.getFluid() == FluidRegistry.WATER) {
-                                this.addFluid(new FluidStack(this.fluid, MainSettings.barrelRain));
+                                this.addFluid(new FluidStack(this.fluid, MainSettingsStatic.barrelRain));
                             }
                         }
                         this.markForUpdate();

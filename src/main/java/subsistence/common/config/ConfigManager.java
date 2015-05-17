@@ -1,6 +1,7 @@
 package subsistence.common.config;
 
 import subsistence.Subsistence;
+import subsistence.common.config.staticvals.MainSettingsStatic;
 import subsistence.common.recipe.core.*;
 
 import java.io.File;
@@ -55,8 +56,8 @@ public class ConfigManager {
             }
         }
     }
-    public static void tryDumpItems (File file) {
-        if (MainSettings.dumpItems) {
+    public void tryDumpItems (File file) {
+        if (MainSettingsStatic.dumpItems) {
 
         }
     }
