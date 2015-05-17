@@ -108,7 +108,7 @@ public final class TileBarrel extends TileCoreMachine {
                     if (processTimeElapsed >= recipe.getTime()) {
                         processTimeElapsed = 0;
                         contents = new ItemStack[0];
-                        removeFluid();
+                        dumpFluid();
                         addItemToStack(recipe.getOutputItem());
                         addFluid(recipe.getOutputLiquid());
                     }
@@ -121,7 +121,7 @@ public final class TileBarrel extends TileCoreMachine {
                     if (processTimeElapsed >= recipe.getTime()) {
                         processTimeElapsed = 0;
                         contents = new ItemStack[0];
-                        removeFluid();
+                        dumpFluid();
                         addItemToStack(recipe.getOutputItem());
                         addFluid(recipe.getOutputLiquid());
                     }
@@ -137,7 +137,7 @@ public final class TileBarrel extends TileCoreMachine {
                             }
                             if (processTimeElapsed >= recipe1.getTime()) {
                                 contents = new ItemStack[0];
-                                removeFluid();
+                                dumpFluid();
                                 addItemToStack(recipe1.getOutputItem());
                                 addFluid(recipe1.getOutputLiquid());
                             }
@@ -207,19 +207,37 @@ public final class TileBarrel extends TileCoreMachine {
         return itemStack;
     }
 
-    public void addFluid(FluidStack fluid) {
-        if (this.fluid == null) {
+    public boolean addFluid(FluidStack fluid) {
+        if (this.fluid.amount + fluid.amount > this.getCapacity() || this.fluid.fluidID != fluid.fluidID) {
+            return false;
+        }
+        if (this.fluid == null) { //if currently empty
             this.fluid = fluid;
-        } else if (fluid.fluidID == this.fluid.fluidID) {
-            this.fluid.amount = (Math.min(getCapacity(), this.fluid.amount + fluid.amount));
+        } else if (fluid.fluidID == this.fluid.fluidID) { //if current fluid is same
+            this.fluid.amount = this.fluid.amount + fluid.amount;
         }
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        return true;
     }
 
-    public void removeFluid() {
+    public boolean reduceFluid(FluidStack fluid) {
+        if (this.fluid.fluidID != fluid.fluidID || this.fluid.amount - fluid.amount < 0) {
+            return false;
+        }
+        if (this.fluid.amount - fluid.amount == 0) {
+            this.fluid = null;
+            processTimeElapsed = 0;
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        } else if (this.fluid.amount - fluid.amount > 0) {
+            this.fluid.amount = this.fluid.amount - fluid.amount;
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        }
+        return true;
+    }
+
+    public void dumpFluid() {
         this.fluid = null;
         processTimeElapsed = 0;
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
-
 }

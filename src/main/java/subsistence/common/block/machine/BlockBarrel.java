@@ -1,10 +1,5 @@
 package subsistence.common.block.machine;
 
-import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
-import subsistence.common.item.SubsistenceItems;
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.tile.machine.TileBarrel;
-import subsistence.common.util.ArrayHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
@@ -16,6 +11,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
+import subsistence.common.item.SubsistenceItems;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.tile.machine.TileBarrel;
+import subsistence.common.util.ArrayHelper;
 
 import java.util.Random;
 
@@ -67,19 +67,18 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
                 if (tile.fluid == null && FluidContainerRegistry.isFilledContainer(held)) {
                     FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(held);
-                    if (fluidStack != null) {
+                    if (fluidStack != null && tile.addFluid(fluidStack)) {
                         if (!player.capabilities.isCreativeMode) {
                             player.setCurrentItemOrArmor(0, FluidContainerRegistry.EMPTY_BUCKET);
                         }
-                        tile.addFluid(fluidStack);
                     }
                 } else if (tile.fluid != null && FluidContainerRegistry.isEmptyContainer(held)) {
                     ItemStack container = FluidContainerRegistry.fillFluidContainer(tile.fluid, FluidContainerRegistry.EMPTY_BUCKET);
-                    if (container != null) {
+                    FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(container);
+                    if (container != null && tile.reduceFluid(fluidStack)) {
                         if (!player.capabilities.isCreativeMode) {
                             player.setCurrentItemOrArmor(0, container);
                         }
-                        tile.removeFluid();
                     }
                 } else if (tile.fluid != null && !FluidContainerRegistry.isEmptyContainer(held)) {
                     tile.addFluid(FluidContainerRegistry.getFluidForFilledItem(held));
