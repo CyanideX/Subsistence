@@ -1,8 +1,8 @@
 package subsistence.common.config;
 
 import com.google.gson.Gson;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.item.ItemStack;
+import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.core.RecipeParser;
 import subsistence.common.recipe.wrapper.MetalPressRecipe;
@@ -29,11 +29,11 @@ public class MetalPressConfig {
 
     public static void parseFile(File file) {
         try {
-            FMLLog.info("[Subsistence] Parsing " + file.getName());
+            SubsistenceLogger.info("Parsing " + file.getName());
             ParsedRecipe recipe = new Gson().fromJson(new FileReader(file), ParsedRecipe.class);
             verifyParse(file.getName(), recipe);
         } catch (IOException ex) {
-            FMLLog.warning("[Subsistence] Failed to parse " + file.getName());
+            SubsistenceLogger.warn("Failed to parse " + file.getName());
         }
     }
 
@@ -57,6 +57,6 @@ public class MetalPressConfig {
         }
 
         int length = recipe.recipes.length;
-        FMLLog.info("[Subsistence] Parsed " + name + ". Loaded " + length + (length > 1 ? " recipes" : " recipe"));
+        SubsistenceLogger.info("Parsed " + name + ". Loaded " + length + (length > 1 ? " recipes" : " recipe"));
     }
 }

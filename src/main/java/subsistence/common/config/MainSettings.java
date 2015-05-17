@@ -2,7 +2,7 @@ package subsistence.common.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import cpw.mods.fml.common.FMLLog;
+import subsistence.common.lib.SubsistenceLogger;
 
 import java.io.File;
 import java.io.FileReader;
@@ -24,7 +24,7 @@ public class MainSettings {
 
     public static void parseMainSettings (File file) {
         try {
-            FMLLog.info("[Subsistence] Parsing " + file.getName());
+            SubsistenceLogger.info("Parsing " + file.getName());
             MainSettings settings = new Gson().fromJson(new FileReader(file), MainSettings.class);
             MainSettingsStatic.barrelRain = settings.barrelRain;
             MainSettingsStatic.handCrank = settings.handCrank;
@@ -33,21 +33,21 @@ public class MainSettings {
             MainSettingsStatic.wormwoodDry = settings.wormwoodDry;
             MainSettingsStatic.dumpItems = settings.dumpItems;
         } catch (IOException e) {
-            FMLLog.warning("[Subsistence] Failed to parse " + file.getName());
+            SubsistenceLogger.warn("Failed to parse " + file.getName());
             e.printStackTrace();
         }
     }
     public static void makeNewFile (File file) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
-            FMLLog.info("[Subsistence] Creating "+file.getName());
+            SubsistenceLogger.info("Creating " + file.getName());
             MainSettings obj = new MainSettings();
             String json = gson.toJson(obj);
             FileWriter writer = new FileWriter(file);
             writer.write(json);
             writer.close();
         } catch (IOException e) {
-            FMLLog.warning("[Subsistence] Failed to write "+file.getName());
+            SubsistenceLogger.warn("Failed to write " + file.getName());
             e.printStackTrace();
         }
     }
