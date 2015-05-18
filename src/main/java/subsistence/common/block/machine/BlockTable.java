@@ -30,7 +30,7 @@ public class BlockTable extends SubsistenceTileMultiBlock {
                 if (!player.isSneaking() && side == 1) {
                     ItemStack held = player.getHeldItem();
 
-                    if (tile.stack != null && (held == null || !(held.getItem() instanceof ItemHammer))) {
+                    if (tile.stack != null && held == null) {
                         player.setCurrentItemOrArmor(0, tile.stack.copy());
                         tile.setStack(null);
                         return true;
