@@ -85,7 +85,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
                                 player.getCurrentEquippedItem().stackSize--;
                                 if (player.inventory.addItemStackToInventory(container)) {
                                 } else {
-                                    player.func_146097_a(container,false,false);
+                                    player.func_146097_a(container, false, false);
                                 }
                             }
                         }
@@ -141,8 +141,8 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
-        ItemStack ret = new ItemStack(SubsistenceBlocks.barrel,1,world.getTileEntity(x,y,z).getBlockMetadata());
-        ret.setTagCompound(world.getTileEntity(x,y,z));
-        return  ret;
+        ItemStack ret = new ItemStack(SubsistenceBlocks.barrel, 1, world.getTileEntity(x, y, z).getBlockMetadata());
+        ret.setTagCompound(world.getTileEntity(x, y, z));
+        return ret;
     }
 }

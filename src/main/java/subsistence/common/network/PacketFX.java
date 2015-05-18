@@ -84,6 +84,7 @@ public class PacketFX implements IMessage {
 
 
     public static class PacketFXHandler implements IMessageHandler<PacketFX, IMessage> {
+
         @Override
         public IMessage onMessage(PacketFX message, MessageContext ctx) {
             if (ctx.side == Side.CLIENT) {

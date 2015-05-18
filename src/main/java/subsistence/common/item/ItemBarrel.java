@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.FluidStack;
 
 public final class ItemBarrel extends ItemBlock implements IBarrel {
+
     public ItemBarrel(Block b) {
         super(b);
         this.setCreativeTab(SubsistenceCreativeTab.BLOCKS.get());

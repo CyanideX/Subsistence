@@ -36,7 +36,7 @@ public class RenderItemBarrelLid implements IItemRenderer {
             GL11.glRotated(180D, 0, 1, 0);
         }
 
-        if(item.getItemDamage() == 0){
+        if (item.getItemDamage() == 0) {
             Texture.BARREL_WOOD.bindTexture();
             Model.BARREL_WOOD.renderOnly("lid", "lidHandle");
         } else {

@@ -69,7 +69,7 @@ public class SieveConfig {
         }
     }
 
-    public static void makeNewFiles () {
+    public static void makeNewFiles() {
         //TODO: make default files
     }
 

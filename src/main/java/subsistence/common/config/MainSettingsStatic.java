@@ -1,6 +1,7 @@
 package subsistence.common.config;
 
 public class MainSettingsStatic {
+
     //Why the hell do I have to do this...
     public static int barrelRain;
     public static int handCrank;

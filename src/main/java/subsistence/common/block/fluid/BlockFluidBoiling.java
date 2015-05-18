@@ -22,6 +22,7 @@ import java.util.Random;
  * Created by Thlayli
  */
 public class BlockFluidBoiling extends SubsistenceBasicFluid {
+
     EnumParticle particleBubble;
 
     public BlockFluidBoiling(Fluid fluid) {

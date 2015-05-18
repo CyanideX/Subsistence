@@ -11,6 +11,7 @@ import java.util.List;
  * @author lclc98
  */
 public class CompostManager {
+
     private List<CompostRecipe> recipes = new ArrayList<CompostRecipe>();
 
     public CompostRecipe get(FluidStack fluid, ItemStack[] stack) {

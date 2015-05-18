@@ -23,6 +23,7 @@ import java.util.Random;
  * @author
  */
 public class BlockWormwood extends BlockBush implements IGrowable {
+
     private IIcon[] textures;
 
     int tickDry = 0;
@@ -220,7 +221,7 @@ public class BlockWormwood extends BlockBush implements IGrowable {
         return ret;
     }
 
-    private boolean lessThanOneDropChance (Random rand) {
+    private boolean lessThanOneDropChance(Random rand) {
         return rand.nextFloat() <= rand.nextFloat();
     }
 }

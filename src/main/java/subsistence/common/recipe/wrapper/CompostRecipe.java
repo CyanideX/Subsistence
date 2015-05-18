@@ -10,6 +10,7 @@ import java.util.List;
  * @author lclc98
  */
 public class CompostRecipe {
+
     private final ItemStack[] inputItem;
     private final FluidStack inputLiquid;
     private final ItemStack outputItem;

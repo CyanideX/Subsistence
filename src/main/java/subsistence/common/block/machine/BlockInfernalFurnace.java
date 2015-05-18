@@ -133,7 +133,7 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
     public void randomDisplayTick(World world, int x, int y, int z, Random random) {
         TileHellfireFurnace tile = (TileHellfireFurnace) world.getTileEntity(x, y, z);
 
-        if (tile != null && world.getBlockMetadata(x,y,z) == 1) {
+        if (tile != null && world.getBlockMetadata(x, y, z) == 1) {
             int l = tile.orientation.ordinal();
             float f = (float) x + 0.5F;
             float f1 = (float) y + 0.0F + random.nextFloat() * 6.0F / 16.0F;

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class BarrelConfig {
 
     public static class ParsedRecipe {
+
         public Recipe[] recipes;
     }
 
@@ -54,7 +55,7 @@ public class BarrelConfig {
         }
     }
 
-    public static void makeNewFiles () {
+    public static void makeNewFiles() {
         //TODO: default file
     }
 

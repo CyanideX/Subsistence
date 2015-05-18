@@ -13,6 +13,7 @@ import java.io.IOException;
  * @author MattDahEpic
  */
 public class MainSettings {
+
     public int barrelRain = 10;
     public int handCrank = 1;
     public int waterMill = 2;
@@ -20,9 +21,10 @@ public class MainSettings {
     public int wormwoodDry = 2400;
     public boolean dumpItems = false;
 
-    public MainSettings () {}
+    public MainSettings() {
+    }
 
-    public static void parseMainSettings (File file) {
+    public static void parseMainSettings(File file) {
         try {
             SubsistenceLogger.info("Parsing " + file.getName());
             MainSettings settings = new Gson().fromJson(new FileReader(file), MainSettings.class);
@@ -37,7 +39,8 @@ public class MainSettings {
             e.printStackTrace();
         }
     }
-    public static void makeNewFile (File file) {
+
+    public static void makeNewFile(File file) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
             SubsistenceLogger.info("Creating " + file.getName());

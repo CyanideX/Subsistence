@@ -10,6 +10,7 @@ import java.util.List;
  * @author lclc98
  */
 public class MetalPressManager {
+
     private List<MetalPressRecipe> recipes = new ArrayList<MetalPressRecipe>();
 
     public MetalPressRecipe get(ItemStack stack) {

@@ -8,6 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 
 public final class FluidUtils {
+
     public static boolean fillTankWithContainer(IFluidTank tank, EntityPlayer player) {
         ItemStack stack = player.getCurrentEquippedItem();
         FluidStack liquid = FluidContainerRegistry.getFluidForFilledItem(stack);

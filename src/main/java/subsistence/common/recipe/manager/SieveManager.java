@@ -10,6 +10,7 @@ import java.util.List;
  * @author lclc98
  */
 public class SieveManager {
+
     private List<SieveRecipe> recipes = new ArrayList<SieveRecipe>();
 
     public SieveRecipe get(ItemStack stack) {

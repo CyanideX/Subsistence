@@ -79,6 +79,7 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
 
         GL11.glPopMatrix();
     }
+
     private void renderIcon(int x, int y, IIcon icon, int width, int height) {
         Tessellator tess = Tessellator.instance;
         tess.startDrawingQuads();
@@ -88,6 +89,7 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         tess.addVertexWithUV(x, 0, y, icon.getMinU(), icon.getMinV());
         tess.draw();
     }
+
     private void renderLid(TileBarrel tile) {
         if (tile.hasLid()) {
             if (tile.getBlockMetadata() == 0)

@@ -18,16 +18,19 @@ public class TableConfig {
 
 
     public static class ParsedRecipe {
+
         public Recipe[] recipes;
         public Perishable[] perishable;
     }
 
     public static class Perishable {
+
         public String item;
         public int duration;
     }
 
     public static class Recipe {
+
         public String input;
         public String output;
         public float durability;
@@ -46,7 +49,7 @@ public class TableConfig {
         }
     }
 
-    public static void makeNewFiles () {
+    public static void makeNewFiles() {
         //TODO: make new files
     }
 

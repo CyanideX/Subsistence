@@ -10,6 +10,7 @@ import java.util.Arrays;
  * @author lclc98
  */
 public class BarrelWoodRecipe {
+
     private final ItemStack[] inputItem;
     private final FluidStack inputLiquid;
     private final ItemStack outputItem;

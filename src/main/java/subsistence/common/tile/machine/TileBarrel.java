@@ -246,13 +246,14 @@ public final class TileBarrel extends TileCoreMachine {
     public void readCustomNBT(NBTTagCompound nbtRoot) {
         super.readCustomNBT(nbtRoot);
         if (fluid.amount > 0) {
-            nbtRoot.setString("fluid_name",FluidRegistry.getFluidName(this.fluid.fluidID));
+            nbtRoot.setString("fluid_name", FluidRegistry.getFluidName(this.fluid.fluidID));
         } else {
 
         }
         nbtRoot.setString("fluid_name", this.fluid.getFluid().getName());
-        nbtRoot.setInteger("fluid_amount",this.fluid.amount);
+        nbtRoot.setInteger("fluid_amount", this.fluid.amount);
     }
+
     @Override
     public void writeCustomNBT(NBTTagCompound nbtRoot) {
         super.writeCustomNBT(nbtRoot);

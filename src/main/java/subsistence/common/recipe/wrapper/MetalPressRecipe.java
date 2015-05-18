@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
  * @author lclc98
  */
 public class MetalPressRecipe {
+
     private final ItemStack inputItem;
     private final ItemStack outputItem;
     private final int amount;

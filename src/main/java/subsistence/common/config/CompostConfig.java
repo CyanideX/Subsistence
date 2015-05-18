@@ -21,16 +21,19 @@ public class CompostConfig {
 
 
     public static class ParsedRecipe {
+
         public Recipe[] recipes;
     }
 
     public static class Recipe {
+
         public String[] inputItem;
         public String inputLiquid;
         public Output output;
     }
 
     public static class Output {
+
         public String outputLiquid;
         public String outputItem;
 
@@ -50,7 +53,7 @@ public class CompostConfig {
         }
     }
 
-    public static void makeNewFiles () {
+    public static void makeNewFiles() {
         //TODO: make default files
     }
 

@@ -135,7 +135,7 @@ public class TileCompost extends TileCoreMachine {
 
         contentList.add(itemStack);
         contents = contentList.toArray(new ItemStack[contentList.size()]);
-        worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return true;
     }
 
@@ -144,19 +144,19 @@ public class TileCompost extends TileCoreMachine {
         ItemStack itemStack = contentList.remove(contentList.size() - 1);
         contents = contentList.toArray(new ItemStack[contentList.size()]);
         processTimeElapsed = 0;
-        worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return itemStack;
     }
 
     public void addFluid(FluidStack fluid) {
         this.fluid = fluid;
-        worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     public void removeFluid() {
         this.fluid = null;
         processTimeElapsed = 0;
-        worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
 

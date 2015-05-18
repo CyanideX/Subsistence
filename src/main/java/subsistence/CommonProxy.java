@@ -43,7 +43,8 @@ public class CommonProxy {
         EventUtil.register(new WebHandler(), EventUtil.Type.FORGE);
     }
 
-    public void init() {}
+    public void init() {
+    }
 
     public void postInit() {
 

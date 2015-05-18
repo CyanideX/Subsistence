@@ -61,8 +61,9 @@ public class Subsistence {
         event.registerServerCommand(new CommandTPX());
 
     }
+
     @SubscribeEvent
-    public void onPlayerJoinServer (PlayerEvent.PlayerLoggedInEvent event) {
+    public void onPlayerJoinServer(PlayerEvent.PlayerLoggedInEvent event) {
         //    just for you dylan  ^
         if (!event.player.worldObj.isRemote) {
             if (event.player instanceof EntityPlayerMP) {

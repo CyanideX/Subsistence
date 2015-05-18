@@ -31,7 +31,7 @@ public class ItemNet extends SubsistenceMultiItem {
 
     @Override
     public String[] getNames() {
-        return new String[] {"normal", "flies"};
+        return new String[]{"normal", "flies"};
     }
 
     @Override

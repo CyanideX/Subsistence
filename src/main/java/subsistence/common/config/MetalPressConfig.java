@@ -18,10 +18,12 @@ import java.io.IOException;
 public class MetalPressConfig {
 
     public static class ParsedRecipe {
+
         public Recipe[] recipes;
     }
 
     public static class Recipe {
+
         public String inputItem;
         public String outputItem;
         public int amount = 1;
@@ -37,7 +39,7 @@ public class MetalPressConfig {
         }
     }
 
-    public static void makeNewFiles () {
+    public static void makeNewFiles() {
         //TODO: make default recipes
     }
 
