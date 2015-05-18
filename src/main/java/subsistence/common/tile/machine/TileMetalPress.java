@@ -11,64 +11,37 @@ import subsistence.common.tile.core.TileCoreMachine;
  */
 public class TileMetalPress extends TileCoreMachine {
 
-    public final float min = 0.6f;
-    public final float max = 1f;
-
-    @NBTHandler.Sync(true)
-    public float currentAngle = 0f;
+    public static final float MIN = 0.6f;
+    public static final float MAX = 1f;
 
     @NBTHandler.Sync(true)
     public ItemStack itemStack;
-
-    @NBTHandler.Sync(true)
+    @NBTHandler.Sync(false)
     public int amount;
-
-    @NBTHandler.Sync(true)
-    public boolean closed = false;
-
-    public int switchClosed;
-
-    public void open() {
-        if (!closed && currentAngle == max) {
-            amount++;
-            closed = true;
-        }
-    }
-
 
     @Override
     public void updateEntity() {
         if (worldObj.isRemote) {
-            updateLid();
+            //TODO fix animations
+//            updateLid();
         } else {
-            if (itemStack != null) {
-                MetalPressRecipe recipe = SubsistenceRecipes.METAL_PRESS.get(itemStack);
-                if (recipe != null) {
-                    if (amount >= recipe.getAmount() && currentAngle == min) {
-                        itemStack = recipe.getOutputItem();
-                        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                    }
-                }
-            }
+            if (itemStack == null)
+                amount = 0;
         }
     }
 
-    private void updateLid() {
-        if (closed && currentAngle == min) {
-            switchClosed++;
-        }
+    public void activate() {
+        if (itemStack == null)
+            return;
 
-        if (switchClosed >= 10) {
-            closed = false;
-            switchClosed = 0;
-        }
+        amount++;
 
-        currentAngle += (closed ? -0.05 : 0.05);
-
-        if (currentAngle <= min) {
-            currentAngle = min;
-        } else if (currentAngle >= max) {
-            currentAngle = max;
+        MetalPressRecipe recipe = SubsistenceRecipes.METAL_PRESS.get(itemStack);
+        if (recipe != null) {
+            if (amount >= recipe.getAmount()) {
+                itemStack = recipe.getOutputItem();
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            }
         }
     }
 }

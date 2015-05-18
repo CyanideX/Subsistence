@@ -40,16 +40,18 @@ public class BlockMetalPress extends SubsistenceTileBlock {
             TileMetalPress tile = (TileMetalPress) world.getTileEntity(x, y, z);
             if (tile != null) {
                 if (player.isSneaking()) {
-                    tile.open();
+                    tile.activate();
                 } else {
-                    if (player.getHeldItem() == null) {
-                        player.setCurrentItemOrArmor(0, tile.itemStack);
+                    final ItemStack held = player.getHeldItem();
+
+                    if (held == null) {
+                        player.setCurrentItemOrArmor(0, tile.itemStack.copy());
                         tile.itemStack = null;
                     } else {
                         if (tile.itemStack == null) {
-                            if (SubsistenceRecipes.METAL_PRESS.isAllowed(player.getHeldItem())) {
-                                tile.itemStack = new ItemStack(player.getHeldItem().getItem());
-                                player.getHeldItem().stackSize--;
+                            if (SubsistenceRecipes.METAL_PRESS.isAllowed(held)) {
+                                tile.itemStack = held.copy();
+                                held.stackSize--;
                             }
                         }
                     }
@@ -58,6 +60,6 @@ public class BlockMetalPress extends SubsistenceTileBlock {
             }
         }
 
-        return player.isSneaking();
+        return true;
     }
 }

@@ -32,14 +32,14 @@ public class RenderTileMetalPress extends SubsistenceTileRenderer<TileMetalPress
 
     private void renderPress(TileMetalPress tile) {
         GL11.glPushMatrix();
-        GL11.glTranslated(0, (tile.currentAngle) - 1, 0);
+//        GL11.glTranslated(0, (tile.currentAngle) - 1, 0);
         Model.METAL_PRESS.renderOnly("MetalPress___Press_1");
         GL11.glPopMatrix();
 
         GL11.glPushMatrix();
         GL11.glTranslated(0, 0.25, 0.25);
-        double xz = (-tile.currentAngle / (tile.max - tile.min)) * 100 / (100 / 30) + 83;
-        GL11.glRotated(xz, 1, 0, 0);
+//        double xz = (-tile.currentAngle / (tile.MAX - tile.MIN)) * 100 / (100 / 30) + 83;
+//        GL11.glRotated(xz, 1, 0, 0);
         GL11.glTranslated(0, -0.25, -0.25);
 
         Model.METAL_PRESS.renderOnly("MetalPress___Handel_2");
@@ -49,7 +49,7 @@ public class RenderTileMetalPress extends SubsistenceTileRenderer<TileMetalPress
     private void renderIngot(TileMetalPress tile) {
         GL11.glPushMatrix();
         if (tile.itemStack != null) {
-            GL11.glTranslated(0.5, tile.min - 0.2, 0.3);
+            GL11.glTranslated(0.5, tile.MIN - 0.2, 0.3);
             GL11.glRotated(90, 1, 0, 0);
 
             RenderHelper.renderItemStack(tile.itemStack, true);
