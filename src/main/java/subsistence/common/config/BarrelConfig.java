@@ -1,6 +1,5 @@
 package subsistence.common.config;
 
-import com.google.gson.Gson;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.lib.SubsistenceLogger;
@@ -8,6 +7,7 @@ import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.core.RecipeParser;
 import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
 import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
+import subsistence.common.util.JsonUtil;
 import subsistence.common.util.StackHelper;
 
 import java.io.File;
@@ -48,7 +48,7 @@ public class BarrelConfig {
     public static void parseFile(File file) {
         try {
             SubsistenceLogger.info("Parsing " + file.getName());
-            ParsedRecipe recipe = new Gson().fromJson(new FileReader(file), ParsedRecipe.class);
+            ParsedRecipe recipe = JsonUtil.gson().fromJson(new FileReader(file), ParsedRecipe.class);
             verifyParse(file.getName(), recipe);
         } catch (IOException ex) {
             SubsistenceLogger.warn("Failed to parse " + file.getName());

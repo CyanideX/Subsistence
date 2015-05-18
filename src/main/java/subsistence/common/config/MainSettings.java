@@ -3,6 +3,7 @@ package subsistence.common.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import subsistence.common.lib.SubsistenceLogger;
+import subsistence.common.util.JsonUtil;
 
 import java.io.File;
 import java.io.FileReader;
@@ -27,7 +28,7 @@ public class MainSettings {
     public static void parseMainSettings(File file) {
         try {
             SubsistenceLogger.info("Parsing " + file.getName());
-            MainSettings settings = new Gson().fromJson(new FileReader(file), MainSettings.class);
+            MainSettings settings = JsonUtil.gson().fromJson(new FileReader(file), MainSettings.class);
             MainSettingsStatic.barrelRain = settings.barrelRain;
             MainSettingsStatic.handCrank = settings.handCrank;
             MainSettingsStatic.waterMill = settings.waterMill;

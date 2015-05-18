@@ -5,9 +5,6 @@ import net.minecraft.item.ItemStack;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.lib.tool.ToolDefinition;
 import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.wrapper.module.RestrictedType;
-import subsistence.common.recipe.wrapper.module.component.ComponentItem;
-import subsistence.common.recipe.wrapper.module.core.ModularObject;
 import subsistence.common.util.JsonUtil;
 
 import java.io.File;
@@ -21,10 +18,8 @@ public class TableConfig {
 
     public static class Recipe {
 
-        @RestrictedType("generic.item")
-        public ModularObject input;
-        @RestrictedType("generic.item")
-        public ModularObject output;
+        public ItemStack input;
+        public ItemStack output;
         public float durability;
         public int duration;
         public boolean perishable;
@@ -61,17 +56,14 @@ public class TableConfig {
             throw new NullPointerException("Please specify table or mill");
         }
 
-        final ItemStack input = ((ComponentItem)recipe.input).itemStack;
-        final ItemStack output = ((ComponentItem)recipe.output).itemStack;
-
         if (type.equals("hammer"))
-            SubsistenceRecipes.TABLE.registerHammerRecipe(input, output, recipe.durability, recipe.duration, table, hammerMill);
+            SubsistenceRecipes.TABLE.registerHammerRecipe(recipe.input, recipe.output, recipe.durability, recipe.duration, table, hammerMill);
         else if (type.equals("drying")) {
-            SubsistenceRecipes.TABLE.registerDryingRecipe(input, output, recipe.duration);
+            SubsistenceRecipes.TABLE.registerDryingRecipe(recipe.input, recipe.output, recipe.duration);
             if (recipe.perishable) {
-                SubsistenceRecipes.PERISHABLE.put(output.getItem(), recipe.duration);
+                SubsistenceRecipes.PERISHABLE.put(recipe.output.getItem(), recipe.duration);
             }
         } else if (type.equals("axe"))
-            SubsistenceRecipes.TABLE.registerRecipe(input, output, ToolDefinition.AXE, recipe.durability, recipe.duration, table, hammerMill);
+            SubsistenceRecipes.TABLE.registerRecipe(recipe.input, recipe.output, ToolDefinition.AXE, recipe.durability, recipe.duration, table, hammerMill);
     }
 }
