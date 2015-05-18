@@ -25,31 +25,26 @@ public class TileHellfireFurnace extends TileCoreMachine implements ISidedInvent
     public static final int COOK_TIME = 200;
     public static final int LIT_COOK_TIME = 400;
 
-    @NBTHandler.ArrayDefault(SIZE)
-    @NBTHandler.NBTData
+    @NBTHandler.Sync(true)
     public ItemStack[] inv = new ItemStack[SIZE];
 
     /**
      * The number of ticks that the furnace will keep burning
      */
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public int furnaceBurnTime;
     /**
      * The number of ticks that a fresh copy of the currently-burning item would keep the furnace burning for
      */
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public int currentItemBurnTime;
     /**
      * The number of ticks that the current item has been cooking for
      */
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public int furnaceCookTime;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public boolean lit = false;
 
     public int getCookTime() {

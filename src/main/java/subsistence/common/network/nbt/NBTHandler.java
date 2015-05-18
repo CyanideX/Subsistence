@@ -1,18 +1,17 @@
 package subsistence.common.network.nbt;
 
-import subsistence.common.lib.SubsistenceLogger;
-import subsistence.common.util.ArrayHelper;
-import subsistence.common.network.nbt.data.AbstractSerializer;
 import com.google.common.collect.Maps;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import subsistence.common.lib.SubsistenceLogger;
+import subsistence.common.network.nbt.data.AbstractSerializer;
+import subsistence.common.util.ArrayHelper;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Map;
@@ -39,27 +38,14 @@ public class NBTHandler {
             return false;
         }
 
-        return field.getAnnotation(NBTData.class) != null;
+        return field.getAnnotation(Sync.class) != null;
 
     }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.FIELD})
-    public @interface NBTData {
-
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target({ElementType.FIELD})
-    public @interface DescriptionData {
-
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target({ElementType.FIELD})
-    public @interface ArrayDefault {
-
-        int value() default 0;
+    public @interface Sync {
+        boolean value();
     }
 
     public static void writeObject(String name, Object object, NBTTagCompound nbt) {
@@ -146,7 +132,9 @@ public class NBTHandler {
                     NBTTagCompound tag = list.getCompoundTagAt(i);
                     array[tag.getInteger("index")] = NBTHandler.readObject(name + "_" + i, type, tag);
                 }
-            else return null;
+            else {
+                return null;
+            }
             return array;
         } else {
             for (AbstractSerializer<?> serializer : AbstractSerializer.serializerList) {
@@ -205,7 +193,7 @@ public class NBTHandler {
     public NBTHandler addField(Field field) {
         if (NBTHandler.validField(field)) {
             fields.put(field.getName(), field);
-            if (field.getAnnotation(DescriptionData.class) != null) {
+            if (field.getAnnotation(Sync.class).value()) {
                 descriptionFields.put(field.getName(), field);
             }
         }
@@ -277,11 +265,7 @@ public class NBTHandler {
             }
 
             if (field.getType().isArray()) {
-                ArrayDefault arrayDefault = field.getAnnotation(ArrayDefault.class);
-                if (arrayDefault != null) {
-                    field.set(parent, Array.newInstance(field.getType().getComponentType(), arrayDefault.value()));
-                    field.set(parent, ArrayHelper.handleGenericArray(NBTHandler.readObject(name, field.getType(), nbt), field.getType().getComponentType()));
-                }
+                field.set(parent, ArrayHelper.handleGenericArray(NBTHandler.readObject(name, field.getType(), nbt), field.getType().getComponentType()));
             } else {
                 field.set(parent, NBTHandler.readObject(name, field.getType(), nbt));
             }

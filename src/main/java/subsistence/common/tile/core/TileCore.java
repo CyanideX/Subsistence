@@ -1,6 +1,5 @@
 package subsistence.common.tile.core;
 
-import subsistence.common.network.VanillaPacketHelper;
 import subsistence.common.network.nbt.NBTHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -94,7 +93,7 @@ public abstract class TileCore extends TileEntity {
     }
 
     public void sendPoke() {
-        VanillaPacketHelper.sendToAllWatchingTile(this, new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, POKE_PACKET, new NBTTagCompound()));
+
     }
 
     @Override

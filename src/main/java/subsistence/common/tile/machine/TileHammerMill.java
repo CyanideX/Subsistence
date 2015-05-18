@@ -35,16 +35,15 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
 
     private static final Random random = new Random();
 
-    @NBTHandler.NBTData
+    @NBTHandler.Sync(true)
     public ItemStack processing;
-    @NBTHandler.NBTData
+    @NBTHandler.Sync(true)
     public ItemStack buffer;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public byte grindingStage;
 
-    @NBTHandler.NBTData
+    @NBTHandler.Sync(true)
     public float charge = 0F;
 
     public float angle = 0F;

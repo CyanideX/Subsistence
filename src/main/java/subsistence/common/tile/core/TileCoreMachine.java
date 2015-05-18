@@ -8,8 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public abstract class TileCoreMachine extends TileCore {
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public ForgeDirection orientation = ForgeDirection.UNKNOWN;
 
     public TileCoreMachine() {

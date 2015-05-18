@@ -25,28 +25,22 @@ import java.util.Random;
  */
 public class TileTable extends TileCore {
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public ItemStack stack;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public float durability;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public float amountHammer;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public float amountDrying;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public int decayTimer = 0;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public boolean attractedFlies = false;
 
     public void setStack(ItemStack stack) {

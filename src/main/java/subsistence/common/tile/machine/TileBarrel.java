@@ -2,7 +2,6 @@ package subsistence.common.tile.machine;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -28,22 +27,16 @@ public final class TileBarrel extends TileCoreMachine {
 
     public boolean needHeat = false;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public FluidStack fluid;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public ItemStack[] contents;
 
-    @NBTHandler.NBTData
     public int processTimeElapsed = 0;
-
-    @NBTHandler.NBTData
     public float currentTemperature = 0F;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     private boolean hasLid;
 
     private int delayTick = 0;
@@ -240,7 +233,7 @@ public final class TileBarrel extends TileCoreMachine {
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
-    @Override
+    /*@Override
     public void readCustomNBT(NBTTagCompound nbtRoot) {
         super.readCustomNBT(nbtRoot);
         if (nbtRoot.getBoolean("has_fluid")) {
@@ -258,5 +251,5 @@ public final class TileBarrel extends TileCoreMachine {
             nbtRoot.setString("fluid_name", FluidRegistry.getFluidName(this.fluid.fluidID));
             nbtRoot.setInteger("fluid_amount", this.fluid.amount);
         }
-    }
+    }*/
 }

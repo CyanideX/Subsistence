@@ -19,8 +19,7 @@ public class TileWaterMill extends TileCoreMachine {
 
     private float lastSpeed = 0F;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public float speed = 0F;
 
     private float clientSpeed = 0F;

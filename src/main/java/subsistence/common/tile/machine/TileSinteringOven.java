@@ -10,8 +10,7 @@ public class TileSinteringOven extends TileCoreMachine {
 
     public float currentAngle = 0.0F;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public boolean open = false;
 
     @Override

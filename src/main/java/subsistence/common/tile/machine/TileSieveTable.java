@@ -23,13 +23,12 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
     private static final int INVENTORY_SIZE = 9;
 
-    @NBTHandler.ArrayDefault(INVENTORY_SIZE)
-    @NBTHandler.NBTData
+    @NBTHandler.Sync(true)
     public ItemStack[] processing = new ItemStack[INVENTORY_SIZE];
 
-    @NBTHandler.NBTData
+    @NBTHandler.Sync(true)
     public int maxProcessingTime = 0;
-    @NBTHandler.NBTData
+    @NBTHandler.Sync(true)
     public int currentProcessingTime = 0;
 
     @Override

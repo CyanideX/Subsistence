@@ -10,10 +10,9 @@ import subsistence.common.tile.core.TileCoreMachine;
  */
 public class TileHandCrank extends TileCoreMachine {
 
-    @NBTHandler.NBTData
+    @NBTHandler.Sync(false)
     public boolean reverse = false;
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public float spin = 0F;
 
     @Override

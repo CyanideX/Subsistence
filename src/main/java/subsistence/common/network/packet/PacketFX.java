@@ -54,7 +54,7 @@ public class PacketFX implements IMessage {
 
     public static void breakFX(int dim, int x, int y, int z, ItemStack stack) {
         PacketFX packet = new PacketFX(x, y, z, stack);
-        PacketHandler.net.sendToAllAround(packet, new NetworkRegistry.TargetPoint(dim, x, y, z, MAX_PARTICLE_RANGE));
+        PacketHandler.INSTANCE.sendToAllAround(packet, new NetworkRegistry.TargetPoint(dim, x, y, z, MAX_PARTICLE_RANGE));
     }
 
     @Override

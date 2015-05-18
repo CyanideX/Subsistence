@@ -15,16 +15,13 @@ public class TileMetalPress extends TileCoreMachine {
     public final float max = 1f;
     public float currentAngle = 0f;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public ItemStack itemStack;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public int amount;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public boolean closed = false;
 
     public int switchClosed;

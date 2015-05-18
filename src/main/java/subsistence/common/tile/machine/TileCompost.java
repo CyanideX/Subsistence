@@ -23,26 +23,17 @@ public class TileCompost extends TileCoreMachine {
     public boolean needHeat = false;
     public final float maxTemperature = 32;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public boolean lidOpen = true;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public FluidStack fluid;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
+    @NBTHandler.Sync(true)
     public ItemStack[] contents;
 
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
     public int processTimeElapsed = 0;
-
-    @NBTHandler.NBTData
-    @NBTHandler.DescriptionData
     public float currentTemperature = 0F;
-
     public float currentAngle = 0f;
 
     public TileCompost() {
