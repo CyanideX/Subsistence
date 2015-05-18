@@ -8,6 +8,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -128,6 +129,14 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
         return world.setBlockToAir(x, y, z);
     }
 
+    @Override
+    public IIcon getIcon(int side, int meta) {
+        // Replace with proper textures mimicking model textures?
+        switch (meta) {
+            case 1: return Blocks.stone.getIcon(0, 0);
+            default: return Blocks.planks.getIcon(0, 0);
+        }
+    }
 
     @Override
     public int quantityDropped(Random rand) {

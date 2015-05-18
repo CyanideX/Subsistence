@@ -1,5 +1,6 @@
 package subsistence.common.block.machine;
 
+import net.minecraft.util.IIcon;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -96,5 +97,14 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
             }
         }
         return !player.isSneaking();
+    }
+
+    @Override
+    public IIcon getIcon(int side, int meta) {
+        // Replace with proper textures mimicking model textures?
+        switch (meta) {
+            case 1: return Blocks.stone.getIcon(0, 0);
+            default: return Blocks.planks.getIcon(0, 0);
+        }
     }
 }
