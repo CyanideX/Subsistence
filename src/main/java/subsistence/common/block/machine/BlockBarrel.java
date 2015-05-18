@@ -1,5 +1,8 @@
 package subsistence.common.block.machine;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
@@ -16,7 +19,10 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
+import subsistence.common.fluid.SubsistenceFluids;
 import subsistence.common.item.SubsistenceItems;
+import subsistence.common.lib.client.EnumParticle;
+import subsistence.common.particle.SteamFX;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.tile.machine.TileBarrel;
 import subsistence.common.util.ArrayHelper;
@@ -146,6 +152,18 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
             return tileBarrel.fluid.getFluid().getLuminosity();
         } else {
             return 0;
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+        super.randomDisplayTick(world, x, y, z, rand);
+
+        TileBarrel tileBarrel = (TileBarrel) world.getTileEntity(x, y, z);
+        if (tileBarrel != null && tileBarrel.fluid != null && tileBarrel.fluid.getFluid() == SubsistenceFluids.boilingWaterFluid) {
+            EnumParticle.BUBBLE.display(world, x + rand.nextDouble(), y, z + rand.nextDouble(), 0, 0.5, 0);
+            FMLClientHandler.instance().getClient().effectRenderer.addEffect(new SteamFX(world, x + rand.nextDouble(), y + 1, z + rand.nextDouble(), rand.nextInt(2), 0));
         }
     }
 
