@@ -5,23 +5,25 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.wrapper.module.RestrictedType;
+import subsistence.common.recipe.wrapper.module.core.ModularObject;
 import subsistence.common.util.StackHelper;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * @author dmillerw
- *         Temporary class?
- * @author MattDahEpic
  */
 public class RecipeParser {
-
 
     public static void resetParsed() {
         SubsistenceRecipes.SIEVE.clear();
@@ -30,6 +32,32 @@ public class RecipeParser {
         SubsistenceRecipes.COMPOST.clear();
         SubsistenceRecipes.METAL_PRESS.clear();
         SubsistenceRecipes.PERISHABLE.clear();
+    }
+
+    public static boolean checkTypes(Object instance) {
+        //TODO Logging, proper dying, eetc
+
+        Class<?> clazz = instance.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            try {
+                if (field.getType().isAssignableFrom(ModularObject.class)) {
+                    RestrictedType annotation = field.getAnnotation(RestrictedType.class);
+
+                    if (annotation != null) {
+                        ModularObject modularObject = (ModularObject) field.get(instance);
+                        if (!Arrays.asList(annotation.value()).contains(modularObject.type)) {
+                            SubsistenceLogger.warn("Field '" + field.getName() + "' of recipe '" + clazz.getSimpleName() + "' cannot be of type '" + modularObject.type + "'");
+                            return false;
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static void dumpItems(File file) throws IOException {
