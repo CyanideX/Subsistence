@@ -11,20 +11,20 @@ public class TableDryingRecipe {
 
     private final ItemStack input;
     private final ItemStack output;
-    private final float speed;
+    private final int duration;
 
-    public TableDryingRecipe(ItemStack input, ItemStack output, float speed) {
+    public TableDryingRecipe(ItemStack input, ItemStack output, int duration) {
         this.input = input;
         this.output = output;
-        this.speed = speed;
+        this.duration = duration;
     }
 
     public boolean isInputStack(ItemStack stack) {
         return stack != null && StackHelper.areStacksSimilar(stack, input, true);
     }
 
-    public float getSpeed() {
-        return speed;
+    public float getDuration() {
+        return duration;
     }
 
     public ItemStack getOutput() {

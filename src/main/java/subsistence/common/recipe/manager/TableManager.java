@@ -18,11 +18,11 @@ public class TableManager {
     private List<TableRecipe> recipesTable = new ArrayList<TableRecipe>();
     private List<TableDryingRecipe> recipesDrying = new ArrayList<TableDryingRecipe>();
 
-    public void registerHammerRecipe(Object input, Object output, float durability, float speed, boolean table, boolean hammerMill) {
+    public void registerHammerRecipe(Object input, Object output, float durability, int speed, boolean table, boolean hammerMill) {
         registerRecipe(input, output, ToolDefinition.HAMMER, durability, speed, table, hammerMill);
     }
 
-    public void registerRecipe(Object input, Object output, ToolDefinition tool, float durability, float speed, boolean table, boolean hammerMill) {
+    public void registerRecipe(Object input, Object output, ToolDefinition tool, float durability, int speed, boolean table, boolean hammerMill) {
         if (input == null || output == null || tool == null || durability < 0F) {
             return;
         }
@@ -61,8 +61,8 @@ public class TableManager {
     }
 
 
-    public void registerDryingRecipe(Object input, Object output, float speed) {
-        if (input == null || output == null || speed < 0F) {
+    public void registerDryingRecipe(Object input, Object output, int duration) {
+        if (input == null || output == null || duration < 0F) {
             return;
         }
 
@@ -71,7 +71,7 @@ public class TableManager {
 
         if (out.length > 0) {
             for (ItemStack stack : in) {
-                register(new TableDryingRecipe(stack, out[0], speed));
+                register(new TableDryingRecipe(stack, out[0], duration));
             }
         }
     }

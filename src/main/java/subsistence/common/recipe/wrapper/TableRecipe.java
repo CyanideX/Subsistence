@@ -13,7 +13,7 @@ public class TableRecipe {
     private final ItemStack output;
 
     private final ToolDefinition tool;
-    private final float speed;
+    private final int speed;
 
     private final boolean table;
     private final boolean hammerMill;
@@ -22,7 +22,7 @@ public class TableRecipe {
     public final boolean damageTool;
 
 
-    public TableRecipe(ItemStack input, ItemStack output, ToolDefinition tool, float speed, boolean table, boolean hammerMill, boolean ignoreNBT, boolean damageTool) {
+    public TableRecipe(ItemStack input, ItemStack output, ToolDefinition tool, int speed, boolean table, boolean hammerMill, boolean ignoreNBT, boolean damageTool) {
         this.input = input;
         this.output = output;
         this.tool = tool;
@@ -54,7 +54,7 @@ public class TableRecipe {
         return out;
     }
 
-    public float getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 

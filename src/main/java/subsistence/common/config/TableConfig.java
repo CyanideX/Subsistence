@@ -16,7 +16,6 @@ import java.io.IOException;
  */
 public class TableConfig {
 
-
     public static class ParsedRecipe {
 
         public Recipe[] recipes;
@@ -34,7 +33,7 @@ public class TableConfig {
         public String input;
         public String output;
         public float durability;
-        public float duration;
+        public int duration;
         public String type = "both";
     }
 

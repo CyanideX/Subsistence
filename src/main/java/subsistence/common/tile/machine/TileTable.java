@@ -83,7 +83,7 @@ public class TileTable extends TileCore {
         TableDryingRecipe recipe = SubsistenceRecipes.TABLE.getDrying(stack);
         if (recipe != null) {
             amountDrying++;
-            if (amountDrying >= recipe.getSpeed()) {
+            if (amountDrying >= recipe.getDuration()) {
                 stack = recipe.getOutput();
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 amountDrying = 0;

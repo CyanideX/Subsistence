@@ -5,6 +5,9 @@ import subsistence.common.lib.ExtensionFilter;
 
 import java.io.File;
 
+/**
+ * @author MattDahEpic
+ */
 public class ConfigManager {
 
     public static File mainFile = new File(Subsistence.configPath, "main.json");
@@ -64,7 +67,7 @@ public class ConfigManager {
                 if (type.equalsIgnoreCase("sieve")) {
                     SieveConfig.parseFile(file);
                 } else if (type.equalsIgnoreCase("table")) {
-                    TableConfig.parseFile(file, typeAndSubDir.substring(typeAndSubDir.lastIndexOf("/")));
+                    TableConfig.parseFile(file, typeAndSubDir.substring(typeAndSubDir.lastIndexOf("/") + 1));
                 } else if (type.equalsIgnoreCase("barrel")) {
                     BarrelConfig.parseFile(file);
                 } else if (type.equalsIgnoreCase("compost")) {
