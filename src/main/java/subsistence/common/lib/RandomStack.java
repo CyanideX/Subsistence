@@ -16,6 +16,11 @@ public class RandomStack {
     private final float chance;
 
     public RandomStack(ItemStack stack, float chance) {
+        if (chance < 0F)
+            chance = 0F;
+        if (chance > 1F)
+            chance = 1F;
+
         this.stack = stack;
         this.chance = chance;
     }

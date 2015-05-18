@@ -1,69 +1,58 @@
 package subsistence.common.config;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
 import subsistence.common.lib.RandomStack;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.core.RecipeParser;
 import subsistence.common.recipe.wrapper.SieveRecipe;
+import subsistence.common.recipe.wrapper.stack.GenericStack;
 import subsistence.common.util.JsonUtil;
-import subsistence.common.util.StackHelper;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author lclc98
  */
 public class SieveConfig {
 
-    public static class ParsedRecipe {
-
-        public Recipe[] recipes;
-
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("RECIPES: [");
-            for (int i = 0; i < recipes.length; i++) {
-                Recipe output = recipes[i];
-                sb.append(output.toString());
-                if (i != recipes.length - 1) {
-                    sb.append(", ");
-                }
-            }
-            sb.append("]");
-            return sb.toString();
-        }
-    }
-
     public static class Recipe {
 
-        public String input;
-        public Output[] outputBlock;
-        public Output[] outputHand;
-        public int durationBlock;
-        public int durationHand;
-
+        public GenericStack input;
+        public Output[] output;
+        public Duration duration = new Duration(20, 20);
     }
 
     public static class Output {
 
-        public String item;
-        public float chance;
+        public ItemStack item;
+        public float chance = 0F;
+        public String type = "both";
+    }
 
-        @Override
-        public String toString() {
-            return item + " : " + chance + " : ";
+    public static class Duration {
+
+        public Duration() {}
+        public Duration(int b, int h) {
+            block = b;
+            hand = h;
         }
+
+        public int block;
+        public int hand;
     }
 
     public static void parseFile(File file) {
         try {
             SubsistenceLogger.info("Parsing " + file.getName());
-            ParsedRecipe recipe = JsonUtil.gson().fromJson(new FileReader(file), ParsedRecipe.class);
-            verifyParse(file.getName(), recipe);
+            Recipe[] recipes = JsonUtil.gson().fromJson(new FileReader(file), Recipe[].class);
+
+            for (Recipe recipe : recipes) {
+                verifyParse(file.getName(), recipe);
+            }
         } catch (IOException ex) {
             SubsistenceLogger.warn("Failed to parse " + file.getName());
         }
@@ -73,55 +62,28 @@ public class SieveConfig {
         //TODO: make default files
     }
 
-    public static void verifyParse(String name, ParsedRecipe recipe) {
-        for (Recipe recipe1 : recipe.recipes) {
-            ItemStack[] input = StackHelper.convert(RecipeParser.getItem(recipe1.input));
+    public static void verifyParse(String name, Recipe recipe) {
+        List<RandomStack> outputBlock = Lists.newArrayList();
+        List<RandomStack> outputHand = Lists.newArrayList();
 
-            RandomStack[] outputBlock = new RandomStack[0];
-            if (recipe1.outputBlock != null) {
-                outputBlock = new RandomStack[recipe1.outputBlock.length];
+        if (recipe.output != null) {
+            for (Output output : recipe.output) {
+                boolean block = output.type.equalsIgnoreCase("both") || output.type.equalsIgnoreCase("block");
+                boolean hand = output.type.equalsIgnoreCase("both") || output.type.equalsIgnoreCase("hand");
 
-                // check for ore dictionary
-                for (int i = 0; i < recipe1.outputBlock.length; i++) {
-                    float chance = recipe1.outputBlock[i].chance;
-                    if (chance < 0F) {
-                        chance = 0F;
-                    } else if (chance > 1F) {
-                        chance = 1F;
-                    }
-                    ItemStack[] stacks = StackHelper.convert(RecipeParser.getItem(recipe1.outputBlock[i].item));
-                    if (stacks != null) {
-                        for (ItemStack stack : stacks) outputBlock[i] = new RandomStack(stack, chance);
-                    }
-                }
+                RandomStack randomStack = new RandomStack(output.item, output.chance);
+
+                if (block)
+                    outputBlock.add(randomStack);
+                if (hand)
+                    outputHand.add(randomStack);
             }
-
-            RandomStack[] outputHand = new RandomStack[0];
-            if (recipe1.outputHand != null) {
-                outputHand = new RandomStack[recipe1.outputHand.length];
-                for (int i = 0; i < recipe1.outputHand.length; i++) {
-                    float chance = recipe1.outputHand[i].chance;
-                    if (chance < 0F) {
-                        chance = 0F;
-                    } else if (chance > 1F) {
-                        chance = 1F;
-                    }
-                    ItemStack[] stacks = StackHelper.convert(RecipeParser.getItem(recipe1.outputHand[i].item));
-                    if (stacks != null) {
-                        for (ItemStack stack : stacks) outputHand[i] = new RandomStack(stack, chance);
-                    }
-                }
-            }
-
-            if (input == null) {
-                throw new NullPointerException(recipe1.input + " is not a valid item!");
-            }
-            for (ItemStack stack : input)
-                SubsistenceRecipes.SIEVE.register(new SieveRecipe(stack, outputBlock, outputHand, recipe1.durationBlock, recipe1.durationHand, true));
-
         }
 
-        int length = recipe.recipes.length;
-        SubsistenceLogger.info("Parsed " + name + ". Loaded " + length + (length > 1 ? " recipes" : " recipe"));
+        final RandomStack[] blockArray = outputBlock.toArray(new RandomStack[outputBlock.size()]);
+        final RandomStack[] handArray = outputHand.toArray(new RandomStack[outputHand.size()]);
+
+        for (ItemStack stack : recipe.input.contents)
+            SubsistenceRecipes.SIEVE.register(new SieveRecipe(stack, blockArray, handArray, recipe.duration.block, recipe.duration.hand, true));
     }
 }
