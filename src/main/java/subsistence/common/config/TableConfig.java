@@ -1,5 +1,6 @@
 package subsistence.common.config;
 
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.item.ItemStack;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.lib.tool.ToolDefinition;
@@ -39,8 +40,9 @@ public class TableConfig {
             for (Recipe recipe : recipes) {
                 verifyParse(file.getName(), recipe, type);
             }
-        } catch (IOException ex) {
+        } catch (IOException|JsonSyntaxException ex) { //if multi catches can not be used in your ide, change your project level to 7+
             SubsistenceLogger.warn("Failed to parse " + file.getName());
+            ex.printStackTrace();
         }
     }
 

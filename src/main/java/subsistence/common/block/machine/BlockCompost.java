@@ -1,18 +1,18 @@
 package subsistence.common.block.machine;
 
-import net.minecraft.util.IIcon;
-import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import subsistence.common.tile.machine.TileCompost;
-import subsistence.common.util.ArrayHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
+import subsistence.common.tile.machine.TileCompost;
+import subsistence.common.util.ArrayHelper;
 
 /**
  * Created by Thlayli
@@ -50,9 +50,7 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
 
         TileCompost tileCompost = (TileCompost) world.getTileEntity(x, y, z);
 
-        if (tileCompost != null) {
-
-
+        if (tileCompost != null && !world.isRemote) {
             ItemStack held = player.getHeldItem();
 
             if (player.isSneaking()) {

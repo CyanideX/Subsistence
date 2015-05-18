@@ -17,7 +17,7 @@ public class JsonUtil {
 
             gsonBuilder.registerTypeAdapter(ModularObject.class, new ModularObject.Deserializer());
 
-            gson = gsonBuilder.create();
+            gson = gsonBuilder.setPrettyPrinting().create();
         }
         return gson;
     }
