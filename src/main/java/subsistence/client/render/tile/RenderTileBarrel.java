@@ -5,11 +5,13 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
 import subsistence.client.render.SubsistenceTileRenderer;
+import subsistence.common.fluid.SubsistenceFluids;
 import subsistence.common.tile.machine.TileBarrel;
 import subsistence.common.util.RenderHelper;
 
@@ -60,10 +62,12 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         float s = 1.0F / 256.0F * 14.0F;
         float level = (float) tile.fluid.amount / (float) tile.getCapacity();
 
+        final Fluid fluid = tile.fluid.getFluid();
+
         GL11.glTranslatef(-0.40F, (TileBarrel.DIMENSION_FILL * level) - TileBarrel.DIMENSION_FILL / 2, -0.40F);
         GL11.glScalef(s / 1.0F, s / 1.0F, s / 1.0F);
 
-        if (tile.fluid.getFluid() == FluidRegistry.WATER) {
+        if (isFluidTransparent(fluid)) {
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glColor4f(1, 1, 1, 0.75F);
             OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
@@ -72,12 +76,16 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         this.bindTexture(TextureMap.locationBlocksTexture);
         this.renderIcon(0, 0, icon, 15, 15);
 
-        if (tile.fluid.getFluid() == FluidRegistry.WATER) {
+        if (isFluidTransparent(fluid)) {
             GL11.glColor4f(1, 1, 1, 1);
             GL11.glDisable(GL11.GL_BLEND);
         }
 
         GL11.glPopMatrix();
+    }
+
+    private boolean isFluidTransparent(Fluid fluid) {
+        return fluid == FluidRegistry.WATER || fluid == SubsistenceFluids.boilingWaterFluid;
     }
 
     private void renderIcon(int x, int y, IIcon icon, int width, int height) {

@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -135,6 +136,16 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
         switch (meta) {
             case 1: return Blocks.stone.getIcon(0, 0);
             default: return Blocks.planks.getIcon(0, 0);
+        }
+    }
+
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z) {
+        TileBarrel tileBarrel = (TileBarrel) world.getTileEntity(x, y, z);
+        if (tileBarrel != null && tileBarrel.fluid != null) {
+            return tileBarrel.fluid.getFluid().getLuminosity();
+        } else {
+            return 0;
         }
     }
 
