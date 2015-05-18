@@ -3,13 +3,12 @@ package subsistence.common.tile.machine;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.S29PacketSoundEffect;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.config.MainSettingsStatic;
-import subsistence.common.network.VanillaPacketHelper;
 import subsistence.common.network.nbt.NBTHandler;
+import subsistence.common.network.packet.PacketHelper;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
 import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
@@ -93,8 +92,7 @@ public final class TileBarrel extends TileCoreMachine {
             processTimeElapsed++;
             if (processTimeElapsed == 60) {
                 this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.flowing_lava);
-                this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-                VanillaPacketHelper.sendToAllWatchingTile(this, new S29PacketSoundEffect("random.fizz", this.xCoord, this.yCoord, this.zCoord, 1.0F, 1.0F));
+                PacketHelper.playSound("random.fizz", this, 1, 1);
             }
         } else {
             if (getBlockMetadata() == 0) {
@@ -245,18 +243,20 @@ public final class TileBarrel extends TileCoreMachine {
     @Override
     public void readCustomNBT(NBTTagCompound nbtRoot) {
         super.readCustomNBT(nbtRoot);
-        if (fluid.amount > 0) {
-            nbtRoot.setString("fluid_name", FluidRegistry.getFluidName(this.fluid.fluidID));
+        if (nbtRoot.getBoolean("has_fluid")) {
+            fluid = new FluidStack(FluidRegistry.getFluid(nbtRoot.getString("fluid_name")), nbtRoot.getInteger("fluid_amount"));
         } else {
-
+            fluid = null;
         }
-        nbtRoot.setString("fluid_name", this.fluid.getFluid().getName());
-        nbtRoot.setInteger("fluid_amount", this.fluid.amount);
     }
 
     @Override
     public void writeCustomNBT(NBTTagCompound nbtRoot) {
         super.writeCustomNBT(nbtRoot);
-        this.fluid = nbtRoot.getString("fluid_name")
+        if (fluid != null && fluid.amount > 0) {
+            nbtRoot.setBoolean("has_fluid", true);
+            nbtRoot.setString("fluid_name", FluidRegistry.getFluidName(this.fluid.fluidID));
+            nbtRoot.setInteger("fluid_amount", this.fluid.amount);
+        }
     }
 }

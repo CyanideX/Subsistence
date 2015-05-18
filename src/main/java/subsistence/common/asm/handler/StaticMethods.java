@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * @author dmillerw
  */
-public class EntitySpiderMethodHandler {
+public class StaticMethods {
 
     public static EntityPlayer findPlayerToAttack(EntitySpider spider) {
         float brightness = spider.getBrightness(1.0F);

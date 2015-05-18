@@ -14,7 +14,7 @@ import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.config.MainSettingsStatic;
 import subsistence.common.lib.StackReference;
 import subsistence.common.lib.tool.ToolDefinition;
-import subsistence.common.network.PacketFX;
+import subsistence.common.network.packet.PacketFX;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.tile.core.TileCoreMachine;

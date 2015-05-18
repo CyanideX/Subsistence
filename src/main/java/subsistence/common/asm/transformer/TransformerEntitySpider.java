@@ -4,7 +4,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-import subsistence.common.asm.handler.EntitySpiderMethodHandler;
+import subsistence.common.asm.handler.StaticMethods;
 
 /**
  * @author dmillerw
@@ -12,7 +12,7 @@ import subsistence.common.asm.handler.EntitySpiderMethodHandler;
 public class TransformerEntitySpider extends CoreTransformer {
 
     public static final String TARGET_CLASS_NAME = "net.minecraft.entity.monster.EntitySpider";
-    public static final String INVOKE_TARGET_CLASS_NAME = EntitySpiderMethodHandler.class.getName().replace(".", "/");
+    public static final String INVOKE_TARGET_CLASS_NAME = StaticMethods.class.getName().replace(".", "/");
 
     public TransformerEntitySpider() {
         mappings.put("isAIEnabled", "func_70650_aV");

@@ -1,4 +1,4 @@
-package subsistence.common.network;
+package subsistence.common.network.packet;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import subsistence.common.lib.client.EnumParticle;
+import subsistence.common.network.PacketHandler;
 import subsistence.common.util.ItemHelper;
 
 /**
@@ -83,7 +84,7 @@ public class PacketFX implements IMessage {
     }
 
 
-    public static class PacketFXHandler implements IMessageHandler<PacketFX, IMessage> {
+    public static class Handler implements IMessageHandler<PacketFX, IMessage> {
 
         @Override
         public IMessage onMessage(PacketFX message, MessageContext ctx) {

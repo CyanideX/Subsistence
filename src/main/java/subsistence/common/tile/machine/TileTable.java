@@ -9,7 +9,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.lib.DurabilityMapping;
 import subsistence.common.lib.tool.ToolDefinition;
-import subsistence.common.network.PacketFX;
+import subsistence.common.network.packet.PacketFX;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.TableDryingRecipe;

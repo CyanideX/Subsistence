@@ -40,7 +40,7 @@ public class Subsistence {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         FMLCommonHandler.instance().bus().register(instance);
-        PacketHandler.initPackets();
+        PacketHandler.initialize();
         configPath = event.getModConfigurationDirectory().getPath() + File.separator + "/Subsistence/";
         proxy.preInit();
     }
