@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.wrapper.module.component.ComponentFluid;
 import subsistence.common.recipe.wrapper.module.component.ComponentItem;
+import subsistence.common.recipe.wrapper.module.misc.Perishable;
 import subsistence.common.recipe.wrapper.module.process.ProcessMelt;
 import subsistence.common.recipe.wrapper.module.process.ProcessMix;
 
@@ -25,6 +26,7 @@ public class ModularRegistry {
             // Generic
             register("generic.fluid", ComponentFluid.class);
             register("generic.item", ComponentItem.class);
+            register("generic.perishable", Perishable.class);
 
             // Barrel
             register("barrel.process.melt", ProcessMelt.class);

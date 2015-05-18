@@ -40,14 +40,29 @@ public class RecipeParser {
         Class<?> clazz = instance.getClass();
         for (Field field : clazz.getDeclaredFields()) {
             try {
-                if (field.getType().isAssignableFrom(ModularObject.class)) {
-                    RestrictedType annotation = field.getAnnotation(RestrictedType.class);
-
-                    if (annotation != null) {
-                        ModularObject modularObject = (ModularObject) field.get(instance);
-                        if (!Arrays.asList(annotation.value()).contains(modularObject.type)) {
-                            SubsistenceLogger.warn("Field '" + field.getName() + "' of recipe '" + clazz.getSimpleName() + "' cannot be of type '" + modularObject.type + "'");
-                            return false;
+                if (field.getType().isArray()) {
+                    if (field.getType().getComponentType().isAssignableFrom(ModularObject.class)) {
+                        RestrictedType annotation = field.getAnnotation(RestrictedType.class);
+                        if (annotation != null) {
+                            ModularObject[] array = (ModularObject[]) field.get(instance);
+                            for (int i=0; i<array.length; i++) {
+                                ModularObject modularObject = array[i];
+                                if (!Arrays.asList(annotation.value()).contains(modularObject.type)) {
+                                    SubsistenceLogger.warn("Index '" + i + "' of array field '" + field.getName() + "' of recipe '" + clazz.getSimpleName() + "' cannot be of type '" + modularObject.type + "'");
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (field.getType().isAssignableFrom(ModularObject.class)) {
+                        RestrictedType annotation = field.getAnnotation(RestrictedType.class);
+                        if (annotation != null) {
+                            ModularObject modularObject = (ModularObject) field.get(instance);
+                            if (!Arrays.asList(annotation.value()).contains(modularObject.type)) {
+                                SubsistenceLogger.warn("Field '" + field.getName() + "' of recipe '" + clazz.getSimpleName() + "' cannot be of type '" + modularObject.type + "'");
+                                return false;
+                            }
                         }
                     }
                 }

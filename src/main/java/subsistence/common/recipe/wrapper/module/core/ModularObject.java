@@ -17,7 +17,7 @@ public abstract class ModularObject {
     static {
         BLANK = new ModularObject() {
             @Override
-            public void acceptData(JsonObject jsonObject) {
+            public void acceptData(JsonObject jsonObject, JsonDeserializationContext context) {
 
             }
         };
@@ -26,7 +26,7 @@ public abstract class ModularObject {
 
     public String type;
 
-    public abstract void acceptData(JsonObject jsonObject);
+    public abstract void acceptData(JsonObject jsonObject, JsonDeserializationContext context);
 
     public final String getString(JsonObject jsonObject, String key, String def) {
         if (!jsonObject.has(key)) {
@@ -81,7 +81,7 @@ public abstract class ModularObject {
                 return BLANK;
             }
 
-            modularObject.acceptData(data);
+            modularObject.acceptData(data, context);
 
             return modularObject;
         }

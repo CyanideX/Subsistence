@@ -1,5 +1,6 @@
 package subsistence.common.recipe.wrapper.module.component;
 
+import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -14,7 +15,7 @@ public class ComponentFluid extends ModularObject {
     public FluidStack fluidStack;
 
     @Override
-    public void acceptData(JsonObject jsonObject) {
+    public void acceptData(JsonObject jsonObject, JsonDeserializationContext context) {
         String fluid = getString(jsonObject, "fluid", "");
         int amount = getInt(jsonObject, "amount", FluidContainerRegistry.BUCKET_VOLUME);
         fluidStack = new FluidStack(FluidRegistry.getFluid(fluid), amount);

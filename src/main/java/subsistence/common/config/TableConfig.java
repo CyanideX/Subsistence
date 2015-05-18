@@ -1,11 +1,13 @@
 package subsistence.common.config;
 
-import com.google.gson.Gson;
+import net.minecraft.item.ItemStack;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.lib.tool.ToolDefinition;
 import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.core.RecipeParser;
-import subsistence.common.util.StackHelper;
+import subsistence.common.recipe.wrapper.module.RestrictedType;
+import subsistence.common.recipe.wrapper.module.component.ComponentItem;
+import subsistence.common.recipe.wrapper.module.core.ModularObject;
+import subsistence.common.util.JsonUtil;
 
 import java.io.File;
 import java.io.FileReader;
@@ -16,24 +18,15 @@ import java.io.IOException;
  */
 public class TableConfig {
 
-    public static class ParsedRecipe {
-
-        public Recipe[] recipes;
-        public Perishable[] perishable;
-    }
-
-    public static class Perishable {
-
-        public String item;
-        public int duration;
-    }
-
     public static class Recipe {
 
-        public String input;
-        public String output;
+        @RestrictedType("generic.item")
+        public ModularObject input;
+        @RestrictedType("generic.item")
+        public ModularObject output;
         public float durability;
         public int duration;
+        public boolean perishable;
         public String type = "both";
     }
 
@@ -41,8 +34,11 @@ public class TableConfig {
     public static void parseFile(File file, String type) {
         try {
             SubsistenceLogger.info("Parsing " + file.getName());
-            ParsedRecipe recipe = new Gson().fromJson(new FileReader(file), ParsedRecipe.class);
-            verifyParse(file.getName(), recipe, type);
+            Recipe[] recipes = JsonUtil.gson().fromJson(new FileReader(file), Recipe[].class);
+
+            for (Recipe recipe : recipes) {
+                verifyParse(file.getName(), recipe, type);
+            }
         } catch (IOException ex) {
             SubsistenceLogger.warn("Failed to parse " + file.getName());
         }
@@ -52,36 +48,25 @@ public class TableConfig {
         //TODO: make new files
     }
 
-    public static void verifyParse(String name, ParsedRecipe recipe, String type) {
-        for (Recipe recipe1 : recipe.recipes) {
-            Object input = RecipeParser.getItem(recipe1.input);
-            Object output = RecipeParser.getItem(recipe1.output);
+    public static void verifyParse(String name, Recipe recipe, String type) {
+        boolean hammerMill = recipe.type.equalsIgnoreCase("mill") || recipe.type.equalsIgnoreCase("both");
+        boolean table = recipe.type.equalsIgnoreCase("table") || recipe.type.equalsIgnoreCase("both");
 
-            boolean hammerMill = recipe1.type.equalsIgnoreCase("mill") || recipe1.type.equalsIgnoreCase("both");
-            boolean table = recipe1.type.equalsIgnoreCase("table") || recipe1.type.equalsIgnoreCase("both");
-
-            if (input == null) {
-                throw new NullPointerException(recipe1.input + " is not a valid item!");
-            } else if (output == null) {
-                throw new NullPointerException(recipe1.output + " is not a valid item!");
-            }
-
-            if (!table && !hammerMill) {
-                throw new NullPointerException("Please specify table or mill");
-            }
-
-            if (type.equals("hammer"))
-                SubsistenceRecipes.TABLE.registerHammerRecipe(input, output, recipe1.durability, recipe1.duration, table, hammerMill);
-            else if (type.equals("drying")) {
-                SubsistenceRecipes.TABLE.registerDryingRecipe(input, output, recipe1.duration);
-                if (recipe.perishable != null)
-                    for (Perishable p : recipe.perishable)
-                        SubsistenceRecipes.PERISHABLE.put(StackHelper.convert(RecipeParser.getItem(p.item))[0].getItem(), p.duration);
-            } else if (type.equals("axe"))
-                SubsistenceRecipes.TABLE.registerRecipe(input, output, ToolDefinition.AXE, recipe1.durability, recipe1.duration, table, hammerMill);
+        if (!table && !hammerMill) {
+            throw new NullPointerException("Please specify table or mill");
         }
 
-        int length = recipe.recipes.length;
-        SubsistenceLogger.info("Parsed " + name + ". Loaded " + length + (length > 1 ? " recipes" : " recipe"));
+        final ItemStack input = ((ComponentItem)recipe.input).itemStack;
+        final ItemStack output = ((ComponentItem)recipe.output).itemStack;
+
+        if (type.equals("hammer"))
+            SubsistenceRecipes.TABLE.registerHammerRecipe(input, output, recipe.durability, recipe.duration, table, hammerMill);
+        else if (type.equals("drying")) {
+            SubsistenceRecipes.TABLE.registerDryingRecipe(input, output, recipe.duration);
+            if (recipe.perishable) {
+                SubsistenceRecipes.PERISHABLE.put(output.getItem(), recipe.duration);
+            }
+        } else if (type.equals("axe"))
+            SubsistenceRecipes.TABLE.registerRecipe(input, output, ToolDefinition.AXE, recipe.durability, recipe.duration, table, hammerMill);
     }
 }

@@ -1,5 +1,6 @@
 package subsistence.common.recipe.wrapper.module.process;
 
+import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import subsistence.common.recipe.wrapper.module.core.ModularObject;
 
@@ -9,7 +10,7 @@ import subsistence.common.recipe.wrapper.module.core.ModularObject;
 public class ProcessMix extends ModularObject {
 
     @Override
-    public void acceptData(JsonObject jsonObject) {
+    public void acceptData(JsonObject jsonObject, JsonDeserializationContext context) {
 
     }
 }

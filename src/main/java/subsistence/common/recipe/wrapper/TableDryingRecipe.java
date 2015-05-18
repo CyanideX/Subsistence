@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
  */
 public class TableDryingRecipe {
 
-
     private final ItemStack input;
     private final ItemStack output;
+
     private final int duration;
 
     public TableDryingRecipe(ItemStack input, ItemStack output, int duration) {
