@@ -64,10 +64,11 @@ public class TableConfig {
                 throw new NullPointerException(recipe1.input + " is not a valid item!");
             } else if (output == null) {
                 throw new NullPointerException(recipe1.output + " is not a valid item!");
-            } else if (!table && !hammerMill) {
-                throw new NullPointerException("Please specify table or mill");
             }
 
+            if (!table && !hammerMill) {
+                throw new NullPointerException("Please specify table or mill");
+            }
 
             if (type.equals("hammer"))
                 SubsistenceRecipes.TABLE.registerHammerRecipe(input, output, recipe1.durability, recipe1.duration, table, hammerMill);
