@@ -45,8 +45,10 @@ public class BlockMetalPress extends SubsistenceTileBlock {
                     final ItemStack held = player.getHeldItem();
 
                     if (held == null) {
-                        player.setCurrentItemOrArmor(0, tile.itemStack.copy());
-                        tile.itemStack = null;
+                        if (tile.itemStack != null) {
+                            player.setCurrentItemOrArmor(0, tile.itemStack.copy());
+                            tile.itemStack = null;
+                        }
                     } else {
                         if (tile.itemStack == null) {
                             if (SubsistenceRecipes.METAL_PRESS.isAllowed(held)) {
