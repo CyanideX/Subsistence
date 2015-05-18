@@ -4,6 +4,7 @@ import com.google.gson.*;
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -90,7 +91,7 @@ public class JsonUtil {
 
                     Item item = GameData.getItemRegistry().getObject(string);
                     if (item == null) {
-                        throw new JsonParseException(string + " is not a valid Minecraft item!");
+                        throw new JsonParseException(string + " is not a valid item!");
                     }
 
                     return new ItemStack(item);
@@ -114,7 +115,7 @@ public class JsonUtil {
 
                 Item item = GameData.getItemRegistry().getObject(itemString);
                 if (item == null) {
-                    throw new JsonParseException(itemString + " is not a valid Minecraft item!");
+                    throw new JsonParseException(itemString + " is not a valid item!");
                 }
 
                 return new ItemStack(GameData.getItemRegistry().getObject(itemString), amount, damage);
@@ -127,19 +128,35 @@ public class JsonUtil {
         @Override
         public FluidStack deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             if (!json.isJsonObject()) {
-                throw new JsonParseException("Cannot deserialize FluidStack from " + json.getClass().getSimpleName());
+                if (json.isJsonPrimitive()) {
+                    String string = json.getAsString();
+
+                    Fluid fluid = FluidRegistry.getFluid(string);
+                    if (fluid == null) {
+                        throw new JsonParseException(string + " is not a valid fluid!");
+                    }
+
+                    return new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME);
+                } else {
+                    throw new JsonParseException("Cannot deserialize FluidStack from " + json.getClass().getSimpleName());
+                }
+            } else {
+                JsonObject object = json.getAsJsonObject();
+
+                if (!object.has("fluid")) {
+                    throw new JsonParseException("ItemStack json object is missing 'fluid' key");
+                }
+
+                String fluidString = object.get("item").getAsString();
+                int amount = object.has("amount") ? object.get("amount").getAsInt() : FluidContainerRegistry.BUCKET_VOLUME;
+
+                Fluid fluid = FluidRegistry.getFluid(fluidString);
+                if (fluid == null) {
+                    throw new JsonParseException(fluidString + " is not a valid fluid!");
+                }
+
+                return new FluidStack(FluidRegistry.getFluid(fluidString), amount);
             }
-
-            JsonObject object = json.getAsJsonObject();
-
-            if (!object.has("fluid")) {
-                throw new JsonParseException("ItemStack json object is missing 'fluid' key");
-            }
-
-            String fluid = object.get("item").getAsString();
-            int amount = object.has("amount") ? object.get("amount").getAsInt() : FluidContainerRegistry.BUCKET_VOLUME;
-
-            return new FluidStack(FluidRegistry.getFluid(fluid), amount);
         }
     }
 }
