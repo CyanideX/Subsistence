@@ -40,7 +40,10 @@ public class TableConfig {
             for (Recipe recipe : recipes) {
                 verifyParse(file.getName(), recipe, type);
             }
-        } catch (IOException|JsonSyntaxException ex) { //if multi catches can not be used in your ide, change your project level to 7+
+        } catch (IOException ex) {
+            SubsistenceLogger.warn("Failed to parse " + file.getName());
+            ex.printStackTrace();
+        } catch (JsonSyntaxException ex) {
             SubsistenceLogger.warn("Failed to parse " + file.getName());
             ex.printStackTrace();
         }
