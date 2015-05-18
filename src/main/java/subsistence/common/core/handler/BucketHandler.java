@@ -1,5 +1,7 @@
 package subsistence.common.core.handler;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.block.SubsistenceBlocks;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -31,11 +33,10 @@ public class BucketHandler {
     @SubscribeEvent
     public void replaceWater(PlayerInteractEvent event) {
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
-            if (event.entityPlayer.dimension == -1 && event.entityPlayer.getHeldItem().getItem() == Items.water_bucket) {
-                switch (event.face) {
-
-                }
-                event.world.setBlock(event.x, event.y, event.z, SubsistenceBlocks.boilingWater);
+            EntityPlayer entityPlayer = event.entityPlayer;
+            if (entityPlayer.dimension == -1 && entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().getItem() == Items.water_bucket) {
+                ForgeDirection dir = ForgeDirection.getOrientation(event.face);
+                event.world.setBlock(event.x + dir.offsetX, event.y + dir.offsetY, event.z + dir.offsetZ, SubsistenceBlocks.boilingWater);
             }
         }
     }

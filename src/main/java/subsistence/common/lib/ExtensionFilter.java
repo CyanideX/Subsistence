@@ -18,6 +18,6 @@ public class ExtensionFilter implements FilenameFilter {
 
     @Override
     public boolean accept(File dir, String name) {
-        return name.substring(name.lastIndexOf(".")).equals(extension);
+        return name.substring(name.lastIndexOf(".") + 1).equalsIgnoreCase(extension);
     }
 }

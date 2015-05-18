@@ -13,6 +13,8 @@ public class TileMetalPress extends TileCoreMachine {
 
     public final float min = 0.6f;
     public final float max = 1f;
+
+    @NBTHandler.Sync(true)
     public float currentAngle = 0f;
 
     @NBTHandler.Sync(true)
@@ -26,8 +28,7 @@ public class TileMetalPress extends TileCoreMachine {
 
     public int switchClosed;
 
-    @Override
-    public void onPoked() {
+    public void open() {
         if (!closed && currentAngle == max) {
             amount++;
             closed = true;
@@ -37,9 +38,9 @@ public class TileMetalPress extends TileCoreMachine {
 
     @Override
     public void updateEntity() {
-
-        if (!worldObj.isRemote) {
+        if (worldObj.isRemote) {
             updateLid();
+        } else {
             if (itemStack != null) {
                 MetalPressRecipe recipe = SubsistenceRecipes.METAL_PRESS.get(itemStack);
                 if (recipe != null) {
