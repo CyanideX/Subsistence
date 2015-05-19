@@ -1,9 +1,18 @@
 package subsistence.common.config;
 
+import org.apache.commons.io.FileUtils;
 import subsistence.Subsistence;
 import subsistence.common.lib.ExtensionFilter;
+import sun.net.www.protocol.file.FileURLConnection;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * @author MattDahEpic
@@ -31,30 +40,43 @@ public class ConfigManager {
     private static void genDefaultConfigs() {
         if (!recipes.exists()) {
             recipes.mkdirs();
+
+            try {
+                final URL recipesDir = ConfigManager.class.getResource("/assets/subsistence/recipes/");
+                final URLConnection urlConnection = recipesDir.openConnection();
+
+                if (urlConnection instanceof JarURLConnection) {
+                    final JarURLConnection jarURLConnection = (JarURLConnection) urlConnection;
+                    final JarFile jarFile = jarURLConnection.getJarFile();
+
+                    final String path = jarURLConnection.getEntryName();
+
+                    while (jarFile.entries().hasMoreElements()) {
+                        JarEntry entry = jarFile.entries().nextElement();
+
+                        if (entry.getName().startsWith(path)) {
+                            final String fileName = entry.getName().substring(path.length());
+
+                            if (entry.isDirectory()) {
+                                final File dir = new File(recipes, fileName);
+                                if (!dir.exists())
+                                    dir.mkdir();
+                            } else {
+                                final InputStream entryInput = jarFile.getInputStream(entry);
+                                FileUtils.copyInputStreamToFile(entryInput, new File(recipes, fileName));
+                            }
+                        }
+                    }
+                } else if (urlConnection instanceof FileURLConnection) {
+                    FileUtils.copyDirectory(new File(recipesDir.getPath()), recipes);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
+
         if (!mainFile.exists()) {
             MainSettings.makeNewFile(mainFile);
-        }
-        //TODO: make the rest of the stuff
-        File dirBarrel = new File(recipes, "barrel/");
-        if (!dirBarrel.exists()) {
-            BarrelConfig.makeNewFiles();
-        }
-        File dirCompost = new File(recipes, "compost/");
-        if (!dirCompost.exists()) {
-            CompostConfig.makeNewFiles();
-        }
-        File dirMetalPress = new File(recipes, "metalpress/");
-        if (!dirMetalPress.exists()) {
-            MetalPressConfig.makeNewFiles();
-        }
-        File dirSieve = new File(recipes, "sieve/");
-        if (!dirSieve.exists()) {
-            SieveConfig.makeNewFiles();
-        }
-        File dirTable = new File(recipes, "table/");
-        if (!dirTable.exists()) {
-            TableConfig.makeNewFiles();
         }
     }
 
