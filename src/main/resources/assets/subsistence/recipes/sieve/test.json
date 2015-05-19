@@ -9,7 +9,11 @@
         },
         "chance": 1
       }
-    ]
+    ],
+    "duration": {
+      "block": 50
+    },
+    "type": "block"
   },
   {
     "input": "stone",
@@ -18,6 +22,11 @@
         "item": "redstone",
         "chance": 1
       }
-    ]
+    ],
+    "duration": {
+      "block": 50,
+      "hand": 20
+    },
+    "type": "both"
   }
 ]
