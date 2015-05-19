@@ -20,6 +20,7 @@ public class MainSettings {
     public int waterMill = 2;
     public int processRate = 20;
     public int wormwoodDry = 2400;
+    public int compostBucketSize = 1;
     public boolean dumpItems = false;
 
     public MainSettings() {
@@ -35,6 +36,7 @@ public class MainSettings {
             MainSettingsStatic.processRate = settings.processRate;
             MainSettingsStatic.wormwoodDry = settings.wormwoodDry;
             MainSettingsStatic.dumpItems = settings.dumpItems;
+            MainSettingsStatic.compostBucketSize = settings.compostBucketSize;
         } catch (IOException e) {
             SubsistenceLogger.warn("Failed to parse " + file.getName());
             e.printStackTrace();

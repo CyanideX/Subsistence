@@ -2,7 +2,9 @@ package subsistence.common.tile.machine;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.config.MainSettingsStatic;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.CompostRecipe;
@@ -66,6 +68,11 @@ public class TileCompost extends TileCoreMachine {
         }
     }
 
+    public int getVolume () {
+        return MainSettingsStatic.compostBucketSize*FluidContainerRegistry.BUCKET_VOLUME; //TODO: config value
+    }
+
+
     private void updateTemperature(CompostRecipe recipe) {
         currentTemperature += checkHeatSource(recipe);
         if (recipe.getTimeFire() > -1 || recipe.getTimeLava() > -1 && recipe.getTimeTorch() > -1) {
@@ -90,7 +97,7 @@ public class TileCompost extends TileCoreMachine {
                     contents = new ItemStack[0];
                     voidFluid();
                     addItemToStack(recipe.getOutputItem());
-                    addFluid(recipe.getOutputLiquid());
+                    increaseFluid(recipe.getOutputLiquid());
                 }
             }
         }
@@ -139,9 +146,21 @@ public class TileCompost extends TileCoreMachine {
         return itemStack;
     }
 
-    public void addFluid(FluidStack fluid) {
-        this.fluid = fluid;
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    public boolean increaseFluid(FluidStack inFluid) {
+        if (inFluid != null) {
+            if (this.fluid == null) { //if there's nothing here
+                this.fluid = inFluid;
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                return true;
+            } else if (inFluid.fluidID == this.fluid.fluidID) { //if the same fluid
+                if (this.fluid.amount + inFluid.amount < this.getVolume()) { //if you can hold it
+                    this.fluid.amount = this.fluid.amount + inFluid.amount;
+                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public boolean decreaseFluid(FluidStack inFluid) {

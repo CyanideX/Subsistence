@@ -60,13 +60,21 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
             }
 
             if (side == 1 && tileCompost.lidOpen) {
-
+                //TODO: can you add fluid or only take it out
                 if (held != null && FluidContainerRegistry.isEmptyContainer(held)) {
                     ItemStack container = FluidContainerRegistry.fillFluidContainer(tileCompost.fluid, FluidContainerRegistry.EMPTY_BUCKET);
                     FluidStack fluid = new FluidStack(FluidContainerRegistry.getFluidForFilledItem(held),FluidContainerRegistry.BUCKET_VOLUME);
                     if (tileCompost.decreaseFluid(fluid)) { //if there's enough fluid to remove a full bucket
                         if (!player.capabilities.isCreativeMode) {
-                            player.setCurrentItemOrArmor(0, container); //TODO: change this to work better
+                            if (player.getCurrentEquippedItem().stackSize == 1) {
+                                player.setCurrentItemOrArmor(0, container);
+                            } else {
+                                player.getCurrentEquippedItem().stackSize--;
+                                if (player.inventory.addItemStackToInventory(container)) {
+                                } else {
+                                    player.func_146097_a(container, false, false);
+                                }
+                            }
                         }
                     }
                 } else if (held != null && Block.getBlockFromItem(held.getItem()) != Blocks.air) {

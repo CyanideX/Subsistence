@@ -52,6 +52,7 @@ public class ConfigManager {
             recipes.mkdirs();
 
             //TODO Copying from JAR fails. Investigate
+            //maybe make it from url to File so that it can access the disk? @dmillerw
             try {
                 final URL recipesDir = ConfigManager.class.getResource("/assets/subsistence/recipes/");
                 final URLConnection urlConnection = recipesDir.openConnection();
