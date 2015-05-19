@@ -7,6 +7,7 @@
       "item": "redstone"
     },
     "durability": 5,
-    "duration": 50
+    "duration": 50,
+    "perishable": true
   }
 ]
