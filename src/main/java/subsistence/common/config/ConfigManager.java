@@ -41,6 +41,7 @@ public class ConfigManager {
         if (!recipes.exists()) {
             recipes.mkdirs();
 
+            //TODO Copying from JAR fails. Investigate
             try {
                 final URL recipesDir = ConfigManager.class.getResource("/assets/subsistence/recipes/");
                 final URLConnection urlConnection = recipesDir.openConnection();
@@ -67,7 +68,8 @@ public class ConfigManager {
                             }
                         }
                     }
-                } else if (urlConnection instanceof FileURLConnection) {
+                } else if (urlConnection instanceof FileURLConnection) { //TODO: FileURLConection is technically internal
+                                                                         //      may not exist on all platforms?
                     FileUtils.copyDirectory(new File(recipesDir.getPath()), recipes);
                 }
             } catch (IOException ex) {
