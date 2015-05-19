@@ -1,0 +1,23 @@
+[
+  {
+    "input": "ore:record",
+    "output": [
+      {
+        "item": {
+          "item": "planks",
+          "damage": 1
+        },
+        "chance": 1
+      }
+    ]
+  },
+  {
+    "input": "stone",
+    "output": [
+      {
+        "item": "redstone",
+        "chance": 1
+      }
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "input": {
+      "item": "stone"
+    },
+    "output": {
+      "item": "redstone"
+    },
+    "durability": 5,
+    "duration": 50
+  }
+]
