@@ -61,21 +61,13 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
 
             if (side == 1 && tileCompost.lidOpen) {
 
-                if (tileCompost.fluid == null && FluidContainerRegistry.isFilledContainer(held)) {
-                    FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(held);
-                    if (fluidStack != null) {
-                        if (!player.capabilities.isCreativeMode) {
-                            player.setCurrentItemOrArmor(0, FluidContainerRegistry.EMPTY_BUCKET);
-                        }
-                        tileCompost.addFluid(fluidStack);
-                    }
-                } else if (tileCompost.fluid != null && FluidContainerRegistry.isEmptyContainer(held)) {
+                if (held != null && FluidContainerRegistry.isEmptyContainer(held)) {
                     ItemStack container = FluidContainerRegistry.fillFluidContainer(tileCompost.fluid, FluidContainerRegistry.EMPTY_BUCKET);
-                    if (container != null) {
+                    FluidStack fluid = new FluidStack(FluidContainerRegistry.getFluidForFilledItem(held),FluidContainerRegistry.BUCKET_VOLUME);
+                    if (tileCompost.decreaseFluid(fluid)) { //if there's enough fluid to remove a full bucket
                         if (!player.capabilities.isCreativeMode) {
-                            player.setCurrentItemOrArmor(0, container);
+                            player.setCurrentItemOrArmor(0, container); //TODO: change this to work better
                         }
-                        tileCompost.removeFluid();
                     }
                 } else if (held != null && Block.getBlockFromItem(held.getItem()) != Blocks.air) {
                     ItemStack itemCopy = held.copy();

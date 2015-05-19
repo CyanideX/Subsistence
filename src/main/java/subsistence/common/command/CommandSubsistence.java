@@ -30,6 +30,7 @@ public class CommandSubsistence extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+            ConfigManager.resetLoaded();
             ConfigManager.loadAllFiles();
         } else {
             throw new WrongUsageException(getCommandUsage(sender));

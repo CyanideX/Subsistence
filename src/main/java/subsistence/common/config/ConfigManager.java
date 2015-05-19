@@ -1,16 +1,23 @@
 package subsistence.common.config;
 
+import cpw.mods.fml.common.registry.GameData;
 import org.apache.commons.io.FileUtils;
 import subsistence.Subsistence;
 import subsistence.common.lib.ExtensionFilter;
+import subsistence.common.lib.SubsistenceLogger;
+import subsistence.common.recipe.SubsistenceRecipes;
 import sun.net.www.protocol.file.FileURLConnection;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -21,6 +28,7 @@ public class ConfigManager {
 
     public static File mainFile = new File(Subsistence.configPath, "main.json");
     public static File recipes = new File(Subsistence.configPath, "recipes/");
+    public static File itemDump = new File(Subsistence.configPath, "key_dump.txt");
 
     public static void loadAllFiles() {
         genDefaultConfigs();
@@ -35,6 +43,8 @@ public class ConfigManager {
         loadFile("table/hammer");
         loadFile("table/drying");
         loadFile("table/axe");
+
+        tryDumpItems(itemDump);
     }
 
     private static void genDefaultConfigs() {
@@ -82,6 +92,15 @@ public class ConfigManager {
         }
     }
 
+    public static void resetLoaded () {
+        SubsistenceRecipes.SIEVE.clear();
+        SubsistenceRecipes.TABLE.clear();
+        SubsistenceRecipes.BARREL.clear();
+        SubsistenceRecipes.COMPOST.clear();
+        SubsistenceRecipes.METAL_PRESS.clear();
+        SubsistenceRecipes.PERISHABLE.clear();
+    }
+
     private static void loadFile(String typeAndSubDir) {
         final File recipeDir = new File(recipes, typeAndSubDir);
         final String type = typeAndSubDir.substring(0, typeAndSubDir.lastIndexOf("/"));
@@ -103,9 +122,35 @@ public class ConfigManager {
         }
     }
 
-    public void tryDumpItems(File file) {
-        if (MainSettingsStatic.dumpItems) {
+    public static void tryDumpItems(File file) {
+        try {
+            if (MainSettingsStatic.dumpItems) {
+                if (!file.exists()) {
+                    file.createNewFile();
+                } else {
+                    file.delete();
+                }
 
+                FileWriter fileWriter = new FileWriter(file);
+
+                List<String> keys = new ArrayList<String>();
+
+                for (Object obj : GameData.getItemRegistry().getKeys()) {
+                    keys.add(obj.toString());
+                }
+
+                Collections.sort(keys);
+
+                for (String str : keys) {
+                    fileWriter.write(str + '\n');
+                }
+
+                fileWriter.flush();
+                fileWriter.close();
+            }
+        } catch (IOException ex) {
+            SubsistenceLogger.error("Failed to dump items.");
+            SubsistenceLogger.trace(ex.fillInStackTrace());
         }
     }
 }

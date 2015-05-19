@@ -1,60 +1,16 @@
 package subsistence.common.recipe.core;
 
-import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.util.StackHelper;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author dmillerw
  */
 public class RecipeParser {
-
-    public static void resetParsed() {
-        SubsistenceRecipes.SIEVE.clear();
-        SubsistenceRecipes.TABLE.clear();
-        SubsistenceRecipes.BARREL.clear();
-        SubsistenceRecipes.COMPOST.clear();
-        SubsistenceRecipes.METAL_PRESS.clear();
-        SubsistenceRecipes.PERISHABLE.clear();
-    }
-
-    public static void dumpItems(File file) throws IOException {
-        if (!file.exists()) {
-            file.createNewFile();
-        } else {
-            file.delete();
-        }
-
-        FileWriter fileWriter = new FileWriter(file);
-
-        List<String> keys = new ArrayList<String>();
-
-        for (Object obj : GameData.getItemRegistry().getKeys()) {
-            keys.add(obj.toString());
-        }
-
-        Collections.sort(keys);
-
-        for (String str : keys) {
-            fileWriter.write(str + '\n');
-        }
-
-        fileWriter.flush();
-        fileWriter.close();
-    }
-
-    public static Object getItem(String item) {
+        public static Object getItem(String item) {
 
         ItemStack stack;
         String mod_id = "minecraft";

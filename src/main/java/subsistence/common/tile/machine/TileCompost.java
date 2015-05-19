@@ -1,12 +1,12 @@
 package subsistence.common.tile.machine;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.CompostRecipe;
 import subsistence.common.tile.core.TileCoreMachine;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,7 +88,7 @@ public class TileCompost extends TileCoreMachine {
                 }
                 if (processTimeElapsed >= recipe.getTime()) {
                     contents = new ItemStack[0];
-                    removeFluid();
+                    voidFluid();
                     addItemToStack(recipe.getOutputItem());
                     addFluid(recipe.getOutputLiquid());
                 }
@@ -144,11 +144,27 @@ public class TileCompost extends TileCoreMachine {
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
-    public void removeFluid() {
+    public boolean decreaseFluid(FluidStack inFluid) {
+        if (inFluid != null) { //if you're not clicking with null
+            if (inFluid.fluidID == this.fluid.fluidID) { //and it's the same type
+                if (this.fluid.amount - inFluid.amount > 0) { //and there's more than enough water
+                    processTimeElapsed = 0;
+                    this.fluid.amount = this.fluid.amount - inFluid.amount;
+                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                    return true;
+                } else if (this.fluid.amount - inFluid.amount == 0) { //exactly enough water
+                    this.fluid = null;
+                    processTimeElapsed = 0;
+                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public void voidFluid() {
         this.fluid = null;
         processTimeElapsed = 0;
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
-
-
 }

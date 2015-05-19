@@ -15,11 +15,7 @@ import subsistence.common.item.SubsistenceItems;
 import subsistence.common.lib.tool.ToolDefinition;
 import subsistence.common.network.nbt.data.AbstractSerializer;
 import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.core.RecipeParser;
 import subsistence.common.util.EventUtil;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * @author Royalixor.
@@ -49,12 +45,6 @@ public class CommonProxy {
     public void postInit() {
 
         ConfigManager.loadAllFiles();
-
-        try { //TODO: add config option for dumping this as it adds an extra 2.3 seconds to the loading time for this
-            RecipeParser.dumpItems(new File(Subsistence.configPath, "key_dump.txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         // Tool registration
         ToolDefinition.register(new ItemStack(SubsistenceItems.hammerWood), ToolDefinition.HAMMER, ItemHammer.STRENGTH[0]);
