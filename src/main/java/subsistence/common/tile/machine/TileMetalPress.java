@@ -1,6 +1,7 @@
 package subsistence.common.tile.machine;
 
 import net.minecraft.item.ItemStack;
+import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.MetalPressRecipe;
@@ -21,10 +22,8 @@ public class TileMetalPress extends TileCoreMachine {
 
     @Override
     public void updateEntity() {
-        if (worldObj.isRemote) {
-            //TODO fix animations
-//            updateLid();
-        } else {
+        //if animations were to go here, they would spam. put them in activate
+        if (!worldObj.isRemote) {
             if (itemStack == null)
                 amount = 0;
         }
@@ -38,8 +37,10 @@ public class TileMetalPress extends TileCoreMachine {
 
         MetalPressRecipe recipe = SubsistenceRecipes.METAL_PRESS.get(itemStack);
         if (recipe != null) {
+            SubsistenceLogger.info("*clang*"); //TODO: remove and replace with animations @dmillerw
             if (amount >= recipe.getAmount()) {
                 itemStack = recipe.getOutputItem();
+                SubsistenceLogger.info("Your hard work has earned you a "+itemStack.getDisplayName());
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             }
         }

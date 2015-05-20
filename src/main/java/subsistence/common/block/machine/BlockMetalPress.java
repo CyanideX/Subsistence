@@ -46,11 +46,14 @@ public class BlockMetalPress extends SubsistenceTileBlock {
 
                     if (held == null) {
                         if (tile.itemStack != null) {
-                            player.setCurrentItemOrArmor(0, tile.itemStack.copy());
+                            if (player.inventory.addItemStackToInventory(tile.itemStack.copy())) {
+                            } else { //if not added successfully, drop on ground
+                                player.func_146097_a(tile.itemStack.copy(), false, false);
+                            }
                             tile.itemStack = null;
                         }
-                    } else {
-                        if (tile.itemStack == null) {
+                    } else { //if item in hand
+                        if (tile.itemStack == null) { //and no item in block
                             if (SubsistenceRecipes.METAL_PRESS.isAllowed(held)) {
                                 tile.itemStack = held.copy();
                                 held.stackSize--;
@@ -61,7 +64,6 @@ public class BlockMetalPress extends SubsistenceTileBlock {
                 }
             }
         }
-
         return true;
     }
 }
