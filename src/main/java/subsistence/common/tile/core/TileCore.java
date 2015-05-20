@@ -15,24 +15,23 @@ import java.util.Random;
 public abstract class TileCore extends TileEntity {
 
     private static final int DESCRIPTION_PACKET = 0;
-    private static final int POKE_PACKET = 1;
 
     protected final Random RANDOM;
 
     public void writeCustomNBT(NBTTagCompound nbt) {
+
     }
 
     public void readCustomNBT(NBTTagCompound nbt) {
+
     }
 
     public String[] descriptionPacketFields() {
         return handler.getDescriptionFields();
     }
 
-    public void onPoked() {
-    }
-
     public void onBlockBroken() {
+
     }
 
     protected NBTHandler handler;
@@ -99,18 +98,11 @@ public abstract class TileCore extends TileEntity {
         }
     }
 
-    public void sendPoke() {
-
-    }
-
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         switch (pkt.func_148853_f()) {
             case DESCRIPTION_PACKET:
                 readDescriptionPacket(pkt.func_148857_g());
-                break;
-            case POKE_PACKET:
-                onPoked();
                 break;
             default:
                 break;

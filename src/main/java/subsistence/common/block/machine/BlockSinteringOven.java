@@ -25,7 +25,7 @@ public class BlockSinteringOven extends SubsistenceTileBlock {
 
                 if (tile != null) {
                     tile.open = !tile.open;
-                    tile.sendPoke();
+                    tile.markForUpdate();
                 }
             }
         }

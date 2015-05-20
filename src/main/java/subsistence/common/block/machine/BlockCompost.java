@@ -47,7 +47,6 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fx, float fy, float fz) {
-
         TileCompost tileCompost = (TileCompost) world.getTileEntity(x, y, z);
 
         if (tileCompost != null && !world.isRemote) {
@@ -55,7 +54,6 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
 
             if (player.isSneaking()) {
                 tileCompost.lidOpen = !tileCompost.lidOpen;
-                tileCompost.sendPoke();
                 tileCompost.markForUpdate();
             }
 

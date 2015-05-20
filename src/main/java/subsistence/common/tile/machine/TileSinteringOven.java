@@ -14,11 +14,6 @@ public class TileSinteringOven extends TileCoreMachine {
     public boolean open = false;
 
     @Override
-    public void onPoked() {
-        open = !open;
-    }
-
-    @Override
     public void updateEntity() {
         if (worldObj.isRemote) {
             currentAngle += (open ? 7.5F : -7.5F);
