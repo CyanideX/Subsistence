@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 /**
  * @author dmillerw
  */
-public class GenericStack {
+public class GenericItem {
 
     public ItemStack[] contents;
 }

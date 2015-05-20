@@ -6,7 +6,7 @@ import subsistence.common.lib.RandomStack;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.SieveRecipe;
-import subsistence.common.recipe.wrapper.stack.GenericStack;
+import subsistence.common.recipe.wrapper.stack.GenericItem;
 import subsistence.common.util.JsonUtil;
 
 import java.io.File;
@@ -21,7 +21,7 @@ public class SieveLoader {
 
     public static class Recipe {
 
-        public GenericStack input;
+        public GenericItem input;
         public Output[] output;
         public Duration duration = new Duration(20, 20);
     }

@@ -9,7 +9,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
-import subsistence.common.recipe.wrapper.stack.GenericStack;
+import subsistence.common.recipe.wrapper.stack.GenericItem;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class JsonUtil {
         if (gson == null) {
             GsonBuilder gsonBuilder = new GsonBuilder();
 
-            gsonBuilder.registerTypeAdapter(GenericStack.class, new GenericStackDeserializer());
+            gsonBuilder.registerTypeAdapter(GenericItem.class, new GenericItemDeserializer());
             gsonBuilder.registerTypeAdapter(ItemStack.class, new ItemStackDeserializer());
             gsonBuilder.registerTypeAdapter(FluidStack.class, new FluidStackDeserializer());
 
@@ -34,10 +34,10 @@ public class JsonUtil {
         return gson;
     }
 
-    public static class GenericStackDeserializer implements JsonDeserializer<GenericStack> {
+    public static class GenericItemDeserializer implements JsonDeserializer<GenericItem> {
 
         @Override
-        public GenericStack deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        public GenericItem deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             ItemStack[] contents = new ItemStack[0];
             if (json.isJsonPrimitive()) {
                 boolean resolved = false;
@@ -71,7 +71,7 @@ public class JsonUtil {
                 contents[0] = context.deserialize(json, ItemStack.class);
             }
 
-            GenericStack genericStack = new GenericStack();
+            GenericItem genericStack = new GenericItem();
             genericStack.contents = contents;
             return genericStack;
         }

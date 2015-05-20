@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.MetalPressRecipe;
-import subsistence.common.recipe.wrapper.stack.GenericStack;
+import subsistence.common.recipe.wrapper.stack.GenericItem;
 import subsistence.common.util.JsonUtil;
 
 import java.io.File;
@@ -19,7 +19,7 @@ public class MetalPressLoader {
 
     public static class Recipe {
 
-        public GenericStack input;
+        public GenericItem input;
         public ItemStack output;
         public int amount = 1;
     }
