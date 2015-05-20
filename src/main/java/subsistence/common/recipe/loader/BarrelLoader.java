@@ -1,11 +1,12 @@
-package subsistence.common.config;
+package subsistence.common.recipe.loader;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.core.RecipeParser;
-import subsistence.common.recipe.wrapper.CompostRecipe;
+import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
+import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 import subsistence.common.util.JsonUtil;
 import subsistence.common.util.StackHelper;
 
@@ -17,8 +18,7 @@ import java.util.ArrayList;
 /**
  * @author lclc98
  */
-public class CompostConfig {
-
+public class BarrelLoader {
 
     public static class ParsedRecipe {
 
@@ -29,18 +29,20 @@ public class CompostConfig {
 
         public String[] inputItem;
         public String inputLiquid;
+        public boolean typeWood = false;
         public Output output;
     }
 
     public static class Output {
 
         public String outputLiquid;
-        public String outputItem;
 
+        public int timeTorch;
+        public int timeLava;
+        public int timeFire;
+
+        public String outputItem;
         public int time;
-        public int timeTorch = -1;
-        public int timeLava = -1;
-        public int timeFire = -1;
     }
 
     public static void parseFile(File file) {
@@ -54,7 +56,7 @@ public class CompostConfig {
     }
 
     public static void makeNewFiles() {
-        //TODO: make default files
+        //TODO: default file
     }
 
     private static void verifyParse(String name, ParsedRecipe recipe) {
@@ -90,7 +92,11 @@ public class CompostConfig {
             }
 
 
-            SubsistenceRecipes.COMPOST.register(new CompostRecipe(inputItem.toArray(new ItemStack[inputItem.size()]), inputLiquid, outputItem, outputLiquid, recipe1.output.time, recipe1.output.timeTorch, recipe1.output.timeLava, recipe1.output.timeFire));
+            if (recipe1.typeWood)
+                SubsistenceRecipes.BARREL.registerWood(new BarrelWoodRecipe(inputItem.toArray(new ItemStack[inputItem.size()]), inputLiquid, outputItem, outputLiquid, recipe1.output.time));
+            else
+                SubsistenceRecipes.BARREL.registerStone(new BarrelStoneRecipe(inputItem.toArray(new ItemStack[inputItem.size()]), inputLiquid, outputItem, outputLiquid, recipe1.output.time, recipe1.output.timeTorch, recipe1.output.timeLava, recipe1.output.timeFire));
+
         }
 
         int length = recipe.recipes.length;

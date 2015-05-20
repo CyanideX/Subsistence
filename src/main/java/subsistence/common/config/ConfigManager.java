@@ -6,6 +6,7 @@ import subsistence.Subsistence;
 import subsistence.common.lib.ExtensionFilter;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.loader.*;
 import sun.net.www.protocol.file.FileURLConnection;
 
 import java.io.File;
@@ -109,15 +110,15 @@ public class ConfigManager {
         if (recipeDir.isDirectory()) {
             for (File file : recipeDir.listFiles(ExtensionFilter.JSON)) {
                 if (type.equalsIgnoreCase("sieve")) {
-                    SieveConfig.parseFile(file);
+                    SieveLoader.parseFile(file);
                 } else if (type.equalsIgnoreCase("table")) {
-                    TableConfig.parseFile(file, typeAndSubDir.substring(typeAndSubDir.lastIndexOf("/") + 1));
+                    TableLoader.parseFile(file, typeAndSubDir.substring(typeAndSubDir.lastIndexOf("/") + 1));
                 } else if (type.equalsIgnoreCase("barrel")) {
-                    BarrelConfig.parseFile(file);
+                    BarrelLoader.parseFile(file);
                 } else if (type.equalsIgnoreCase("compost")) {
-                    CompostConfig.parseFile(file);
+                    CompostLoader.parseFile(file);
                 } else if (type.equalsIgnoreCase("metalpress")) {
-                    MetalPressConfig.parseFile(file);
+                    MetalPressLoader.parseFile(file);
                 }
             }
         }

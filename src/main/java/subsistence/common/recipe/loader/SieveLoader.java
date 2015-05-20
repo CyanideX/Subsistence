@@ -1,4 +1,4 @@
-package subsistence.common.config;
+package subsistence.common.recipe.loader;
 
 import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author lclc98
  */
-public class SieveConfig {
+public class SieveLoader {
 
     public static class Recipe {
 

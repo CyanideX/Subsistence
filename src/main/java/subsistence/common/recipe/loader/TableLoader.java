@@ -1,4 +1,4 @@
-package subsistence.common.config;
+package subsistence.common.recipe.loader;
 
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.item.ItemStack;
@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * @author lclc98
  */
-public class TableConfig {
+public class TableLoader {
 
     public static class Recipe {
 
