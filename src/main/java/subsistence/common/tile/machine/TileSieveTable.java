@@ -1,17 +1,18 @@
 package subsistence.common.tile.machine;
 
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.wrapper.SieveRecipe;
-import subsistence.common.tile.core.TileCore;
-import subsistence.common.network.nbt.NBTHandler;
-import subsistence.common.util.InventoryHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
+import subsistence.common.network.nbt.NBTHandler;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.wrapper.SieveRecipe;
+import subsistence.common.tile.core.TileCore;
+import subsistence.common.util.InventoryHelper;
 
 import java.util.List;
 import java.util.Random;
@@ -45,7 +46,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
     public void updateEntity() {
         if (!worldObj.isRemote) {
             // Collect items
-            AxisAlignedBB scan = AxisAlignedBB.getBoundingBox(0, 1, 0, 1, 2, 1).offset(xCoord, yCoord, zCoord);
+            AxisAlignedBB scan = AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 2, 1).offset(xCoord, yCoord, zCoord);
             List entities = worldObj.getEntitiesWithinAABB(EntityItem.class, scan);
 
             if (entities != null && entities.size() > 0) {
@@ -65,11 +66,37 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                             }
                         }
                     } else {
-                        InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, stack, new Random());
+                        Random random = new Random();
+                        if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof ISidedInventory && TileEntityHopper.func_145889_a( (IInventory) worldObj.getTileEntity(xCoord,yCoord-1,zCoord), item.getEntityItem(), 0) == null) {
+                            System.out.println("item inserted, not in recipe, ejecting through bottom");
+                        } else {
+                            InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, item.getEntityItem(), random);
+                            System.out.println("item inserted, not in recipe, dropping");
+                        }
                         item.getEntityItem().stackSize--;
-
                         if (item.getEntityItem().stackSize <= 0) {
                             item.setDead();
+                        }
+                    }
+                }
+            }
+
+            //eject items with no recipes all the time
+            for (int i = 0; i < processing.length; i++) {
+                ItemStack inventory = processing[i];
+                if (inventory != null) {
+                    SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(inventory);
+                    if (recipe == null) {
+                        Random random = new Random();
+                        if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof ISidedInventory && TileEntityHopper.func_145889_a((ISidedInventory) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord), inventory, 0) == null) {
+                            System.out.println("item not in a recipe, eject out bottom");
+                        } else {
+                            InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, inventory, random);
+                            System.out.println("item not in a recipe, dropping");
+                        }
+                        inventory.stackSize--;
+                        if (inventory.stackSize <= 0) {
+                            processing[i] = null;
                         }
                     }
                 }
@@ -100,7 +127,14 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                         Random random = new Random();
 
                         for (ItemStack out : output) {
-                            InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, out, random);
+                            if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof ISidedInventory && TileEntityHopper.func_145889_a( (IInventory) worldObj.getTileEntity(xCoord,yCoord-1,zCoord), out, 0) == null) {
+                                out.stackSize--;
+                                System.out.println("recipe finished, ejecting below");
+                            } else {
+                                InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, out, random);
+                                out.stackSize--;
+                                System.out.println("recipe finished, dropping");
+                             }
                         }
 
                         processed.stackSize--;
@@ -214,7 +248,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
     @Override
     public boolean canInsertItem(int slot, ItemStack stack, int side) {
-        return side == 1 && SubsistenceRecipes.SIEVE.get(stack) != null;
+        return side == 1;
     }
 
     @Override
