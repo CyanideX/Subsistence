@@ -44,7 +44,6 @@ public class BlockMetalPress extends SubsistenceTileBlock {
                 } else {
                     final ItemStack held = player.getHeldItem();
 
-                    //TODO Stack merging
                     if (held == null) {
                         if (tile.itemStack != null) {
                             player.setCurrentItemOrArmor(0, tile.itemStack.copy());
@@ -56,7 +55,7 @@ public class BlockMetalPress extends SubsistenceTileBlock {
                     } else {
                         if (tile.itemStack == null) {
                             final ItemStack copy = held.copy();
-                            copy.stackSize = 1;
+                            copy.stackSize = 1; // We never take more than one item, so this is okay
                             held.stackSize--;
 
                             if (held.stackSize <= 0) {
@@ -66,6 +65,17 @@ public class BlockMetalPress extends SubsistenceTileBlock {
 
                             tile.itemStack = copy;
                             tile.markForUpdate();
+                        } else {
+                            // Compare the two items and make sure there's room
+                            if (held.isItemEqual(tile.itemStack)) {
+                                if ((held.stackSize + 1) <= held.getMaxStackSize()) {
+                                    held.stackSize++;
+                                    ((EntityPlayerMP)player).updateHeldItem();
+
+                                    tile.itemStack = null;
+                                    tile.markForUpdate();
+                                }
+                            }
                         }
                     }
                 }
