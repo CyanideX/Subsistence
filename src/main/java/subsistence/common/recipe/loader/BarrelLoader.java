@@ -55,10 +55,6 @@ public class BarrelLoader {
         }
     }
 
-    public static void makeNewFiles() {
-        //TODO: default file
-    }
-
     private static void verifyParse(String name, ParsedRecipe recipe) {
         for (Recipe recipe1 : recipe.recipes) {
             ArrayList<ItemStack> inputItem = new ArrayList<ItemStack>();

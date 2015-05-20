@@ -53,10 +53,6 @@ public class CompostLoader {
         }
     }
 
-    public static void makeNewFiles() {
-        //TODO: make default files
-    }
-
     private static void verifyParse(String name, ParsedRecipe recipe) {
         for (Recipe recipe1 : recipe.recipes) {
             ArrayList<ItemStack> inputItem = new ArrayList<ItemStack>();

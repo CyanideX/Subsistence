@@ -58,10 +58,6 @@ public class SieveLoader {
         }
     }
 
-    public static void makeNewFiles() {
-        //TODO: make default files
-    }
-
     public static void verifyParse(String name, Recipe recipe) {
         List<RandomStack> outputBlock = Lists.newArrayList();
         List<RandomStack> outputHand = Lists.newArrayList();

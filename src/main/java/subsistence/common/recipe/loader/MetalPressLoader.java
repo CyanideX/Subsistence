@@ -41,10 +41,6 @@ public class MetalPressLoader {
         }
     }
 
-    public static void makeNewFiles() {
-        //TODO: make default recipes
-    }
-
     private static void verifyParse(String name, Recipe recipe) {
         for (ItemStack input : recipe.input.contents) {
             SubsistenceRecipes.METAL_PRESS.register(new MetalPressRecipe(input, recipe.output, recipe.amount));
