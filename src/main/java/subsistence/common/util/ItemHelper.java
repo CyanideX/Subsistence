@@ -25,4 +25,12 @@ public class ItemHelper {
     public static boolean isBlock(ItemStack stack, Block block) {
         return getID(stack) == getID(block);
     }
+
+    public static ItemStack sanitizeStack(ItemStack itemStack) {
+        ItemStack copy = itemStack.copy();
+        if (copy.hasTagCompound() && copy.getTagCompound().hasNoTags()) {
+            copy.setTagCompound(null);
+        }
+        return copy;
+    }
 }

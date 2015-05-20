@@ -118,7 +118,7 @@ public class JsonUtil {
                     throw new JsonParseException(itemString + " is not a valid item!");
                 }
 
-                return new ItemStack(GameData.getItemRegistry().getObject(itemString), amount, damage);
+                return ItemHelper.sanitizeStack(new ItemStack(GameData.getItemRegistry().getObject(itemString), amount, damage));
             }
         }
     }
