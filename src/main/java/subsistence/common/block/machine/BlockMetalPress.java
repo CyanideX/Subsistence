@@ -64,6 +64,7 @@ public class BlockMetalPress extends SubsistenceTileBlock {
                             }
 
                             tile.itemStack = copy;
+                            tile.pauseCount = 40; // So it can be activated immediately
                             tile.markForUpdate();
                         } else {
                             // Compare the two items and make sure there's room
