@@ -65,7 +65,7 @@ public class BlockMetalPress extends SubsistenceTileBlock {
 
                             tile.itemStack = copy;
                             tile.state = false;
-                            tile.pauseCount = 0;
+                            tile.animationTicker = 0;
                             tile.markForUpdate();
                         } else {
                             // Compare the two items and make sure there's room

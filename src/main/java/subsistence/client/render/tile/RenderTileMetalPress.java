@@ -31,7 +31,7 @@ public class RenderTileMetalPress extends SubsistenceTileRenderer<TileMetalPress
     }
 
     private void renderPress(TileMetalPress tile) {
-        final float progress = (tile.pauseCount / (float)TileMetalPress.PAUSE_MAX);
+        final float progress = (tile.animationTicker / (float)TileMetalPress.ANIMATE_TICK_MAX);
 
         GL11.glPushMatrix();
         GL11.glTranslated(0, (-0.375 * progress), 0);
@@ -50,7 +50,7 @@ public class RenderTileMetalPress extends SubsistenceTileRenderer<TileMetalPress
     private void renderIngot(TileMetalPress tile) {
         GL11.glPushMatrix();
         if (tile.itemStack != null) {
-            GL11.glTranslated(0.5, TileMetalPress.ANGLE_MIN - 0.2, 0.3);
+            GL11.glTranslated(0.5, TileMetalPress.RENDER_MIN - 0.2, 0.3);
             GL11.glRotated(90, 1, 0, 0);
 
             RenderHelper.renderItemStack(tile.itemStack, true);
