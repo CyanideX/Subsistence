@@ -3,11 +3,11 @@ package subsistence.common.block.machine;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
-import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.tile.machine.TileMetalPress;
 
 /**
@@ -40,29 +40,34 @@ public class BlockMetalPress extends SubsistenceTileBlock {
             TileMetalPress tile = (TileMetalPress) world.getTileEntity(x, y, z);
             if (tile != null) {
                 if (player.isSneaking()) {
-                    tile.activate();
+                    tile.activate(player);
                 } else {
-                    if (player.getHeldItem() == null) { //pull item out
+                    final ItemStack held = player.getHeldItem();
+
+                    //TODO Stack merging
+                    if (held == null) {
                         if (tile.itemStack != null) {
-                            ItemStack current = tile.itemStack.copy();
-                            current.stackSize = 1;
-                            if (player.inventory.addItemStackToInventory(current.copy())) {
-                            } else { //if not added successfully, drop on ground
-                                player.func_146097_a(current.copy(), false, false);
-                            }
+                            player.setCurrentItemOrArmor(0, tile.itemStack.copy());
+                            ((EntityPlayerMP)player).updateHeldItem();
+
                             tile.itemStack = null;
+                            tile.markForUpdate();
                         }
-                    } else { //put item in
-                        if (tile.itemStack == null) { //no item in block
-                            ItemStack held = player.getHeldItem().copy();
-                            held.stackSize = 1;
-                            if (SubsistenceRecipes.METAL_PRESS.isAllowed(held)) {
-                                tile.itemStack = held;
-                                player.getHeldItem().stackSize--;
+                    } else {
+                        if (tile.itemStack == null) {
+                            final ItemStack copy = held.copy();
+                            copy.stackSize = 1;
+                            held.stackSize--;
+
+                            if (held.stackSize <= 0) {
+                                player.setCurrentItemOrArmor(0, null);
+                                ((EntityPlayerMP)player).updateHeldItem();
                             }
+
+                            tile.itemStack = copy;
+                            tile.markForUpdate();
                         }
                     }
-                    tile.markForUpdate();
                 }
             }
         }

@@ -41,6 +41,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                 InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, stack, RANDOM);
             }
         }
+
         for (ItemStack stack : stuffed) {
             if (stack != null) {
                 InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, stack, RANDOM);

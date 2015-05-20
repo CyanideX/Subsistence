@@ -1,7 +1,8 @@
 package subsistence.common.tile.machine;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import subsistence.common.lib.SubsistenceLogger;
+import net.minecraft.util.ChatComponentText;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.MetalPressRecipe;
@@ -35,19 +36,24 @@ public class TileMetalPress extends TileCoreMachine {
         }
     }
 
-    public void activate() {
+    public void activate(EntityPlayer entityPlayer) {
         if (itemStack == null)
             return;
 
         MetalPressRecipe recipe = SubsistenceRecipes.METAL_PRESS.get(itemStack);
         if (recipe != null && pauseCount >= 40) {
             amount++;
-            SubsistenceLogger.info("*clang*"); //TODO: remove and replace with animations @dmillerw
             pauseCount = 0;
+
+            //TODO: remove and replace with animations @dmillerw
+            entityPlayer.addChatMessage(new ChatComponentText("*clang*"));
+
             if (amount >= recipe.getAmount()) {
-                itemStack = recipe.getOutputItem();
-                SubsistenceLogger.info("Your hard work has earned you a "+itemStack.getDisplayName());
-                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                itemStack = recipe.getOutputItem().copy();
+                markForUpdate();
+
+                //TODO: remove and replace with animations @dmillerw
+                entityPlayer.addChatMessage(new ChatComponentText("Your hard work has earned you a " + itemStack.getDisplayName()));
             }
         }
     }
