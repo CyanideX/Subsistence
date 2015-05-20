@@ -49,8 +49,6 @@ public class TileMetalPress extends TileCoreMachine {
                 SubsistenceLogger.info("Your hard work has earned you a "+itemStack.getDisplayName());
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             }
-        } else {
-            SubsistenceLogger.info("Recipe not valid or animation not finished. No clang for you.");
         }
     }
 }
