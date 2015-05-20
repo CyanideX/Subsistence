@@ -1,8 +1,6 @@
 package subsistence.common.tile.machine;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.MetalPressRecipe;
@@ -29,6 +27,9 @@ public class TileMetalPress extends TileCoreMachine {
     @NBTHandler.Sync(true)
     public boolean state = false; // False = reverting, true = pressing
 
+    // If set to true, the item will be updated at the end of the next animation cycle
+    private boolean checkForUpdate = false;
+
     @Override
     public void updateEntity() {
         if (itemStack == null) {
@@ -41,10 +42,15 @@ public class TileMetalPress extends TileCoreMachine {
                 if (animationTicker < ANIMATE_TICK_MAX) {
                     animationTicker++;
                 } else {
-                    if (pauseTicker >= PAUSE_TICK_MAX)
+                    if (pauseTicker >= PAUSE_TICK_MAX) {
+                        if (!worldObj.isRemote && checkForUpdate) {
+                            updateItem();
+                            checkForUpdate = false;
+                        }
                         state = false;
-                    else
+                    } else {
                         pauseTicker++;
+                    }
                 }
             } else {
                 if (animationTicker > 0)
@@ -56,7 +62,7 @@ public class TileMetalPress extends TileCoreMachine {
         }
     }
 
-    public void activate(EntityPlayer entityPlayer) {
+    public void activate() {
         if (itemStack == null)
             return;
 
@@ -64,20 +70,21 @@ public class TileMetalPress extends TileCoreMachine {
         if (recipe != null && !state && animationTicker == 0) {
             amount++;
             state = true;
+            checkForUpdate = true;
 
-            // We send an update every time we activate and the render should update
             markForUpdate();
+        }
+    }
 
-            //TODO: remove and replace with animations @dmillerw
-            entityPlayer.addChatMessage(new ChatComponentText("*clang*"));
+    private void updateItem() {
+        MetalPressRecipe recipe = SubsistenceRecipes.METAL_PRESS.get(itemStack);
 
-            if (amount >= recipe.getAmount()) {
-                itemStack = recipe.getOutputItem().copy();
-                markForUpdate();
+        // We send an update every time we activate and the render should update
+        markForUpdate();
 
-                //TODO: remove and replace with animations @dmillerw
-                entityPlayer.addChatMessage(new ChatComponentText("Your hard work has earned you a " + itemStack.getDisplayName()));
-            }
+        if (amount >= recipe.getAmount()) {
+            itemStack = recipe.getOutputItem().copy();
+            markForUpdate();
         }
     }
 }

@@ -40,7 +40,7 @@ public class BlockMetalPress extends SubsistenceTileBlock {
             TileMetalPress tile = (TileMetalPress) world.getTileEntity(x, y, z);
             if (tile != null) {
                 if (player.isSneaking()) {
-                    tile.activate(player);
+                    tile.activate();
                 } else {
                     final ItemStack held = player.getHeldItem();
 
