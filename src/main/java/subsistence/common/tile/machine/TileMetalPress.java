@@ -13,25 +13,36 @@ import subsistence.common.tile.core.TileCoreMachine;
  */
 public class TileMetalPress extends TileCoreMachine {
 
-    public static final float MIN = 0.6f;
-    public static final float MAX = 1f;
+    public static final float ANGLE_MIN = 0.6f;
+    public static final float ANGLE_MAX = 1f;
+
+    public static final int PAUSE_MAX = 40;
 
     @NBTHandler.Sync(true)
     public ItemStack itemStack;
     @NBTHandler.Sync(false)
     public int amount;
-    @NBTHandler.Sync(false)
+    @NBTHandler.Sync(true)
     public int pauseCount;
+    @NBTHandler.Sync(true)
+    public boolean state = false; // False = reverting, true = pressing
 
     @Override
     public void updateEntity() {
-        //if animations were to go here, they would spam. put them in activate
-        if (!worldObj.isRemote) {
-            if (itemStack == null) {
-                amount = 0;
-                pauseCount = 0;
-            } else if (pauseCount < 40) {
-                pauseCount++;
+        if (itemStack == null) {
+            amount = 0;
+            pauseCount = 0;
+            state = false;
+        } else {
+            if (state) {
+                if (pauseCount < PAUSE_MAX) {
+                    pauseCount++;
+                } else {
+                    state = false;
+                }
+            } else {
+                if (pauseCount > 0)
+                    pauseCount--;
             }
         }
     }
@@ -41,9 +52,12 @@ public class TileMetalPress extends TileCoreMachine {
             return;
 
         MetalPressRecipe recipe = SubsistenceRecipes.METAL_PRESS.get(itemStack);
-        if (recipe != null && pauseCount >= 40) {
+        if (recipe != null && !state && pauseCount == 0) {
             amount++;
-            pauseCount = 0;
+            state = true;
+
+            // We send an update every time we activate and the render should update
+            markForUpdate();
 
             //TODO: remove and replace with animations @dmillerw
             entityPlayer.addChatMessage(new ChatComponentText("*clang*"));
