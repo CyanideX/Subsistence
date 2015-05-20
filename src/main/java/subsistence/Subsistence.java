@@ -73,7 +73,7 @@ public class Subsistence {
             if (event.player instanceof EntityPlayerMP) {
                 if (MainSettingsStatic.updateChecker) {
                     if (UpdateChecker.updateAvaliable) {
-                        event.player.addChatMessage(new ChatComponentText("§dUpdate for Subsistence available!"));
+                        event.player.addChatMessage(new ChatComponentText("§dUpdate for Subsistence is available!"));
                     }
                 }
             }
