@@ -1,10 +1,12 @@
 package subsistence.common.tile.machine;
 
+import com.google.common.collect.Lists;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -15,7 +17,6 @@ import subsistence.common.tile.core.TileCore;
 import subsistence.common.util.InventoryHelper;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author Royalixor
@@ -26,7 +27,8 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
     @NBTHandler.Sync(true)
     public ItemStack[] processing = new ItemStack[INVENTORY_SIZE];
-
+    @NBTHandler.Sync(true)
+    public ItemStack[] stuffed;
     @NBTHandler.Sync(true)
     public int maxProcessingTime = 0;
     @NBTHandler.Sync(true)
@@ -34,10 +36,15 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
     @Override
     public void onBlockBroken() {
-        Random random = new Random();
         for (ItemStack stack : processing) {
             if (stack != null) {
-                InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, stack, random);
+                InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, stack, RANDOM);
+            }
+        }
+
+        for (ItemStack stack : stuffed) {
+            if (stack != null) {
+                InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, stack, RANDOM);
             }
         }
     }
@@ -49,15 +56,15 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
             AxisAlignedBB scan = AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 2, 1).offset(xCoord, yCoord, zCoord);
             List entities = worldObj.getEntitiesWithinAABB(EntityItem.class, scan);
 
-            if (entities != null && entities.size() > 0) {
-                EntityItem item = (EntityItem) entities.get(0);
-                if (item.getEntityItem() != null) {
-                    ItemStack drop = item.getEntityItem().copy();
-                    drop.stackSize = 1;
+            // If the 'stuffed' array is null or empty, normal sieve operations continue
+            if (stuffed == null || isEmpty(stuffed)) {
+                if (entities != null && entities.size() > 0) {
+                    EntityItem item = (EntityItem) entities.get(0);
+                    if (item.getEntityItem() != null) {
+                        ItemStack drop = item.getEntityItem().copy();
+                        drop.stackSize = 1;
 
-                    SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(item.getEntityItem());
-
-                    if (recipe != null) {
+                        // Collect everything. items that can't be processed are dealt with later
                         if (TileEntityHopper.func_145889_a(this, drop, 1) == null) {
                             item.getEntityItem().stackSize--;
 
@@ -65,92 +72,146 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                                 item.setDead();
                             }
                         }
-                    } else {
-                        Random random = new Random();
-                        if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof IInventory && TileEntityHopper.func_145889_a( (IInventory) worldObj.getTileEntity(xCoord,yCoord-1,zCoord), drop, 1) == null) {
-                        } else {
-                            InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, drop, random);
-                        }
-                        item.getEntityItem().stackSize--;
-                        if (item.getEntityItem().stackSize <= 0) {
-                            item.setDead();
+                    }
+                }
+            }
+
+            // If the 'stuffed' array is null or empty, normal sieve operations continue
+            if (stuffed == null || isEmpty(stuffed)) {
+                //eject items with no recipes all the time
+                for (int i = 0; i < processing.length; i++) {
+                    ItemStack inventory = processing[i];
+                    if (inventory != null) {
+                        SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(inventory);
+                        if (recipe == null) {
+                            ItemStack drop = inventory.copy();
+                            drop.stackSize = 1;
+
+                            inventory.stackSize--;
+                            if (inventory.stackSize <= 0) {
+                                processing[i] = null;
+                            }
+
+                            if (dropItemStack(drop) != null) {
+                                stuffed = new ItemStack[] {drop};
+                            }
                         }
                     }
                 }
             }
 
-            //eject items with no recipes all the time
-            for (int i = 0; i < processing.length; i++) {
-                ItemStack inventory = processing[i];
-                if (inventory != null) {
-                    SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(inventory);
-                    if (recipe == null) {
-                        Random random = new Random();
-                        ItemStack drop = inventory.copy();
-                        drop.stackSize = 1;
-                        if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof IInventory && TileEntityHopper.func_145889_a((IInventory) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord), drop, 1) == null) {
-                        } else {
-                            InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, drop, random);
-                        }
-                        inventory.stackSize--;
-                        if (inventory.stackSize <= 0) {
-                            processing[i] = null;
+            // If the 'stuffed' array is null or empty, normal sieve operations continue
+            if (stuffed == null || isEmpty(stuffed)) {
+                // Set timing if need be
+                if (currentProcessingTime == 0 && maxProcessingTime == 0) {
+                    for (ItemStack processed : processing) {
+                        if (processed != null) {
+                            SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed);
+
+                            if (processingRecipe != null) {
+                                maxProcessingTime = processingRecipe.getDurationBlock();
+                                break;
+                            }
                         }
                     }
                 }
             }
 
-            // Set timing if need be
-            if (currentProcessingTime == 0 && maxProcessingTime == 0) {
-                for (ItemStack processed : processing) {
-                    if (processed != null) {
-                        SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed);
+            // If the 'stuffed' array is null or empty, normal sieve operations continue
+            if (stuffed == null || isEmpty(stuffed)) {
+                // Process items
+                if (currentProcessingTime == maxProcessingTime && maxProcessingTime != 0) {
+                    for (int i = 0; i < processing.length; i++) {
+                        ItemStack processed = processing[i];
 
-                        if (processingRecipe != null) {
-                            maxProcessingTime = processingRecipe.getDurationBlock();
+                        if (processed != null && processed.stackSize > 0) {
+                            SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed);
+                            ItemStack[] output = processingRecipe.get(processed, true);
+
+                            List<ItemStack> stuffedList = Lists.newArrayList();
+
+                            for (ItemStack out : output) {
+                                ItemStack drop = out.copy();
+                                drop.stackSize = 1;
+
+                                if (dropItemStack(drop) == null) {
+                                    out.stackSize--;
+                                } else {
+                                    stuffedList.add(out);
+                                }
+                            }
+
+                            processed.stackSize--;
+                            if (processed.stackSize <= 0) {
+                                processing[i] = null;
+                            }
+
+                            maxProcessingTime = currentProcessingTime = 0;
+
+
+                            if (!stuffedList.isEmpty()) {
+                                this.stuffed = stuffedList.toArray(new ItemStack[stuffedList.size()]);
+                            }
+
                             break;
                         }
                     }
                 }
-            }
 
-            // Process items
-            if (currentProcessingTime == maxProcessingTime && maxProcessingTime != 0) {
-                for (int i = 0; i < processing.length; i++) {
-                    ItemStack processed = processing[i];
-
-                    if (processed != null && processed.stackSize > 0) {
-                        SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed);
-                        ItemStack[] output = processingRecipe.get(processed, true);
-                        Random random = new Random();
-
-                        for (ItemStack out : output) {
-                            ItemStack drop = out.copy();
-                            drop.stackSize = 1;
-                            if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof IInventory && TileEntityHopper.func_145889_a( (IInventory) worldObj.getTileEntity(xCoord,yCoord-1,zCoord), drop, 1) == null) {
-                                out.stackSize--;
-                            } else {
-                                InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, drop, random);
-                                out.stackSize--;
-                             }
-                        }
-
-                        processed.stackSize--;
-                        if (processed.stackSize <= 0) {
-                            processing[i] = null;
-                        }
-
-                        maxProcessingTime = currentProcessingTime = 0;
-
-                        break;
-                    }
+                // Tick process times
+                if (maxProcessingTime != 0 && currentProcessingTime < maxProcessingTime) {
+                    currentProcessingTime++;
                 }
             }
 
-            // Tick process times
-            if (maxProcessingTime != 0 && currentProcessingTime < maxProcessingTime) {
-                currentProcessingTime++;
+            if (stuffed != null && !isEmpty(stuffed)) {
+                // ...we're entirely focused on dumping the stuffed items, and no other processing will take place
+                for (int i=0; i<stuffed.length; i++) {
+                    ItemStack stuff = stuffed[i];
+                    ItemStack drop = stuff.copy();
+                    drop.stackSize = 1;
+
+                    if (dropItemStack(drop) == null) {
+                        stuff.stackSize--;
+                        if (stuff.stackSize <= 0) {
+                            stuffed[i] = null;
+                        }
+                    }
+                }
             }
+        }
+    }
+
+    /**
+     * Attempts to drop a stack either into the inventory below, or on to the ground
+     * @return The resulting ItemStack, as in, whatever wouldn't be properly dropped
+     */
+    private ItemStack dropItemStack(ItemStack itemStack) {
+        TileEntity below = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+        if (below instanceof IInventory) {
+            return TileEntityHopper.func_145889_a((IInventory) below, itemStack, 1);
+        } else {
+            // If there's an empty space underneath the block, it's assumed we can simply drop the item, so we'll return null
+            if (worldObj.isAirBlock(xCoord, yCoord - 1, zCoord)) {
+                InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, itemStack, RANDOM);
+                return null;
+            } else {
+                // Otherwise, wah wahhhhh
+                return itemStack;
+            }
+        }
+    }
+
+    private boolean isEmpty(Object[] array) {
+        if (array == null || array.length == 0) {
+            return true;
+        } else {
+            for (Object object : array) {
+                if (object != null) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 
@@ -246,7 +307,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
     @Override
     public boolean canInsertItem(int slot, ItemStack stack, int side) {
-        return side == 1;
+        return side == 1 && (stuffed == null || isEmpty(stuffed));
     }
 
     @Override

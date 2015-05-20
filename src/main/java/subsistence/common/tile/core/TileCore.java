@@ -1,11 +1,13 @@
 package subsistence.common.tile.core;
 
-import subsistence.common.network.nbt.NBTHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import subsistence.common.network.nbt.NBTHandler;
+
+import java.util.Random;
 
 /**
  * @author dmillerw
@@ -14,6 +16,8 @@ public abstract class TileCore extends TileEntity {
 
     private static final int DESCRIPTION_PACKET = 0;
     private static final int POKE_PACKET = 1;
+
+    protected final Random RANDOM;
 
     public void writeCustomNBT(NBTTagCompound nbt) {
     }
@@ -39,6 +43,9 @@ public abstract class TileCore extends TileEntity {
 
     public TileCore(boolean scan) {
         handler = new NBTHandler(this, scan);
+
+        // One Random instance per tile instance
+        this.RANDOM = new Random();
     }
 
     @Override
