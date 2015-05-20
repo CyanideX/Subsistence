@@ -42,21 +42,23 @@ public class BlockMetalPress extends SubsistenceTileBlock {
                 if (player.isSneaking()) {
                     tile.activate();
                 } else {
-                    final ItemStack held = player.getHeldItem();
-
-                    if (held == null) {
+                    if (player.getHeldItem() == null) { //pull item out
                         if (tile.itemStack != null) {
-                            if (player.inventory.addItemStackToInventory(tile.itemStack.copy())) {
+                            ItemStack current = tile.itemStack.copy();
+                            current.stackSize = 1;
+                            if (player.inventory.addItemStackToInventory(current.copy())) {
                             } else { //if not added successfully, drop on ground
-                                player.func_146097_a(tile.itemStack.copy(), false, false);
+                                player.func_146097_a(current.copy(), false, false);
                             }
                             tile.itemStack = null;
                         }
-                    } else { //if item in hand
-                        if (tile.itemStack == null) { //and no item in block
+                    } else { //put item in
+                        if (tile.itemStack == null) { //no item in block
+                            ItemStack held = player.getHeldItem().copy();
+                            held.stackSize = 1;
                             if (SubsistenceRecipes.METAL_PRESS.isAllowed(held)) {
-                                tile.itemStack = held.copy();
-                                held.stackSize--;
+                                tile.itemStack = held;
+                                player.getHeldItem().stackSize--;
                             }
                         }
                     }
