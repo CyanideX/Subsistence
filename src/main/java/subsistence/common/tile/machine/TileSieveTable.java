@@ -52,13 +52,13 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
             if (entities != null && entities.size() > 0) {
                 EntityItem item = (EntityItem) entities.get(0);
                 if (item.getEntityItem() != null) {
-                    ItemStack stack = item.getEntityItem().copy();
-                    stack.stackSize = 1;
+                    ItemStack drop = item.getEntityItem().copy();
+                    drop.stackSize = 1;
 
                     SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(item.getEntityItem());
 
                     if (recipe != null) {
-                        if (TileEntityHopper.func_145889_a(this, stack, 1) == null) {
+                        if (TileEntityHopper.func_145889_a(this, drop, 1) == null) {
                             item.getEntityItem().stackSize--;
 
                             if (item.getEntityItem().stackSize <= 0) {
@@ -67,10 +67,9 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                         }
                     } else {
                         Random random = new Random();
-                        if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof ISidedInventory && TileEntityHopper.func_145889_a( (IInventory) worldObj.getTileEntity(xCoord,yCoord-1,zCoord), item.getEntityItem(), 1) == null) {
+                        if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof IInventory && TileEntityHopper.func_145889_a( (IInventory) worldObj.getTileEntity(xCoord,yCoord-1,zCoord), drop, 1) == null) {
                             System.out.println("item inserted, not in recipe, ejecting through bottom");
                         } else {
-                            ItemStack drop = new ItemStack(item.getEntityItem().getItem(),1);
                             InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, drop, random);
                             System.out.println("item inserted, not in recipe, dropping");
                         }
@@ -89,10 +88,11 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                     SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(inventory);
                     if (recipe == null) {
                         Random random = new Random();
-                        if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof ISidedInventory && TileEntityHopper.func_145889_a((ISidedInventory) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord), inventory.copy(), 1) == null) {
+                        ItemStack drop = inventory.copy();
+                        drop.stackSize = 1;
+                        if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof IInventory && TileEntityHopper.func_145889_a((IInventory) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord), drop, 1) == null) {
                             System.out.println("item not in a recipe, eject out bottom");
                         } else {
-                            ItemStack drop = new ItemStack(inventory.getItem(),1);
                             InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, drop, random);
                             System.out.println("item not in a recipe, dropping");
                         }
@@ -129,11 +129,12 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                         Random random = new Random();
 
                         for (ItemStack out : output) {
-                            if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof ISidedInventory && TileEntityHopper.func_145889_a( (IInventory) worldObj.getTileEntity(xCoord,yCoord-1,zCoord), out.copy(), 1) == null) {
+                            ItemStack drop = out.copy();
+                            drop.stackSize = 1;
+                            if (worldObj.getTileEntity(xCoord, yCoord - 1, zCoord) instanceof IInventory && TileEntityHopper.func_145889_a( (IInventory) worldObj.getTileEntity(xCoord,yCoord-1,zCoord), drop, 1) == null) {
                                 out.stackSize--;
                                 System.out.println("recipe finished, ejecting below");
                             } else {
-                                ItemStack drop = new ItemStack(out.getItem(),1);
                                 InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, drop, random);
                                 out.stackSize--;
                                 System.out.println("recipe finished, dropping");
