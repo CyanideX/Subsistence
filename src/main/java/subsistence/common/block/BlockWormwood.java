@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import subsistence.common.config.MainSettingsStatic;
+import subsistence.common.config.CoreSettings;
 import subsistence.common.item.SubsistenceItems;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class BlockWormwood extends BlockBush implements IGrowable {
         }
         if (world.getBlockMetadata(x, y, z) > 7) { //if wormwood is fully grown
             tickDry++;
-            if (tickDry >= MainSettingsStatic.wormwoodDry) { //if fully dried
+            if (tickDry >= CoreSettings.STATIC.wormwoodDry) { //if fully dried
                 if (world.getBlockLightValue(x, y + 1, z) >= 9) { //and light above is 9+
                     int l = world.getBlockMetadata(x, y, z);
 

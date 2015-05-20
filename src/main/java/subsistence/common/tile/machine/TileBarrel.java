@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import subsistence.common.config.MainSettingsStatic;
+import subsistence.common.config.CoreSettings;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.network.packet.PacketHelper;
 import subsistence.common.recipe.SubsistenceRecipes;
@@ -70,7 +70,7 @@ public final class TileBarrel extends TileCoreMachine {
 
                     if (!this.hasLid()) {
                         if (this.fluid == null || this.fluid.getFluid() == FluidRegistry.WATER) {
-                            this.addFluid(new FluidStack(FluidRegistry.WATER, MainSettingsStatic.barrelRain));
+                            this.addFluid(new FluidStack(FluidRegistry.WATER, CoreSettings.STATIC.barrelRain));
                         }
                         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                     }

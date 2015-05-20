@@ -13,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 import subsistence.common.command.CommandSubsistence;
 import subsistence.common.command.CommandTPX;
-import subsistence.common.config.MainSettingsStatic;
+import subsistence.common.config.CoreSettings;
 import subsistence.common.network.PacketHandler;
 import subsistence.common.network.UpdateChecker;
 
@@ -61,7 +61,7 @@ public class Subsistence {
     public void onServerStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandSubsistence());
         event.registerServerCommand(new CommandTPX());
-        if (MainSettingsStatic.updateChecker) {
+        if (CoreSettings.STATIC.updateChecker) {
             UpdateChecker.checkForUpdate();
         }
     }
@@ -71,7 +71,7 @@ public class Subsistence {
         //this comment was created in the 100th commit. HAHA I STOLE IT FROM YOU DYLAN
         if (!event.player.worldObj.isRemote) {
             if (event.player instanceof EntityPlayerMP) {
-                if (MainSettingsStatic.updateChecker) {
+                if (CoreSettings.STATIC.updateChecker) {
                     if (UpdateChecker.updateAvaliable) {
                         event.player.addChatMessage(new ChatComponentText("§dUpdate for Subsistence is available!"));
                     }

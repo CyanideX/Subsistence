@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.config.MainSettingsStatic;
+import subsistence.common.config.CoreSettings;
 import subsistence.common.lib.StackReference;
 import subsistence.common.lib.tool.ToolDefinition;
 import subsistence.common.network.packet.PacketFX;
@@ -74,7 +74,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
             }
 
             // Processing
-            if (charge >= MainSettingsStatic.processRate && canFunction()) {
+            if (charge >= CoreSettings.STATIC.processRate && canFunction()) {
                 ItemStack output = getOutput(processing);
                 PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, processing);
 

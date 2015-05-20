@@ -34,7 +34,7 @@ public class ConfigManager {
     public static void loadAllFiles() {
         genDefaultConfigs();
 
-        MainSettings.parseMainSettings(mainFile);
+        CoreSettings.Loader.parse(mainFile);
 
         loadFile("sieve/");
         loadFile("barrel/");
@@ -90,7 +90,7 @@ public class ConfigManager {
         }
 
         if (!mainFile.exists()) {
-            MainSettings.makeNewFile(mainFile);
+            CoreSettings.Loader.makeNewFile(mainFile);
         }
     }
 
@@ -126,7 +126,7 @@ public class ConfigManager {
 
     public static void tryDumpItems(File file) {
         try {
-            if (MainSettingsStatic.dumpItems) {
+            if (CoreSettings.STATIC.dumpItems) {
                 if (!file.exists()) {
                     file.createNewFile();
                 } else {

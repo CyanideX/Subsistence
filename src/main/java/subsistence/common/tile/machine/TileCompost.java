@@ -4,7 +4,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import subsistence.common.config.MainSettingsStatic;
+import subsistence.common.config.CoreSettings;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.CompostRecipe;
@@ -69,7 +69,7 @@ public class TileCompost extends TileCoreMachine {
     }
 
     public int getVolume () {
-        return MainSettingsStatic.compostBucketSize*FluidContainerRegistry.BUCKET_VOLUME; //TODO: config value
+        return CoreSettings.STATIC.compostBucketSize*FluidContainerRegistry.BUCKET_VOLUME; //TODO: config value
     }
 
 
