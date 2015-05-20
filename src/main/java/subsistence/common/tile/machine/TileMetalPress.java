@@ -13,8 +13,8 @@ public class TileMetalPress extends TileCoreMachine {
 
     public static final float RENDER_MIN = 0.6f;
 
-    public static final int ANIMATE_TICK_MAX = 40;
-    public static final int PAUSE_TICK_MAX = 10;
+    public static final int ANIMATE_TICK_MAX = 15;
+    public static final int PAUSE_TICK_MAX = 5;
 
     @NBTHandler.Sync(true)
     public ItemStack itemStack;
