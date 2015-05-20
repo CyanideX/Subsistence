@@ -47,8 +47,12 @@ public class TileMetalPress extends TileCoreMachine {
                             updateItem();
                             checkForUpdate = false;
                         }
+
                         state = false;
                     } else {
+                        if (pauseTicker <= 0) {
+                            worldObj.playSound(xCoord, yCoord, zCoord, "random.anvil_land", 0.25F, 1F, false);
+                        }
                         pauseTicker++;
                     }
                 }
