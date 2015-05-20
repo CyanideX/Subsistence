@@ -19,6 +19,6 @@ public class UpdateChecker {
         } catch (Exception e) {
             SubsistenceLogger.error("Error during attempted update check!");
         }
-        updateAvaliable = remoteVersion.equalsIgnoreCase(Subsistence.VERSION);
+        updateAvaliable = !remoteVersion.equalsIgnoreCase(Subsistence.VERSION);
     }
 }
