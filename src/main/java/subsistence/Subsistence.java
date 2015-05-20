@@ -13,7 +13,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 import subsistence.common.command.CommandSubsistence;
 import subsistence.common.command.CommandTPX;
+import subsistence.common.config.MainSettingsStatic;
 import subsistence.common.network.PacketHandler;
+import subsistence.common.network.UpdateChecker;
 
 import java.io.File;
 
@@ -59,7 +61,9 @@ public class Subsistence {
     public void onServerStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandSubsistence());
         event.registerServerCommand(new CommandTPX());
-
+        if (MainSettingsStatic.updateChecker) {
+            UpdateChecker.checkForUpdate();
+        }
     }
 
     @SubscribeEvent
@@ -67,22 +71,10 @@ public class Subsistence {
         //this comment was created in the 100th commit. HAHA I STOLE IT FROM YOU DYLAN
         if (!event.player.worldObj.isRemote) {
             if (event.player instanceof EntityPlayerMP) {
-                if (event.player.getDisplayName().equalsIgnoreCase("CyanideX")) {
-                    event.player.addChatMessage(new ChatComponentText("<CyanideX> I'm not so sure that text is such a bad idea Matt."));
-                } else if (event.player.getDisplayName().equalsIgnoreCase("Yulife")) {
-                    event.player.addChatMessage(new ChatComponentText("<CyanideX> It's Yulife\n" +
-                            "<Inap> no\n" +
-                            "<CyanideX> Yeah it is"));
-                } else if (event.player.getDisplayName().equalsIgnoreCase("MattDahEpic")) {
-                    event.player.addChatComponentMessage(new ChatComponentText("Matt is so great. G. R. A. T."));
-                } else if (event.player.getDisplayName().equalsIgnoreCase("dmillerw")) {
-                    event.player.addChatComponentMessage(new ChatComponentText("public static void parseMainSettings (File file)"));
-                } else if (event.player.getDisplayName().equalsIgnoreCase("BuhneBatVampire")) {
-                    event.player.addChatComponentMessage(new ChatComponentText("You have played 72 hours of osu! today."));
-                } else if (event.player.getDisplayName().equalsIgnoreCase("lclc98")) {
-                    event.player.addChatComponentMessage(new ChatComponentText("What does func_149851_a do?"));
-                } else if (event.player.getDisplayName().equalsIgnoreCase("FireBall1725")) {
-                    event.player.addChatComponentMessage(new ChatComponentText("Given [Fire Charge] * 1725 to FireBall1725"));
+                if (MainSettingsStatic.updateChecker) {
+                    if (UpdateChecker.updateAvaliable) {
+                        event.player.addChatMessage(new ChatComponentText("§dUpdate for Subsistence available!"));
+                    }
                 }
             }
         }

@@ -10,4 +10,5 @@ public class MainSettingsStatic {
     public static int wormwoodDry;
     public static int compostBucketSize;
     public static boolean dumpItems;
+    public static boolean updateChecker;
 }
