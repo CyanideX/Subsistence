@@ -64,7 +64,7 @@ public class Subsistence {
 
     @SubscribeEvent
     public void onPlayerJoinServer(PlayerEvent.PlayerLoggedInEvent event) {
-        //    just for you dylan  ^
+        //this comment was created in the 100th commit. HAHA I STOLE IT FROM YOU DYLAN
         if (!event.player.worldObj.isRemote) {
             if (event.player instanceof EntityPlayerMP) {
                 if (event.player.getDisplayName().equalsIgnoreCase("CyanideX")) {
