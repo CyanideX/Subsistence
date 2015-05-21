@@ -3,15 +3,22 @@ package subsistence.common.util;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
+import subsistence.common.fluid.SubsistenceFluids;
 
 /**
  * @author dmillerw
@@ -38,6 +45,64 @@ public class RenderHelper {
 
     public static void resetLighting() {
         Minecraft.getMinecraft().gameSettings.ambientOcclusion = lightingCache;
+    }
+
+    private static void bindTexture(ResourceLocation resourceLocation) {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
+    }
+
+    public static void renderColoredIcon(IIcon icon, ResourceLocation textureMap, int color, float level) {
+        float min = -0.5F + 0.125F;
+        float max = 0.5F - 0.125F;
+
+        bindTexture(textureMap);
+
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+
+        tessellator.setColorOpaque_I(color);
+
+        tessellator.setNormal(0, 1, 0);
+
+        tessellator.addVertexWithUV(min, level - 0.5F, min, icon.getMinU(), icon.getMinV());
+        tessellator.addVertexWithUV(min, level - 0.5F, max, icon.getMinU(), icon.getMaxV());
+        tessellator.addVertexWithUV(max, level - 0.5F, max, icon.getMaxU(), icon.getMaxV());
+        tessellator.addVertexWithUV(max, level - 0.5F, min, icon.getMaxU(), icon.getMinV());
+
+        tessellator.draw();
+    }
+
+    public static void renderLiquid(FluidStack fluidStack) {
+        Fluid fluid = fluidStack.getFluid();
+        IIcon icon = fluid.getIcon();
+
+        if (isFluidTransparent(fluid)) {
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glColor4f(1, 1, 1, 0.75F);
+            OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        }
+
+        bindTexture(TextureMap.locationBlocksTexture);
+        renderBasicIcon(0, 0, icon, 15, 15);
+
+        if (isFluidTransparent(fluid)) {
+            GL11.glColor4f(1, 1, 1, 1);
+            GL11.glDisable(GL11.GL_BLEND);
+        }
+    }
+
+    private static boolean isFluidTransparent(Fluid fluid) {
+        return fluid == FluidRegistry.WATER || fluid == SubsistenceFluids.boilingWaterFluid;
+    }
+
+    public static void renderBasicIcon(int x, int y, IIcon icon, int width, int height) {
+        Tessellator tess = Tessellator.instance;
+        tess.startDrawingQuads();
+        tess.addVertexWithUV(x, 0, y + width, icon.getMinU(), icon.getMaxV());
+        tess.addVertexWithUV(x + width, 0, y + height, icon.getMaxU(), icon.getMaxV());
+        tess.addVertexWithUV(x + width, 0, y, icon.getMaxU(), icon.getMinV());
+        tess.addVertexWithUV(x, 0, y, icon.getMinU(), icon.getMinV());
+        tess.draw();
     }
 
     public static void renderItemStack(ItemStack stack, boolean force3D) {

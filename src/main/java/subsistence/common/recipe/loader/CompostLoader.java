@@ -1,5 +1,6 @@
 package subsistence.common.recipe.loader;
 
+import com.google.gson.annotations.SerializedName;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.lib.SubsistenceLogger;
@@ -24,6 +25,9 @@ public class CompostLoader {
         public Output output;
         public Time time;
         public String type = "both"; // wood or stone
+        public boolean condensates = false;
+        @SerializedName("requires_condensate")
+        public boolean requiresCondensate = false;
     }
 
     public static class Output {
@@ -59,17 +63,17 @@ public class CompostLoader {
     }
 
     private static void verifyParse(String name, Recipe recipe) {
-        for (GenericItem genericItem : recipe.input) {
-            SubsistenceRecipes.COMPOST.register(
-                    new CompostRecipe(
-                            genericItem.contents,
-                            recipe.output.item,
-                            recipe.output.fluid,
-                            recipe.time.compost,
-                            recipe.time.heat.torch,
-                            recipe.time.heat.lava,
-                            recipe.time.heat.fire
-                    ));
-        }
+        SubsistenceRecipes.COMPOST.register(
+                new CompostRecipe(
+                        GenericItem.merge(recipe.input).contents,
+                        recipe.output.item,
+                        recipe.output.fluid,
+                        recipe.time.compost,
+                        recipe.time.heat.torch,
+                        recipe.time.heat.lava,
+                        recipe.time.heat.fire,
+                        recipe.condensates,
+                        recipe.requiresCondensate
+                ));
     }
 }

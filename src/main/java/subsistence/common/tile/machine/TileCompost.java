@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.network.nbt.NBTHandler;
@@ -37,8 +38,6 @@ public class TileCompost extends TileCoreMachine {
     public int processingTime;
     @NBTHandler.Sync(true)
     public int maxProcessingTime;
-    @NBTHandler.Sync(true)
-    public boolean isOutput = false;
 
     public CompostRecipe cachedRecipe;
 
@@ -61,10 +60,11 @@ public class TileCompost extends TileCoreMachine {
                 currentAngle = ANGLE_MIN;
             }
         } else {
-            if (!isOutput && contents.length > 0 && cachedRecipe == null)
-                cachedRecipe = SubsistenceRecipes.COMPOST.get(blockMetadata == 1 ? "stone" : "wood", contents);
+            if (contents.length > 0 && cachedRecipe == null)
+                cachedRecipe = SubsistenceRecipes.COMPOST.get(blockMetadata == 1 ? "stone" : "wood", contents, fluid);
 
-            if (!isOutput && cachedRecipe != null) {
+
+            if (cachedRecipe != null) {
                 process();
             }
         }
@@ -85,9 +85,19 @@ public class TileCompost extends TileCoreMachine {
 
                     if (processingTime >= maxProcessingTime) {
                         contents = new ItemStack[] {cachedRecipe.getOutputItem().copy()};
-                        fluid = cachedRecipe.getOutputLiquid().copy();
-                        cachedRecipe = null;
-                        isOutput = true;
+
+                        if (cachedRecipe.requiresCondensate)
+                            fluid = null;
+
+                        if (cachedRecipe.requiresHeat() && cachedRecipe.condensates) {
+                            fluid = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
+                        } else {
+                            FluidStack output = cachedRecipe.getOutputLiquid();
+                            if (output != null)
+                                fluid = output.copy();
+                        }
+
+                        reset();
 
                         markForUpdate();
                     }
@@ -179,9 +189,6 @@ public class TileCompost extends TileCoreMachine {
                 contents[index] = null;
             }
 
-            if (isOutput)
-                reset();
-
             return copy;
         } else {
             return null;
@@ -211,7 +218,5 @@ public class TileCompost extends TileCoreMachine {
         cachedRecipe = null;
         processingTime = 0;
         maxProcessingTime = 0;
-        isOutput = false;
-        contents = new ItemStack[0];
     }
 }

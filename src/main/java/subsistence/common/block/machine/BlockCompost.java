@@ -61,16 +61,14 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
             // Interaction code
             if (tileCompost.lidOpen && side == 1) {
                 if (held != null) {
-                    if (tileCompost.isOutput) {
-                        if (FluidContainerRegistry.isEmptyContainer(held)) {
-                            FluidStack fluidStack = tileCompost.fluid;
+                    if (FluidContainerRegistry.isEmptyContainer(held)) {
+                        FluidStack fluidStack = tileCompost.fluid;
 
-                            if (fluidStack != null) {
-                                ItemStack filled = FluidContainerRegistry.fillFluidContainer(fluidStack, held);
-                                if (filled != null) {
-                                    player.setCurrentItemOrArmor(0, filled);
-                                    tileCompost.updateContents();
-                                }
+                        if (fluidStack != null) {
+                            ItemStack filled = FluidContainerRegistry.fillFluidContainer(fluidStack, held);
+                            if (filled != null) {
+                                player.setCurrentItemOrArmor(0, filled);
+                                tileCompost.updateContents();
                             }
                         }
                     } else {

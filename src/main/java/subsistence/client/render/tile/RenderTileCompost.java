@@ -1,10 +1,11 @@
 package subsistence.client.render.tile;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
@@ -19,7 +20,8 @@ import subsistence.common.util.RenderHelper;
 public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
 
     public static final float RENDER_START = 0.15F;
-    public static final float DIMENSION_FILL = 0.575F;
+    public static final float DIMENSION_FILL = 0.5F;
+    public static final float WATER_FILL = 0.075F;
 
     public final String lid = "lid";
 
@@ -58,23 +60,37 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
         if (tile.contents != null) {
             int lastSize = 0;
 
-            if (tile.isOutput) {
-                final ItemStack itemStack = tile.contents[0];
-                Block block = Block.getBlockFromItem(itemStack.getItem());
-                renderContents(block.getIcon(1, 0), block.getBlockColor(), RENDER_START + DIMENSION_FILL);
-            } else {
-                for (int i = 0; i < tile.contents.length; i++) {
-                    if (tile.contents[i] != null) {
-                        final ItemStack itemStack = tile.contents[i];
+            for (int i = 0; i < tile.contents.length; i++) {
+                if (tile.contents[i] != null) {
+                    final ItemStack itemStack = tile.contents[i];
+                    Item item = itemStack.getItem();
+                    if (item instanceof ItemBlock) {
                         Block block = Block.getBlockFromItem(itemStack.getItem());
-                        renderContents(block.getIcon(1, 0), block.getBlockColor(), RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
-                        lastSize = itemStack.stackSize;
+                        RenderHelper.renderColoredIcon(block.getIcon(1, 0), TextureMap.locationBlocksTexture, block.getBlockColor(), RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
+                    } else {
+                        RenderHelper.renderColoredIcon(item.getIcon(itemStack, 0), TextureMap.locationBlocksTexture, 0xFFFFFF, RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
                     }
+                    lastSize = itemStack.stackSize;
                 }
             }
-        } else if (tile.fluid != null) {
-
         }
+
+        if (tile.fluid != null) {
+            renderLiquid(tile);
+        }
+
+        GL11.glPopMatrix();
+    }
+
+    private void renderLiquid(TileCompost tile) {
+        GL11.glPushMatrix();
+
+        final float progress = 0.625F * ((float) FluidContainerRegistry.BUCKET_VOLUME / tile.fluid.amount);
+        float s = 1.0F / 256.0F * 14.0F;
+        GL11.glTranslatef(-0.40F, -0.4F + progress, -0.40F);
+        GL11.glScalef(s / 1.0F, s / 1.0F, s / 1.0F);
+
+        RenderHelper.renderLiquid(tile.fluid);
 
         GL11.glPopMatrix();
     }
@@ -88,26 +104,5 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
         sinerp = MathFX.sinerp(0, 1, percentage);
         GL11.glRotated((-sinerp) * TileCompost.ANGLE_MAX, 1, 0, 0);
         GL11.glTranslated(0, -0.37, -0.29);
-    }
-
-    private void renderContents(IIcon icon, int color, float level) {
-        float min = -0.5F + 0.1F;
-        float max = 0.5F - 0.1F;
-
-        bindTexture(TextureMap.locationBlocksTexture);
-
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-
-        tessellator.setColorOpaque_I(color);
-
-        tessellator.setNormal(0, 1, 0);
-
-        tessellator.addVertexWithUV(min, level - 0.5F, min, icon.getMinU(), icon.getMinV());
-        tessellator.addVertexWithUV(min, level - 0.5F, max, icon.getMinU(), icon.getMaxV());
-        tessellator.addVertexWithUV(max, level - 0.5F, max, icon.getMaxU(), icon.getMaxV());
-        tessellator.addVertexWithUV(max, level - 0.5F, min, icon.getMaxU(), icon.getMinV());
-
-        tessellator.draw();
     }
 }
