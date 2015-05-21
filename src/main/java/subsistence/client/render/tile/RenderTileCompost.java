@@ -18,6 +18,9 @@ import subsistence.common.util.RenderHelper;
  */
 public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
 
+    public static final float RENDER_START = 0.15F;
+    public static final float DIMENSION_FILL = 0.575F;
+
     public final String lid = "lid";
 
     @Override
@@ -40,7 +43,7 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
                 break;
         }
 
-        final float thickness = 0.575F / (float)volume;
+        final float thickness = DIMENSION_FILL / (float)volume;
 
         Model.COMPOST.renderAllExcept(lid);
 
@@ -58,17 +61,19 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
             if (tile.isOutput) {
                 final ItemStack itemStack = tile.contents[0];
                 Block block = Block.getBlockFromItem(itemStack.getItem());
-                renderContents(block.getIcon(1, 0), block.getBlockColor(), 0.15F + 0.575F);
+                renderContents(block.getIcon(1, 0), block.getBlockColor(), RENDER_START + DIMENSION_FILL);
             } else {
                 for (int i = 0; i < tile.contents.length; i++) {
                     if (tile.contents[i] != null) {
                         final ItemStack itemStack = tile.contents[i];
                         Block block = Block.getBlockFromItem(itemStack.getItem());
-                        renderContents(block.getIcon(1, 0), block.getBlockColor(), 0.15F + (thickness * lastSize) + (thickness * itemStack.stackSize));
+                        renderContents(block.getIcon(1, 0), block.getBlockColor(), RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
                         lastSize = itemStack.stackSize;
                     }
                 }
             }
+        } else if (tile.fluid != null) {
+
         }
 
         GL11.glPopMatrix();
