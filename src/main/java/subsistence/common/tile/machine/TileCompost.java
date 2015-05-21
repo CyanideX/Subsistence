@@ -85,6 +85,7 @@ public class TileCompost extends TileCoreMachine {
 
                     if (processingTime >= maxProcessingTime) {
                         contents = new ItemStack[] {cachedRecipe.getOutputItem().copy()};
+                        fluid = cachedRecipe.getOutputLiquid().copy();
                         cachedRecipe = null;
                         isOutput = true;
 
@@ -140,13 +141,11 @@ public class TileCompost extends TileCoreMachine {
         return true;
     }
 
-    public ItemStack peek() {
-        int index = 0;
+    public ItemStack inventoryPeek() {
         ItemStack last = null;
         for (int i=contents.length - 1; i>=0; i--) {
             last = contents[i];
             if (last != null) {
-                index = i;
                 break;
             }
         }
@@ -155,12 +154,12 @@ public class TileCompost extends TileCoreMachine {
             ItemStack copy = last.copy();
             copy.stackSize = 1;
             return copy;
+        } else {
+            return null;
         }
-
-        return last;
     }
 
-    public ItemStack pop() {
+    public ItemStack inventoryPop() {
         int index = 0;
         ItemStack last = null;
         for (int i=contents.length - 1; i>=0; i--) {
@@ -189,7 +188,26 @@ public class TileCompost extends TileCoreMachine {
         }
     }
 
-    public void reset() {
+    public void updateContents() {
+        boolean emptyContents = true;
+        emptyContents = (contents == null || contents.length == 0);
+
+        if (!emptyContents) {
+            for (ItemStack stack : contents) {
+                if (stack != null)
+                    emptyContents = false;
+            }
+        }
+
+        boolean emptyFluid = (fluid == null || fluid.amount == 0);
+
+        if (emptyContents && emptyFluid)
+            reset();
+
+        markForUpdate();
+    }
+
+    private void reset() {
         cachedRecipe = null;
         processingTime = 0;
         maxProcessingTime = 0;

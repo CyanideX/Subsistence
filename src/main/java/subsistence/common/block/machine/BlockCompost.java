@@ -66,8 +66,11 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
                             FluidStack fluidStack = tileCompost.fluid;
 
                             if (fluidStack != null) {
-                                player.setCurrentItemOrArmor(0, FluidContainerRegistry.fillFluidContainer(fluidStack, held));
-                                tileCompost.markForUpdate();
+                                ItemStack filled = FluidContainerRegistry.fillFluidContainer(fluidStack, held);
+                                if (filled != null) {
+                                    player.setCurrentItemOrArmor(0, filled);
+                                    tileCompost.updateContents();
+                                }
                             }
                         }
                     } else {
@@ -98,22 +101,17 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
                 ItemStack held = entityPlayer.getHeldItem();
 
                 if (held != null) {
-                    ItemStack output = tileCompost.peek();
+                    ItemStack output = tileCompost.inventoryPeek();
                     if (output != null) {
                         if (held.isItemEqual(output) && (held.stackSize + output.stackSize) <= held.getMaxStackSize()) {
                             held.stackSize += output.stackSize;
-                            tileCompost.pop();
-
-                            if (tileCompost.isOutput)
-                                tileCompost.reset();
-
-                            tileCompost.markForUpdate();
+                            tileCompost.inventoryPop();
+                            tileCompost.updateContents();
                         }
                     }
                 } else {
-                    entityPlayer.setCurrentItemOrArmor(0, tileCompost.pop());
-                    tileCompost.reset();
-                    tileCompost.markForUpdate();
+                    entityPlayer.setCurrentItemOrArmor(0, tileCompost.inventoryPop());
+                    tileCompost.updateContents();
                 }
             }
         }
