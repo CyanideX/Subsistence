@@ -1,5 +1,7 @@
 package subsistence.common.config;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import cpw.mods.fml.common.registry.GameData;
 import org.apache.commons.io.FileUtils;
 import subsistence.Subsistence;
@@ -16,9 +18,7 @@ import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -126,7 +126,7 @@ public class ConfigManager {
 
     public static void tryDumpItems(File file) {
         try {
-            if (CoreSettings.STATIC.dumpItems) {
+            if (true) {
                 if (!file.exists()) {
                     file.createNewFile();
                 } else {
@@ -135,16 +135,41 @@ public class ConfigManager {
 
                 FileWriter fileWriter = new FileWriter(file);
 
-                List<String> keys = new ArrayList<String>();
+                Map<String, List<String>> items = Maps.newHashMap();
 
                 for (Object obj : GameData.getItemRegistry().getKeys()) {
-                    keys.add(obj.toString());
+                    String item = obj.toString();
+                    String[] split;
+
+                    if (item.contains(":")) {
+                        split = item.split(":");
+                    } else {
+                        split = new String[] {"Misc", item};
+                    }
+
+                    List<String> list = items.get(split[0]);
+                    if (list == null) list = Lists.newArrayList();
+                    list.add(split[1]);
+                    items.put(split[0], list);
                 }
 
+                List<String> keys = new ArrayList<String>(items.keySet());
                 Collections.sort(keys);
 
-                for (String str : keys) {
-                    fileWriter.write(str + '\n');
+                boolean first = true;
+
+                for (String key : keys) {
+                    if (!first)
+                        fileWriter.append("\n");
+                    fileWriter.append("[").append(key).append("]\n");
+                    first = false;
+
+                    List<String> list = items.get(key);
+                    Collections.sort(list);
+
+                    for (String item : list) {
+                        fileWriter.append(item).append("\n");
+                    }
                 }
 
                 fileWriter.flush();
