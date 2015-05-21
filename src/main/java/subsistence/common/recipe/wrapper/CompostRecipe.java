@@ -2,6 +2,7 @@ package subsistence.common.recipe.wrapper;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.util.ItemHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,17 +13,29 @@ import java.util.List;
 public class CompostRecipe {
 
     private final ItemStack[] inputItem;
-    private final FluidStack inputLiquid;
+
     private final ItemStack outputItem;
     private final FluidStack outputLiquid;
+
     private final int time;
     private final int timeTorch;
     private final int timeLava;
     private final int timeFire;
 
-    public CompostRecipe(ItemStack[] inputItem, FluidStack inputLiquid, ItemStack outputItem, FluidStack outputLiquid, int time, int timeTorch, int timeLava, int timeFire) {
-        this.inputItem = inputItem;
-        this.inputLiquid = inputLiquid;
+    public final String type;
+
+    public CompostRecipe(ItemStack[] input, ItemStack outputItem, FluidStack outputLiquid, int time) {
+        this(input, outputItem, outputLiquid, time, -1, -1, -1, "wood");
+    }
+
+    public CompostRecipe(ItemStack[] inputItem, ItemStack outputItem, FluidStack outputLiquid, int time, int timeTorch, int timeLava, int timeFire) {
+        this(inputItem, outputItem, outputLiquid, time, timeTorch, timeLava, timeFire, "stone");
+    }
+
+    public CompostRecipe(ItemStack[] inputItem, ItemStack outputItem, FluidStack outputLiquid, int time, int timeTorch, int timeLava, int timeFire, String type) {
+        List<ItemStack> merged = ItemHelper.mergeLikeItems(Arrays.asList(inputItem));
+        this.inputItem = merged.toArray(new ItemStack[merged.size()]);
+
         this.outputItem = outputItem;
         this.outputLiquid = outputLiquid;
 
@@ -30,29 +43,23 @@ public class CompostRecipe {
         this.timeTorch = timeTorch;
         this.timeLava = timeLava;
         this.timeFire = timeFire;
+
+        this.type = type;
     }
 
-    public boolean valid(FluidStack fluid, ItemStack[] currentStack) {
-        List<ItemStack> list = Arrays.asList(this.inputItem);
+    public boolean valid(ItemStack[] currentStack) {
         for (ItemStack stack : currentStack) {
             if (stack != null) {
-                boolean ret = false;
 
-                for (ItemStack s : list) {
-                    if (s.getItem() == stack.getItem() && s.getItemDamage() == stack.getItemDamage()) {
-                        ret = true;
-                        list.remove(s);
-                        break;
+                for (ItemStack check : inputItem) {
+                    if (check.getItem() != stack.getItem() || check.getItemDamage() != stack.getItemDamage() || check.stackSize != stack.stackSize) {
+                        return false;
                     }
-                }
-
-                if (!ret) {
-                    return false;
                 }
             }
         }
 
-        return list.isEmpty() && inputLiquid.containsFluid(fluid);
+        return true;
     }
 
     public int getTime() {
@@ -69,6 +76,10 @@ public class CompostRecipe {
 
     public int getTimeFire() {
         return timeFire;
+    }
+
+    public boolean requiresHeat() {
+        return timeTorch > 0 || timeLava > 0 || timeFire > 0;
     }
 
     public ItemStack getOutputItem() {

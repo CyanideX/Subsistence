@@ -1,6 +1,5 @@
 package subsistence.common.block.machine;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -52,47 +51,87 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
         if (tileCompost != null && !world.isRemote) {
             ItemStack held = player.getHeldItem();
 
+            // A player can only open/close the barrel while sneaking
             if (player.isSneaking()) {
                 tileCompost.lidOpen = !tileCompost.lidOpen;
                 tileCompost.markForUpdate();
+                return false;
             }
 
-            if (side == 1 && tileCompost.lidOpen) {
-                //TODO: can you add fluid or only take it out
-                if (held != null && FluidContainerRegistry.isEmptyContainer(held)) {
-                    ItemStack container = FluidContainerRegistry.fillFluidContainer(tileCompost.fluid, FluidContainerRegistry.EMPTY_BUCKET);
-                    FluidStack fluid = new FluidStack(FluidContainerRegistry.getFluidForFilledItem(held),FluidContainerRegistry.BUCKET_VOLUME);
-                    if (tileCompost.decreaseFluid(fluid)) { //if there's enough fluid to remove a full bucket
-                        if (!player.capabilities.isCreativeMode) {
-                            if (player.getCurrentEquippedItem().stackSize == 1) {
-                                player.setCurrentItemOrArmor(0, container);
-                            } else {
-                                player.getCurrentEquippedItem().stackSize--;
-                                if (player.inventory.addItemStackToInventory(container)) {
-                                } else {
-                                    player.func_146097_a(container, false, false);
-                                }
+            // Interaction code
+            if (tileCompost.lidOpen && side == 1) {
+                if (held != null) {
+                    if (tileCompost.isOutput) {
+                        if (FluidContainerRegistry.isEmptyContainer(held)) {
+                            FluidStack fluidStack = tileCompost.fluid;
+
+                            if (fluidStack != null) {
+                                player.setCurrentItemOrArmor(0, FluidContainerRegistry.fillFluidContainer(fluidStack, held));
+                                tileCompost.markForUpdate();
                             }
                         }
-                    }
-                } else if (held != null && Block.getBlockFromItem(held.getItem()) != Blocks.air) {
-                    ItemStack itemCopy = held.copy();
-                    itemCopy.stackSize = 1;
-                    if (tileCompost.addItemToStack(itemCopy)) {
-                        held.stackSize--;
-                        if (held.stackSize <= 0) {
-                            player.setCurrentItemOrArmor(0, null);
+                    } else {
+                        ItemStack copy = held.copy();
+                        copy.stackSize = 1;
+
+                        if (tileCompost.addItem(copy)) {
+                            held.stackSize--;
+                            if (held.stackSize <= 0) {
+                                player.setCurrentItemOrArmor(0, null);
+                            }
+                            tileCompost.markForUpdate();
                         }
-                        tileCompost.markForUpdate();
-                    }
-                } else {
-                    if (tileCompost.contents.length > 0) {
-                        player.setCurrentItemOrArmor(0, tileCompost.removeItemFromStack());
                     }
                 }
             }
         }
+
         return !player.isSneaking();
+    }
+
+    @Override
+    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer entityPlayer) {
+        if (!world.isRemote) {
+            TileCompost tileCompost = (TileCompost) world.getTileEntity(x, y, z);
+
+            if (tileCompost != null && !entityPlayer.isSneaking()) {
+                ItemStack held = entityPlayer.getHeldItem();
+
+                if (held != null) {
+                    ItemStack output = tileCompost.peek();
+                    if (output != null) {
+                        if (held.isItemEqual(output) && (held.stackSize + output.stackSize) <= held.getMaxStackSize()) {
+                            held.stackSize += output.stackSize;
+                            tileCompost.pop();
+
+                            if (tileCompost.isOutput)
+                                tileCompost.reset();
+
+                            tileCompost.markForUpdate();
+                        }
+                    }
+                } else {
+                    entityPlayer.setCurrentItemOrArmor(0, tileCompost.pop());
+                    tileCompost.reset();
+                    tileCompost.markForUpdate();
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z) {
+        return this.removedByPlayer(world, player, x, y, z, false);
+    }
+
+    @Override
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
+        if (player.capabilities.isCreativeMode && !player.isSneaking()) {
+            this.onBlockClicked(world, x, y, z, player);
+            return false;
+        } else {
+            return world.setBlockToAir(x, y, z);
+        }
     }
 
     @Override

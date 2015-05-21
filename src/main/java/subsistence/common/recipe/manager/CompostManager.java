@@ -1,8 +1,7 @@
 package subsistence.common.recipe.manager;
 
-import subsistence.common.recipe.wrapper.CompostRecipe;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.recipe.wrapper.CompostRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +13,18 @@ public class CompostManager {
 
     private List<CompostRecipe> recipes = new ArrayList<CompostRecipe>();
 
-    public CompostRecipe get(FluidStack fluid, ItemStack[] stack) {
+    private boolean canAccept(String tileType, String recipeType) {
+        /*if (recipeType.equals("wood") && tileType.equals("stone")) {
+            return true;
+        }
+
+        return tileType.equals(recipeType);*/
+        return true;
+    }
+
+    public CompostRecipe get(String type, ItemStack[] stack) {
         for (CompostRecipe recipe : recipes) {
-            if (recipe.valid(fluid, stack)) {
+            if (canAccept(type, recipe.type) && recipe.valid(stack)) {
                 return recipe;
             }
         }

@@ -1,5 +1,6 @@
 package subsistence.common.tile.machine;
 
+import com.google.common.collect.Lists;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -9,9 +10,9 @@ import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.CompostRecipe;
 import subsistence.common.tile.core.TileCoreMachine;
+import subsistence.common.util.ItemHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -19,23 +20,28 @@ import java.util.Arrays;
  */
 public class TileCompost extends TileCoreMachine {
 
-    public final float maxAngle = -45f;
-    public final float minAngle = 14f;
+    public static final float ANGLE_MIN = 14f;
+    public static final float ANGLE_MAX = -45f;
 
-    public boolean needHeat = false;
-    public final float maxTemperature = 32;
+    public static final int VOLUME_WOOD = 8;
+    public static final int VOLUME_STONE = 24;
 
     @NBTHandler.Sync(true)
     public boolean lidOpen = true;
-
+    @NBTHandler.Sync(true)
+    public ItemStack[] contents;
     @NBTHandler.Sync(true)
     public FluidStack fluid;
 
     @NBTHandler.Sync(true)
-    public ItemStack[] contents;
+    public int processingTime;
+    @NBTHandler.Sync(true)
+    public int maxProcessingTime;
+    @NBTHandler.Sync(true)
+    public boolean isOutput = false;
 
-    public int processTimeElapsed = 0;
-    public float currentTemperature = 0F;
+    public CompostRecipe cachedRecipe;
+
     public float currentAngle = 0f;
 
     public TileCompost() {
@@ -47,143 +53,147 @@ public class TileCompost extends TileCoreMachine {
     public void updateEntity() {
         super.updateEntity();
         if (worldObj.isRemote) {
-            updateLid();
+            currentAngle += lidOpen ? -4f : 4f;
+            if (currentAngle <= ANGLE_MAX) {
+                currentAngle = ANGLE_MAX;
+            }
+            if (currentAngle >= ANGLE_MIN) {
+                currentAngle = ANGLE_MIN;
+            }
         } else {
-            CompostRecipe recipe = SubsistenceRecipes.COMPOST.get(fluid, contents);
-            if (recipe != null) {
-                updateTemperature(recipe);
-                processContents(recipe);
+            if (!isOutput && contents.length > 0 && cachedRecipe == null)
+                cachedRecipe = SubsistenceRecipes.COMPOST.get(blockMetadata == 1 ? "stone" : "wood", contents);
+
+            if (!isOutput && cachedRecipe != null) {
+                process();
             }
         }
 
     }
 
-    private void updateLid() {
-        currentAngle += lidOpen ? -4f : 4f;
-        if (currentAngle <= maxAngle) {
-            currentAngle = maxAngle;
-        }
-        if (currentAngle >= minAngle) {
-            currentAngle = minAngle;
-        }
+    public int getVolume() {
+        return CoreSettings.STATIC.compostBucketSize * FluidContainerRegistry.BUCKET_VOLUME; //TODO: config value
     }
 
-    public int getVolume () {
-        return CoreSettings.STATIC.compostBucketSize*FluidContainerRegistry.BUCKET_VOLUME; //TODO: config value
-    }
+    private void process() {
+        if (maxProcessingTime == 0) {
+            maxProcessingTime = getProcessingTime();
+        } else {
+            if (!lidOpen) {
+                if (maxProcessingTime > 0) {
+                    processingTime++;
 
+                    if (processingTime >= maxProcessingTime) {
+                        contents = new ItemStack[] {cachedRecipe.getOutputItem().copy()};
+                        cachedRecipe = null;
+                        isOutput = true;
 
-    private void updateTemperature(CompostRecipe recipe) {
-        currentTemperature += checkHeatSource(recipe);
-        if (recipe.getTimeFire() > -1 || recipe.getTimeLava() > -1 && recipe.getTimeTorch() > -1) {
-            needHeat = true;
-        }
-        if (currentTemperature < 0F) {
-            currentTemperature = 0F;
-        }
-    }
-
-
-    private void processContents(CompostRecipe recipe) {
-
-        if (recipe.valid(fluid, contents)) {
-            if (!needHeat || currentTemperature >= maxTemperature) {
-                if (recipe.getTime() > 0) {
-                    processTimeElapsed++;
+                        markForUpdate();
+                    }
                 } else {
-                    processTimeElapsed = 0;
-                }
-                if (processTimeElapsed >= recipe.getTime()) {
-                    contents = new ItemStack[0];
-                    voidFluid();
-                    addItemToStack(recipe.getOutputItem());
-                    increaseFluid(recipe.getOutputLiquid());
+                    processingTime++;
                 }
             }
         }
-
     }
 
-    private float checkHeatSource(CompostRecipe recipe) {
-
-        if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.fire) {
-            return recipe.getTimeFire();
-        } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.lava) {
-            return recipe.getTimeLava();
-        } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.torch) {
-            return recipe.getTimeTorch();
+    private int getProcessingTime() {
+        if (cachedRecipe.requiresHeat()) {
+            if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.fire) {
+                return cachedRecipe.getTimeFire();
+            } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.lava) {
+                return cachedRecipe.getTimeLava();
+            } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.torch) {
+                return cachedRecipe.getTimeTorch();
+            } else {
+                return -1;
+            }
         } else {
-            return -1F;
+            return cachedRecipe.getTime();
         }
     }
 
-    public boolean addItemToStack(ItemStack itemStack) {
-        if (itemStack == null)
-            return false;
-        ArrayList<ItemStack> contentList;
-        if (contents != null && contents.length > 0) {
-            contentList = new ArrayList<ItemStack>(Arrays.asList(contents));
-        } else {
-            contentList = new ArrayList<ItemStack>();
+    public boolean addItem(ItemStack itemStack) {
+        cachedRecipe = null;
+        processingTime = 0;
+        maxProcessingTime = 0;
+
+        int volume = blockMetadata == 1 ? VOLUME_STONE : VOLUME_WOOD;
+        int total = 0;
+
+        List<ItemStack> newContents = Lists.newArrayList();
+        for (ItemStack old : contents) {
+            if (old != null) {
+                newContents.add(old);
+                total += old.stackSize;
+            }
         }
 
-        if (contentList.size() == 2) {
+        if (total >= volume)
             return false;
-        }
 
-        contentList.add(itemStack);
-        contents = contentList.toArray(new ItemStack[contentList.size()]);
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        newContents.add(itemStack);
+
+        List<ItemStack> finalList = ItemHelper.mergeLikeItems(newContents);
+        contents = finalList.toArray(new ItemStack[finalList.size()]);
+
         return true;
     }
 
-    public ItemStack removeItemFromStack() {
-        ArrayList<ItemStack> contentList = new ArrayList<ItemStack>(Arrays.asList(contents));
-        ItemStack itemStack = contentList.remove(contentList.size() - 1);
-        contents = contentList.toArray(new ItemStack[contentList.size()]);
-        processTimeElapsed = 0;
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        return itemStack;
-    }
-
-    public boolean increaseFluid(FluidStack inFluid) {
-        if (inFluid != null) {
-            if (this.fluid == null) { //if there's nothing here
-                this.fluid = inFluid;
-                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                return true;
-            } else if (inFluid.fluidID == this.fluid.fluidID) { //if the same fluid
-                if (this.fluid.amount + inFluid.amount < this.getVolume()) { //if you can hold it
-                    this.fluid.amount = this.fluid.amount + inFluid.amount;
-                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                    return true;
-                }
+    public ItemStack peek() {
+        int index = 0;
+        ItemStack last = null;
+        for (int i=contents.length - 1; i>=0; i--) {
+            last = contents[i];
+            if (last != null) {
+                index = i;
+                break;
             }
         }
-        return false;
+
+        if (last != null) {
+            ItemStack copy = last.copy();
+            copy.stackSize = 1;
+            return copy;
+        }
+
+        return last;
     }
 
-    public boolean decreaseFluid(FluidStack inFluid) {
-        if (inFluid != null) { //if you're not clicking with null
-            if (inFluid.fluidID == this.fluid.fluidID) { //and it's the same type
-                if (this.fluid.amount - inFluid.amount > 0) { //and there's more than enough water
-                    processTimeElapsed = 0;
-                    this.fluid.amount = this.fluid.amount - inFluid.amount;
-                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                    return true;
-                } else if (this.fluid.amount - inFluid.amount == 0) { //exactly enough water
-                    this.fluid = null;
-                    processTimeElapsed = 0;
-                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                    return true;
-                }
+    public ItemStack pop() {
+        int index = 0;
+        ItemStack last = null;
+        for (int i=contents.length - 1; i>=0; i--) {
+            last = contents[i];
+            if (last != null) {
+                index = i;
+                break;
             }
         }
-        return false;
+
+        if (last != null) {
+            ItemStack copy = last.copy();
+            copy.stackSize = 1;
+            last.stackSize--;
+
+            if (last.stackSize <= 0) {
+                contents[index] = null;
+            }
+
+            if (isOutput)
+                reset();
+
+            return copy;
+        } else {
+            return null;
+        }
     }
-    public void voidFluid() {
-        this.fluid = null;
-        processTimeElapsed = 0;
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+
+    public void reset() {
+        cachedRecipe = null;
+        processingTime = 0;
+        maxProcessingTime = 0;
+        isOutput = false;
+        contents = new ItemStack[0];
     }
 }
