@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.tile.machine.TileCompost;
@@ -70,6 +71,17 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
                                 player.setCurrentItemOrArmor(0, filled);
                                 tileCompost.fluid = null;
                                 tileCompost.updateContents();
+                            }
+                        }
+                    } else if (FluidContainerRegistry.isFilledContainer(held)) {
+                        FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(held);
+
+                        if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER && fluidStack.amount == FluidContainerRegistry.BUCKET_VOLUME) {
+                            if (tileCompost.fluid == null) {
+                                tileCompost.fluid = fluidStack.copy();
+                                tileCompost.markForUpdate();
+
+                                player.setCurrentItemOrArmor(0, FluidContainerRegistry.drainFluidContainer(held));
                             }
                         }
                     } else {
