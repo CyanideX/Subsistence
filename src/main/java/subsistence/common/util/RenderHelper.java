@@ -76,6 +76,8 @@ public class RenderHelper {
         Fluid fluid = fluidStack.getFluid();
         IIcon icon = fluid.getIcon();
 
+        GL11.glDisable(GL11.GL_LIGHTING);
+
         if (isFluidTransparent(fluid)) {
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glColor4f(1, 1, 1, 0.75F);
@@ -84,6 +86,8 @@ public class RenderHelper {
 
         bindTexture(TextureMap.locationBlocksTexture);
         renderBasicIcon(0, 0, icon, 15, 15);
+
+        GL11.glEnable(GL11.GL_LIGHTING);
 
         if (isFluidTransparent(fluid)) {
             GL11.glColor4f(1, 1, 1, 1);

@@ -7,7 +7,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.network.nbt.NBTHandler;
-import subsistence.common.network.packet.PacketHelper;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
 import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
@@ -85,7 +84,7 @@ public final class TileBarrel extends TileCoreMachine {
             processTimeElapsed++;
             if (processTimeElapsed == 60) {
                 this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.flowing_lava);
-                PacketHelper.playSound("random.fizz", this, 1, 1);
+//                PacketHelper.playSound("random.fizz", this, 1, 1);
             }
         } else {
             if (getBlockMetadata() == 0) {
