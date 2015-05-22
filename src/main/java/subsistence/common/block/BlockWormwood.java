@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import subsistence.common.config.CoreSettings;
+import subsistence.common.config.HeatSettings;
 import subsistence.common.item.SubsistenceItems;
 
 import java.util.ArrayList;
@@ -21,8 +21,6 @@ import java.util.Random;
 public class BlockWormwood extends BlockBush implements IGrowable {
 
     private IIcon[] textures;
-
-    int tickDry = 0;
 
     protected BlockWormwood() {
         this.setTickRandomly(true);
@@ -44,40 +42,25 @@ public class BlockWormwood extends BlockBush implements IGrowable {
 
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
-        if (world.getWorldTime() % 10 == 0) { //every 1/2 sec
-            if (world.getBlockLightValue(x, y + 1, z) >= 9) { //if light of block above is 9+
-                int l = world.getBlockMetadata(x, y, z);
+        int light = world.getBlockLightValue(x, y + 1, z);
+        int meta = world.getBlockMetadata(x, y, z);
 
-                if (l < 7) { //if not grown
-                    float f = this.getSurroundingSpeedModifier(world, x, y, z); //get blocks around, to increase speed?
-
-                    if (rand.nextInt((int) (25.0F / f) + 1) == 0) {
-                        ++l; //add one to current metadata
-                        world.setBlockMetadataWithNotify(x, y, z, l, 2);
-                    }
+        if (light >= 9) {
+            if (meta < 7) { //if not grown
+                float modifier = getGrowthModifier(world, x, y, z); //get blocks around, to increase speed?
+                if (rand.nextInt((int) (25.0F / modifier) + 1) == 0) {
+                    world.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
                 }
-            }
-        }
-        if (world.getBlockMetadata(x, y, z) > 7) { //if wormwood is fully grown
-            tickDry++;
-            if (tickDry >= CoreSettings.STATIC.wormwoodDry) { //if fully dried
-                if (world.getBlockLightValue(x, y + 1, z) >= 9) { //and light above is 9+
-                    int l = world.getBlockMetadata(x, y, z);
-
-                    if (l < 9) {
-                        float f = this.getSurroundingSpeedModifier(world, x, y, z);
-
-                        if (rand.nextInt((int) (25.0F / f) + 1) == 0) {
-                            ++l; //add one to current metadata
-                            world.setBlockMetadataWithNotify(x, y, z, l, 2);
-                        }
-                    }
+            } else if (meta >= 7 && meta < 9) {
+                float modifier = getDryingModifier(world, x, y, z); //get blocks around, to increase speed?
+                if (rand.nextInt((int) (25.0F / modifier) + 1) == 0) {
+                    world.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
                 }
             }
         }
     }
 
-    private float getSurroundingSpeedModifier(World world, int x, int y, int z) {
+    private float getGrowthModifier(World world, int x, int y, int z) {
         float f = 1.0F;
         Block block = world.getBlock(x, y, z - 1);
         Block block1 = world.getBlock(x, y, z + 1);
@@ -90,6 +73,45 @@ public class BlockWormwood extends BlockBush implements IGrowable {
         boolean blocksX = block2 == this || block3 == this; //if block +x or -x is wormwood
         boolean blocksZ = block == this || block1 == this; //if block +z or -z is wormwood
         boolean blocksCorners = block4 == this || block5 == this || block6 == this || block7 == this; //if block on any corner is wormwood
+
+        for (int currX = x - 1; currX <= x + 1; ++currX) {
+            for (int currZ = z - 1; currZ <= z + 1; ++currZ) {
+                float f1 = 0.0F;
+
+                if (canPlaceBlockOn(world.getBlock(currX, y - 1, currZ))) { //if ground blocks around wormwood can be placed on
+                    f1 = 1.0F;
+                }
+
+                if (currX != x || currZ != z) { //if you're not checking next to you? | checking corners
+                    f1 /= 4.0F;
+                }
+
+                f += f1;
+            }
+        }
+
+        if (blocksCorners || blocksX && blocksZ) { //if wormwood on corner or wormwood adjacent
+            f /= 2.0F;
+        }
+
+        return f;
+    }
+
+    private float getDryingModifier(World world, int x, int y, int z) {
+        float f = 1.0F;
+
+        boolean heat1 = HeatSettings.isHeatSource(world, x,     y, z - 1);
+        boolean heat2 = HeatSettings.isHeatSource(world, x,     y, z + 1);
+        boolean heat3 = HeatSettings.isHeatSource(world, x - 1, y, z);
+        boolean heat4 = HeatSettings.isHeatSource(world, x + 1, y, z);
+        boolean heat5 = HeatSettings.isHeatSource(world, x - 1, y, z - 1);
+        boolean heat6 = HeatSettings.isHeatSource(world, x + 1, y, z + 1);
+        boolean heat7 = HeatSettings.isHeatSource(world, x - 1, y, z + 1);
+        boolean heat8 = HeatSettings.isHeatSource(world, x + 1, y, z - 1);
+
+        boolean blocksX = heat3 || heat4; //if block +x or -x is wormwood
+        boolean blocksZ = heat1 || heat2; //if block +z or -z is wormwood
+        boolean blocksCorners = heat5 || heat6 || heat7 || heat8; //if block on any corner is wormwood
 
         for (int currX = x - 1; currX <= x + 1; ++currX) {
             for (int currZ = z - 1; currZ <= z + 1; ++currZ) {

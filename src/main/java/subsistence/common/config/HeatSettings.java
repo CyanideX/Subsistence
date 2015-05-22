@@ -42,6 +42,10 @@ public class HeatSettings {
         }
     }
 
+    public static boolean isHeatSource(World world, int x, int y, int z) {
+        return isTorch(world, x, y, z) || isFire(world, x, y, z);
+    }
+
     public static boolean isTorch(World world, int x, int y, int z) {
         Block block = world.getBlock(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);

@@ -105,13 +105,12 @@ public class ItemHelper {
             ItemAndIntTuple that = (ItemAndIntTuple) o;
 
             if (damage != that.damage) return false;
-            return item.equals(that.item);
-
+            return item == that.item;
         }
 
         @Override
         public int hashCode() {
-            int result = item.hashCode();
+            int result = item == null ? 0 : item.hashCode();
             result = 31 * result + damage;
             return result;
         }
