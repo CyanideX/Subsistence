@@ -68,6 +68,7 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
                             ItemStack filled = FluidContainerRegistry.fillFluidContainer(fluidStack, held);
                             if (filled != null) {
                                 player.setCurrentItemOrArmor(0, filled);
+                                tileCompost.fluid = null;
                                 tileCompost.updateContents();
                             }
                         }
