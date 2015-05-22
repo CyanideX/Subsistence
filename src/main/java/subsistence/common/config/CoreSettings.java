@@ -10,9 +10,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- * @author MattDahEpic
- */
 public class CoreSettings {
 
     public static CoreSettings STATIC;

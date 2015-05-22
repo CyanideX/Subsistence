@@ -1,10 +1,5 @@
 package subsistence.common.lib;
 
-/**
- * Mostly pulled from Unity's Mathfx class
- *
- * @author dmillerw
- */
 public class MathFX {
 
     /* UTILITY METHODS */

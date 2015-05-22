@@ -7,9 +7,6 @@ import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileWaterMill;
 import subsistence.common.util.RenderHelper;
 
-/**
- * @author dmillerw
- */
 public class RenderTileWaterMill extends SubsistenceTileRenderer<TileWaterMill> {
 
     public void renderTileAt(TileWaterMill tile, double x, double y, double z, float delta) {

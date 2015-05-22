@@ -3,9 +3,6 @@ package subsistence.common.lib;
 import java.io.File;
 import java.io.FilenameFilter;
 
-/**
- * @author dmillerw
- */
 public class ExtensionFilter implements FilenameFilter {
 
     public static final ExtensionFilter JSON = new ExtensionFilter("json");

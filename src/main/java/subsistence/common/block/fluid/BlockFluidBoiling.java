@@ -18,9 +18,7 @@ import subsistence.common.util.SubsistenceDamageSource;
 
 import java.util.Random;
 
-/**
- * Created by Thlayli
- */
+
 public class BlockFluidBoiling extends SubsistenceBasicFluid {
 
     EnumParticle particleBubble;

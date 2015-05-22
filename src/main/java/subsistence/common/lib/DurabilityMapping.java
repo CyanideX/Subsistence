@@ -5,9 +5,6 @@ import net.minecraft.item.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author dmillerw
- */
 public class DurabilityMapping {
 
     public static final DurabilityMapping INSTANCE = new DurabilityMapping();

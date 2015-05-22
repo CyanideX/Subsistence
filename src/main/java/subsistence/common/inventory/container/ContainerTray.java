@@ -4,9 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import subsistence.common.inventory.InventoryItem;
 
-/**
- * @author dmillerw
- */
 public class ContainerTray extends ContainerItem {
 
     private EntityPlayer player;

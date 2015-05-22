@@ -12,9 +12,6 @@ import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.item.resource.ItemResource;
 import subsistence.common.util.ArrayHelper;
 
-/**
- * @author Royalixor
- */
 public class BlockStorage extends SubsistenceMultiBlock {
 
     public static ItemStack getStorageFromResource(ItemStack resource) {

@@ -7,9 +7,6 @@ import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
 import subsistence.common.item.ItemBarrel;
 
-/**
- * Created by Thlayli
- */
 public class RenderItemBarrel implements IItemRenderer {
 
     @Override

@@ -4,9 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import subsistence.common.block.prefab.SubsistenceMultiBlock;
 
-/**
- * Created by Thlayli
- */
+
 public class SubsistenceMultiMachineBlock extends SubsistenceMachineBlock {
 
     public SubsistenceMultiMachineBlock(Block block) {

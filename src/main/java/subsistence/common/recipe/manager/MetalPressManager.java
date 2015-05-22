@@ -6,9 +6,6 @@ import subsistence.common.recipe.wrapper.MetalPressRecipe;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author lclc98
- */
 public class MetalPressManager {
 
     private List<MetalPressRecipe> recipes = new ArrayList<MetalPressRecipe>();

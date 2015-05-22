@@ -14,9 +14,6 @@ import subsistence.common.lib.client.EnumParticle;
 import subsistence.common.network.PacketHandler;
 import subsistence.common.util.ItemHelper;
 
-/**
- * @author dmillerw
- */
 public class PacketFX implements IMessage {
 
     public static final int MAX_PARTICLE_RANGE = 64;

@@ -8,9 +8,6 @@ import subsistence.common.tile.core.TileCoreMachine;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public class TileKineticCrank extends TileCoreMachine {
 
     private static final int MAX_LENGTH = 8;

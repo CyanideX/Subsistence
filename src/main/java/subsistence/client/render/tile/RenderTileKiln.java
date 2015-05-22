@@ -7,9 +7,6 @@ import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileKiln;
 import subsistence.common.util.RenderHelper;
 
-/**
- * @author dmillerw
- */
 public class RenderTileKiln extends SubsistenceTileRenderer<TileKiln> {
 
     public void renderTileAt(TileKiln tile, double x, double y, double z, float delta) {

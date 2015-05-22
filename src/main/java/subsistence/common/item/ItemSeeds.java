@@ -10,9 +10,6 @@ import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.item.prefab.SubsistenceMultiItem;
 
-/**
- * @author dmillerw
- */
 public class ItemSeeds extends SubsistenceMultiItem {
 
     public static final String[] NAMES = new String[]{"grass", "nether_grass", "wormwoodSeeds"};

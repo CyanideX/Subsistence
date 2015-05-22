@@ -5,9 +5,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-/**
- * @author dmillerw
- */
 public class BlockCoordinate {
 
     public final int x;

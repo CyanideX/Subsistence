@@ -8,9 +8,6 @@ import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.misc.TileSpawnMarker;
 import subsistence.common.util.RenderHelper;
 
-/**
- * @author dmillerw
- */
 public class RenderTileSpawnMarker extends SubsistenceTileRenderer<TileSpawnMarker> {
 
     public void renderTileAt(TileSpawnMarker tile, double x, double y, double z, float delta) {

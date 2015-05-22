@@ -5,9 +5,6 @@ import net.minecraft.network.play.server.S29PacketSoundEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-/**
- * @author dmillerw
- */
 public class PacketHelper {
 
     public static void playSound(String sound, TileEntity tileEntity, float volume, float pitch) {

@@ -12,9 +12,6 @@ import subsistence.common.inventory.container.ContainerInfernalFurnace;
 import subsistence.common.inventory.container.ContainerTray;
 import subsistence.common.tile.machine.TileHellfireFurnace;
 
-/**
- * @author dmillerw
- */
 public class GuiHandler implements IGuiHandler {
 
     public static final int GUI_TRAY = 0;

@@ -9,9 +9,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.Subsistence;
 import subsistence.common.core.SubsistenceCreativeTab;
 
-/**
- * @author dmillerw
- */
 public class BlockInfernalLog extends BlockLog {
 
     private IIcon[] icons;

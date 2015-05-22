@@ -7,9 +7,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import subsistence.common.tile.core.TileCore;
 
-/**
- * @author Royalixor
- */
 public abstract class SubsistenceTileBlock extends SubsistenceBasicBlock implements ITileEntityProvider {
 
     public SubsistenceTileBlock(Material material, float hardness, float resistance) {

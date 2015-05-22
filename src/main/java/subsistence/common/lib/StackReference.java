@@ -5,9 +5,6 @@ import net.minecraft.item.ItemStack;
 import subsistence.common.block.BlockComponentGround;
 import subsistence.common.block.SubsistenceBlocks;
 
-/**
- * @author dmillerw
- */
 public class StackReference {
 
     public static final ItemStack STONE = new ItemStack(Blocks.stone);

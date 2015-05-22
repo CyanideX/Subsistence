@@ -16,9 +16,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
-/**
- * @author dmillerw
- */
 public class NBTHandler {
 
     private static boolean validField(Field field) {

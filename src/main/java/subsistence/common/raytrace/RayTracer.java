@@ -12,9 +12,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public class RayTracer {
 
     public static void setBlockBounds(Block block, AxisAlignedBB aabb) {

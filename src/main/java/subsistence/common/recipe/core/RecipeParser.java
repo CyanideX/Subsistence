@@ -6,9 +6,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.util.StackHelper;
 
-/**
- * @author dmillerw
- */
 public class RecipeParser {
 
     public static Object getItem(String item) {

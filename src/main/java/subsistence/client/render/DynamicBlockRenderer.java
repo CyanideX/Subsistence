@@ -10,9 +10,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 
-/**
- * @author dmillerw
- */
 public class DynamicBlockRenderer {
 
     private static final DynamicBlockRenderer INSTANCE = new DynamicBlockRenderer();

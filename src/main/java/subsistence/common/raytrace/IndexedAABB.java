@@ -2,9 +2,6 @@ package subsistence.common.raytrace;
 
 import net.minecraft.util.AxisAlignedBB;
 
-/**
- * @author dmillerw
- */
 public class IndexedAABB {
 
     public final int id;

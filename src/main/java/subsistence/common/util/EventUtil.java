@@ -3,9 +3,6 @@ package subsistence.common.util;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.MinecraftForge;
 
-/**
- * @author dmillerw
- */
 public class EventUtil {
 
     public enum Type {

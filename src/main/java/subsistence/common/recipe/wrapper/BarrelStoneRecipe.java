@@ -6,9 +6,6 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * @author lclc98
- */
 public class BarrelStoneRecipe {
 
     private final ItemStack[] inputItem;

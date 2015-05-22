@@ -15,9 +15,6 @@ import subsistence.common.tile.machine.TileHammerMill;
 import subsistence.common.tile.machine.TileKineticCrank;
 import subsistence.common.tile.machine.TileMetalShaft;
 
-/**
- * @author dmillerw
- */
 public class ItemBlockMetalShaft extends SubsistenceItemBlock {
 
     private IIcon icon;

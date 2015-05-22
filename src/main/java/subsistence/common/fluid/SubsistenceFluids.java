@@ -9,9 +9,7 @@ import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.core.handler.BucketHandler;
 import subsistence.common.item.SubsistenceItems;
 
-/**
- * Created by Thlayli
- */
+
 public class SubsistenceFluids {
 
     public static Fluid boilingWaterFluid;

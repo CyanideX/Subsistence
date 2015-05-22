@@ -20,9 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author MattDahEpic
- */
 public class ConfigManager {
 
     public static File mainFile = new File(Subsistence.configPath, "main.json");

@@ -3,9 +3,6 @@ package subsistence.common.network.nbt.data;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
-/**
- * @author dmillerw
- */
 public class FluidStackSerializer extends AbstractSerializer<FluidStack> {
 
     @Override

@@ -6,10 +6,6 @@ import net.minecraft.world.World;
 import subsistence.common.particle.core.ParticleCore;
 
 
-/**
- * Created by Thlayli
- */
-
 @SideOnly(Side.CLIENT)
 public class SteamFX extends ParticleCore {
 

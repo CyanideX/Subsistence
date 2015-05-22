@@ -20,9 +20,6 @@ import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 import subsistence.common.fluid.SubsistenceFluids;
 
-/**
- * @author dmillerw
- */
 public class RenderHelper {
 
     public static boolean graphicsCache;

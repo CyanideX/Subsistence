@@ -2,9 +2,6 @@ package subsistence.common.lib.stack;
 
 import net.minecraftforge.oredict.OreDictionary;
 
-/**
- * @author dmillerw
- */
 public class OreStackWrapper extends GenericStackWrapper<String> {
 
     public OreStackWrapper(String contents) {

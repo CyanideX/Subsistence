@@ -12,9 +12,6 @@ import subsistence.common.item.SubsistenceItems;
 import subsistence.common.tile.machine.*;
 import subsistence.common.tile.misc.TileSpawnMarker;
 
-/**
- * @author Royalixor.
- */
 public class ClientProxy extends CommonProxy {
 
     public static int renderPass;

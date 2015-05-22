@@ -7,9 +7,6 @@ import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileKineticCrank;
 import subsistence.common.util.RenderHelper;
 
-/**
- * @author dmillerw
- */
 public class RenderTileKineticCrank extends SubsistenceTileRenderer<TileKineticCrank> {
 
     public static final String PART_WHEEL = "VIFS002";

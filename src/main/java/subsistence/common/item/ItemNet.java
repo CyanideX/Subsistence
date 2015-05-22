@@ -6,9 +6,6 @@ import net.minecraft.item.ItemStack;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.item.prefab.SubsistenceMultiItem;
 
-/**
- * @author dmillerw
- */
 public class ItemNet extends SubsistenceMultiItem {
 
     public ItemNet() {

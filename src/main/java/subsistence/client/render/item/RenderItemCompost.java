@@ -6,9 +6,7 @@ import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
 
-/**
- * Created by Thlayli
- */
+
 public class RenderItemCompost implements IItemRenderer {
 
     @Override

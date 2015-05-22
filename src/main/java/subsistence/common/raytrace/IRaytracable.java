@@ -8,9 +8,6 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public interface IRaytracable {
 
     List<IndexedAABB> getTargets(World world, int x, int y, int z);

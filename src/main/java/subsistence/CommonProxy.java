@@ -17,9 +17,6 @@ import subsistence.common.network.nbt.data.AbstractSerializer;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.util.EventUtil;
 
-/**
- * @author Royalixor.
- */
 public class CommonProxy {
 
     public void preInit() {

@@ -7,9 +7,6 @@ import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileHammerMill;
 import subsistence.common.util.RenderHelper;
 
-/**
- * @author dmillerw
- */
 public class RenderTileHammerMill extends SubsistenceTileRenderer<TileHammerMill> {
 
     public static final String PART_GRINDER = "VIFS001";

@@ -14,9 +14,7 @@ import subsistence.common.lib.MathFX;
 import subsistence.common.tile.machine.TileCompost;
 import subsistence.common.util.RenderHelper;
 
-/**
- * Created by Thlayli
- */
+
 public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
 
     public static final float RENDER_START = 0.15F;
@@ -98,10 +96,10 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
     private void swingLid(TileCompost tile) {
         GL11.glTranslated(0, 0.4, 0.35);
 
-        final float progress = MathFX.sinerp(0F, 1F, (float)tile.animationTicks / TileCompost.ANIMATE_TICK_MAX);
+        final float progress = MathFX.sinerp(0F, 1F, (float) tile.animationTicks / TileCompost.ANIMATE_TICK_MAX);
         final float midAngle = TileCompost.ANGLE_MAX - TileCompost.ANGLE_MIN;
 
-        GL11.glRotated(TileCompost.ANGLE_MIN + (midAngle * progress) , 1, 0, 0);
+        GL11.glRotated(TileCompost.ANGLE_MIN + (midAngle * progress), 1, 0, 0);
         GL11.glTranslated(0, -0.4, -0.35);
     }
 }

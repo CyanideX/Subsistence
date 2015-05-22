@@ -12,9 +12,6 @@ import subsistence.common.util.ArrayHelper;
 
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public class BlockComponentGround extends SubsistenceMultiBlock {
 
     public static final int FINE_SAND = 0;

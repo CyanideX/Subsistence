@@ -9,9 +9,6 @@ import net.minecraft.world.IBlockAccess;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/**
- * @author dmillerw
- */
 public class SubsistenceReflectionHelper {
 
     private static String[] GET_FLOW_VECTOR = new String[]{"getFlowVector", "func_149800_f", "f"};

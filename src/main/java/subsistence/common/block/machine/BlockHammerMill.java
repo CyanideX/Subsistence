@@ -10,9 +10,6 @@ import net.minecraft.world.World;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.tile.machine.TileHammerMill;
 
-/**
- * @author dmillerw
- */
 public class BlockHammerMill extends SubsistenceTileBlock {
 
     public BlockHammerMill() {

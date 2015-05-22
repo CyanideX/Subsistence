@@ -6,9 +6,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 import subsistence.common.asm.handler.StaticMethods;
 
-/**
- * @author dmillerw
- */
 public class TransformerEntitySpider extends CoreTransformer {
 
     public static final String TARGET_CLASS_NAME = "net.minecraft.entity.monster.EntitySpider";

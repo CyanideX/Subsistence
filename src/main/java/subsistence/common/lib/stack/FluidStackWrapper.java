@@ -2,9 +2,6 @@ package subsistence.common.lib.stack;
 
 import net.minecraftforge.fluids.FluidStack;
 
-/**
- * @author dmillerw
- */
 public class FluidStackWrapper extends GenericStackWrapper<FluidStack> {
 
     public FluidStackWrapper(FluidStack contents) {

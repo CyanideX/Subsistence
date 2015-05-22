@@ -8,9 +8,6 @@ import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileHandCrank;
 import subsistence.common.util.RenderHelper;
 
-/**
- * @author dmillerw
- */
 public class RenderTileCrank extends SubsistenceTileRenderer<TileHandCrank> {
 
     @Override

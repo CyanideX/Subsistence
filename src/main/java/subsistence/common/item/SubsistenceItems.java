@@ -6,9 +6,6 @@ import net.minecraft.item.Item;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.item.resource.ItemResource;
 
-/**
- * @author Royalixor
- */
 public class SubsistenceItems {
 
     // HAMMERS

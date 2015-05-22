@@ -3,9 +3,6 @@ package subsistence.common.item;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.item.prefab.SubsistenceItem;
 
-/**
- * @author Royalixor
- */
 public class ItemHammer extends SubsistenceItem {
 
     public static final float[] STRENGTH = new float[]{1F, 2F, 2.5F, 5F, 10F};

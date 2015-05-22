@@ -15,9 +15,6 @@ import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.tile.core.TileCoreMachine;
 import subsistence.common.tile.machine.TileHandCrank;
 
-/**
- * @author dmillerw
- */
 public class BlockCrank extends SubsistenceTileBlock {
 
     public BlockCrank() {

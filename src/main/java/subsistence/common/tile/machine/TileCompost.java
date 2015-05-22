@@ -16,9 +16,6 @@ import subsistence.common.util.ItemHelper;
 import java.util.List;
 
 
-/**
- * Created by Thlayli
- */
 public class TileCompost extends TileCoreMachine {
 
     public static final float ANGLE_MAX = 45f;

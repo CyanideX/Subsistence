@@ -3,9 +3,6 @@ package subsistence.common.lib.stack;
 import net.minecraft.item.ItemStack;
 import subsistence.common.util.StackHelper;
 
-/**
- * @author dmillerw
- */
 public class ItemStackWrapper extends GenericStackWrapper<ItemStack> {
 
     public ItemStackWrapper(ItemStack contents) {

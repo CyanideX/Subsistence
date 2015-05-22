@@ -6,9 +6,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import subsistence.common.inventory.InventoryItem;
 
-/**
- * @author dmillerw
- */
 public class ContainerItem extends Container {
 
     protected InventoryItem inventory;

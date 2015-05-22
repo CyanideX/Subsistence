@@ -19,10 +19,6 @@ import subsistence.common.network.UpdateChecker;
 
 import java.io.File;
 
-/**
- * @author Royalixor.
- * @author MattDahEpic
- */
 @Mod(modid = Subsistence.MODID, name = Subsistence.NAME, version = Subsistence.VERSION, dependencies = "required-after:Forge@[%FORGE_VERSION%,)")
 public class Subsistence {
 

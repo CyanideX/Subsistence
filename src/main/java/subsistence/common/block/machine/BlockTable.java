@@ -14,9 +14,6 @@ import subsistence.common.tile.core.TileCore;
 import subsistence.common.tile.machine.TileTable;
 import subsistence.common.util.ArrayHelper;
 
-/**
- * @author dmillerw
- */
 public class BlockTable extends SubsistenceTileMultiBlock {
 
     private static final String[] NAMES = new String[]{"wood", "stone"};

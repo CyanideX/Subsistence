@@ -20,9 +20,6 @@ import subsistence.common.util.ItemHelper;
 
 import java.util.Random;
 
-/**
- * @author dmillerw
- */
 public class TileTable extends TileCore {
 
     @NBTHandler.Sync(true)

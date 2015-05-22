@@ -4,9 +4,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.WorldSavedData;
 
-/**
- * @author dmillerw
- */
 public class WorldDataSpawnPosition extends WorldSavedData {
 
     public ChunkCoordinates spawn;

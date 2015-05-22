@@ -16,9 +16,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public class JsonUtil {
 
     private static Gson gson;

@@ -7,9 +7,6 @@ import subsistence.common.recipe.wrapper.CompostRecipe;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author lclc98
- */
 public class CompostManager {
 
     private List<CompostRecipe> recipes = new ArrayList<CompostRecipe>();

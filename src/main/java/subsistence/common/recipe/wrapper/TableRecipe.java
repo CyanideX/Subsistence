@@ -4,9 +4,6 @@ import net.minecraft.item.ItemStack;
 import subsistence.common.lib.tool.ToolDefinition;
 import subsistence.common.util.StackHelper;
 
-/**
- * @author dmillerw
- */
 public class TableRecipe {
 
     private final ItemStack input;

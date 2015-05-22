@@ -11,9 +11,6 @@ import net.minecraftforge.common.DimensionManager;
 
 import java.util.List;
 
-/**
- * @author lclc98
- */
 public class CommandTPX extends CommandBase {
 
     @Override

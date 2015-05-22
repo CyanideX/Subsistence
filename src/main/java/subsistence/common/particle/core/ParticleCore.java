@@ -7,9 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import subsistence.Subsistence;
 
-/**
- * Created by Thlayli
- */
+
 public abstract class ParticleCore extends EntityFX {
 
     private static final ResourceLocation texture = new ResourceLocation(Subsistence.RESOURCE_PREFIX + "textures/particles/particles.png");

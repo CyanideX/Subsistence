@@ -8,9 +8,6 @@ import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public class BarrelManager {
 
     private List<BarrelWoodRecipe> recipeWood = new ArrayList<BarrelWoodRecipe>();

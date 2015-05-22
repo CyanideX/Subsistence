@@ -8,9 +8,6 @@ import net.minecraft.world.World;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.tile.machine.TileSinteringOven;
 
-/**
- * @author Royalixor
- */
 public class BlockSinteringOven extends SubsistenceTileBlock {
 
     public BlockSinteringOven() {

@@ -2,9 +2,6 @@ package subsistence.common.util;
 
 import java.lang.reflect.Array;
 
-/**
- * @author dmillerw
- */
 public class ArrayHelper {
 
     /**

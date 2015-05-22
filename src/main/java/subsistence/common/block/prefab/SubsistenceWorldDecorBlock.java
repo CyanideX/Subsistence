@@ -9,9 +9,6 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-/**
- * @author Royalixor
- */
 public class SubsistenceWorldDecorBlock extends BlockBush {
 
     public SubsistenceWorldDecorBlock(Material material) {

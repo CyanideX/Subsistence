@@ -6,9 +6,6 @@ import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.MetalPressRecipe;
 import subsistence.common.tile.core.TileCoreMachine;
 
-/**
- * @author dmillerw
- */
 public class TileMetalPress extends TileCoreMachine {
 
     public static final float RENDER_MIN = 0.6f;

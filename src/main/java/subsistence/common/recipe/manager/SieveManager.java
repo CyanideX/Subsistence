@@ -6,9 +6,6 @@ import subsistence.common.recipe.wrapper.SieveRecipe;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author lclc98
- */
 public class SieveManager {
 
     private List<SieveRecipe> recipes = new ArrayList<SieveRecipe>();

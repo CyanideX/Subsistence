@@ -7,9 +7,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
-/**
- * @author dmillerw
- */
 public class SpiderTracker {
 
     private static final int MOB_SPAWN_LIGHT = 7;

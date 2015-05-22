@@ -8,9 +8,6 @@ import net.minecraft.world.World;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.tile.machine.TileKineticCrank;
 
-/**
- * @author dmillerw
- */
 public class BlockKineticCrank extends SubsistenceTileBlock {
 
     public BlockKineticCrank() {

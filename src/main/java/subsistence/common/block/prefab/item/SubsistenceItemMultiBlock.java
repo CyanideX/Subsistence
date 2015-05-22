@@ -5,9 +5,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import subsistence.common.block.prefab.SubsistenceMultiBlock;
 
-/**
- * @author dmillerw
- */
 public class SubsistenceItemMultiBlock extends ItemBlock {
 
     public SubsistenceItemMultiBlock(Block block) {

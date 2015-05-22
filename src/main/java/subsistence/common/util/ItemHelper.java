@@ -11,9 +11,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author dmillerw
- */
 public class ItemHelper {
 
     public static int getID(ItemStack stack) {

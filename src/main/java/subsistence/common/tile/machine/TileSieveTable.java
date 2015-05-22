@@ -18,9 +18,6 @@ import subsistence.common.util.InventoryHelper;
 
 import java.util.List;
 
-/**
- * @author Royalixor
- */
 public class TileSieveTable extends TileCore implements ISidedInventory {
 
     private static final int INVENTORY_SIZE = 9;

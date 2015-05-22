@@ -12,9 +12,6 @@ import subsistence.common.util.ArrayHelper;
 
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public class BlockComponentWood extends SubsistenceMultiBlock {
 
     private static final String[] NAMES = new String[]{"sawdust", "sawdust_nether", "sawdust_nether_glow", "woodchips", "woodchips_nether", "woodchips_nether_glow"};

@@ -10,9 +10,6 @@ import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.tile.core.TileCoreMachine;
 import subsistence.common.util.SubsistenceReflectionHelper;
 
-/**
- * @author dmillerw
- */
 public class TileWaterMill extends TileCoreMachine {
 
     public static final float MAX_SPEED = 10F;

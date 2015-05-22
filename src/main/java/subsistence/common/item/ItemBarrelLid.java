@@ -9,9 +9,6 @@ import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.item.prefab.SubsistenceMultiItem;
 import subsistence.common.tile.machine.TileBarrel;
 
-/**
- * @author dmillerw
- */
 public class ItemBarrelLid extends SubsistenceMultiItem {
 
     private static final String[] NAMES = new String[]{"wood", "stone"};

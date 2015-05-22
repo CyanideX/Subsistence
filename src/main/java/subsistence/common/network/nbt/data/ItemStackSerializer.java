@@ -4,9 +4,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import subsistence.common.lib.stack.FixedItemStack;
 
-/**
- * @author dmillerw
- */
 public class ItemStackSerializer extends AbstractSerializer<ItemStack> {
 
     @Override

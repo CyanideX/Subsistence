@@ -5,9 +5,6 @@ import subsistence.common.config.CoreSettings;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.tile.core.TileCoreMachine;
 
-/**
- * @author dmillerw
- */
 public class TileHandCrank extends TileCoreMachine {
 
     @NBTHandler.Sync(false)

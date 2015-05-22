@@ -3,9 +3,6 @@ package subsistence.common.item;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.item.prefab.SubsistenceMultiItem;
 
-/**
- * @author dmillerw
- */
 public class ItemCosmetic extends SubsistenceMultiItem {
 
     public static final String[] NAMES = new String[]{"corruption", "righteousness"};

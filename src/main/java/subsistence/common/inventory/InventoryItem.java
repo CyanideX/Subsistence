@@ -6,9 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-/**
- * @author dmillerw
- */
 public class InventoryItem implements IInventory {
 
     private final ItemStack stack;

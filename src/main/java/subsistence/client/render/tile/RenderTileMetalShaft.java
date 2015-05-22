@@ -7,9 +7,6 @@ import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileMetalShaft;
 import subsistence.common.util.RenderHelper;
 
-/**
- * @author dmillerw
- */
 public class RenderTileMetalShaft extends SubsistenceTileRenderer<TileMetalShaft> {
 
     @Override

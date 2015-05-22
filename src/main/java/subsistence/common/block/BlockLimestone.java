@@ -9,9 +9,6 @@ import subsistence.common.block.prefab.SubsistenceMultiBlock;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.util.ArrayHelper;
 
-/**
- * @author Royalixor
- */
 public class BlockLimestone extends SubsistenceMultiBlock {
 
     private static final String[] limestoneTypes = new String[]{"limestone", "limestoneCobblestone", "limestoneBricks", "limestoneScorched", "limestoneScorchedBricks", "limestoneTiled"};

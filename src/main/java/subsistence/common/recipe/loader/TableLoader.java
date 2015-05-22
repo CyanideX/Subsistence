@@ -11,9 +11,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-/**
- * @author lclc98
- */
 public class TableLoader {
 
     public static class Recipe {

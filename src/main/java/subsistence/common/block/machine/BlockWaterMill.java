@@ -10,9 +10,6 @@ import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.tile.machine.TileWaterMill;
 
-/**
- * @author dmillerw
- */
 public class BlockWaterMill extends SubsistenceTileBlock {
 
     public BlockWaterMill() {

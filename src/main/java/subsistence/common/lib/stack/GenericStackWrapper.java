@@ -1,8 +1,5 @@
 package subsistence.common.lib.stack;
 
-/**
- * @author dmillerw
- */
 public abstract class GenericStackWrapper<T> {
 
     public final T contents;

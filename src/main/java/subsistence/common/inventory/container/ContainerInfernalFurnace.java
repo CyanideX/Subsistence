@@ -12,9 +12,6 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
 import subsistence.common.tile.machine.TileHellfireFurnace;
 
-/**
- * @author dmillerw
- */
 public class ContainerInfernalFurnace extends Container {
 
     private final TileHellfireFurnace tile;

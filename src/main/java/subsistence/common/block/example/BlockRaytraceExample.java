@@ -20,11 +20,6 @@ import subsistence.common.raytrace.RayTracer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author dmillerw
- *         <p/>
- *         NOT TO BE USED IN GAME! SIMPLY FOR THE PURPOSES OF DEMONSTRATION
- */
 public class BlockRaytraceExample extends Block implements IRaytracable {
 
     public BlockRaytraceExample() {

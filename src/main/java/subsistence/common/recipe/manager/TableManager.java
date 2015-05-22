@@ -10,9 +10,6 @@ import subsistence.common.util.StackHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public class TableManager {
 
     private List<TableRecipe> recipesTable = new ArrayList<TableRecipe>();

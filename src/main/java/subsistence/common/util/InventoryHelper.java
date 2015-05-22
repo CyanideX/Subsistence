@@ -11,9 +11,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
-/**
- * @author dmillerw
- */
 public class InventoryHelper {
 
     public static void ejectItem(World world, int x, int y, int z, ForgeDirection side, ItemStack item, Random random) {

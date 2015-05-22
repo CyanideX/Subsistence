@@ -7,9 +7,6 @@ import net.minecraft.world.World;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.tile.machine.TileKiln;
 
-/**
- * @author dmillerw
- */
 public class BlockKiln extends SubsistenceTileBlock {
 
     public BlockKiln() {

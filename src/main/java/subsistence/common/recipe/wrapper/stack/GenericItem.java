@@ -5,9 +5,6 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public class GenericItem {
 
     public static GenericItem merge(GenericItem... array) {

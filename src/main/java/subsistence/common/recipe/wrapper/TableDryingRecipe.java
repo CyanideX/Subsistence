@@ -3,9 +3,6 @@ package subsistence.common.recipe.wrapper;
 import net.minecraft.item.ItemStack;
 import subsistence.common.util.StackHelper;
 
-/**
- * @author lclc98
- */
 public class TableDryingRecipe {
 
     private final ItemStack input;

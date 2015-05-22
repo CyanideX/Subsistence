@@ -17,10 +17,6 @@ import subsistence.common.block.SubsistenceBlocks;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author Thlayli
- * @author lclc98
- */
 public class BucketHandler {
 
     public static BucketHandler INSTANCE = new BucketHandler();

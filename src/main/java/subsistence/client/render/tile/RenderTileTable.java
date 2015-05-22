@@ -12,9 +12,6 @@ import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.tile.machine.TileTable;
 import subsistence.common.util.RenderHelper;
 
-/**
- * @author dmillerw
- */
 public class RenderTileTable extends SubsistenceTileRenderer<TileTable> {
 
     public static final float WOOD_RENDER_MAX = 0.5625F;

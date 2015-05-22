@@ -9,9 +9,6 @@ import subsistence.common.network.nbt.NBTHandler;
 
 import java.util.Random;
 
-/**
- * @author dmillerw
- */
 public abstract class TileCore extends TileEntity {
 
     private static final int DESCRIPTION_PACKET = 0;

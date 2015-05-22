@@ -5,9 +5,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-/**
- * @author dmillerw
- */
 public class EntityHelper {
 
     public static ForgeDirection get2DRotation(EntityLivingBase entity) {

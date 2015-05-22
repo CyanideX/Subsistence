@@ -14,9 +14,6 @@ import subsistence.common.item.prefab.SubsistenceItem;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.SieveRecipe;
 
-/**
- * @author dmillerw
- */
 public class ItemHandSieve extends SubsistenceItem {
 
     public static void process(ItemStack stack, EntityPlayer player) {

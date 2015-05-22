@@ -12,9 +12,6 @@ import subsistence.common.item.prefab.SubsistenceItem;
 
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public class ItemResource extends SubsistenceItem {
 
     public static final String[] NAMES = new String[]{"copper", "gold", "graphite", "iron", "lead", "nickel", "silver", "steel", "tin"};

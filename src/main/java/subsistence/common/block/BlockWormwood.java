@@ -18,10 +18,6 @@ import subsistence.common.item.SubsistenceItems;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * @author lclc98
- * @author
- */
 public class BlockWormwood extends BlockBush implements IGrowable {
 
     private IIcon[] textures;

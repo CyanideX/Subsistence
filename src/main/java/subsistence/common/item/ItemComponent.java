@@ -3,9 +3,6 @@ package subsistence.common.item;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.item.prefab.SubsistenceMultiItem;
 
-/**
- * @author dmillerw
- */
 public class ItemComponent extends SubsistenceMultiItem {
 
     private static final String[] NAMES = {"twine", "twine_mesh", "wormwoodLeaves", "sap"};

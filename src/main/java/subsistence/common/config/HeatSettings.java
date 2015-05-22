@@ -16,9 +16,6 @@ import java.util.Set;
 
 import static subsistence.common.util.ItemHelper.ItemAndIntTuple;
 
-/**
- * @author dmillerw
- */
 public class HeatSettings {
 
     private static Set<ItemAndIntTuple> torch = Sets.newHashSet();

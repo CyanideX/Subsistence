@@ -8,9 +8,6 @@ import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.core.handler.GuiHandler;
 import subsistence.common.item.prefab.SubsistenceItem;
 
-/**
- * @author Royalixor
- */
 public class ItemTray extends SubsistenceItem {
 
     public ItemTray() {

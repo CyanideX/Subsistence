@@ -9,9 +9,6 @@ import subsistence.common.lib.MathFX;
 import subsistence.common.tile.machine.TileSinteringOven;
 import subsistence.common.util.RenderHelper;
 
-/**
- * @author Royalixor
- */
 public class RenderTileSinteringOven extends SubsistenceTileRenderer<TileSinteringOven> {
 
     public static final String PART_DOOR = "VIFS002";

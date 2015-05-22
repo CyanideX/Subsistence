@@ -6,9 +6,6 @@ import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
 
-/**
- * @author dmillerw
- */
 public class RenderItemWaterMill implements IItemRenderer {
 
     @Override

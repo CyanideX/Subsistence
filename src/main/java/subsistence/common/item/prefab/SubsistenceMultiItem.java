@@ -10,9 +10,6 @@ import subsistence.common.core.SubsistenceCreativeTab;
 
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public abstract class SubsistenceMultiItem extends Item {
 
     protected IIcon[] icons;

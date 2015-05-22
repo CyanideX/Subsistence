@@ -4,9 +4,6 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 import java.util.Map;
 
-/**
- * @author dmillerw
- */
 @IFMLLoadingPlugin.MCVersion("1.7.10")
 public class SubsistenceCorePlugin implements IFMLLoadingPlugin {
 

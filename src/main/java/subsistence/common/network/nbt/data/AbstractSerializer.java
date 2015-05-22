@@ -5,9 +5,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public abstract class AbstractSerializer<T> {
 
     public static List<AbstractSerializer<?>> serializerList = Lists.newArrayList();

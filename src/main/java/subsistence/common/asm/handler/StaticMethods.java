@@ -4,9 +4,6 @@ import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.player.EntityPlayer;
 import subsistence.common.item.SubsistenceItems;
 
-/**
- * @author dmillerw
- */
 public class StaticMethods {
 
     public static EntityPlayer findPlayerToAttack(EntitySpider spider) {

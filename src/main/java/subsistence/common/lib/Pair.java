@@ -1,8 +1,5 @@
 package subsistence.common.lib;
 
-/**
- * @author dmillerw
- */
 public class Pair<L, R> {
 
     public final L left;

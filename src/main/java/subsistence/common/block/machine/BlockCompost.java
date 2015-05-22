@@ -14,9 +14,7 @@ import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.tile.machine.TileCompost;
 import subsistence.common.util.ArrayHelper;
 
-/**
- * Created by Thlayli
- */
+
 public class BlockCompost extends SubsistenceTileMultiBlock {
 
     private static final String[] NAMES = new String[]{"wood", "stone"};

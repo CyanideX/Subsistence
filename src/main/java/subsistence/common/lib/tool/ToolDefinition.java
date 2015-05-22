@@ -6,9 +6,6 @@ import subsistence.common.util.StackHelper;
 
 import java.util.*;
 
-/**
- * @author dmillerw
- */
 public enum ToolDefinition {
 
     HAMMER,

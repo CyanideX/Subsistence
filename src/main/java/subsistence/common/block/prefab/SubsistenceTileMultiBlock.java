@@ -6,9 +6,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-/**
- * @author Royalixor.
- */
 public abstract class SubsistenceTileMultiBlock extends SubsistenceMultiBlock implements ITileEntityProvider {
 
     public SubsistenceTileMultiBlock(Material material, float hardness, float resistance) {

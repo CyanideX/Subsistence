@@ -12,9 +12,6 @@ import subsistence.common.world.generation.WorldGenInfernalTree;
 
 import java.util.Random;
 
-/**
- * @author dmillerw
- */
 public class BlockInfernalSapling extends BlockBush implements IGrowable {
 
     private IIcon icon;

@@ -10,9 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 
-/**
- * Created by Thlayli
- */
+
 public abstract class SubsistenceBasicFluid extends BlockFluidClassic {
 
     protected IIcon stillIcon, flowingIcon;

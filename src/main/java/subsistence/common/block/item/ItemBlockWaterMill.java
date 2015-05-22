@@ -15,9 +15,6 @@ import subsistence.common.block.prefab.item.SubsistenceItemBlock;
 import subsistence.common.tile.machine.TileKineticCrank;
 import subsistence.common.tile.machine.TileWaterMill;
 
-/**
- * @author dmillerw
- */
 public class ItemBlockWaterMill extends SubsistenceItemBlock {
 
     private IIcon icon;

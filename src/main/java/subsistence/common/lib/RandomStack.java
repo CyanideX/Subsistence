@@ -4,9 +4,6 @@ import net.minecraft.item.ItemStack;
 
 import java.util.Random;
 
-/**
- * @author dmillerw
- */
 public class RandomStack {
 
     private static final Random random = new Random();

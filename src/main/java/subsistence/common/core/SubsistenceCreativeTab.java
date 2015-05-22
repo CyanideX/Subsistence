@@ -8,9 +8,6 @@ import subsistence.common.item.SubsistenceItems;
 
 import java.util.Locale;
 
-/**
- * @author Royalixor.
- */
 public enum SubsistenceCreativeTab {
 
     BLOCKS,

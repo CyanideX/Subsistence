@@ -18,9 +18,6 @@ import subsistence.common.item.ItemBarrel;
 import subsistence.common.tile.machine.*;
 import subsistence.common.tile.misc.TileSpawnMarker;
 
-/**
- * @author Royalixor.
- */
 public class SubsistenceBlocks {
 
     // MACHINES

@@ -9,9 +9,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import subsistence.common.core.SubsistenceCreativeTab;
 
-/**
- * @author Royalixor
- */
 public abstract class SubsistenceBasicBlock extends Block {
 
     public SubsistenceBasicBlock(Material material, float hardness, float resistance) {

@@ -11,9 +11,6 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.tile.core.TileCoreMachine;
 
-/**
- * @author dmillerw
- */
 public class TileHellfireFurnace extends TileCoreMachine implements ISidedInventory {
 
     public static final int[] SLOTS_TOP = new int[]{0};

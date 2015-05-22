@@ -7,9 +7,6 @@ import org.lwjgl.opengl.GL11;
 import subsistence.common.inventory.InventoryItem;
 import subsistence.common.inventory.container.ContainerTray;
 
-/**
- * @author dmillerw
- */
 public class GuiTray extends GuiContainer {
 
     public static final ResourceLocation GUI_TRAY = new ResourceLocation("subsistence:textures/gui/tray.png");

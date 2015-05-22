@@ -7,9 +7,6 @@ import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
 
-/**
- * @author Royalixor
- */
 public class RenderItemSinteringOven implements IItemRenderer {
 
     @Override

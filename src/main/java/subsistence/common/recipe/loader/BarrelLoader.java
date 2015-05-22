@@ -15,9 +15,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * @author lclc98
- */
 public class BarrelLoader {
 
     public static class ParsedRecipe {

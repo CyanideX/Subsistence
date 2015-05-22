@@ -24,9 +24,6 @@ import subsistence.common.util.StackHelper;
 import java.util.List;
 import java.util.Random;
 
-/**
- * @author dmillerw
- */
 public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
 
     private static final int INVENTORY_SIZE = 1;

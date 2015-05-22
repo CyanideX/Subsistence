@@ -2,9 +2,6 @@ package subsistence.common.recipe.wrapper;
 
 import net.minecraft.item.ItemStack;
 
-/**
- * @author lclc98
- */
 public class MetalPressRecipe {
 
     private final ItemStack inputItem;

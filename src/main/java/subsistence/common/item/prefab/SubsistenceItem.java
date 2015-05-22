@@ -6,9 +6,6 @@ import net.minecraft.util.IIcon;
 import subsistence.Subsistence;
 import subsistence.common.core.SubsistenceCreativeTab;
 
-/**
- * @author dmillerw
- */
 public class SubsistenceItem extends Item {
 
     private IIcon icon;

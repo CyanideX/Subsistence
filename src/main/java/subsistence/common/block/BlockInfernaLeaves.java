@@ -12,9 +12,6 @@ import subsistence.common.core.SubsistenceCreativeTab;
 
 import java.util.Random;
 
-/**
- * @author dmillerw
- */
 public class BlockInfernaLeaves extends BlockLeaves {
 
     private IIcon[] icons;

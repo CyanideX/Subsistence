@@ -14,9 +14,6 @@ import subsistence.common.util.StackHelper;
 
 import java.util.HashMap;
 
-/**
- * @author dmillerw
- */
 public class SubsistenceRecipes {
 
     public static TableManager TABLE = new TableManager();

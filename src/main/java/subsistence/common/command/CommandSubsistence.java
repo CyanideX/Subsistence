@@ -7,9 +7,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import subsistence.common.config.ConfigManager;
 
-/**
- * @author dmillerw
- */
 public class CommandSubsistence extends CommandBase {
 
     @Override

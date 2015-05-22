@@ -19,9 +19,6 @@ import subsistence.common.util.EntityHelper;
 
 import java.util.Random;
 
-/**
- * @author dmillerw
- */
 public class BlockSpawnMarker extends BlockContainer {
 
     public static ChunkCoordinates getSpawnPosition(World world) {

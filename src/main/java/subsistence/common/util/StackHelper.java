@@ -7,9 +7,6 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.List;
 
-/**
- * @author dmillerw
- */
 public class StackHelper {
 
     public static ItemStack[] convert(Object object) {

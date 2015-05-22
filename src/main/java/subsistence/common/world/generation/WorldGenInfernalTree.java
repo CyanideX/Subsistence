@@ -9,9 +9,6 @@ import subsistence.common.block.SubsistenceBlocks;
 
 import java.util.Random;
 
-/**
- * @author dmillerw
- */
 public class WorldGenInfernalTree extends WorldGenAbstractTree {
 
     private final int minTreeHeight;

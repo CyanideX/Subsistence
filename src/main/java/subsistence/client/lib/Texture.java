@@ -4,9 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import subsistence.Subsistence;
 
-/**
- * @author dmillerw
- */
 public enum Texture {
 
     HAND_CRANK("blocks/handCrank"),

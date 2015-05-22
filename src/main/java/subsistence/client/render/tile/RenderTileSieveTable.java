@@ -6,9 +6,6 @@ import subsistence.client.lib.Texture;
 import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileSieveTable;
 
-/**
- * @author Royalixor
- */
 public class RenderTileSieveTable extends SubsistenceTileRenderer<TileSieveTable> {
 
     public void renderTileAt(TileSieveTable tile, double x, double y, double z, float delta) {

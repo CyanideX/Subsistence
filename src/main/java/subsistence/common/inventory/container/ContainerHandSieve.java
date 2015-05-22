@@ -7,9 +7,6 @@ import subsistence.common.inventory.InventoryItem;
 import subsistence.common.item.ItemHandSieve;
 import subsistence.common.recipe.SubsistenceRecipes;
 
-/**
- * @author dmillerw
- */
 public class ContainerHandSieve extends ContainerItem {
 
     private EntityPlayer player;

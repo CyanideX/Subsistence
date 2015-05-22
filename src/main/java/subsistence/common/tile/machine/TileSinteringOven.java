@@ -3,9 +3,6 @@ package subsistence.common.tile.machine;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.tile.core.TileCoreMachine;
 
-/**
- * @author Royalixor
- */
 public class TileSinteringOven extends TileCoreMachine {
 
     public float currentAngle = 0.0F;

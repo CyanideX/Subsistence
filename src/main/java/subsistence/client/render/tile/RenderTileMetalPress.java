@@ -7,9 +7,6 @@ import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileMetalPress;
 import subsistence.common.util.RenderHelper;
 
-/**
- * @author dmillerw
- */
 public class RenderTileMetalPress extends SubsistenceTileRenderer<TileMetalPress> {
 
     public void renderTileAt(TileMetalPress tile, double x, double y, double z, float delta) {

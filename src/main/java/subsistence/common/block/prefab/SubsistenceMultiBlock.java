@@ -13,9 +13,6 @@ import subsistence.common.core.SubsistenceCreativeTab;
 
 import java.util.List;
 
-/**
- * @author Royalixor.
- */
 public abstract class SubsistenceMultiBlock extends Block {
 
     public SubsistenceMultiBlock(Material material, float hardness, float resistance) {

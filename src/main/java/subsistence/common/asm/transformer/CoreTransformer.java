@@ -5,9 +5,6 @@ import subsistence.common.lib.SubsistenceLogger;
 
 import java.util.Map;
 
-/**
- * @author dmillerw
- */
 public abstract class CoreTransformer {
 
     protected Map<String, String> mappings = Maps.newHashMap();

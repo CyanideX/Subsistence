@@ -5,9 +5,6 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import subsistence.Subsistence;
 
-/**
- * @author dmillerw
- */
 public enum Model {
 
     BARREL_STONE("blocks/barrelStone.tcn"),

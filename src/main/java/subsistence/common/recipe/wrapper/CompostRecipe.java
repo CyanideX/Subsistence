@@ -9,9 +9,6 @@ import subsistence.common.util.ItemHelper;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * @author lclc98
- */
 public class CompostRecipe {
 
     //TODO Make a builder for this mess

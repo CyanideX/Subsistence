@@ -7,9 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent;
 import subsistence.common.item.SubsistenceItems;
 
-/**
- * @author dmillerw
- */
 public class BlockEventHandler {
 
     @SubscribeEvent

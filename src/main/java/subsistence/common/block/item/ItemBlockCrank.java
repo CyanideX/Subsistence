@@ -14,9 +14,6 @@ import subsistence.common.block.prefab.item.SubsistenceItemBlock;
 import subsistence.common.tile.machine.TileHammerMill;
 import subsistence.common.tile.machine.TileHandCrank;
 
-/**
- * @author dmillerw
- */
 public class ItemBlockCrank extends SubsistenceItemBlock {
 
     private IIcon icon;

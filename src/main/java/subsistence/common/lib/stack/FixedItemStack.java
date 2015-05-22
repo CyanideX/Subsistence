@@ -5,9 +5,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * @author dmillerw
- */
 public class FixedItemStack {
 
     public static ItemStack loadFromNBT(NBTTagCompound nbt) {

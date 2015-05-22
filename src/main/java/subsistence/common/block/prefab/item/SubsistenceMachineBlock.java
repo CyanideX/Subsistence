@@ -7,9 +7,6 @@ import net.minecraft.world.World;
 import subsistence.common.tile.core.TileCoreMachine;
 import subsistence.common.util.EntityHelper;
 
-/**
- * @author dmillerw
- */
 public class SubsistenceMachineBlock extends SubsistenceItemBlock {
 
     public SubsistenceMachineBlock(Block block) {

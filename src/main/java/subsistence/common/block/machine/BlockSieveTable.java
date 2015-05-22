@@ -7,9 +7,6 @@ import net.minecraft.world.World;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.tile.machine.TileSieveTable;
 
-/**
- * @author Royalixor
- */
 public class BlockSieveTable extends SubsistenceTileBlock {
 
     public BlockSieveTable() {

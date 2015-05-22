@@ -14,9 +14,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * @author lclc98
- */
 public class SieveLoader {
 
     public static class Recipe {

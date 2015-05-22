@@ -12,9 +12,6 @@ import subsistence.common.block.prefab.SubsistenceBasicBlock;
 
 import java.util.Random;
 
-/**
- * @author dmillerw
- */
 public class BlockNetherGrass extends SubsistenceBasicBlock {
 
     private IIcon side;
