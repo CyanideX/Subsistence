@@ -126,7 +126,7 @@ public class ConfigManager {
 
     public static void tryDumpItems(File file) {
         try {
-            if (true) {
+            if (CoreSettings.STATIC.dumpItems) {
                 if (!file.exists()) {
                     file.createNewFile();
                 } else {
