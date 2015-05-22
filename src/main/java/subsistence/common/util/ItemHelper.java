@@ -93,11 +93,11 @@ public class ItemHelper {
     public static class ItemAndIntTuple {
 
         public Item item;
-        public int i;
+        public int damage;
 
-        public ItemAndIntTuple(Item item, int i) {
+        public ItemAndIntTuple(Item item, int damage) {
             this.item = item;
-            this.i = i;
+            this.damage = damage;
         }
 
         @Override
@@ -107,7 +107,7 @@ public class ItemHelper {
 
             ItemAndIntTuple that = (ItemAndIntTuple) o;
 
-            if (i != that.i) return false;
+            if (damage != that.damage) return false;
             return item.equals(that.item);
 
         }
@@ -115,7 +115,7 @@ public class ItemHelper {
         @Override
         public int hashCode() {
             int result = item.hashCode();
-            result = 31 * result + i;
+            result = 31 * result + damage;
             return result;
         }
     }
