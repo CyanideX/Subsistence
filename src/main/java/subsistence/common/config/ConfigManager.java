@@ -9,18 +9,16 @@ import subsistence.common.lib.ExtensionFilter;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.loader.*;
-import sun.net.www.protocol.file.FileURLConnection;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.JarURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author MattDahEpic
@@ -52,40 +50,13 @@ public class ConfigManager {
         if (!recipes.exists()) {
             recipes.mkdirs();
 
-            //TODO Copying from JAR fails. Investigate
-            //maybe make it from url to File so that it can access the disk? @dmillerw
-            try {
-                final URL recipesDir = ConfigManager.class.getResource("/assets/subsistence/recipes/");
-                final URLConnection urlConnection = recipesDir.openConnection();
-
-                if (urlConnection instanceof JarURLConnection) {
-                    final JarURLConnection jarURLConnection = (JarURLConnection) urlConnection;
-                    final JarFile jarFile = jarURLConnection.getJarFile();
-
-                    final String path = jarURLConnection.getEntryName();
-
-                    while (jarFile.entries().hasMoreElements()) {
-                        JarEntry entry = jarFile.entries().nextElement();
-
-                        if (entry.getName().startsWith(path)) {
-                            final String fileName = entry.getName().substring(path.length());
-
-                            if (entry.isDirectory()) {
-                                final File dir = new File(recipes, fileName);
-                                if (!dir.exists())
-                                    dir.mkdir();
-                            } else {
-                                final InputStream entryInput = jarFile.getInputStream(entry);
-                                FileUtils.copyInputStreamToFile(entryInput, new File(recipes, fileName));
-                            }
-                        }
-                    }
-                } else if (urlConnection instanceof FileURLConnection) { //TODO: FileURLConection is technically internal
-                                                                         //      may not exist on all platforms?
-                    FileUtils.copyDirectory(new File(recipesDir.getPath()), recipes);
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            final String path = "assets/subsistence/recipes";
+            final URL url = ConfigManager.class.getResource("/" + path);
+            if (url != null) {
+                try {
+                    FileUtils.copyDirectory(new File(url.toURI()), recipes);
+                } catch (URISyntaxException ignore) {}
+                catch (IOException ignore) {}
             }
         }
 
@@ -94,7 +65,7 @@ public class ConfigManager {
         }
     }
 
-    public static void resetLoaded () {
+    public static void resetLoaded() {
         SubsistenceRecipes.SIEVE.clear();
         SubsistenceRecipes.TABLE.clear();
         SubsistenceRecipes.BARREL.clear();
@@ -144,7 +115,7 @@ public class ConfigManager {
                     if (item.contains(":")) {
                         split = item.split(":");
                     } else {
-                        split = new String[] {"Misc", item};
+                        split = new String[]{"Misc", item};
                     }
 
                     List<String> list = items.get(split[0]);
