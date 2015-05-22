@@ -98,11 +98,8 @@ public class TileCompost extends TileCoreMachine {
                         }
 
                         reset();
-
                         markForUpdate();
                     }
-                } else {
-                    processingTime++;
                 }
             }
         }

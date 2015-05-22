@@ -57,19 +57,20 @@ public class CompostRecipe {
         if (requiresCondensate && (fluidStack == null || fluidStack.getFluid() == null || fluidStack.getFluid() != FluidRegistry.WATER || fluidStack.amount != FluidContainerRegistry.BUCKET_VOLUME))
             return false;
 
-        for (ItemStack stack : currentStack) {
-            if (stack != null) {
-                boolean found = false;
+        for (ItemStack required : inputItem) {
+            boolean found = false;
 
-                for (ItemStack check : inputItem) {
-                    if (check.getItem() == stack.getItem() && check.getItemDamage() == stack.getItemDamage() && check.stackSize == stack.stackSize) {
-                        found = true;
-                    }
+            for (ItemStack content : currentStack) {
+                if (content == null)
+                    continue;
+
+                if (required.isItemEqual(content) && required.stackSize == content.stackSize) {
+                    found = true;
                 }
-
-                if (!found)
-                    return false;
             }
+
+            if (!found)
+                return false;
         }
 
         return true;
