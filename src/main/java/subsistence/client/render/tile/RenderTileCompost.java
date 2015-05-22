@@ -96,13 +96,12 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
     }
 
     private void swingLid(TileCompost tile) {
-        float percentage;
-        float sinerp;
+        GL11.glTranslated(0, 0.4, 0.35);
 
-        GL11.glTranslated(0, 0.37, 0.29);
-        percentage = tile.currentAngle / TileCompost.ANGLE_MAX;
-        sinerp = MathFX.sinerp(0, 1, percentage);
-        GL11.glRotated((-sinerp) * TileCompost.ANGLE_MAX, 1, 0, 0);
-        GL11.glTranslated(0, -0.37, -0.29);
+        final float progress = MathFX.sinerp(0F, 1F, (float)tile.animationTicks / TileCompost.ANIMATE_TICK_MAX);
+        final float midAngle = TileCompost.ANGLE_MAX - TileCompost.ANGLE_MIN;
+
+        GL11.glRotated(TileCompost.ANGLE_MIN + (midAngle * progress) , 1, 0, 0);
+        GL11.glTranslated(0, -0.4, -0.35);
     }
 }

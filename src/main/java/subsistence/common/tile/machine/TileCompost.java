@@ -21,8 +21,10 @@ import java.util.List;
  */
 public class TileCompost extends TileCoreMachine {
 
-    public static final float ANGLE_MIN = 14f;
-    public static final float ANGLE_MAX = -45f;
+    public static final float ANGLE_MAX = 45f;
+    public static final float ANGLE_MIN = -21f;
+
+    public static final int ANIMATE_TICK_MAX = 20;
 
     public static final int VOLUME_WOOD = 8;
     public static final int VOLUME_STONE = 24;
@@ -41,7 +43,7 @@ public class TileCompost extends TileCoreMachine {
 
     public CompostRecipe cachedRecipe;
 
-    public float currentAngle = 0f;
+    public int animationTicks = 0;
 
     public TileCompost() {
         super();
@@ -52,13 +54,10 @@ public class TileCompost extends TileCoreMachine {
     public void updateEntity() {
         super.updateEntity();
         if (worldObj.isRemote) {
-            currentAngle += lidOpen ? -4f : 4f;
-            if (currentAngle <= ANGLE_MAX) {
-                currentAngle = ANGLE_MAX;
-            }
-            if (currentAngle >= ANGLE_MIN) {
-                currentAngle = ANGLE_MIN;
-            }
+            if (lidOpen && animationTicks < ANIMATE_TICK_MAX)
+                animationTicks++;
+            else if (!lidOpen && animationTicks > 0)
+                animationTicks--;
         } else {
             if (contents.length > 0 && cachedRecipe == null)
                 cachedRecipe = SubsistenceRecipes.COMPOST.get(blockMetadata == 1 ? "stone" : "wood", contents, fluid);
