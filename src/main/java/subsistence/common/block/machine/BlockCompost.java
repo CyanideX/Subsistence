@@ -96,7 +96,7 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
         if (!world.isRemote) {
             TileCompost tileCompost = (TileCompost) world.getTileEntity(x, y, z);
 
-            if (tileCompost != null && !entityPlayer.isSneaking()) {
+            if (tileCompost != null && entityPlayer.isSneaking()) {
                 ItemStack held = entityPlayer.getHeldItem();
 
                 if (held != null) {
@@ -123,7 +123,7 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
 
     @Override
     public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
-        if (player.capabilities.isCreativeMode && !player.isSneaking()) {
+        if (player.capabilities.isCreativeMode && player.isSneaking()) {
             this.onBlockClicked(world, x, y, z, player);
             return false;
         } else {
