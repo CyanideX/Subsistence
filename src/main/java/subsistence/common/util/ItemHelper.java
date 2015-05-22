@@ -90,7 +90,7 @@ public class ItemHelper {
         return finalList;
     }
 
-    private static class ItemAndIntTuple {
+    public static class ItemAndIntTuple {
 
         public Item item;
         public int i;

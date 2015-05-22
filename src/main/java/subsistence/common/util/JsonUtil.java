@@ -30,6 +30,7 @@ public class JsonUtil {
             gsonBuilder.registerTypeAdapter(GenericItem.class, new GenericItemDeserializer());
             gsonBuilder.registerTypeAdapter(ItemStack.class, new ItemStackDeserializer());
             gsonBuilder.registerTypeAdapter(FluidStack.class, new FluidStackDeserializer());
+            gsonBuilder.registerTypeAdapter(Item.class, new ItemDeserializer());
 
             gson = gsonBuilder.setPrettyPrinting().create();
         }
@@ -176,6 +177,22 @@ public class JsonUtil {
                 }
 
                 return new FluidStack(FluidRegistry.getFluid(fluidString), amount);
+            }
+        }
+    }
+
+    public static class ItemDeserializer implements JsonDeserializer<Item> {
+
+        @Override
+        public Item deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            if (json.isJsonPrimitive()) {
+                String tag = json.getAsString();
+                if (!tag.contains(":")) {
+                    tag = "minecraft:" + tag;
+                }
+                return GameData.getItemRegistry().getObject(tag);
+            } else {
+                return null;
             }
         }
     }

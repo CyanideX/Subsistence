@@ -1,12 +1,12 @@
 package subsistence.common.tile.machine;
 
 import com.google.common.collect.Lists;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.config.CoreSettings;
+import subsistence.common.config.HeatSettings;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.CompostRecipe;
@@ -106,12 +106,12 @@ public class TileCompost extends TileCoreMachine {
 
     private int getProcessingTime() {
         if (cachedRecipe.requiresHeat()) {
-            if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.fire) {
-                return cachedRecipe.getTimeFire();
-            } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.lava) {
-                return cachedRecipe.getTimeLava();
-            } else if (worldObj.getBlock(xCoord, yCoord - 1, zCoord) == Blocks.torch) {
+            if (HeatSettings.isTorch(worldObj, xCoord, yCoord - 1, zCoord)) {
                 return cachedRecipe.getTimeTorch();
+            } else if (HeatSettings.isLava(worldObj, xCoord, yCoord - 1, zCoord)) {
+                return cachedRecipe.getTimeLava();
+            } else if (HeatSettings.isFire(worldObj, xCoord, yCoord - 1, zCoord)) {
+                return cachedRecipe.getTimeFire();
             } else {
                 return -1;
             }

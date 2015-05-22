@@ -26,6 +26,7 @@ import java.util.Map;
 public class ConfigManager {
 
     public static File mainFile = new File(Subsistence.configPath, "main.json");
+    public static File heatFile = new File(Subsistence.configPath, "heat.json");
     public static File recipes = new File(Subsistence.configPath, "recipes/");
     public static File itemDump = new File(Subsistence.configPath, "key_dump.txt");
 
@@ -33,6 +34,7 @@ public class ConfigManager {
         genDefaultConfigs();
 
         CoreSettings.Loader.parse(mainFile);
+        HeatSettings.initialize(heatFile);
 
         loadFile("sieve/");
         loadFile("barrel/");
