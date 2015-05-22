@@ -6,6 +6,7 @@ import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,20 @@ public class ItemHelper {
 
     public static boolean isBlock(ItemStack stack, Block block) {
         return getID(stack) == getID(block);
+    }
+
+    public static boolean areItemsEqual(ItemStack i1, ItemStack i2) {
+        if (i1 == null || i2 == null)
+            return false;
+
+        if (i1.getItem() != i2.getItem())
+            return false;
+
+        if (i1.getItemDamage() == OreDictionary.WILDCARD_VALUE || i2.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+            return true;
+        } else {
+            return i1.getItemDamage() == i2.getItemDamage();
+        }
     }
 
     public static ItemStack sanitizeStack(ItemStack itemStack) {

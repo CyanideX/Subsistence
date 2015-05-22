@@ -72,7 +72,7 @@ public class CompostRecipe {
                     if (content == null)
                         continue;
 
-                    if (required.isItemEqual(content) && required.stackSize == content.stackSize) {
+                    if (ItemHelper.areItemsEqual(content, required) && required.stackSize == content.stackSize) {
                         found = true;
                     }
                 }
@@ -80,13 +80,15 @@ public class CompostRecipe {
                 if (!found)
                     return false;
             }
+
+            return true;
         } else if (conditional.equals("any")) {
             for (ItemStack required : inputItem) {
                 for (ItemStack content : currentStack) {
                     if (content == null)
                         continue;
 
-                    if (required.isItemEqual(content) && required.stackSize == content.stackSize) {
+                    if (ItemHelper.areItemsEqual(content, required) && required.stackSize == content.stackSize) {
                         return true;
                     }
                 }
@@ -97,7 +99,7 @@ public class CompostRecipe {
             int found = 0;
             for (ItemStack content : currentStack) {
                 for (ItemStack required : inputItem) {
-                    if (required.isItemEqual(content)) {
+                    if (ItemHelper.areItemsEqual(content, required)) {
                         found += content.stackSize;
                         if (found == globalLimit) {
                             return true;
@@ -111,7 +113,7 @@ public class CompostRecipe {
             }
         }
 
-        return true;
+        return false;
     }
 
     public int getTime() {
