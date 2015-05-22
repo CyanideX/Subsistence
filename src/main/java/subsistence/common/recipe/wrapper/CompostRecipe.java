@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class CompostRecipe {
 
+    //TODO Make a builder for this mess
+
     public final ItemStack[] inputItem;
 
     private final ItemStack outputItem;
@@ -25,18 +27,21 @@ public class CompostRecipe {
     private final int timeFire;
 
     public final String type;
+    public final String conditional;
     public final boolean condensates;
     public final boolean requiresCondensate;
 
-    public CompostRecipe(ItemStack[] input, ItemStack outputItem, FluidStack outputLiquid, int time) {
-        this(input, outputItem, outputLiquid, time, -1, -1, -1, "wood", false, false);
+    public final int globalLimit;
+
+    public CompostRecipe(ItemStack[] input, ItemStack outputItem, FluidStack outputLiquid, int time, String conditional, int globalLimit) {
+        this(input, outputItem, outputLiquid, time, -1, -1, -1, "wood", false, false, conditional, globalLimit);
     }
 
-    public CompostRecipe(ItemStack[] inputItem, ItemStack outputItem, FluidStack outputLiquid, int time, int timeTorch, int timeLava, int timeFire, boolean condensates, boolean requiresCondensate) {
-        this(inputItem, outputItem, outputLiquid, time, timeTorch, timeLava, timeFire, "stone", condensates, requiresCondensate);
+    public CompostRecipe(ItemStack[] inputItem, ItemStack outputItem, FluidStack outputLiquid, int time, int timeTorch, int timeLava, int timeFire, boolean condensates, boolean requiresCondensate, String conditional, int globalLimit) {
+        this(inputItem, outputItem, outputLiquid, time, timeTorch, timeLava, timeFire, "stone", condensates, requiresCondensate, conditional, globalLimit);
     }
 
-    public CompostRecipe(ItemStack[] inputItem, ItemStack outputItem, FluidStack outputLiquid, int time, int timeTorch, int timeLava, int timeFire, String type, boolean condensates, boolean requiresCondensate) {
+    public CompostRecipe(ItemStack[] inputItem, ItemStack outputItem, FluidStack outputLiquid, int time, int timeTorch, int timeLava, int timeFire, String type, boolean condensates, boolean requiresCondensate, String conditional, int globalLimit) {
         List<ItemStack> merged = ItemHelper.mergeLikeItems(Arrays.asList(inputItem));
         this.inputItem = merged.toArray(new ItemStack[merged.size()]);
 
@@ -51,26 +56,59 @@ public class CompostRecipe {
         this.type = type;
         this.condensates = condensates;
         this.requiresCondensate = requiresCondensate;
+        this.conditional = conditional;
+        this.globalLimit = globalLimit;
     }
 
     public boolean valid(ItemStack[] currentStack, FluidStack fluidStack) {
         if (requiresCondensate && (fluidStack == null || fluidStack.getFluid() == null || fluidStack.getFluid() != FluidRegistry.WATER || fluidStack.amount != FluidContainerRegistry.BUCKET_VOLUME))
             return false;
 
-        for (ItemStack required : inputItem) {
-            boolean found = false;
+        if (conditional.equals("all")) {
+            for (ItemStack required : inputItem) {
+                boolean found = false;
 
-            for (ItemStack content : currentStack) {
-                if (content == null)
-                    continue;
+                for (ItemStack content : currentStack) {
+                    if (content == null)
+                        continue;
 
-                if (required.isItemEqual(content) && required.stackSize == content.stackSize) {
-                    found = true;
+                    if (required.isItemEqual(content) && required.stackSize == content.stackSize) {
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                    return false;
+            }
+        } else if (conditional.equals("any")) {
+            for (ItemStack required : inputItem) {
+                for (ItemStack content : currentStack) {
+                    if (content == null)
+                        continue;
+
+                    if (required.isItemEqual(content) && required.stackSize == content.stackSize) {
+                        return true;
+                    }
                 }
             }
 
-            if (!found)
-                return false;
+            return false;
+        } else if (conditional.equals("any_with_global_limit")) {
+            int found = 0;
+            for (ItemStack content : currentStack) {
+                for (ItemStack required : inputItem) {
+                    if (required.isItemEqual(content)) {
+                        found += content.stackSize;
+                        if (found == globalLimit) {
+                            return true;
+                        } else if (found > globalLimit) {
+                            return false;
+                        } else {
+                            continue;
+                        }
+                    }
+                }
+            }
         }
 
         return true;

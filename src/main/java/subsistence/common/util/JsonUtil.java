@@ -1,5 +1,6 @@
 package subsistence.common.util;
 
+import com.google.common.collect.Lists;
 import com.google.gson.*;
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.item.Item;
@@ -13,6 +14,7 @@ import subsistence.common.recipe.wrapper.stack.GenericItem;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author dmillerw
@@ -66,9 +68,27 @@ public class JsonUtil {
                     ArrayList<ItemStack> ores = OreDictionary.getOres(string);
                     contents = ores.toArray(new ItemStack[ores.size()]);
                 }
-            } else if (json.isJsonObject()) {// It's a full ItemStack object
-                contents = new ItemStack[1];
-                contents[0] = context.deserialize(json, ItemStack.class);
+            } else if (json.isJsonObject()) {// See if it's a full ItemStack or just an ore tag
+                JsonObject object = json.getAsJsonObject();
+                if (object.has("item")) {
+                    contents = new ItemStack[1];
+                    contents[0] = context.deserialize(json, ItemStack.class);
+                } else if (object.has("ores")) {
+                    JsonArray array = object.getAsJsonArray("ores");
+                    int size = object.has("amount") ? object.get("amount").getAsInt() : 1;
+                    List<ItemStack> ores = Lists.newArrayList();
+
+                    for (int i=0; i<array.size(); i++) {
+                        String ore = array.get(i).getAsString();
+                        for (ItemStack stack : OreDictionary.getOres(ore)) {
+                            ItemStack copy = stack.copy();
+                            copy.stackSize = size;
+                            ores.add(stack);
+                        }
+                    }
+
+                    contents = ores.toArray(new ItemStack[ores.size()]);
+                }
             }
 
             GenericItem genericStack = new GenericItem();

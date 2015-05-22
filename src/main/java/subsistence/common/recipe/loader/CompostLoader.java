@@ -25,6 +25,9 @@ public class CompostLoader {
         public Output output;
         public Time time;
         public String type = "both"; // wood or stone
+        public String conditional = "all"; // all/any/any_with_global_limit
+        @SerializedName("global_limit")
+        public int globalLimit = 0;
         public boolean condensates = false;
         @SerializedName("requires_condensate")
         public boolean requiresCondensate = false;
@@ -72,8 +75,11 @@ public class CompostLoader {
                         recipe.time.heat.torch,
                         recipe.time.heat.lava,
                         recipe.time.heat.fire,
+                        recipe.type,
                         recipe.condensates,
-                        recipe.requiresCondensate
+                        recipe.requiresCondensate,
+                        recipe.conditional,
+                        recipe.globalLimit
                 ));
     }
 }

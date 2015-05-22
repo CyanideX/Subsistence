@@ -63,7 +63,6 @@ public class TileCompost extends TileCoreMachine {
             if (contents.length > 0 && cachedRecipe == null)
                 cachedRecipe = SubsistenceRecipes.COMPOST.get(blockMetadata == 1 ? "stone" : "wood", contents, fluid);
 
-
             if (cachedRecipe != null) {
                 process();
             }
