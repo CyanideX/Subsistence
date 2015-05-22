@@ -18,19 +18,15 @@ import java.util.List;
  */
 public abstract class SubsistenceMultiBlock extends Block {
 
-    public SubsistenceMultiBlock(Material material) {
+    public SubsistenceMultiBlock(Material material, float hardness, float resistance) {
         super(material);
         this.setCreativeTab(SubsistenceCreativeTab.BLOCKS.get());
-    }
-
-    public SubsistenceMultiBlock() {
-        this(Material.iron);
-    }
-
-    public SubsistenceMultiBlock(Material material, float hardness, float resistance) {
-        this(material);
         this.setHardness(hardness);
         this.setResistance(resistance);
+    }
+
+    public SubsistenceMultiBlock(Material material) {
+        this(material, 2F, 2F);
     }
 
     public abstract int[] getSubtypes();

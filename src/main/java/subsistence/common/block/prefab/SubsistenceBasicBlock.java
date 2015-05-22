@@ -14,16 +14,15 @@ import net.minecraft.util.IIcon;
  */
 public abstract class SubsistenceBasicBlock extends Block {
 
-    public SubsistenceBasicBlock(Material material) {
-        super(material);
-
-        setCreativeTab(SubsistenceCreativeTab.BLOCKS.get());
-    }
-
     public SubsistenceBasicBlock(Material material, float hardness, float resistance) {
-        this(material);
+        super(material);
+        this.setCreativeTab(SubsistenceCreativeTab.BLOCKS.get());
         this.setHardness(hardness);
         this.setResistance(resistance);
+    }
+
+    public SubsistenceBasicBlock(Material material) {
+        this(material, 2F, 2F);
     }
 
     @SideOnly(Side.CLIENT)

@@ -1,6 +1,5 @@
 package subsistence.common.block.prefab;
 
-import subsistence.common.core.SubsistenceCreativeTab;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -12,19 +11,12 @@ import net.minecraft.world.World;
  */
 public abstract class SubsistenceTileMultiBlock extends SubsistenceMultiBlock implements ITileEntityProvider {
 
+    public SubsistenceTileMultiBlock(Material material, float hardness, float resistance) {
+        super(material, hardness, resistance);
+    }
+
     public SubsistenceTileMultiBlock(Material material) {
         super(material);
-        this.setCreativeTab(SubsistenceCreativeTab.BLOCKS.get());
-    }
-
-    public SubsistenceTileMultiBlock() {
-        this(Material.iron, 2F, 2F);
-    }
-
-    public SubsistenceTileMultiBlock(Material material, float hardness, float resistance) {
-        this(material);
-        this.setHardness(hardness);
-        this.setResistance(resistance);
     }
 
     @Override

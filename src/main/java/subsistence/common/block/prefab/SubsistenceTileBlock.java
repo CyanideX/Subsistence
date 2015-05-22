@@ -1,21 +1,23 @@
 package subsistence.common.block.prefab;
 
-import subsistence.common.tile.core.TileCore;
-import subsistence.common.core.SubsistenceCreativeTab;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import subsistence.common.tile.core.TileCore;
 
 /**
  * @author Royalixor
  */
 public abstract class SubsistenceTileBlock extends SubsistenceBasicBlock implements ITileEntityProvider {
 
+    public SubsistenceTileBlock(Material material, float hardness, float resistance) {
+        super(material, hardness, resistance);
+    }
+
     public SubsistenceTileBlock(Material material) {
-        super(material, 2F, 2F);
-        setCreativeTab(SubsistenceCreativeTab.BLOCKS.get());
+        super(material);
     }
 
     @Override

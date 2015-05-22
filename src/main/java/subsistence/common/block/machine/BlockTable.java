@@ -1,18 +1,18 @@
 package subsistence.common.block.machine;
 
-import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
-import subsistence.common.item.ItemHammer;
-import subsistence.common.item.SubsistenceItems;
-import subsistence.common.tile.core.TileCore;
-import subsistence.common.tile.machine.TileTable;
-import subsistence.common.util.ArrayHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
+import subsistence.common.item.SubsistenceItems;
+import subsistence.common.tile.core.TileCore;
+import subsistence.common.tile.machine.TileTable;
+import subsistence.common.util.ArrayHelper;
 
 /**
  * @author dmillerw
@@ -20,6 +20,10 @@ import net.minecraft.world.World;
 public class BlockTable extends SubsistenceTileMultiBlock {
 
     private static final String[] NAMES = new String[]{"wood", "stone"};
+
+    public BlockTable() {
+        super(Material.wood);
+    }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float fx, float fy, float fz) {
