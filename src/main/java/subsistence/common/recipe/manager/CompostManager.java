@@ -15,12 +15,7 @@ public class CompostManager {
     private List<CompostRecipe> recipes = new ArrayList<CompostRecipe>();
 
     private boolean canAccept(String tileType, String recipeType) {
-        /*if (recipeType.equals("wood") && tileType.equals("stone")) {
-            return true;
-        }
-
-        return tileType.equals(recipeType);*/
-        return true;
+        return tileType.equals(recipeType);
     }
 
     public CompostRecipe get(String type, ItemStack[] stack, FluidStack fluidStack) {
