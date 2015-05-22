@@ -13,6 +13,9 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
 
     @Override
     public void renderTileAt(TileBarrel tile, double x, double y, double z, float delta) {
+        if (tile == null)
+            return;
+
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
         GL11.glRotated(RenderHelper.getRotationAngle(tile.orientation.getOpposite()), 0, 1, 0);
