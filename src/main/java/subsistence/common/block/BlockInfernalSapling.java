@@ -1,14 +1,14 @@
 package subsistence.common.block;
 
-import subsistence.Subsistence;
-import subsistence.common.core.SubsistenceCreativeTab;
-import subsistence.common.world.generation.WorldGenInfernalTree;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import subsistence.Subsistence;
+import subsistence.common.core.SubsistenceCreativeTab;
+import subsistence.common.world.generation.WorldGenInfernalTree;
 
 import java.util.Random;
 

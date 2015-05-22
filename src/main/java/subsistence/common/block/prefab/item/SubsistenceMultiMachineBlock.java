@@ -1,8 +1,8 @@
 package subsistence.common.block.prefab.item;
 
-import subsistence.common.block.prefab.SubsistenceMultiBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import subsistence.common.block.prefab.SubsistenceMultiBlock;
 
 /**
  * Created by Thlayli

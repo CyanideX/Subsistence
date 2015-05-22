@@ -93,7 +93,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                             }
 
                             if (dropItemStack(drop) != null) {
-                                stuffed = new ItemStack[] {drop};
+                                stuffed = new ItemStack[]{drop};
                             }
                         }
                     }
@@ -166,7 +166,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
             if (stuffed != null && !isEmpty(stuffed)) {
                 // ...we're entirely focused on dumping the stuffed items, and no other processing will take place
-                for (int i=0; i<stuffed.length; i++) {
+                for (int i = 0; i < stuffed.length; i++) {
                     ItemStack stuff = stuffed[i];
                     ItemStack drop = stuff.copy();
                     drop.stackSize = 1;
@@ -184,6 +184,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
     /**
      * Attempts to drop a stack either into the inventory below, or on to the ground
+     *
      * @return The resulting ItemStack, as in, whatever wouldn't be properly dropped
      */
     private ItemStack dropItemStack(ItemStack itemStack) {

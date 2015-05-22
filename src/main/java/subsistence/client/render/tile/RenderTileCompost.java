@@ -45,7 +45,7 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
                 break;
         }
 
-        final float thickness = DIMENSION_FILL / (float)volume;
+        final float thickness = DIMENSION_FILL / (float) volume;
 
         Model.COMPOST.renderAllExcept(lid);
 

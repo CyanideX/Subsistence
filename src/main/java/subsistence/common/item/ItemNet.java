@@ -1,10 +1,10 @@
 package subsistence.common.item;
 
-import subsistence.common.core.SubsistenceCreativeTab;
-import subsistence.common.item.prefab.SubsistenceMultiItem;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import subsistence.common.core.SubsistenceCreativeTab;
+import subsistence.common.item.prefab.SubsistenceMultiItem;
 
 /**
  * @author dmillerw

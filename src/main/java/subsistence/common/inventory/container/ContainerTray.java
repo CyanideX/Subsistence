@@ -1,8 +1,8 @@
 package subsistence.common.inventory.container;
 
-import subsistence.common.inventory.InventoryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
+import subsistence.common.inventory.InventoryItem;
 
 /**
  * @author dmillerw

@@ -1,11 +1,11 @@
 package subsistence.common.world.generation;
 
-import subsistence.common.block.SubsistenceBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraftforge.common.util.ForgeDirection;
+import subsistence.common.block.SubsistenceBlocks;
 
 import java.util.Random;
 

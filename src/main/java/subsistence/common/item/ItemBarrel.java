@@ -1,14 +1,14 @@
 package subsistence.common.item;
 
-import subsistence.common.block.machine.BlockBarrel;
-import subsistence.common.core.SubsistenceCreativeTab;
-import subsistence.common.lib.IBarrel;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.block.machine.BlockBarrel;
+import subsistence.common.core.SubsistenceCreativeTab;
+import subsistence.common.lib.IBarrel;
 
 public final class ItemBarrel extends ItemBlock implements IBarrel {
 

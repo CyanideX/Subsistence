@@ -1,11 +1,11 @@
 package subsistence.common.item;
 
-import subsistence.Subsistence;
-import subsistence.common.core.SubsistenceCreativeTab;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.util.IIcon;
+import subsistence.Subsistence;
+import subsistence.common.core.SubsistenceCreativeTab;
 
 /**
  * @author Thlayli

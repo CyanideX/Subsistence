@@ -1,10 +1,10 @@
 package subsistence.common.item;
 
-import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.item.resource.ItemResource;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.item.resource.ItemResource;
 
 /**
  * @author Royalixor

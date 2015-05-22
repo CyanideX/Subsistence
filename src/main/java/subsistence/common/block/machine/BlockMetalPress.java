@@ -47,7 +47,7 @@ public class BlockMetalPress extends SubsistenceTileBlock {
                     if (held == null) {
                         if (tile.itemStack != null) {
                             player.setCurrentItemOrArmor(0, tile.itemStack.copy());
-                            ((EntityPlayerMP)player).updateHeldItem();
+                            ((EntityPlayerMP) player).updateHeldItem();
 
                             tile.itemStack = null;
                             tile.markForUpdate();
@@ -60,7 +60,7 @@ public class BlockMetalPress extends SubsistenceTileBlock {
 
                             if (held.stackSize <= 0) {
                                 player.setCurrentItemOrArmor(0, null);
-                                ((EntityPlayerMP)player).updateHeldItem();
+                                ((EntityPlayerMP) player).updateHeldItem();
                             }
 
                             tile.itemStack = copy;
@@ -72,7 +72,7 @@ public class BlockMetalPress extends SubsistenceTileBlock {
                             if (held.isItemEqual(tile.itemStack)) {
                                 if ((held.stackSize + 1) <= held.getMaxStackSize()) {
                                     held.stackSize++;
-                                    ((EntityPlayerMP)player).updateHeldItem();
+                                    ((EntityPlayerMP) player).updateHeldItem();
 
                                     tile.itemStack = null;
                                     tile.markForUpdate();

@@ -1,7 +1,5 @@
 package subsistence.client.gui;
 
-import subsistence.common.inventory.container.ContainerInfernalFurnace;
-import subsistence.common.tile.machine.TileHellfireFurnace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -9,6 +7,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import subsistence.common.inventory.container.ContainerInfernalFurnace;
+import subsistence.common.tile.machine.TileHellfireFurnace;
 
 @SideOnly(Side.CLIENT)
 public class GuiHellfireFurnace extends GuiContainer {

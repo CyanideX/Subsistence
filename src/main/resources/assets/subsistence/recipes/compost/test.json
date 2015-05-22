@@ -1,7 +1,10 @@
 [
   {
     "input": [
-      {"item": "dirt", "amount": 5}
+      {
+        "item": "dirt",
+        "amount": 5
+      }
     ],
     "output": {
       "item": {

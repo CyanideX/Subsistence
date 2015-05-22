@@ -1,5 +1,9 @@
 package subsistence.client.render.tile;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.item.ItemBlock;
+import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
 import subsistence.client.render.SubsistenceTileRenderer;
@@ -7,10 +11,6 @@ import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.tile.machine.TileTable;
 import subsistence.common.util.RenderHelper;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.item.ItemBlock;
-import org.lwjgl.opengl.GL11;
 
 /**
  * @author dmillerw

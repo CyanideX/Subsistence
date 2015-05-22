@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class GenericItem {
 
-    public static GenericItem merge(GenericItem ... array) {
+    public static GenericItem merge(GenericItem... array) {
         List<ItemStack> list = Lists.newArrayList();
         for (GenericItem genericItem : array) {
             for (ItemStack itemStack : genericItem.contents) {

@@ -1,9 +1,9 @@
 package subsistence.common.recipe.manager;
 
-import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
-import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
+import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 
 import java.util.ArrayList;
 import java.util.List;

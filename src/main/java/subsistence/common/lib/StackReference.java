@@ -1,9 +1,9 @@
 package subsistence.common.lib;
 
-import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.block.BlockComponentGround;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import subsistence.common.block.BlockComponentGround;
+import subsistence.common.block.SubsistenceBlocks;
 
 /**
  * @author dmillerw

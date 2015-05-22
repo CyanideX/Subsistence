@@ -1,8 +1,8 @@
 package subsistence.common.recipe.wrapper;
 
+import net.minecraft.item.ItemStack;
 import subsistence.common.lib.RandomStack;
 import subsistence.common.util.StackHelper;
-import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;

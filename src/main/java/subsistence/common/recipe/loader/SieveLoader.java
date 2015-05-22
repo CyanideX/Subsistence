@@ -35,7 +35,9 @@ public class SieveLoader {
 
     public static class Duration {
 
-        public Duration() {}
+        public Duration() {
+        }
+
         public Duration(int b, int h) {
             block = b;
             hand = h;

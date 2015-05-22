@@ -1,11 +1,11 @@
 package subsistence.client.gui;
 
-import subsistence.common.inventory.InventoryItem;
-import subsistence.common.inventory.container.ContainerTray;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import subsistence.common.inventory.InventoryItem;
+import subsistence.common.inventory.container.ContainerTray;
 
 /**
  * @author dmillerw

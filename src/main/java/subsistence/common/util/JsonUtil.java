@@ -79,7 +79,7 @@ public class JsonUtil {
                     int size = object.has("amount") ? object.get("amount").getAsInt() : 1;
                     List<ItemStack> ores = Lists.newArrayList();
 
-                    for (int i=0; i<array.size(); i++) {
+                    for (int i = 0; i < array.size(); i++) {
                         String ore = array.get(i).getAsString();
                         for (ItemStack stack : OreDictionary.getOres(ore)) {
                             ItemStack copy = stack.copy();

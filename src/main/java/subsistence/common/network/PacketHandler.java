@@ -4,8 +4,8 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import subsistence.Subsistence;
-import subsistence.common.network.packet.PacketSyncConfig;
 import subsistence.common.network.packet.PacketFX;
+import subsistence.common.network.packet.PacketSyncConfig;
 
 public class PacketHandler {
 

@@ -1,11 +1,11 @@
 package subsistence.common.recipe.manager;
 
+import net.minecraft.item.ItemStack;
 import subsistence.common.lib.DurabilityMapping;
 import subsistence.common.lib.tool.ToolDefinition;
 import subsistence.common.recipe.wrapper.TableDryingRecipe;
 import subsistence.common.recipe.wrapper.TableRecipe;
 import subsistence.common.util.StackHelper;
-import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,12 +1,12 @@
 package subsistence.client.render.tile;
 
+import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
 import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileHandCrank;
 import subsistence.common.util.RenderHelper;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.lwjgl.opengl.GL11;
 
 /**
  * @author dmillerw

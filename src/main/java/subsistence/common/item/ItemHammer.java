@@ -1,7 +1,7 @@
 package subsistence.common.item;
 
-import subsistence.common.item.prefab.SubsistenceItem;
 import subsistence.common.core.SubsistenceCreativeTab;
+import subsistence.common.item.prefab.SubsistenceItem;
 
 /**
  * @author Royalixor

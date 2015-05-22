@@ -8,8 +8,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 public class UpdateChecker {
+
     public static boolean updateAvaliable = false;
-    public static void checkForUpdate () {
+
+    public static void checkForUpdate() {
         String remoteVersion = "";
         try {
             URL updateUrl = new URL("https://raw.githubusercontent.com/CyanideX/Subsistence/master/version.txt");

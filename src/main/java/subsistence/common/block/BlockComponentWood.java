@@ -1,14 +1,14 @@
 package subsistence.common.block;
 
-import subsistence.Subsistence;
-import subsistence.common.block.prefab.SubsistenceMultiBlock;
-import subsistence.common.util.ArrayHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import subsistence.Subsistence;
+import subsistence.common.block.prefab.SubsistenceMultiBlock;
+import subsistence.common.util.ArrayHelper;
 
 import java.util.List;
 

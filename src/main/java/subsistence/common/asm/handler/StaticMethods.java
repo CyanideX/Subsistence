@@ -1,8 +1,8 @@
 package subsistence.common.asm.handler;
 
-import subsistence.common.item.SubsistenceItems;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.player.EntityPlayer;
+import subsistence.common.item.SubsistenceItems;
 
 /**
  * @author dmillerw

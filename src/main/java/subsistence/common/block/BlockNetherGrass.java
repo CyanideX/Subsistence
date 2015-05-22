@@ -1,7 +1,5 @@
 package subsistence.common.block;
 
-import subsistence.Subsistence;
-import subsistence.common.block.prefab.SubsistenceBasicBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -9,6 +7,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import subsistence.Subsistence;
+import subsistence.common.block.prefab.SubsistenceBasicBlock;
 
 import java.util.Random;
 

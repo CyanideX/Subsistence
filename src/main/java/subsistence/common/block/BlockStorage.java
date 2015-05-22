@@ -1,16 +1,16 @@
 package subsistence.common.block;
 
-import subsistence.Subsistence;
-import subsistence.common.block.prefab.SubsistenceMultiBlock;
-import subsistence.common.item.resource.ItemResource;
-import subsistence.common.core.SubsistenceCreativeTab;
-import subsistence.common.util.ArrayHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import subsistence.Subsistence;
+import subsistence.common.block.prefab.SubsistenceMultiBlock;
+import subsistence.common.core.SubsistenceCreativeTab;
+import subsistence.common.item.resource.ItemResource;
+import subsistence.common.util.ArrayHelper;
 
 /**
  * @author Royalixor

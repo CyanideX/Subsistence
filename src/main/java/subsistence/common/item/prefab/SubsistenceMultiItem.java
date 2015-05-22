@@ -1,12 +1,12 @@
 package subsistence.common.item.prefab;
 
-import subsistence.Subsistence;
-import subsistence.common.core.SubsistenceCreativeTab;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import subsistence.Subsistence;
+import subsistence.common.core.SubsistenceCreativeTab;
 
 import java.util.List;
 

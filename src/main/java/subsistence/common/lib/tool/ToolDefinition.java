@@ -1,8 +1,8 @@
 package subsistence.common.lib.tool;
 
-import subsistence.common.util.StackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import subsistence.common.util.StackHelper;
 
 import java.util.*;
 

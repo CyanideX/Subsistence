@@ -1,10 +1,10 @@
 package subsistence.common.core;
 
-import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.item.SubsistenceItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.item.SubsistenceItems;
 
 import java.util.Locale;
 

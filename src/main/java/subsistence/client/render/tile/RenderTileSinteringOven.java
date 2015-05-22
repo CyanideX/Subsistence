@@ -1,13 +1,13 @@
 package subsistence.client.render.tile;
 
-import subsistence.client.render.SubsistenceTileRenderer;
-import subsistence.common.lib.MathFX;
-import subsistence.client.lib.Model;
-import subsistence.client.lib.Texture;
-import subsistence.common.tile.machine.TileSinteringOven;
-import subsistence.common.util.RenderHelper;
 import net.minecraft.client.renderer.OpenGlHelper;
 import org.lwjgl.opengl.GL11;
+import subsistence.client.lib.Model;
+import subsistence.client.lib.Texture;
+import subsistence.client.render.SubsistenceTileRenderer;
+import subsistence.common.lib.MathFX;
+import subsistence.common.tile.machine.TileSinteringOven;
+import subsistence.common.util.RenderHelper;
 
 /**
  * @author Royalixor

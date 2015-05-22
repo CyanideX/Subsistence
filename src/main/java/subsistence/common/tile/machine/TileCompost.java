@@ -83,7 +83,7 @@ public class TileCompost extends TileCoreMachine {
                     processingTime++;
 
                     if (processingTime >= maxProcessingTime) {
-                        contents = new ItemStack[] {cachedRecipe.getOutputItem().copy()};
+                        contents = new ItemStack[]{cachedRecipe.getOutputItem().copy()};
 
                         if (cachedRecipe.requiresCondensate)
                             fluid = null;
@@ -149,7 +149,7 @@ public class TileCompost extends TileCoreMachine {
 
     public ItemStack inventoryPeek() {
         ItemStack last = null;
-        for (int i=contents.length - 1; i>=0; i--) {
+        for (int i = contents.length - 1; i >= 0; i--) {
             last = contents[i];
             if (last != null) {
                 break;
@@ -168,7 +168,7 @@ public class TileCompost extends TileCoreMachine {
     public ItemStack inventoryPop() {
         int index = 0;
         ItemStack last = null;
-        for (int i=contents.length - 1; i>=0; i--) {
+        for (int i = contents.length - 1; i >= 0; i--) {
             last = contents[i];
             if (last != null) {
                 index = i;

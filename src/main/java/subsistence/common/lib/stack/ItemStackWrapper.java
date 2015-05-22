@@ -1,7 +1,7 @@
 package subsistence.common.lib.stack;
 
-import subsistence.common.util.StackHelper;
 import net.minecraft.item.ItemStack;
+import subsistence.common.util.StackHelper;
 
 /**
  * @author dmillerw

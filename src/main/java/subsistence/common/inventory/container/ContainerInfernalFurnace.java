@@ -1,6 +1,5 @@
 package subsistence.common.inventory.container;
 
-import subsistence.common.tile.machine.TileHellfireFurnace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +10,7 @@ import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
+import subsistence.common.tile.machine.TileHellfireFurnace;
 
 /**
  * @author dmillerw

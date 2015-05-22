@@ -1,11 +1,5 @@
 package subsistence.common.block.fluid;
 
-import subsistence.Subsistence;
-import subsistence.common.block.prefab.SubsistenceBasicFluid;
-import subsistence.common.fluid.SubsistenceFluids;
-import subsistence.common.lib.client.EnumParticle;
-import subsistence.common.particle.SteamFX;
-import subsistence.common.util.SubsistenceDamageSource;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,6 +9,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
+import subsistence.Subsistence;
+import subsistence.common.block.prefab.SubsistenceBasicFluid;
+import subsistence.common.fluid.SubsistenceFluids;
+import subsistence.common.lib.client.EnumParticle;
+import subsistence.common.particle.SteamFX;
+import subsistence.common.util.SubsistenceDamageSource;
 
 import java.util.Random;
 

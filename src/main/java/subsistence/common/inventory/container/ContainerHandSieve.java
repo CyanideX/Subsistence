@@ -1,11 +1,11 @@
 package subsistence.common.inventory.container;
 
-import subsistence.common.item.ItemHandSieve;
-import subsistence.common.inventory.InventoryItem;
-import subsistence.common.recipe.SubsistenceRecipes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import subsistence.common.inventory.InventoryItem;
+import subsistence.common.item.ItemHandSieve;
+import subsistence.common.recipe.SubsistenceRecipes;
 
 /**
  * @author dmillerw

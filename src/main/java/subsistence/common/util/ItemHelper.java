@@ -79,7 +79,7 @@ public class ItemHelper {
             ItemStack first = entry.getValue().get(0);
 
             if (itemStacks.size() > 1) {
-                for (int i=1; i<itemStacks.size(); i++) {
+                for (int i = 1; i < itemStacks.size(); i++) {
                     first.stackSize += itemStacks.get(i).stackSize;
                 }
             }

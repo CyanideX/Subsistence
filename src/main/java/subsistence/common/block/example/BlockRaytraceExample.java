@@ -1,8 +1,5 @@
 package subsistence.common.block.example;
 
-import subsistence.common.raytrace.RayTracer;
-import subsistence.common.raytrace.IRaytracable;
-import subsistence.common.raytrace.IndexedAABB;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -16,6 +13,9 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import subsistence.common.raytrace.IRaytracable;
+import subsistence.common.raytrace.IndexedAABB;
+import subsistence.common.raytrace.RayTracer;
 
 import java.util.ArrayList;
 import java.util.List;

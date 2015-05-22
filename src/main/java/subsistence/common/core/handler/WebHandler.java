@@ -1,11 +1,11 @@
 package subsistence.common.core.handler;
 
-import subsistence.common.item.SubsistenceItems;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent;
+import subsistence.common.item.SubsistenceItems;
 
 public class WebHandler {
 

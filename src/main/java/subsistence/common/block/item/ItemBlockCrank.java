@@ -1,10 +1,5 @@
 package subsistence.common.block.item;
 
-import subsistence.Subsistence;
-import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.block.prefab.item.SubsistenceItemBlock;
-import subsistence.common.tile.machine.TileHandCrank;
-import subsistence.common.tile.machine.TileHammerMill;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +8,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import subsistence.Subsistence;
+import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.block.prefab.item.SubsistenceItemBlock;
+import subsistence.common.tile.machine.TileHammerMill;
+import subsistence.common.tile.machine.TileHandCrank;
 
 /**
  * @author dmillerw

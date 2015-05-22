@@ -1,11 +1,11 @@
 package subsistence.client.render.tile;
 
-import subsistence.client.render.SubsistenceTileRenderer;
+import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
+import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileMetalPress;
 import subsistence.common.util.RenderHelper;
-import org.lwjgl.opengl.GL11;
 
 /**
  * @author dmillerw
@@ -31,7 +31,7 @@ public class RenderTileMetalPress extends SubsistenceTileRenderer<TileMetalPress
     }
 
     private void renderPress(TileMetalPress tile) {
-        final float progress = (tile.animationTicker / (float)TileMetalPress.ANIMATE_TICK_MAX);
+        final float progress = (tile.animationTicker / (float) TileMetalPress.ANIMATE_TICK_MAX);
 
         GL11.glPushMatrix();
         GL11.glTranslated(0, (-0.375 * progress), 0);
@@ -40,7 +40,7 @@ public class RenderTileMetalPress extends SubsistenceTileRenderer<TileMetalPress
 
         GL11.glPushMatrix();
         GL11.glTranslated(0, 0.25, 0.25);
-        GL11.glRotated((float)45 * progress, 1, 0, 0);
+        GL11.glRotated((float) 45 * progress, 1, 0, 0);
         GL11.glTranslated(0, -0.25, -0.25);
 
         Model.METAL_PRESS.renderOnly("MetalPress___Handel_2");

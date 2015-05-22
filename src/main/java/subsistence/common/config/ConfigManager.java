@@ -57,8 +57,9 @@ public class ConfigManager {
             if (url != null) {
                 try {
                     FileUtils.copyDirectory(new File(url.toURI()), recipes);
-                } catch (URISyntaxException ignore) {}
-                catch (IOException ignore) {}
+                } catch (URISyntaxException ignore) {
+                } catch (IOException ignore) {
+                }
             }
         }
 

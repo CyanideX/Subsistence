@@ -1,8 +1,8 @@
 package subsistence.client.lib;
 
-import subsistence.Subsistence;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import subsistence.Subsistence;
 
 /**
  * @author dmillerw

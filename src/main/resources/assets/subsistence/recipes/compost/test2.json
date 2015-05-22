@@ -1,8 +1,14 @@
 [
   {
     "input": [
-      {"item": "sand", "amount": 8},
-      {"item": "rotten_flesh", "amount": 1}
+      {
+        "item": "sand",
+        "amount": 8
+      },
+      {
+        "item": "rotten_flesh",
+        "amount": 1
+      }
     ],
     "output": {
       "item": {

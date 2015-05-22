@@ -1,7 +1,7 @@
 package subsistence.common.tile.machine;
 
-import subsistence.common.tile.core.TileCoreMachine;
 import subsistence.common.network.nbt.NBTHandler;
+import subsistence.common.tile.core.TileCoreMachine;
 
 /**
  * @author Royalixor

@@ -1,9 +1,9 @@
 package subsistence.common.particle;
 
-import subsistence.common.particle.core.ParticleCore;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.world.World;
+import subsistence.common.particle.core.ParticleCore;
 
 
 /**

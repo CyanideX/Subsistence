@@ -1,9 +1,5 @@
 package subsistence.common.block.core;
 
-import subsistence.common.util.EntityHelper;
-import subsistence.common.core.SubsistenceCreativeTab;
-import subsistence.common.core.data.WorldDataSpawnPosition;
-import subsistence.common.tile.misc.TileSpawnMarker;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockBed;
@@ -16,6 +12,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import subsistence.common.core.SubsistenceCreativeTab;
+import subsistence.common.core.data.WorldDataSpawnPosition;
+import subsistence.common.tile.misc.TileSpawnMarker;
+import subsistence.common.util.EntityHelper;
 
 import java.util.Random;
 

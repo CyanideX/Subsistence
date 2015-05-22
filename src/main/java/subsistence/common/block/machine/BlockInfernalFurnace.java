@@ -1,10 +1,5 @@
 package subsistence.common.block.machine;
 
-import subsistence.Subsistence;
-import subsistence.common.block.prefab.SubsistenceTileBlock;
-import subsistence.common.core.handler.GuiHandler;
-import subsistence.common.tile.machine.TileHellfireFurnace;
-import subsistence.common.util.InventoryHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -20,6 +15,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import subsistence.Subsistence;
+import subsistence.common.block.prefab.SubsistenceTileBlock;
+import subsistence.common.core.handler.GuiHandler;
+import subsistence.common.tile.machine.TileHellfireFurnace;
+import subsistence.common.util.InventoryHelper;
 
 import java.util.List;
 import java.util.Random;

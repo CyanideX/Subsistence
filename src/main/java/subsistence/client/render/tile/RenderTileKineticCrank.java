@@ -1,11 +1,11 @@
 package subsistence.client.render.tile;
 
-import subsistence.client.render.SubsistenceTileRenderer;
+import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
+import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileKineticCrank;
 import subsistence.common.util.RenderHelper;
-import org.lwjgl.opengl.GL11;
 
 /**
  * @author dmillerw

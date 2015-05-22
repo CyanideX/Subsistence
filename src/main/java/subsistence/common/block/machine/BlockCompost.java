@@ -135,8 +135,10 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
     public IIcon getIcon(int side, int meta) {
         // Replace with proper textures mimicking model textures?
         switch (meta) {
-            case 1: return Blocks.stone.getIcon(0, 0);
-            default: return Blocks.planks.getIcon(0, 0);
+            case 1:
+                return Blocks.stone.getIcon(0, 0);
+            default:
+                return Blocks.planks.getIcon(0, 0);
         }
     }
 }

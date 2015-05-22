@@ -1,7 +1,7 @@
 package subsistence.common.recipe.manager;
 
-import subsistence.common.recipe.wrapper.SieveRecipe;
 import net.minecraft.item.ItemStack;
+import subsistence.common.recipe.wrapper.SieveRecipe;
 
 import java.util.ArrayList;
 import java.util.List;

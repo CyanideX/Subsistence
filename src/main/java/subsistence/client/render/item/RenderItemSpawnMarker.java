@@ -1,10 +1,10 @@
 package subsistence.client.render.item;
 
-import subsistence.client.lib.Model;
-import subsistence.client.lib.Texture;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
+import subsistence.client.lib.Model;
+import subsistence.client.lib.Texture;
 
 /**
  * @author Royalixor

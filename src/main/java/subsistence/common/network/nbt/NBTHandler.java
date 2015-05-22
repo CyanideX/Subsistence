@@ -45,6 +45,7 @@ public class NBTHandler {
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.FIELD})
     public @interface Sync {
+
         boolean value();
     }
 

@@ -1,12 +1,12 @@
 package subsistence.common.lib.client;
 
-import subsistence.client.render.tile.RenderTileTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import subsistence.client.render.tile.RenderTileTable;
 
 import java.util.Random;
 

@@ -10,7 +10,8 @@ import subsistence.common.util.StackHelper;
  * @author dmillerw
  */
 public class RecipeParser {
-        public static Object getItem(String item) {
+
+    public static Object getItem(String item) {
 
         ItemStack stack;
         String mod_id = "minecraft";

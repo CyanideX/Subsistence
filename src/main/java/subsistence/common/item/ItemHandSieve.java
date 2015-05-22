@@ -1,5 +1,11 @@
 package subsistence.common.item;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import subsistence.Subsistence;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.core.handler.GuiHandler;
@@ -7,12 +13,6 @@ import subsistence.common.inventory.InventoryItem;
 import subsistence.common.item.prefab.SubsistenceItem;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.SieveRecipe;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 
 /**
  * @author dmillerw

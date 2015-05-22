@@ -1,11 +1,11 @@
 package subsistence.common.block.prefab.item;
 
-import subsistence.common.util.EntityHelper;
-import subsistence.common.tile.core.TileCoreMachine;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import subsistence.common.tile.core.TileCoreMachine;
+import subsistence.common.util.EntityHelper;
 
 /**
  * @author dmillerw

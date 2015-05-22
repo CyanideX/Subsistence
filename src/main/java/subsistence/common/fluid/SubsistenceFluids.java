@@ -1,13 +1,13 @@
 package subsistence.common.fluid;
 
-import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.core.handler.BucketHandler;
-import subsistence.common.item.SubsistenceItems;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.core.handler.BucketHandler;
+import subsistence.common.item.SubsistenceItems;
 
 /**
  * Created by Thlayli
