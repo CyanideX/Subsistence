@@ -2,13 +2,17 @@ package subsistence.common.block.core;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockObsidian;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -21,25 +25,11 @@ import java.util.Random;
 
 public class BlockSpawnMarker extends BlockContainer {
 
-    public static ChunkCoordinates getSpawnPosition(World world) {
-        if (world.perWorldStorage.loadData(WorldDataSpawnPosition.class, "subsistence:spawn_position") == null) {
-            world.perWorldStorage.setData("subsistence:spawn_position", new WorldDataSpawnPosition());
-        }
-        return ((WorldDataSpawnPosition) world.perWorldStorage.loadData(WorldDataSpawnPosition.class, "subsistence:spawn_position")).spawn;
-    }
-
-    public static void setSpawnPosition(World world, ChunkCoordinates chunkCoordinates) {
-        WorldDataSpawnPosition spawnPosition = new WorldDataSpawnPosition();
-        spawnPosition.spawn = chunkCoordinates;
-
-        world.perWorldStorage.setData("subsistence:spawn_position", spawnPosition);
-    }
-
     public BlockSpawnMarker() {
         super(Material.rock);
 
-        setHardness(2F);
-        setResistance(100F);
+        setBlockUnbreakable();
+        setResistance(6000000.0F);
         setLightLevel(0.5F);
         setBlockBounds(0.25F, 0, 0.25F, 0.75F, 0.5F, 0.75F);
         setCreativeTab(SubsistenceCreativeTab.BLOCKS.get());
@@ -56,10 +46,12 @@ public class BlockSpawnMarker extends BlockContainer {
     }
 
     @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
-        if (!world.isRemote && world.provider.dimensionId == -1) {
-            setSpawnPosition(world, BlockBed.func_149977_a(world, x, y, z, 0));
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        if(!world.isRemote){
+            player.setSpawnChunk(BlockBed.func_149977_a(world, x, y, z, 0), true, player.dimension);
+            player.addChatComponentMessage(new ChatComponentText("Spawn set!"));
         }
+        return true;
     }
 
     @Override
