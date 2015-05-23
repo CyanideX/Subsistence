@@ -14,6 +14,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import subsistence.Subsistence;
+import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.SubsistenceBasicFluid;
 import subsistence.common.fluid.SubsistenceFluids;
 import subsistence.common.lib.client.EnumParticle;
@@ -116,7 +117,7 @@ public class BlockFluidBoiling extends SubsistenceBasicFluid {
 
             if (flag) {
                 if (world.provider.dimensionId == -1) {
-                    world.setBlock(x, y, z, Blocks.netherrack);
+                    world.setBlock(x, y, z, SubsistenceBlocks.componentGround, 2, 2);
                 } else {
                     int metadata = world.getBlockMetadata(x, y, z);
 
