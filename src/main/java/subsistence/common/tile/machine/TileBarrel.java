@@ -60,23 +60,35 @@ public final class TileBarrel extends TileCoreMachine {
                 rainDelay = RANDOM.nextInt(500);
 
                 if (!hasLid) {
-                    if (fluidContents == null || fluidContents.getFluid() == null) {
-                        fluidContents = new FluidStack(FluidRegistry.WATER, CoreSettings.STATIC.barrelRain);
-
-                        markForUpdate();
-                    } else {
-                        if (fluidContents.getFluid() == FluidRegistry.WATER) {
-                            if (fluidContents.amount + CoreSettings.STATIC.barrelRain <= getFluidVolume()) {
-                                fluidContents.amount += CoreSettings.STATIC.barrelRain;
-
-                                markForUpdate();
-                            }
-                        }
-                    }
+                    addFluid(new FluidStack(FluidRegistry.WATER, CoreSettings.STATIC.barrelRain));
                 }
             } else {
                 rainDelayTick++;
             }
         }
+    }
+
+    public boolean addFluid(FluidStack fluidStack) {
+        if (fluidContents == null || fluidContents.getFluid() == null) {
+            fluidContents = fluidStack.copy();
+
+            markForUpdate();
+
+            return true;
+        } else {
+            if (fluidContents.getFluid() == fluidStack.getFluid()) {
+                if (fluidContents.amount + fluidStack.amount <= getFluidVolume()) {
+                    fluidContents.amount += fluidStack.amount;
+
+                    markForUpdate();
+
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        return false;
     }
 }

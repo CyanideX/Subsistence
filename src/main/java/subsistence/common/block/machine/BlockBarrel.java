@@ -15,6 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.fluid.SubsistenceFluids;
@@ -71,6 +72,26 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
                             tileBarrel.hasLid = true;
                             tileBarrel.markForUpdate();
+                        }
+                    } else {
+                        if (!tileBarrel.hasLid) {
+                            if (FluidContainerRegistry.isFilledContainer(held) && held.stackSize == 1) {
+                                if (tileBarrel.addFluid(FluidContainerRegistry.getFluidForFilledItem(held))) {
+                                    player.setCurrentItemOrArmor(0, FluidContainerRegistry.drainFluidContainer(held).copy());
+                                    ((EntityPlayerMP)player).updateHeldItem();
+                                }
+                            } else if (FluidContainerRegistry.isEmptyContainer(held) && held.stackSize == 1) {
+                                ItemStack filled = FluidContainerRegistry.fillFluidContainer(tileBarrel.fluidContents, held);
+                                if (filled != null) {
+                                    player.setCurrentItemOrArmor(0, filled);
+                                    ((EntityPlayerMP)player).updateHeldItem();
+
+                                    tileBarrel.fluidContents.amount -= (FluidContainerRegistry.getContainerCapacity(filled));
+                                    if (tileBarrel.fluidContents.amount <= 0)
+                                        tileBarrel.fluidContents = null;
+                                    tileBarrel.markForUpdate();
+                                }
+                            }
                         }
                     }
                 } else {
