@@ -122,7 +122,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
         if (!world.isRemote) {
             TileBarrel tileBarrel = (TileBarrel) world.getTileEntity(x, y, z);
 
-            if (tileBarrel != null && !tileBarrel.hasLid && entityPlayer.isSneaking()) {
+            if (tileBarrel != null && !tileBarrel.hasLid  && entityPlayer.isSneaking()) {
                 ItemStack held = entityPlayer.getHeldItem();
 
                 if (held != null) {

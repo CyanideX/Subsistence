@@ -16,56 +16,45 @@ public final class TileBarrel extends TileCoreMachine {
 
     public static final float DIMENSION_FILL = 0.8F - 0.0625F;
 
-    public static enum RecipeMode {
-        NONE,
-        MIXING,
-        MELTING
-    }
-
+    /* GENERAL */
     @NBTHandler.Sync(true)
     public ItemStack[] itemContents = new ItemStack[VOLUME_ITEMS];
     @NBTHandler.Sync(true)
     public FluidStack fluidContents = null;
 
     @NBTHandler.Sync(true)
-    public RecipeMode recipeMode = RecipeMode.NONE;
-
-    @NBTHandler.Sync(true)
     public boolean hasLid;
 
+    /* WOOD SPECIFIC */
     private int rainDelayTick = 0;
     private int rainDelay = -1;
+
+    /* STONE SPECIFIC */
 
     @Override
     public void updateEntity() {
         if (worldObj.isRemote)
             return;
 
-        collectRainWater();
+        if (isWood()) {
+            collectRainWater();
+        } else if (isStone()) {
+
+        }
     }
 
+    /* STATE */
+    private boolean isWood() {
+        return blockMetadata == 0;
+    }
+
+    private boolean isStone() {
+        return blockMetadata == 1;
+    }
+
+    /* GENERAL HELPerS */
     private int getFluidVolume() {
         return blockMetadata == 1 ? VOLUME_FLUID_STONE : VOLUME_FLUID_WOOD;
-    }
-
-    private void collectRainWater() {
-        if (!worldObj.isRaining() || !worldObj.canBlockSeeTheSky(xCoord, yCoord, zCoord))
-            return;
-
-        if (rainDelay == -1) {
-            rainDelay = RANDOM.nextInt(500);
-        } else {
-            if (rainDelayTick >= rainDelay) {
-                rainDelayTick = 0;
-                rainDelay = RANDOM.nextInt(500);
-
-                if (!hasLid) {
-                    addFluid(new FluidStack(FluidRegistry.WATER, CoreSettings.STATIC.barrelRain));
-                }
-            } else {
-                rainDelayTick++;
-            }
-        }
     }
 
     public boolean addFluid(FluidStack fluidStack) {
@@ -108,4 +97,27 @@ public final class TileBarrel extends TileCoreMachine {
         }
         return false;
     }
+
+    /* WOOD SPECIFIC */
+    private void collectRainWater() {
+        if (!worldObj.isRaining() || !worldObj.canBlockSeeTheSky(xCoord, yCoord, zCoord))
+            return;
+
+        if (rainDelay == -1) {
+            rainDelay = RANDOM.nextInt(500);
+        } else {
+            if (rainDelayTick >= rainDelay) {
+                rainDelayTick = 0;
+                rainDelay = RANDOM.nextInt(500);
+
+                if (!hasLid) {
+                    addFluid(new FluidStack(FluidRegistry.WATER, CoreSettings.STATIC.barrelRain));
+                }
+            } else {
+                rainDelayTick++;
+            }
+        }
+    }
+
+    /* STONE SPECIFIC */
 }
