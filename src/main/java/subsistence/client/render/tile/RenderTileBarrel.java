@@ -2,6 +2,8 @@ package subsistence.client.render.tile;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
@@ -38,17 +40,25 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         GL11.glPushMatrix();
         renderLid(tile);
         GL11.glPopMatrix();
-        if (tile.fluidContents != null) {
-            renderLiquid(tile);
-        } else if (tile.itemContents != null) {
+
+        if (tile.itemContents != null) {
             for (int i = 0; i < tile.itemContents.length; i++) {
                 if (tile.itemContents[i] != null) {
-                    Block block = Block.getBlockFromItem(tile.itemContents[i].getItem());
-                    RenderHelper.renderColoredIcon(block.getIcon(1, 0), TextureMap.locationBlocksTexture, block.getBlockColor(), 0.35F + ((float) i * 0.35F));
+                    final ItemStack itemStack = tile.itemContents[i];
+                    if (itemStack.getItem() instanceof ItemBlock) {
+                        Block block = Block.getBlockFromItem(tile.itemContents[i].getItem());
+                        RenderHelper.renderColoredIcon(block.getIcon(1, 0), TextureMap.locationBlocksTexture, block.getBlockColor(), 0.35F + ((float) i * 0.35F));
+                    } else {
+                        RenderHelper.renderColoredIcon(itemStack.getItem().getIcon(itemStack, 0), TextureMap.locationBlocksTexture, 0xFFFFFF, 0.35F + ((float) i * 0.35F));
+                    }
                 }
             }
         }
 
+        if (tile.fluidContents != null) {
+            renderLiquid(tile);
+        }
+        
         GL11.glPopMatrix();
     }
 

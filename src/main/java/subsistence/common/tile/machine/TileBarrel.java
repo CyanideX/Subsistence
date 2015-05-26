@@ -23,7 +23,7 @@ public final class TileBarrel extends TileCoreMachine {
     }
 
     @NBTHandler.Sync(true)
-    public ItemStack[] itemContents = new ItemStack[0];
+    public ItemStack[] itemContents = new ItemStack[VOLUME_ITEMS];
     @NBTHandler.Sync(true)
     public FluidStack fluidContents = null;
 
@@ -89,6 +89,23 @@ public final class TileBarrel extends TileCoreMachine {
             }
         }
 
+        return false;
+    }
+
+    public boolean addItem(ItemStack itemStack) {
+        if (itemContents == null || itemContents.length != VOLUME_ITEMS) {
+            itemContents = new ItemStack[VOLUME_ITEMS];
+        }
+
+        for (int i=0; i<itemContents.length; i++) {
+            ItemStack contents = itemContents[i];
+
+            if (contents == null) {
+                itemContents[i] = itemStack.copy();
+                markForUpdate();
+                return true;
+            }
+        }
         return false;
     }
 }

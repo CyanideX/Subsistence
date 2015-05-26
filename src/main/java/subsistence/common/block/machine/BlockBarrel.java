@@ -4,7 +4,6 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -91,6 +90,16 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
                                         tileBarrel.fluidContents = null;
                                     tileBarrel.markForUpdate();
                                 }
+                            } else {
+                                ItemStack copy = held.copy();
+                                copy.stackSize = 1;
+
+                                if (tileBarrel.addItem(copy)) {
+                                    held.stackSize--;
+                                    if (held.stackSize <= 0) {
+                                        player.setCurrentItemOrArmor(0, null);
+                                    }
+                                }
                             }
                         }
                     }
@@ -109,19 +118,59 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
     }
 
     @Override
-    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean harvest) {
-        if (!player.capabilities.isCreativeMode && !world.isRemote && this.canHarvestBlock(player, world.getBlockMetadata(x, y, z))) {
+    public void onBlockClicked(World world, int x, int y, int z, EntityPlayer entityPlayer) {
+        if (!world.isRemote) {
+            TileBarrel tileBarrel = (TileBarrel) world.getTileEntity(x, y, z);
 
-            float motion = 0.7F;
-            double motX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
-            double motY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
-            double motZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+            if (tileBarrel != null && entityPlayer.isSneaking()) {
+                ItemStack held = entityPlayer.getHeldItem();
 
-            EntityItem item = new EntityItem(world, x + motX, y + motY, z + motZ, this.getPickBlock(null, world, x, y, z, player));
-            world.spawnEntityInWorld(item);
+                if (held != null) {
+                    for (int i=TileBarrel.VOLUME_ITEMS - 1; i>=0; i--) {
+                        ItemStack itemStack = tileBarrel.itemContents[i];
+                        if (itemStack != null) {
+                            if (held.isItemEqual(itemStack) && (held.stackSize + itemStack.stackSize) <= held.getMaxStackSize()){
+                                held.stackSize += itemStack.stackSize;
+                                ((EntityPlayerMP)entityPlayer).updateHeldItem();
+
+                                tileBarrel.itemContents[i] = null;
+                                tileBarrel.markForUpdate();
+
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    for (int i=TileBarrel.VOLUME_ITEMS - 1; i>=0; i--) {
+                        ItemStack itemStack = tileBarrel.itemContents[i];
+                        if (itemStack != null) {
+                            entityPlayer.setCurrentItemOrArmor(0, itemStack.copy());
+                            ((EntityPlayerMP)entityPlayer).updateHeldItem();
+
+                            tileBarrel.itemContents[i] = null;
+                            tileBarrel.markForUpdate();
+
+                            break;
+                        }
+                    }
+                }
+            }
         }
+    }
 
-        return world.setBlockToAir(x, y, z);
+    @Override
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z) {
+        return this.removedByPlayer(world, player, x, y, z, false);
+    }
+
+    @Override
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
+        if (player.capabilities.isCreativeMode && player.isSneaking()) {
+            this.onBlockClicked(world, x, y, z, player);
+            return false;
+        } else {
+            return world.setBlockToAir(x, y, z);
+        }
     }
 
     @Override
