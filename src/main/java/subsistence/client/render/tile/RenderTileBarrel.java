@@ -38,12 +38,12 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         GL11.glPushMatrix();
         renderLid(tile);
         GL11.glPopMatrix();
-        if (tile.fluid != null) {
+        if (tile.fluidContents != null) {
             renderLiquid(tile);
-        } else if (tile.contents != null) {
-            for (int i = 0; i < tile.contents.length; i++) {
-                if (tile.contents[i] != null) {
-                    Block block = Block.getBlockFromItem(tile.contents[i].getItem());
+        } else if (tile.itemContents != null) {
+            for (int i = 0; i < tile.itemContents.length; i++) {
+                if (tile.itemContents[i] != null) {
+                    Block block = Block.getBlockFromItem(tile.itemContents[i].getItem());
                     RenderHelper.renderColoredIcon(block.getIcon(1, 0), TextureMap.locationBlocksTexture, block.getBlockColor(), 0.35F + ((float) i * 0.35F));
                 }
             }
@@ -55,19 +55,20 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
     private void renderLiquid(TileBarrel tile) {
         GL11.glPushMatrix();
 
+        final float volume = tile.blockMetadata == 1 ? TileBarrel.VOLUME_FLUID_STONE : TileBarrel.VOLUME_FLUID_WOOD;
         float s = 1.0F / 256.0F * 14.0F;
-        float level = (float) tile.fluid.amount / (float) tile.getCapacity();
+        float level = (float) tile.fluidContents.amount / (float) volume;
 
         GL11.glTranslatef(-0.40F, (TileBarrel.DIMENSION_FILL * level) - TileBarrel.DIMENSION_FILL / 2, -0.40F);
         GL11.glScalef(s / 1.0F, s / 1.0F, s / 1.0F);
 
-        RenderHelper.renderLiquid(tile.fluid);
+        RenderHelper.renderLiquid(tile.fluidContents);
 
         GL11.glPopMatrix();
     }
 
     private void renderLid(TileBarrel tile) {
-        if (tile.hasLid()) {
+        if (tile.hasLid) {
             if (tile.getBlockMetadata() == 0)
                 Model.BARREL_WOOD.renderOnly("lid", "lidHandle");
             else

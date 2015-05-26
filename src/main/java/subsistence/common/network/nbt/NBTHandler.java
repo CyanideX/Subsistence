@@ -52,7 +52,7 @@ public class NBTHandler {
         if (type.isEnum()) {
             Enum<?> instance = (Enum<?>) object;
             NBTTagCompound tag = new NBTTagCompound();
-            tag.setString("class", instance.getClass().getCanonicalName());
+            tag.setString("class", instance.getClass().getName());
             tag.setString("name", instance.name());
             nbt.setTag(name, tag);
         } else if (type.isArray()) {

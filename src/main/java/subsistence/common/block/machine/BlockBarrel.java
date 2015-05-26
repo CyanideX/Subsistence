@@ -3,10 +3,10 @@ package subsistence.common.block.machine;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,15 +15,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.fluid.SubsistenceFluids;
 import subsistence.common.item.SubsistenceItems;
 import subsistence.common.lib.client.EnumParticle;
 import subsistence.common.particle.SteamFX;
-import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.tile.machine.TileBarrel;
 import subsistence.common.util.ArrayHelper;
 
@@ -60,63 +57,33 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-        ItemStack stack = player.getCurrentEquippedItem();
-        TileBarrel tile = (TileBarrel) world.getTileEntity(x, y, z);
+        if (!world.isRemote) {
+            TileBarrel tileBarrel = (TileBarrel) world.getTileEntity(x, y, z);
+            int metadata = world.getBlockMetadata(x, y, z);
+            if (tileBarrel != null) {
+                ItemStack held = player.getHeldItem();
 
-        if (stack == null && tile.hasLid()) {
-            tile.toggleLid();
+                if (held != null) {
+                    if (held.getItem() == SubsistenceItems.barrelLid && held.getItemDamage() == metadata) {
+                        if (!tileBarrel.hasLid) {
+                            player.setCurrentItemOrArmor(0, null);
+                            ((EntityPlayerMP)player).updateHeldItem();
 
-            if (!world.isRemote)
-                player.setCurrentItemOrArmor(0, new ItemStack(SubsistenceItems.barrelLid, 1, tile.getBlockMetadata()));
-            return true;
-        }
-        ItemStack held = player.getHeldItem();
-
-        if (tile != null)
-            if (side == 1 && !tile.hasLid()) { //only on top
-                if (FluidContainerRegistry.isFilledContainer(held)) { //put fluid in
-                    FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(held);
-                    if (tile.addFluid(fluidStack)) {
-                        if (!player.capabilities.isCreativeMode) {
-                            player.setCurrentItemOrArmor(0, FluidContainerRegistry.drainFluidContainer(held));
-                            //TODO: container does not empty when used on partially full barrel
-                        }
-                    }
-                } else if (tile.fluid != null && FluidContainerRegistry.isEmptyContainer(held)) { //take fluid out
-                    ItemStack container = FluidContainerRegistry.fillFluidContainer(tile.fluid, FluidContainerRegistry.EMPTY_BUCKET);
-                    FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(container);
-                    if (container != null && tile.reduceFluid(fluidStack)) {
-                        if (!player.capabilities.isCreativeMode) {
-                            if (player.getCurrentEquippedItem().stackSize == 1) {
-                                player.setCurrentItemOrArmor(0, container);
-                            } else {
-                                player.getCurrentEquippedItem().stackSize--;
-                                if (player.inventory.addItemStackToInventory(container)) {
-                                } else {
-                                    player.func_146097_a(container, false, false);
-                                }
-                            }
-                        }
-                    }
-                } else if (held != null && Block.getBlockFromItem(held.getItem()) != Blocks.air) { //add blocks
-                    ItemStack itemCopy = held.copy();
-                    if (SubsistenceRecipes.BARREL.isAllowed(itemCopy)) {
-                        itemCopy.stackSize = 1;
-                        if (tile.addItemToStack(itemCopy)) {
-                            held.stackSize--;
-                            if (held.stackSize <= 0) {
-                                player.setCurrentItemOrArmor(0, null);
-                            }
-                            tile.markForUpdate();
+                            tileBarrel.hasLid = true;
+                            tileBarrel.markForUpdate();
                         }
                     }
                 } else {
-                    if (tile.contents != null && tile.contents.length > 0) {
-                        player.setCurrentItemOrArmor(0, tile.removeItemFromStack());
+                    if (tileBarrel.hasLid && player.isSneaking()) {
+                        player.setCurrentItemOrArmor(0, new ItemStack(SubsistenceItems.barrelLid, 1, metadata));
+                        ((EntityPlayerMP)player).updateHeldItem();
+
+                        tileBarrel.hasLid = false;
+                        tileBarrel.markForUpdate();
                     }
                 }
-
             }
+        }
         return true;
     }
 
@@ -150,8 +117,8 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
     @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
         TileBarrel tileBarrel = (TileBarrel) world.getTileEntity(x, y, z);
-        if (tileBarrel != null && tileBarrel.fluid != null) {
-            return tileBarrel.fluid.getFluid().getLuminosity();
+        if (tileBarrel != null && tileBarrel.fluidContents != null) {
+            return tileBarrel.fluidContents.getFluid().getLuminosity();
         } else {
             return 0;
         }
@@ -163,7 +130,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
         super.randomDisplayTick(world, x, y, z, rand);
 
         TileBarrel tileBarrel = (TileBarrel) world.getTileEntity(x, y, z);
-        if (tileBarrel != null && tileBarrel.fluid != null && tileBarrel.fluid.getFluid() == SubsistenceFluids.boilingWaterFluid) {
+        if (tileBarrel != null && tileBarrel.fluidContents != null && tileBarrel.fluidContents.getFluid() == SubsistenceFluids.boilingWaterFluid) {
             EnumParticle.BUBBLE.display(world, x + rand.nextDouble(), y, z + rand.nextDouble(), 0, 0.5, 0);
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(new SteamFX(world, x + rand.nextDouble(), y + 1, z + rand.nextDouble(), rand.nextInt(2), 0));
         }
