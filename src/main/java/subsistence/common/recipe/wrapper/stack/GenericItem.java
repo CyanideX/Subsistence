@@ -10,6 +10,9 @@ public class GenericItem {
     public static GenericItem merge(GenericItem... array) {
         List<ItemStack> list = Lists.newArrayList();
         for (GenericItem genericItem : array) {
+            if (genericItem == null)
+                continue;
+
             for (ItemStack itemStack : genericItem.contents) {
                 list.add(itemStack);
             }

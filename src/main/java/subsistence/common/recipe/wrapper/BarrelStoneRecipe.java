@@ -31,65 +31,72 @@ public class BarrelStoneRecipe {
     }
 
     public boolean valid(ItemStack[] currentStack, FluidStack fluidStack) {
-        if (fluidStack == null && inputLiquid != null)
-            return false;
+        return validItems(currentStack) && validFluid(fluidStack);
+    }
 
-        if (fluidStack != null && inputLiquid == null)
-            return false;
-
-        if (fluidStack != null && inputLiquid != null)
-            if (!fluidStack.isFluidEqual(inputLiquid))
-                return false;
-
-        if (conditional.equals("all")) {
-            for (ItemStack required : inputItem) {
-                boolean found = false;
-
-                for (ItemStack content : currentStack) {
-                    if (content == null)
-                        continue;
-
-                    if (ItemHelper.areItemsEqual(content, required) && required.stackSize == content.stackSize) {
-                        found = true;
-                    }
-                }
-
-                if (!found)
-                    return false;
-            }
-
-            return true;
-        } else if (conditional.equals("any")) {
-            for (ItemStack required : inputItem) {
-                for (ItemStack content : currentStack) {
-                    if (content == null)
-                        continue;
-
-                    if (ItemHelper.areItemsEqual(content, required) && required.stackSize == content.stackSize) {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        } else if (conditional.equals("any_with_global_limit")) {
-            int found = 0;
-            for (ItemStack content : currentStack) {
+    private boolean validItems(ItemStack[] currentStack) {
+        if (inputItem != null && inputItem.length > 0) {
+            if (conditional.equals("all")) {
                 for (ItemStack required : inputItem) {
-                    if (ItemHelper.areItemsEqual(content, required)) {
-                        found += content.stackSize;
-                        if (found == globalLimit) {
-                            return true;
-                        } else if (found > globalLimit) {
-                            return false;
-                        } else {
+                    boolean found = false;
+
+                    for (ItemStack content : currentStack) {
+                        if (content == null)
                             continue;
+
+                        if (ItemHelper.areItemsEqual(content, required) && required.stackSize == content.stackSize) {
+                            found = true;
+                        }
+                    }
+
+                    if (!found)
+                        return false;
+                }
+
+                return true;
+            } else if (conditional.equals("any")) {
+                for (ItemStack required : inputItem) {
+                    for (ItemStack content : currentStack) {
+                        if (content == null)
+                            continue;
+
+                        if (ItemHelper.areItemsEqual(content, required) && required.stackSize == content.stackSize) {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            } else if (conditional.equals("any_with_global_limit")) {
+                int found = 0;
+                for (ItemStack content : currentStack) {
+                    for (ItemStack required : inputItem) {
+                        if (ItemHelper.areItemsEqual(content, required)) {
+                            found += content.stackSize;
+                            if (found == globalLimit) {
+                                return true;
+                            } else if (found > globalLimit) {
+                                return false;
+                            } else {
+                                continue;
+                            }
                         }
                     }
                 }
             }
         }
+        return true;
+    }
 
-        return false;
+    private boolean validFluid(FluidStack fluidStack) {
+        if (inputLiquid != null) {
+            if (fluidStack == null) {
+                return false;
+            } else {
+                return inputLiquid.isFluidEqual(fluidStack) && inputLiquid.amount == fluidStack.amount;
+            }
+        } else {
+            return true;
+        }
     }
 }
