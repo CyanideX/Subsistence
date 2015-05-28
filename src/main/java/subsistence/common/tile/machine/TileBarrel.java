@@ -8,6 +8,7 @@ import subsistence.common.config.CoreSettings;
 import subsistence.common.config.HeatSettings;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.wrapper.BarrelMeltingRecipe;
 import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
 import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 import subsistence.common.tile.core.TileCoreMachine;
@@ -36,10 +37,13 @@ public final class TileBarrel extends TileCoreMachine {
     private BarrelWoodRecipe cachedWoodRecipe;
 
     /* STONE SPECIFIC */
+    @NBTHandler.Sync(true)
     private int processingTime;
+    @NBTHandler.Sync(true)
     private int maxProcessingTime;
 
     private BarrelStoneRecipe cachedStoneRecipe;
+    private BarrelMeltingRecipe cachedMeltingRecipe;
 
     @Override
     public void updateEntity() {
@@ -114,6 +118,7 @@ public final class TileBarrel extends TileCoreMachine {
     private void reset() {
         cachedWoodRecipe = null;
         cachedStoneRecipe = null;
+        cachedMeltingRecipe = null;
         processingTime = 0;
         maxProcessingTime = 0;
     }
@@ -167,11 +172,12 @@ public final class TileBarrel extends TileCoreMachine {
         if (!hasHeatSource())
             return;
 
+        // Check for proper stone recipes first
         if (cachedStoneRecipe == null) {
             cachedStoneRecipe = SubsistenceRecipes.BARREL.getStone(itemContents, fluidContents);
         } else {
             if (maxProcessingTime <= 0) {
-                maxProcessingTime = getProcessingTime();
+                maxProcessingTime = getProcessingTime(false);
             } else {
                 if (processingTime < maxProcessingTime) {
                     processingTime++;
@@ -191,21 +197,80 @@ public final class TileBarrel extends TileCoreMachine {
                 }
             }
         }
+
+        // Then melting recipes
+        if (cachedMeltingRecipe == null) {
+            cachedMeltingRecipe = SubsistenceRecipes.BARREL.getMelting(getFirstItem());
+        } else {
+            if (fluidContents != null)
+                if (fluidContents.amount + cachedMeltingRecipe.output.amount > VOLUME_FLUID_STONE)
+                    return;
+
+            if (maxProcessingTime <= 0) {
+                maxProcessingTime = getProcessingTime(true);
+            } else {
+                if (processingTime < maxProcessingTime) {
+                    processingTime++;
+                } else {
+                    removeFirstItem();
+
+                    FluidStack output = cachedMeltingRecipe.output;
+                    if (fluidContents == null) {
+                        fluidContents = output.copy();
+                    } else {
+                        fluidContents.amount += output.amount;
+                    }
+
+                    reset();
+                    markForUpdate();
+                }
+            }
+        }
+    }
+
+    private ItemStack getFirstItem() {
+        for (int i=0; i<itemContents.length; i++) {
+            ItemStack itemStack = itemContents[i];
+            if (itemStack != null)
+                return itemStack;
+        }
+        return null;
+    }
+
+    private void removeFirstItem() {
+        for (int i=0; i<itemContents.length; i++) {
+            if (itemContents[i] != null) {
+                itemContents[i] = null;
+                return;
+            }
+        }
     }
 
     private boolean hasHeatSource() {
         return HeatSettings.isHeatSource(worldObj, xCoord, yCoord - 1, zCoord);
     }
 
-    private int getProcessingTime() {
-        if (HeatSettings.isTorch(worldObj, xCoord, yCoord - 1, zCoord)) {
-            return cachedStoneRecipe.timeTorch;
-        } else if (HeatSettings.isLava(worldObj, xCoord, yCoord - 1, zCoord)) {
-            return cachedStoneRecipe.timeFire;
-        } else if (HeatSettings.isFire(worldObj, xCoord, yCoord - 1, zCoord)) {
-            return cachedStoneRecipe.timeLava;
+    private int getProcessingTime(boolean melting) {
+        if (melting) {
+            if (HeatSettings.isTorch(worldObj, xCoord, yCoord - 1, zCoord)) {
+                return cachedMeltingRecipe.timeTorch;
+            } else if (HeatSettings.isLava(worldObj, xCoord, yCoord - 1, zCoord)) {
+                return cachedMeltingRecipe.timeFire;
+            } else if (HeatSettings.isFire(worldObj, xCoord, yCoord - 1, zCoord)) {
+                return cachedMeltingRecipe.timeLava;
+            } else {
+                return -1;
+            }
         } else {
-            return -1;
+            if (HeatSettings.isTorch(worldObj, xCoord, yCoord - 1, zCoord)) {
+                return cachedStoneRecipe.timeTorch;
+            } else if (HeatSettings.isLava(worldObj, xCoord, yCoord - 1, zCoord)) {
+                return cachedStoneRecipe.timeFire;
+            } else if (HeatSettings.isFire(worldObj, xCoord, yCoord - 1, zCoord)) {
+                return cachedStoneRecipe.timeLava;
+            } else {
+                return -1;
+            }
         }
     }
 }

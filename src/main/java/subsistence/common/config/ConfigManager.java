@@ -34,9 +34,13 @@ public class ConfigManager {
         HeatSettings.initialize(heatFile);
 
         loadFile("sieve/");
+
         loadFile("barrel/wood");
         loadFile("barrel/stone");
+        loadFile("barrel/melting");
+
         loadFile("compost/");
+
         loadFile("metalpress/");
 
         loadFile("table/hammer");

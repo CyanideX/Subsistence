@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.wrapper.BarrelMeltingRecipe;
 import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
 import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 import subsistence.common.recipe.wrapper.stack.GenericItem;
@@ -44,6 +45,13 @@ public class BarrelLoader {
         public int globalLimit;
     }
 
+    public static class MeltingRecipe {
+
+        public GenericItem input;
+        public FluidStack output;
+        public Heat heat;
+    }
+
     private static class Input {
 
         public GenericItem item;
@@ -75,6 +83,11 @@ public class BarrelLoader {
                 for (StoneRecipe recipe : recipes) {
                     verifyStone(recipe);
                 }
+            } else if ("melting".equals(type)) {
+                MeltingRecipe[] recipes = JsonUtil.gson().fromJson(new FileReader(file), MeltingRecipe[].class);
+                for (MeltingRecipe recipe : recipes) {
+                    verifyMelting(recipe);
+                }
             }
         } catch (IOException ex) {
             SubsistenceLogger.warn("Failed to parse " + file.getName());
@@ -103,6 +116,16 @@ public class BarrelLoader {
                 stoneRecipe.heat.torch,
                 stoneRecipe.heat.fire,
                 stoneRecipe.heat.lava
+        ));
+    }
+
+    private static void verifyMelting(MeltingRecipe meltingRecipe) {
+        SubsistenceRecipes.BARREL.registerMelting(new BarrelMeltingRecipe(
+                meltingRecipe.input,
+                meltingRecipe.output,
+                meltingRecipe.heat.torch,
+                meltingRecipe.heat.fire,
+                meltingRecipe.heat.lava
         ));
     }
 }

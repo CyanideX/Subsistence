@@ -1,17 +1,19 @@
 package subsistence.common.recipe.manager;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.recipe.wrapper.BarrelMeltingRecipe;
 import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
 import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BarrelManager {
 
-    private List<BarrelWoodRecipe> recipeWood = new ArrayList<BarrelWoodRecipe>();
-    private List<BarrelStoneRecipe> recipeStone = new ArrayList<BarrelStoneRecipe>();
+    private List<BarrelWoodRecipe> recipeWood = Lists.newArrayList();
+    private List<BarrelStoneRecipe> recipeStone = Lists.newArrayList();
+    private List<BarrelMeltingRecipe> recipeMelting = Lists.newArrayList();
 
     public BarrelWoodRecipe getWooden(ItemStack[] stack, FluidStack fluid) {
         for (BarrelWoodRecipe recipe : recipeWood) {
@@ -32,6 +34,15 @@ public class BarrelManager {
     }
 
 
+    public BarrelMeltingRecipe getMelting(ItemStack itemStack) {
+        for (BarrelMeltingRecipe recipe : recipeMelting) {
+            if (recipe.valid(itemStack)) {
+                return recipe;
+            }
+        }
+        return null;
+    }
+
     public void registerWood(BarrelWoodRecipe barrelRecipe) {
         recipeWood.add(barrelRecipe);
     }
@@ -40,8 +51,13 @@ public class BarrelManager {
         recipeStone.add(barrelRecipe);
     }
 
+    public void registerMelting(BarrelMeltingRecipe barrelRecipe) {
+        recipeMelting.add(barrelRecipe);
+    }
+
     public void clear() {
         recipeStone.clear();
         recipeWood.clear();
+        recipeMelting.clear();
     }
 }
