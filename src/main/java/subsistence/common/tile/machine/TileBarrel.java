@@ -6,6 +6,9 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.network.nbt.NBTHandler;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
+import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 import subsistence.common.tile.core.TileCoreMachine;
 
 public final class TileBarrel extends TileCoreMachine {
@@ -29,7 +32,10 @@ public final class TileBarrel extends TileCoreMachine {
     private int rainDelayTick = 0;
     private int rainDelay = -1;
 
+    private BarrelWoodRecipe cachedWoodRecipe;
+
     /* STONE SPECIFIC */
+    private BarrelStoneRecipe cachedStoneRecipe;
 
     @Override
     public void updateEntity() {
@@ -37,6 +43,7 @@ public final class TileBarrel extends TileCoreMachine {
             return;
 
         if (isWood()) {
+            processWoodRecipe();
             collectRainWater();
         } else if (isStone()) {
 
@@ -99,7 +106,30 @@ public final class TileBarrel extends TileCoreMachine {
     }
 
     /* WOOD SPECIFIC */
+    private void processWoodRecipe() {
+        if (cachedWoodRecipe == null) {
+            cachedWoodRecipe = SubsistenceRecipes.BARREL.getWooden(itemContents, fluidContents);
+        } else {
+            // Wood recipes are immediate
+            itemContents = new ItemStack[VOLUME_ITEMS];
+            fluidContents = null;
+
+            if (cachedWoodRecipe.outputItem != null)
+                itemContents = new ItemStack[] {cachedWoodRecipe.outputItem.copy()};
+
+            if (cachedWoodRecipe.outputLiquid != null)
+                fluidContents = cachedWoodRecipe.outputLiquid.copy();
+
+            cachedWoodRecipe = null;
+
+            markForUpdate();
+        }
+    }
+
     private void collectRainWater() {
+        if (cachedWoodRecipe != null)
+            return;
+
         if (!worldObj.isRaining() || !worldObj.canBlockSeeTheSky(xCoord, yCoord, zCoord))
             return;
 
@@ -120,4 +150,9 @@ public final class TileBarrel extends TileCoreMachine {
     }
 
     /* STONE SPECIFIC */
+    private void detectStoneRecipe() {
+        if (cachedStoneRecipe == null) {
+            cachedStoneRecipe = SubsistenceRecipes.BARREL.getStone(itemContents, fluidContents);
+        }
+    }
 }

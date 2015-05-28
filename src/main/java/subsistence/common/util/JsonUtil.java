@@ -66,6 +66,9 @@ public class JsonUtil {
                     ArrayList<ItemStack> ores = OreDictionary.getOres(string);
                     contents = ores.toArray(new ItemStack[ores.size()]);
                 }
+            } else if (json.isJsonArray()) {
+                GenericItem[] array = context.deserialize(json, GenericItem[].class);
+                return GenericItem.merge(array);
             } else if (json.isJsonObject()) {// See if it's a full ItemStack or just an ore tag
                 JsonObject object = json.getAsJsonObject();
                 if (object.has("item")) {
@@ -165,7 +168,7 @@ public class JsonUtil {
                     throw new JsonParseException("ItemStack json object is missing 'fluid' key");
                 }
 
-                String fluidString = object.get("item").getAsString();
+                String fluidString = object.get("fluid").getAsString();
                 int amount = object.has("amount") ? object.get("amount").getAsInt() : FluidContainerRegistry.BUCKET_VOLUME;
 
                 Fluid fluid = FluidRegistry.getFluid(fluidString);

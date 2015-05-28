@@ -34,7 +34,8 @@ public class ConfigManager {
         HeatSettings.initialize(heatFile);
 
         loadFile("sieve/");
-        loadFile("barrel/");
+        loadFile("barrel/wood");
+        loadFile("barrel/stone");
         loadFile("compost/");
         loadFile("metalpress/");
 
@@ -85,7 +86,7 @@ public class ConfigManager {
                 } else if (type.equalsIgnoreCase("table")) {
                     TableLoader.parseFile(file, typeAndSubDir.substring(typeAndSubDir.lastIndexOf("/") + 1));
                 } else if (type.equalsIgnoreCase("barrel")) {
-                    BarrelLoader.parseFile(file);
+                    BarrelLoader.parseFile(file, typeAndSubDir.substring(typeAndSubDir.lastIndexOf("/") + 1));
                 } else if (type.equalsIgnoreCase("compost")) {
                     CompostLoader.parseFile(file);
                 } else if (type.equalsIgnoreCase("metalpress")) {

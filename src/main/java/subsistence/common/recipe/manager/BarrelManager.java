@@ -13,18 +13,18 @@ public class BarrelManager {
     private List<BarrelWoodRecipe> recipeWood = new ArrayList<BarrelWoodRecipe>();
     private List<BarrelStoneRecipe> recipeStone = new ArrayList<BarrelStoneRecipe>();
 
-    public BarrelWoodRecipe getWooden(FluidStack fluid, ItemStack[] stack) {
+    public BarrelWoodRecipe getWooden(ItemStack[] stack, FluidStack fluid) {
         for (BarrelWoodRecipe recipe : recipeWood) {
-            if (recipe.valid(fluid, stack)) {
+            if (recipe.valid(stack, fluid)) {
                 return recipe;
             }
         }
         return null;
     }
 
-    public BarrelStoneRecipe getStone(FluidStack fluid, ItemStack[] stack) {
+    public BarrelStoneRecipe getStone(ItemStack[] stack, FluidStack fluid) {
         for (BarrelStoneRecipe recipe : recipeStone) {
-            if (recipe.valid(fluid, stack)) {
+            if (recipe.valid(stack, fluid)) {
                 return recipe;
             }
         }
@@ -43,23 +43,5 @@ public class BarrelManager {
     public void clear() {
         recipeStone.clear();
         recipeWood.clear();
-    }
-
-    public boolean isAllowed(ItemStack itemCopy) {
-        for (BarrelStoneRecipe recipe : recipeStone) {
-            for (ItemStack stack : recipe.getInputItem()) {
-                if (itemCopy.getItem() == stack.getItem()) {
-                    return true;
-                }
-            }
-        }
-        for (BarrelWoodRecipe recipe : recipeWood) {
-            for (ItemStack stack : recipe.getInputItem()) {
-                if (itemCopy.getItem() == stack.getItem()) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }
