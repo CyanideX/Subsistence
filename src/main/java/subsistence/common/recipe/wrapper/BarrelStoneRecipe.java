@@ -31,8 +31,15 @@ public class BarrelStoneRecipe {
     }
 
     public boolean valid(ItemStack[] currentStack, FluidStack fluidStack) {
-        if (!fluidStack.isFluidEqual(inputLiquid))
+        if (fluidStack == null && inputLiquid != null)
             return false;
+
+        if (fluidStack != null && inputLiquid == null)
+            return false;
+
+        if (fluidStack != null && inputLiquid != null)
+            if (!fluidStack.isFluidEqual(inputLiquid))
+                return false;
 
         if (conditional.equals("all")) {
             for (ItemStack required : inputItem) {
