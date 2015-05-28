@@ -50,10 +50,12 @@ public final class TileBarrel extends TileCoreMachine {
         if (worldObj.isRemote)
             return;
 
+        collectRainWater();
+
         if (isWood()) {
             processWoodRecipe();
-            collectRainWater();
-        } else if (isStone()) {
+        } else {
+            processWoodRecipe();
             processStoneRecipe();
         }
     }
@@ -61,10 +63,6 @@ public final class TileBarrel extends TileCoreMachine {
     /* STATE */
     private boolean isWood() {
         return blockMetadata == 0;
-    }
-
-    private boolean isStone() {
-        return blockMetadata == 1;
     }
 
     /* GENERAL HELPerS */
