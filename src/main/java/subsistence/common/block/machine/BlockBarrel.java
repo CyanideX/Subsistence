@@ -64,31 +64,43 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
                 ItemStack held = player.getHeldItem();
 
                 if (held != null) {
-                    if (held.getItem() == SubsistenceItems.barrelLid && held.getItemDamage() == metadata) {
-                        if (!tileBarrel.hasLid) {
-                            player.setCurrentItemOrArmor(0, null);
-                            ((EntityPlayerMP)player).updateHeldItem();
+                    if (held.getItem() == SubsistenceItems.barrelLid) {
+                        if (held.getItemDamage() == metadata) {
+                            if (!tileBarrel.hasLid) {
+                                player.setCurrentItemOrArmor(0, null);
+                                ((EntityPlayerMP)player).updateHeldItem();
 
-                            tileBarrel.hasLid = true;
-                            tileBarrel.markForUpdate();
+                                tileBarrel.hasLid = true;
+                                tileBarrel.markForUpdate();
+                            }
+                        } else {
+                            return true;
                         }
                     } else {
                         if (!tileBarrel.hasLid) {
-                            if (FluidContainerRegistry.isFilledContainer(held) && held.stackSize == 1) {
-                                if (tileBarrel.addFluid(FluidContainerRegistry.getFluidForFilledItem(held))) {
-                                    player.setCurrentItemOrArmor(0, FluidContainerRegistry.drainFluidContainer(held).copy());
-                                    ((EntityPlayerMP)player).updateHeldItem();
+                            if (FluidContainerRegistry.isFilledContainer(held)) {
+                                if (held.stackSize == 1) {
+                                    if (tileBarrel.addFluid(FluidContainerRegistry.getFluidForFilledItem(held))) {
+                                        player.setCurrentItemOrArmor(0, FluidContainerRegistry.drainFluidContainer(held).copy());
+                                        ((EntityPlayerMP)player).updateHeldItem();
+                                    }
+                                } else {
+                                    return true;
                                 }
-                            } else if (FluidContainerRegistry.isEmptyContainer(held) && held.stackSize == 1) {
-                                ItemStack filled = FluidContainerRegistry.fillFluidContainer(tileBarrel.fluidContents, held);
-                                if (filled != null) {
-                                    player.setCurrentItemOrArmor(0, filled);
-                                    ((EntityPlayerMP)player).updateHeldItem();
+                            } else if (FluidContainerRegistry.isEmptyContainer(held)) {
+                                if (held.stackSize == 1) {
+                                    ItemStack filled = FluidContainerRegistry.fillFluidContainer(tileBarrel.fluidContents, held);
+                                    if (filled != null) {
+                                        player.setCurrentItemOrArmor(0, filled);
+                                        ((EntityPlayerMP)player).updateHeldItem();
 
-                                    tileBarrel.fluidContents.amount -= (FluidContainerRegistry.getContainerCapacity(filled));
-                                    if (tileBarrel.fluidContents.amount <= 0)
-                                        tileBarrel.fluidContents = null;
-                                    tileBarrel.markForUpdate();
+                                        tileBarrel.fluidContents.amount -= (FluidContainerRegistry.getContainerCapacity(filled));
+                                        if (tileBarrel.fluidContents.amount <= 0)
+                                            tileBarrel.fluidContents = null;
+                                        tileBarrel.markForUpdate();
+                                    }
+                                } else {
+                                    return true;
                                 }
                             } else {
                                 ItemStack copy = held.copy();
