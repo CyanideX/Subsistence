@@ -31,9 +31,6 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         foliage.add(new ItemStack(Blocks.yellow_flower, 1, OreDictionary.WILDCARD_VALUE));
         foliage.add(new ItemStack(Blocks.vine, 1));
         foliage.add(new ItemStack(Blocks.waterlily, 1));
-        for(int x = 0; x < foliage.size(); x++){
-            FMLLog.getLogger().info(foliage.get(x).getDisplayName());
-        }
     }
 
     @Override
