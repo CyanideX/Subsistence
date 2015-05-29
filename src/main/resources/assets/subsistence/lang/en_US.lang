@@ -44,6 +44,7 @@ tile.boiling_water.name=Boiling Water
 # MACHINES
 tile.table.wood.name=Wooden Table
 tile.table.stone.name=Smashing Table
+tile.table.nether.name=Smashing Table
 tile.table_sieve.name=Table Sieve
 tile.sintering_oven.name=Sintering Oven
 tile.hammer_mill.name=Hammer Mill
