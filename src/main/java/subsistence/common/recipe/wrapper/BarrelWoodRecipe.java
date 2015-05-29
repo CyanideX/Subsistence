@@ -86,7 +86,7 @@ public class BarrelWoodRecipe {
             if (fluidStack == null) {
                 return false;
             } else {
-                return inputLiquid.isFluidEqual(fluidStack) && inputLiquid.amount == fluidStack.amount;
+                return inputLiquid.isFluidEqual(fluidStack) && inputLiquid.amount <= fluidStack.amount;
             }
         } else {
             return true;
