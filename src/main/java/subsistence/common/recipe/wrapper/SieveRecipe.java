@@ -37,7 +37,7 @@ public class SieveRecipe {
             if (!("both".equals(type) || "hand".equals(type)))
                 return false;
         } else {
-            if (!("both".equals(type) || "table".equals(type)))
+            if (!("both".equals(type) || "block".equals(type)))
                 return false;
         }
         return StackHelper.areStacksSimilar(stack, input, true);
