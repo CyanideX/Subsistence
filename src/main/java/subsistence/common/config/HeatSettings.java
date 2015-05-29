@@ -1,6 +1,7 @@
 package subsistence.common.config;
 
 import com.google.common.collect.Sets;
+import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -52,6 +53,11 @@ public class HeatSettings {
 
         Block block = world.getBlock(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
+
+        // 'cause it ain't workin' when added to heat.json
+        String ident = GameData.getBlockRegistry().getNameForObject(block);
+        if (ident.equals("CarpentersBlocks:blockCarpentersTorch"))
+            return true;
 
         return block == Blocks.torch || torch.contains(new ItemAndIntTuple(Item.getItemFromBlock(block), meta));
     }
