@@ -8,9 +8,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.block.machine.BlockBarrel;
 import subsistence.common.core.SubsistenceCreativeTab;
-import subsistence.common.lib.IBarrel;
 
-public final class ItemBarrel extends ItemBlock implements IBarrel {
+public final class ItemBarrel extends ItemBlock {
 
     public ItemBarrel(Block b) {
         super(b);
@@ -28,7 +27,6 @@ public final class ItemBarrel extends ItemBlock implements IBarrel {
         return super.getUnlocalizedName(stack) + "." + ((BlockBarrel) this.field_150939_a).getNameForType(stack.getItemDamage());
     }
 
-    @Override
     public void setInput(ItemStack stack, ItemStack[] inv) {
         if (!stack.hasTagCompound()) {
             stack.setTagCompound(new NBTTagCompound());
@@ -48,7 +46,6 @@ public final class ItemBarrel extends ItemBlock implements IBarrel {
         nbt.setTag("Items", items);
     }
 
-    @Override
     public void setFluid(ItemStack stack, FluidStack fluid) {
         if (!stack.hasTagCompound()) {
             stack.setTagCompound(new NBTTagCompound());
@@ -60,7 +57,6 @@ public final class ItemBarrel extends ItemBlock implements IBarrel {
         nbt.setTag("Fluid", fluidTag);
     }
 
-    @Override
     public ItemStack[] getInput(ItemStack stack) {
         if (!stack.hasTagCompound()) {
             stack.setTagCompound(new NBTTagCompound());
@@ -76,7 +72,6 @@ public final class ItemBarrel extends ItemBlock implements IBarrel {
         return inv;
     }
 
-    @Override
     public FluidStack getFluid(ItemStack stack) {
         if (!stack.hasTagCompound()) {
             stack.setTagCompound(new NBTTagCompound());
@@ -86,7 +81,6 @@ public final class ItemBarrel extends ItemBlock implements IBarrel {
         return FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag("Fluid"));
     }
 
-    @Override
     public void setLid(ItemStack stack, boolean hasLid) {
         if (!stack.hasTagCompound())
             stack.setTagCompound(new NBTTagCompound());
@@ -95,7 +89,6 @@ public final class ItemBarrel extends ItemBlock implements IBarrel {
         nbt.setBoolean("hasLid", hasLid);
     }
 
-    @Override
     public boolean hasLid(ItemStack stack) {
         if (!stack.hasTagCompound())
             stack.setTagCompound(new NBTTagCompound());
