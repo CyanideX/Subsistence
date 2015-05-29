@@ -11,6 +11,9 @@ public class EntityHandler {
 
     @SubscribeEvent
     public void onItemToss(ItemTossEvent event) {
+        if (event.entityItem.worldObj.provider.dimensionId != -1)
+            return;
+
         final EntityItem entity = event.entityItem;
         final ItemStack item = entity.getEntityItem();
 
