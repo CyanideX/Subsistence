@@ -30,7 +30,6 @@ public class CommonProxy {
 
         NetworkRegistry.INSTANCE.registerGuiHandler(Subsistence.instance, new GuiHandler());
 
-        EventUtil.register(new BlockEventHandler(), EventUtil.Type.FML);
         EventUtil.register(new SpiderTracker(), EventUtil.Type.BOTH);
         EventUtil.register(BucketHandler.INSTANCE, EventUtil.Type.FORGE);
         EventUtil.register(new WebHandler(), EventUtil.Type.FORGE);
