@@ -10,9 +10,9 @@ public class SieveManager {
 
     private List<SieveRecipe> recipes = new ArrayList<SieveRecipe>();
 
-    public SieveRecipe get(ItemStack stack) {
+    public SieveRecipe get(ItemStack stack, boolean table) {
         for (SieveRecipe recipe : recipes) {
-            if (recipe.valid(stack)) {
+            if (recipe.valid(stack, table)) {
                 return recipe;
             }
         }

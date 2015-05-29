@@ -20,7 +20,7 @@ public class ContainerHandSieve extends ContainerItem {
         addSlotToContainer(new Slot(inventory, 0, 80, 35) {
             @Override
             public boolean isItemValid(ItemStack stack) {
-                return SubsistenceRecipes.SIEVE.get(stack) != null;
+                return SubsistenceRecipes.SIEVE.get(stack, ) != null;
             }
         });
 

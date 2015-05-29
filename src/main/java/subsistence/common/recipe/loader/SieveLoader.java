@@ -21,13 +21,14 @@ public class SieveLoader {
         public GenericItem input;
         public Output[] output;
         public Duration duration = new Duration(20, 20);
+        public String type = "both";
+
     }
 
     public static class Output {
 
         public ItemStack item;
         public float chance = 0F;
-        public String type = "both";
     }
 
     public static class Duration {
@@ -58,27 +59,17 @@ public class SieveLoader {
     }
 
     public static void verifyParse(String name, Recipe recipe) {
-        List<RandomStack> outputBlock = Lists.newArrayList();
-        List<RandomStack> outputHand = Lists.newArrayList();
+        List<RandomStack> list = Lists.newArrayList();
 
         if (recipe.output != null) {
             for (Output output : recipe.output) {
-                boolean block = output.type.equalsIgnoreCase("both") || output.type.equalsIgnoreCase("block");
-                boolean hand = output.type.equalsIgnoreCase("both") || output.type.equalsIgnoreCase("hand");
-
-                RandomStack randomStack = new RandomStack(output.item, output.chance);
-
-                if (block)
-                    outputBlock.add(randomStack);
-                if (hand)
-                    outputHand.add(randomStack);
+                list.add(new RandomStack(output.item, output.chance));
             }
         }
 
-        final RandomStack[] blockArray = outputBlock.toArray(new RandomStack[outputBlock.size()]);
-        final RandomStack[] handArray = outputHand.toArray(new RandomStack[outputHand.size()]);
+        final RandomStack[] array = list.toArray(new RandomStack[list.size()]);
 
         for (ItemStack stack : recipe.input.contents)
-            SubsistenceRecipes.SIEVE.register(new SieveRecipe(stack, blockArray, handArray, recipe.duration.block, recipe.duration.hand, true));
+            SubsistenceRecipes.SIEVE.register(new SieveRecipe(stack, array, recipe.duration.block, recipe.duration.hand, recipe.type));
     }
 }

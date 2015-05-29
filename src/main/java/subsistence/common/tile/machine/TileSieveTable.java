@@ -81,7 +81,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                 for (int i = 0; i < processing.length; i++) {
                     ItemStack inventory = processing[i];
                     if (inventory != null) {
-                        SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(inventory);
+                        SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(inventory, true);
                         if (recipe == null) {
                             ItemStack drop = inventory.copy();
                             drop.stackSize = 1;
@@ -105,7 +105,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                 if (currentProcessingTime == 0 && maxProcessingTime == 0) {
                     for (ItemStack processed : processing) {
                         if (processed != null) {
-                            SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed);
+                            SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed, true);
 
                             if (processingRecipe != null) {
                                 maxProcessingTime = processingRecipe.getDurationBlock();
@@ -124,8 +124,8 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                         ItemStack processed = processing[i];
 
                         if (processed != null && processed.stackSize > 0) {
-                            SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed);
-                            ItemStack[] output = processingRecipe.get(processed, true);
+                            SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed, true);
+                            ItemStack[] output = processingRecipe.get(true);
 
                             List<ItemStack> stuffedList = Lists.newArrayList();
 

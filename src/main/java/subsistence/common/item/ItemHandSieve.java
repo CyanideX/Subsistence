@@ -21,17 +21,20 @@ public class ItemHandSieve extends SubsistenceItem {
         ItemStack stack1 = inventoryItem.getStackInSlot(0);
 
         if (stack1 != null) {
-            SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(stack1);
+            SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(stack1, false);
+            ItemStack[] output = recipe.get(false);
 
-            for (ItemStack stack2 : recipe.get(null, false)) {
-                player.dropPlayerItemWithRandomChoice(stack2, false);
-            }
+            if (output != null) {
+                for (ItemStack stack2 : output) {
+                    player.dropPlayerItemWithRandomChoice(stack2, false);
+                }
 
-            stack1.stackSize--;
-            if (stack1.stackSize <= 0) {
-                inventoryItem.setInventorySlotContents(0, null);
+                stack1.stackSize--;
+                if (stack1.stackSize <= 0) {
+                    inventoryItem.setInventorySlotContents(0, null);
+                }
+                inventoryItem.markDirty();
             }
-            inventoryItem.markDirty();
         }
     }
 
@@ -39,7 +42,7 @@ public class ItemHandSieve extends SubsistenceItem {
         ItemStack stack1 = new InventoryItem(stack, 1).getStackInSlot(0);
 
         if (stack1 != null) {
-            SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(stack1);
+            SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(stack1, false);
 
             ItemHandSieve.setCurrentDuration(stack, 0);
             ItemHandSieve.setMaxDuration(stack, recipe.getDurationHand());
