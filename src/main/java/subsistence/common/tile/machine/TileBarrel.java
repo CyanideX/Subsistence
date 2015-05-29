@@ -1,5 +1,6 @@
 package subsistence.common.tile.machine;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -53,6 +54,13 @@ public final class TileBarrel extends TileCoreMachine {
         collectRainWater();
 
         if (isWood()) {
+            if (fluidContents != null && fluidContents.getFluid() == FluidRegistry.LAVA) {
+                if (fluidContents.amount >= 1000) {
+                    worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.flowing_lava);
+                } else {
+                    worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+                }
+            }
             processWoodRecipe();
         } else {
             processWoodRecipe();
