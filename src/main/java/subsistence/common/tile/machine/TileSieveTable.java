@@ -129,14 +129,19 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
                             List<ItemStack> stuffedList = Lists.newArrayList();
 
-                            for (ItemStack out : output) {
-                                ItemStack drop = out.copy();
-                                drop.stackSize = 1;
 
-                                if (dropItemStack(drop) == null) {
-                                    out.stackSize--;
-                                } else {
-                                    stuffedList.add(out);
+                            if(output != null) {
+                                for (ItemStack out : output) {
+                                    if(out != null) {
+                                        ItemStack drop = out.copy();
+                                        drop.stackSize = 1;
+
+                                        if (dropItemStack(drop) == null) {
+                                            out.stackSize--;
+                                        } else {
+                                            stuffedList.add(out);
+                                        }
+                                    }
                                 }
                             }
 
