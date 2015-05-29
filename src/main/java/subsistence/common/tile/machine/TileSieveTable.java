@@ -125,7 +125,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
                         if (processed != null && processed.stackSize > 0) {
                             SieveRecipe processingRecipe = SubsistenceRecipes.SIEVE.get(processed, true);
-                            ItemStack[] output = processingRecipe.get(true);
+                            ItemStack[] output = processingRecipe.get();
 
                             List<ItemStack> stuffedList = Lists.newArrayList();
 

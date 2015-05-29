@@ -22,7 +22,7 @@ public class ItemHandSieve extends SubsistenceItem {
 
         if (stack1 != null) {
             SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(stack1, false);
-            ItemStack[] output = recipe.get(false);
+            ItemStack[] output = recipe.get();
 
             if (output != null) {
                 for (ItemStack stack2 : output) {
