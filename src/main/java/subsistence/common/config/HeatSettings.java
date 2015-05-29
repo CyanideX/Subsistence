@@ -5,13 +5,13 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.util.JsonUtil;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Set;
 
 import static subsistence.common.util.ItemHelper.ItemAndIntTuple;
