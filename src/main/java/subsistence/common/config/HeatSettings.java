@@ -47,35 +47,32 @@ public class HeatSettings {
     }
 
     public static boolean isTorch(World world, int x, int y, int z) {
+        if (world.isAirBlock(x, y, z))
+            return false;
+
         Block block = world.getBlock(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
 
-        if (block == Blocks.torch) {
-            return true;
-        } else {
-            return torch.contains(new ItemAndIntTuple(Item.getItemFromBlock(block), meta));
-        }
+        return block == Blocks.torch || torch.contains(new ItemAndIntTuple(Item.getItemFromBlock(block), meta));
     }
 
     public static boolean isFire(World world, int x, int y, int z) {
+        if (world.isAirBlock(x, y, z))
+            return false;
+
         Block block = world.getBlock(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
 
-        if (block == Blocks.fire) {
-            return true;
-        } else {
-            return fire.contains(new ItemAndIntTuple(Item.getItemFromBlock(block), meta));
-        }
+        return block == Blocks.fire || fire.contains(new ItemAndIntTuple(Item.getItemFromBlock(block), meta));
     }
 
     public static boolean isLava(World world, int x, int y, int z) {
+        if (world.isAirBlock(x, y, z))
+            return false;
+
         Block block = world.getBlock(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
 
-        if (block == Blocks.lava || block == Blocks.flowing_lava) {
-            return true;
-        } else {
-            return lava.contains(new ItemAndIntTuple(Item.getItemFromBlock(block), meta));
-        }
+        return block == Blocks.lava || block == Blocks.flowing_lava || lava.contains(new ItemAndIntTuple(Item.getItemFromBlock(block), meta));
     }
 }
