@@ -16,7 +16,7 @@ import subsistence.common.util.ArrayHelper;
 
 public class BlockTable extends SubsistenceTileMultiBlock {
 
-    private static final String[] NAMES = new String[]{"wood", "stone"};
+    private static final String[] NAMES = new String[]{"wood", "stone", "nether"};
 
     public BlockTable() {
         super(Material.wood);

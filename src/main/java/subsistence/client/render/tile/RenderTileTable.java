@@ -23,8 +23,12 @@ public class RenderTileTable extends SubsistenceTileRenderer<TileTable> {
         GL11.glTranslated(x, y, z);
 
         switch (tile.getBlockMetadata()) {
+            case 2:
+                Texture.TABLE_NETHER.bindTexture();
+                Model.TABLE_STONE.renderAll();
+                break;
             case 1:
-                Texture.TABLE_STONE.bindTexture();
+                Texture.TABLE_COBBLESTONE.bindTexture();
                 Model.TABLE_STONE.renderAll();
                 break;
             case 0:

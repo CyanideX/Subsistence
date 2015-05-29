@@ -31,17 +31,19 @@ public class RenderItemTable implements IItemRenderer {
         }
 
         switch (item.getItemDamage()) {
-            case 0: {
+            case 2:
+                Texture.TABLE_NETHER.bindTexture();
+                Model.TABLE_STONE.renderAll();
+                break;
+            case 1:
+                Texture.TABLE_COBBLESTONE.bindTexture();
+                Model.TABLE_STONE.renderAll();
+                break;
+            case 0:
+            default:
                 Texture.TABLE_WOOD.bindTexture();
                 Model.TABLE_WOOD.renderAll();
                 break;
-            }
-
-            case 1: {
-                Texture.TABLE_STONE.bindTexture();
-                Model.TABLE_STONE.renderAll();
-                break;
-            }
         }
 
         GL11.glPopMatrix();

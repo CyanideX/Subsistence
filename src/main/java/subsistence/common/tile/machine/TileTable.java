@@ -7,6 +7,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.item.ItemHammer;
 import subsistence.common.lib.DurabilityMapping;
 import subsistence.common.lib.tool.ToolDefinition;
 import subsistence.common.network.nbt.NBTHandler;
@@ -102,16 +103,27 @@ public class TileTable extends TileCore {
         Random random = new Random();
 
         if (meta == 0) {
-            if (stack != null && ItemHelper.isBlock(stack, Blocks.stone_slab) && stack.getItemDamage() == 0 && ToolDefinition.isType(tool, ToolDefinition.HAMMER)) {
+            boolean converted = false;
+            if (stack != null) {
+                if (ItemHelper.isBlock(stack, Blocks.cobblestone) && tool.getItem() instanceof ItemHammer) {
+                    worldObj.setBlock(xCoord, yCoord, zCoord, SubsistenceBlocks.table, 1, 3);
+                    converted = true;
+                } else if (ItemHelper.isBlock(stack, SubsistenceBlocks.componentGround) && stack.getItemDamage() == 2 && tool.getItem() instanceof ItemHammer) {
+                    worldObj.setBlock(xCoord, yCoord, zCoord, SubsistenceBlocks.table, 2, 3);
+                    converted = true;
+                }
+            }
+
+            if (converted) {
                 PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, new ItemStack(Blocks.stone_slab));
                 getWorldObj().playSoundEffect(xCoord, yCoord, zCoord, "subsistence:oreCrumble", 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
-
                 stack = null;
-                worldObj.setBlock(xCoord, yCoord, zCoord, SubsistenceBlocks.table, 1, 3);
 
                 return true;
+            } else {
+                return false;
             }
-        } else if (meta == 1) {
+        } else if (meta == 1 || meta == 2) {
             if (stack != null) {
                 TableRecipe output = SubsistenceRecipes.TABLE.get(stack, tool, true);
 
