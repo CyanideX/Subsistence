@@ -2,6 +2,7 @@ package subsistence.common.tile.machine;
 
 import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -11,6 +12,7 @@ import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.CompostRecipe;
 import subsistence.common.tile.core.TileCoreMachine;
+import subsistence.common.util.InventoryHelper;
 import subsistence.common.util.ItemHelper;
 
 import java.util.List;
@@ -64,6 +66,15 @@ public class TileCompost extends TileCoreMachine {
             }
         }
 
+    }
+
+    @Override
+    public void onBlockBroken() {
+        if (contents != null) {
+            for (ItemStack itemStack : contents) {
+                InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, itemStack, RANDOM);
+            }
+        }
     }
 
     public int getVolume() {

@@ -2,6 +2,7 @@ package subsistence.common.tile.machine;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -13,6 +14,7 @@ import subsistence.common.recipe.wrapper.BarrelMeltingRecipe;
 import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
 import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 import subsistence.common.tile.core.TileCoreMachine;
+import subsistence.common.util.InventoryHelper;
 
 public final class TileBarrel extends TileCoreMachine {
 
@@ -65,6 +67,15 @@ public final class TileBarrel extends TileCoreMachine {
         } else {
             processWoodRecipe();
             processStoneRecipe();
+        }
+    }
+
+    @Override
+    public void onBlockBroken() {
+        if (itemContents != null) {
+            for (ItemStack itemStack : itemContents) {
+                InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, itemStack, RANDOM);
+            }
         }
     }
 

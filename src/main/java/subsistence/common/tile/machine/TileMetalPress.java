@@ -1,10 +1,12 @@
 package subsistence.common.tile.machine;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.MetalPressRecipe;
 import subsistence.common.tile.core.TileCoreMachine;
+import subsistence.common.util.InventoryHelper;
 
 public class TileMetalPress extends TileCoreMachine {
 
@@ -61,6 +63,11 @@ public class TileMetalPress extends TileCoreMachine {
                     pauseTicker = 0;
             }
         }
+    }
+
+    @Override
+    public void onBlockBroken() {
+        InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, itemStack, RANDOM);
     }
 
     public void activate() {
