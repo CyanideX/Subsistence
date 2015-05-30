@@ -152,9 +152,11 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
         return type;
     }
 
-    //TODO Griding stage
     private ItemStack getOutput(ItemStack stack) {
         int type = getType(stack);
+        if (type == -1)
+            return null;
+
         ItemStack output = null;
         switch (grindingStage) {
             case 0: {
