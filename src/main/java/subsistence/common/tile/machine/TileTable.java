@@ -129,13 +129,12 @@ public class TileTable extends TileCore {
                 if (ToolSettings.isHammer(tool)) {
                     TableSmashingRecipe recipe = SubsistenceRecipes.TABLE.getSmashingRecipe(stack);
                     if (recipe != null) {
-                        System.out.println(damage + " " + ToolSettings.getHammerDamage(tool) + " " + recipe.durability);
                         damage += ToolSettings.getHammerStrength(tool);
                         if (damage >= recipe.durability) {
                             if (stack.getItem() instanceof ItemBlock) {
                                 PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, stack);
-                                setStack(recipe.output.copy());
                             }
+                            setStack(recipe.output.copy());
                         }
                     }
                 } else if (ToolSettings.isAxe(tool)) {
@@ -145,8 +144,8 @@ public class TileTable extends TileCore {
                         if (damage >= recipe.durability) {
                             if (stack.getItem() instanceof ItemBlock) {
                                 PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, stack);
-                                setStack(recipe.output.copy());
                             }
+                            setStack(recipe.output.copy());
                         }
                     }
                 }
