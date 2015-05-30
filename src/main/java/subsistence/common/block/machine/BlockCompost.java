@@ -17,7 +17,7 @@ import subsistence.common.util.ArrayHelper;
 
 public class BlockCompost extends SubsistenceTileMultiBlock {
 
-    private static final String[] NAMES = new String[]{"wood", "stone"};
+    private static final String[] NAMES = new String[]{"wood", "stone", "nether"};
 
     public BlockCompost() {
         super(Material.wood);

@@ -6,7 +6,7 @@ import subsistence.common.item.prefab.SubsistenceMultiItem;
 
 public class ItemBarrelLid extends SubsistenceMultiItem {
 
-    private static final String[] NAMES = new String[]{"wood", "stone"};
+    private static final String[] NAMES = new String[]{"wood", "stone", "nether"};
 
     public ItemBarrelLid() {
         super(SubsistenceCreativeTab.ITEMS);

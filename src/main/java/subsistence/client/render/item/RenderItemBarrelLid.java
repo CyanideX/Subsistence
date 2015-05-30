@@ -33,11 +33,29 @@ public class RenderItemBarrelLid implements IItemRenderer {
             GL11.glRotated(180D, 0, 1, 0);
         }
 
+        switch (item.getItemDamage()) {
+            case 2:
+                Texture.BARREL_NETHER.bindTexture();
+                Model.BARREL_STONE.renderOnly("lid", "lidHandle");
+                break;
+
+            case 1:
+                Texture.BARREL_STONE.bindTexture();
+                Model.BARREL_STONE.renderOnly("lid", "lidHandle");
+                break;
+
+            case 0:
+            default:
+                Texture.BARREL_WOOD.bindTexture();
+                Model.BARREL_WOOD.renderOnly("lid", "lidHandle");
+                break;
+        }
+
         if (item.getItemDamage() == 0) {
             Texture.BARREL_WOOD.bindTexture();
             Model.BARREL_WOOD.renderOnly("lid", "lidHandle");
         } else {
-            Texture.BARREL_STONE.bindTexture();
+            Texture.BARREL_NETHER.bindTexture();
             Model.BARREL_STONE.renderOnly("lid", "lidHandle");
         }
 

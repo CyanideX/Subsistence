@@ -33,11 +33,18 @@ public class RenderItemCompost implements IItemRenderer {
         }
 
         switch (item.getItemDamage()) {
-            case 0:
-                Texture.COMPOST_WOOD.bindTexture();
+            case 2:
+                Texture.COMPOST_NETHER.bindTexture();
                 break;
+
             case 1:
                 Texture.COMPOST_STONE.bindTexture();
+                break;
+
+            case 0:
+            default:
+                Texture.COMPOST_WOOD.bindTexture();
+                break;
         }
 
         Model.COMPOST.renderAll();

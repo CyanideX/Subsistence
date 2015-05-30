@@ -31,17 +31,31 @@ public class RenderItemBarrel implements IItemRenderer {
             GL11.glTranslated(0.1, 0.0, 0.1);
             GL11.glRotated(180D, 0, 1, 0);
         }
-        if (item.getItemDamage() == 0) {
-            Texture.BARREL_WOOD.bindTexture();
-            Model.BARREL_WOOD.renderAllExcept("lid", "lidHandle");
-            if (((ItemBarrel) item.getItem()).hasLid(item))
-                Model.BARREL_WOOD.renderOnly("lid", "lidHandle");
-        } else {
-            Texture.BARREL_STONE.bindTexture();
-            Model.BARREL_STONE.renderAllExcept("lid", "lidHandle");
-            if (((ItemBarrel) item.getItem()).hasLid(item))
-                Model.BARREL_STONE.renderOnly("lid", "lidHandle");
+
+        switch (item.getItemDamage()) {
+            case 2:
+                Texture.BARREL_NETHER.bindTexture();
+                Model.BARREL_STONE.renderAllExcept("lid", "lidHandle");
+                if (((ItemBarrel) item.getItem()).hasLid(item))
+                    Model.BARREL_STONE.renderOnly("lid", "lidHandle");
+                break;
+
+            case 1:
+                Texture.BARREL_STONE.bindTexture();
+                Model.BARREL_STONE.renderAllExcept("lid", "lidHandle");
+                if (((ItemBarrel) item.getItem()).hasLid(item))
+                    Model.BARREL_STONE.renderOnly("lid", "lidHandle");
+                break;
+
+            case 0:
+            default:
+                Texture.BARREL_WOOD.bindTexture();
+                Model.BARREL_WOOD.renderAllExcept("lid", "lidHandle");
+                if (((ItemBarrel) item.getItem()).hasLid(item))
+                    Model.BARREL_WOOD.renderOnly("lid", "lidHandle");
+                break;
         }
+
         GL11.glPopMatrix();
     }
 }

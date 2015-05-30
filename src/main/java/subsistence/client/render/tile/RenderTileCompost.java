@@ -32,10 +32,16 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
         int volume;
 
         switch (tile.getBlockMetadata()) {
+            case 2:
+                volume = TileCompost.VOLUME_STONE;
+                Texture.COMPOST_NETHER.bindTexture();
+                break;
+
             case 1:
                 volume = TileCompost.VOLUME_STONE;
                 Texture.COMPOST_STONE.bindTexture();
                 break;
+
             case 0:
             default:
                 volume = TileCompost.VOLUME_WOOD;

@@ -28,7 +28,7 @@ import java.util.Random;
 
 public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
-    private static final String[] NAMES = new String[]{"wood", "stone"};
+    private static final String[] NAMES = new String[]{"wood", "stone", "nether"};
 
     public BlockBarrel() {
         super(Material.wood);

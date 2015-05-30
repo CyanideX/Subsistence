@@ -21,8 +21,10 @@ public enum Texture {
     METAL_SHAFT("blocks/shaft"),
     BARREL_WOOD("blocks/barrelWood"),
     BARREL_STONE("blocks/barrelStone"),
+    BARREL_NETHER("blocks/barrelStone_rind"),
     COMPOST_WOOD("blocks/compostWood"),
-    COMPOST_STONE("blocks/compostStone");
+    COMPOST_STONE("blocks/compostStone"),
+    COMPOST_NETHER("blocks/compostStone_rind");
 
     protected ResourceLocation path;
 

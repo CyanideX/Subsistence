@@ -1,11 +1,8 @@
 package subsistence.client.render.tile;
 
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -18,7 +15,6 @@ import subsistence.common.util.RenderHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
 
@@ -43,9 +39,14 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         GL11.glRotated(RenderHelper.getRotationAngle(tile.orientation.getOpposite()), 0, 1, 0);
 
         switch (tile.getBlockMetadata()) {
+            case 2:
+                Texture.BARREL_NETHER.bindTexture();
+                break;
+
             case 1:
                 Texture.BARREL_STONE.bindTexture();
                 break;
+
             case 0:
             default:
                 Texture.BARREL_WOOD.bindTexture();
