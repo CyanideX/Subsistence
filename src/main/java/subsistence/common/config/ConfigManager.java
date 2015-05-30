@@ -29,7 +29,7 @@ public class ConfigManager {
     public static File itemDump = new File(Subsistence.configPath, "key_dump.txt");
 
     public static void loadAllFiles() {
-        genDefaultConfigs();
+//        genDefaultConfigs();
 
         CoreSettings.Loader.parse(mainFile);
         HeatSettings.initialize(heatFile);
