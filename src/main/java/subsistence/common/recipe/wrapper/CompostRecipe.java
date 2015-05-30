@@ -15,13 +15,13 @@ public class CompostRecipe {
 
     public final ItemStack[] inputItem;
 
-    private final ItemStack outputItem;
-    private final FluidStack outputLiquid;
+    public final ItemStack outputItem;
+    public final FluidStack outputLiquid;
 
-    private final int time;
-    private final int timeTorch;
-    private final int timeLava;
-    private final int timeFire;
+    public final int time;
+    public final int timeTorch;
+    public final int timeLava;
+    public final int timeFire;
 
     public final String type;
     public final String conditional;
@@ -113,31 +113,7 @@ public class CompostRecipe {
         return false;
     }
 
-    public int getTime() {
-        return time;
-    }
-
-    public int getTimeTorch() {
-        return timeTorch;
-    }
-
-    public int getTimeLava() {
-        return timeLava;
-    }
-
-    public int getTimeFire() {
-        return timeFire;
-    }
-
     public boolean requiresHeat() {
         return timeTorch > 0 || timeLava > 0 || timeFire > 0;
-    }
-
-    public ItemStack getOutputItem() {
-        return outputItem;
-    }
-
-    public FluidStack getOutputLiquid() {
-        return outputLiquid;
     }
 }

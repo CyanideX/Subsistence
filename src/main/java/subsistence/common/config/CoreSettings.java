@@ -26,6 +26,9 @@ public class CoreSettings {
     public static class Loader {
 
         public static void parse(File file) {
+            if (!file.exists())
+                return;
+
             try {
                 SubsistenceLogger.info("Parsing " + file.getName());
                 CoreSettings.STATIC = JsonUtil.gson().fromJson(new FileReader(file), CoreSettings.class);

@@ -3,17 +3,17 @@ package subsistence.common.recipe.wrapper;
 import net.minecraft.item.ItemStack;
 import subsistence.common.util.StackHelper;
 
-public class TableDryingRecipe {
+public class TableAxeRecipe {
 
     public final ItemStack input;
     public final ItemStack output;
 
-    public final int duration;
+    public final int durability;
 
-    public TableDryingRecipe(ItemStack input, ItemStack output, int duration) {
+    public TableAxeRecipe(ItemStack input, ItemStack output, int durability) {
         this.input = input;
         this.output = output;
-        this.duration = duration;
+        this.durability = durability;
     }
 
     public boolean isInputStack(ItemStack stack) {

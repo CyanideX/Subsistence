@@ -4,9 +4,9 @@ import net.minecraft.item.ItemStack;
 
 public class MetalPressRecipe {
 
-    private final ItemStack inputItem;
-    private final ItemStack outputItem;
-    private final int amount;
+    public final ItemStack inputItem;
+    public final ItemStack outputItem;
+    public final int amount;
 
     public MetalPressRecipe(ItemStack inputItem, ItemStack outputItem, int amount) {
         this.inputItem = inputItem;
@@ -16,17 +16,5 @@ public class MetalPressRecipe {
 
     public boolean valid(ItemStack input) {
         return input.getItem() == this.inputItem.getItem();
-    }
-
-    public ItemStack getOutputItem() {
-        return outputItem;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public ItemStack getInputItem() {
-        return inputItem;
     }
 }

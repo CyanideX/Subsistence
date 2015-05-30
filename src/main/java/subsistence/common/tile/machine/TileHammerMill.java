@@ -13,10 +13,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.lib.StackReference;
-import subsistence.common.lib.tool.ToolDefinition;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.network.packet.PacketFX;
-import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.tile.core.TileCoreMachine;
 import subsistence.common.util.InventoryHelper;
 import subsistence.common.util.StackHelper;
@@ -333,7 +331,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
 
     @Override
     public boolean canInsertItem(int slot, ItemStack stack, int side) {
-        return side == 1 && SubsistenceRecipes.TABLE.get(stack, ToolDefinition.HAMMER, false) != null;
+        return side == 1;
     }
 
     @Override

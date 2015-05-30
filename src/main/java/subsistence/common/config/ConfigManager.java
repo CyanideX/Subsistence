@@ -24,6 +24,7 @@ public class ConfigManager {
 
     public static File mainFile = new File(Subsistence.configPath, "main.json");
     public static File heatFile = new File(Subsistence.configPath, "heat.json");
+    public static File toolsFile = new File(Subsistence.configPath, "tools.json");
     public static File recipes = new File(Subsistence.configPath, "recipes/");
     public static File itemDump = new File(Subsistence.configPath, "key_dump.txt");
 
@@ -32,6 +33,7 @@ public class ConfigManager {
 
         CoreSettings.Loader.parse(mainFile);
         HeatSettings.initialize(heatFile);
+        ToolSettings.initialize(toolsFile);
 
         loadFile("sieve/");
 
@@ -43,8 +45,8 @@ public class ConfigManager {
 
         loadFile("metalpress/");
 
-        loadFile("table/hammer");
-        loadFile("table/drying");
+        loadFile("table/smash");
+        loadFile("table/dry");
         loadFile("table/axe");
 
         tryDumpItems(itemDump);

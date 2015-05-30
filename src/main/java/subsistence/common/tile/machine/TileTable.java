@@ -7,14 +7,14 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.config.ToolSettings;
 import subsistence.common.item.ItemHammer;
-import subsistence.common.lib.DurabilityMapping;
-import subsistence.common.lib.tool.ToolDefinition;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.network.packet.PacketFX;
 import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.wrapper.TableAxeRecipe;
 import subsistence.common.recipe.wrapper.TableDryingRecipe;
-import subsistence.common.recipe.wrapper.TableRecipe;
+import subsistence.common.recipe.wrapper.TableSmashingRecipe;
 import subsistence.common.tile.core.TileCore;
 import subsistence.common.util.InventoryHelper;
 import subsistence.common.util.ItemHelper;
@@ -30,7 +30,7 @@ public class TileTable extends TileCore {
     public float durability;
 
     @NBTHandler.Sync(true)
-    public float amountHammer;
+    public float damage ;
 
     @NBTHandler.Sync(true)
     public float amountDrying;
@@ -44,17 +44,15 @@ public class TileTable extends TileCore {
     public void setStack(ItemStack stack) {
         this.stack = stack;
 
-        if (stack != null) {
-            durability = DurabilityMapping.INSTANCE.getDurability(stack);
-        }
-
         decayTimer = 0;
         attractedFlies = false;
         if (this.stack != null && SubsistenceRecipes.PERISHABLE.containsKey(this.stack.getItem())) {
             decayTimer = SubsistenceRecipes.PERISHABLE.get(this.stack.getItem()) * 20;
         }
-        amountHammer = 0;
+
+        damage = 0;
         amountDrying = 0;
+
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
@@ -78,11 +76,11 @@ public class TileTable extends TileCore {
     }
 
     public void dry() {
-        TableDryingRecipe recipe = SubsistenceRecipes.TABLE.getDrying(stack);
+        TableDryingRecipe recipe = SubsistenceRecipes.TABLE.getDryingRecipe(stack);
         if (recipe != null) {
             amountDrying++;
-            if (amountDrying >= recipe.getDuration()) {
-                stack = recipe.getOutput();
+            if (amountDrying >= recipe.duration) {
+                stack = recipe.output.copy();
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 amountDrying = 0;
             }
@@ -101,6 +99,9 @@ public class TileTable extends TileCore {
         int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
         ItemStack tool = player.getCurrentEquippedItem();
         Random random = new Random();
+
+        if (tool == null)
+            return false;
 
         if (meta == 0) {
             boolean converted = false;
@@ -125,24 +126,28 @@ public class TileTable extends TileCore {
             }
         } else if (meta == 1 || meta == 2) {
             if (stack != null) {
-                TableRecipe output = SubsistenceRecipes.TABLE.get(stack, tool, true);
-
-                if (output != null) {
-                    durability -= ToolDefinition.getStrength(tool);
-
-                    if (durability <= 0F) {
-                        if (stack.getItem() instanceof ItemBlock) {
-                            PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, stack);
+                if (ToolSettings.isHammer(tool)) {
+                    TableSmashingRecipe recipe = SubsistenceRecipes.TABLE.getSmashingRecipe(stack);
+                    if (recipe != null) {
+                        System.out.println(damage + " " + ToolSettings.getHammerDamage(tool) + " " + recipe.durability);
+                        damage += ToolSettings.getHammerStrength(tool);
+                        if (damage >= recipe.durability) {
+                            if (stack.getItem() instanceof ItemBlock) {
+                                PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, stack);
+                                setStack(recipe.output.copy());
+                            }
                         }
-
-                        if (output.damageTool) {
-                            tool.damageItem(1, player);
+                    }
+                } else if (ToolSettings.isAxe(tool)) {
+                    TableAxeRecipe recipe = SubsistenceRecipes.TABLE.getAxeRecipe(stack);
+                    if (recipe != null) {
+                        damage += ToolSettings.getAxeStrength(tool);
+                        if (damage >= recipe.durability) {
+                            if (stack.getItem() instanceof ItemBlock) {
+                                PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, stack);
+                                setStack(recipe.output.copy());
+                            }
                         }
-                        amountHammer++;
-                        if (amountHammer >= output.getSpeed())
-                            setStack(output.getOutput(false));
-
-                        return true;
                     }
                 }
             }

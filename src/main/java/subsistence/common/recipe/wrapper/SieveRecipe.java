@@ -9,10 +9,10 @@ import java.util.List;
 
 public class SieveRecipe {
 
-    private final ItemStack input;
+    public final ItemStack input;
     private final RandomStack[] output;
-    private final int durationBlock;
-    private final int durationHand;
+    public final int durationBlock;
+    public final int durationHand;
 
     private String type;
 

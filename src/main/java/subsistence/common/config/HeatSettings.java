@@ -31,6 +31,9 @@ public class HeatSettings {
     }
 
     public static void initialize(File file) {
+        if (!file.exists())
+            return;
+
         try {
             SubsistenceLogger.info("Parsing " + file.getName());
             Heat heat = JsonUtil.gson().fromJson(new FileReader(file), Heat.class);

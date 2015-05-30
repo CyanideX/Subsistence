@@ -89,6 +89,10 @@ public class ItemHelper {
 
     public static class ItemAndIntTuple {
 
+        public static ItemAndIntTuple from(ItemStack itemStack) {
+            return new ItemAndIntTuple(itemStack.getItem(), itemStack.getItemDamage());
+        }
+
         public Item item;
         public int damage;
 

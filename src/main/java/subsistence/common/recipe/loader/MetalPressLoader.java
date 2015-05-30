@@ -23,7 +23,7 @@ public class MetalPressLoader {
 
     public static void parseFile(File file) {
         try {
-            SubsistenceLogger.info("Parsing " + file.getName());
+            SubsistenceLogger.info("Parsing metal press recipe: " + file.getName());
             Recipe[] recipes = JsonUtil.gson().fromJson(new FileReader(file), Recipe[].class);
 
             for (Recipe recipe : recipes) {

@@ -83,8 +83,8 @@ public class TileMetalPress extends TileCoreMachine {
         // We send an update every time we activate and the render should update
         markForUpdate();
 
-        if (amount >= recipe.getAmount()) {
-            itemStack = recipe.getOutputItem().copy();
+        if (amount >= recipe.amount) {
+            itemStack = recipe.outputItem.copy();
             markForUpdate();
         }
     }

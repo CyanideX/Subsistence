@@ -30,7 +30,7 @@ public class MetalPressManager {
 
     public boolean isAllowed(ItemStack item) {
         for (MetalPressRecipe recipe : recipes) {
-            if (item.getItem() == recipe.getInputItem().getItem()) {
+            if (item.getItem() == recipe.inputItem.getItem()) {
                 return true;
             }
         }

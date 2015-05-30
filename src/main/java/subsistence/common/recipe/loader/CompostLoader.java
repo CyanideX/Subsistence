@@ -51,14 +51,14 @@ public class CompostLoader {
 
     public static void parseFile(File file) {
         try {
-            SubsistenceLogger.info("Parsing " + file.getName());
+            SubsistenceLogger.info("Parsing compost recipe: " + file.getName());
             Recipe[] recipes = JsonUtil.gson().fromJson(new FileReader(file), Recipe[].class);
 
             for (Recipe recipe : recipes) {
                 verifyParse(file.getName(), recipe);
             }
         } catch (IOException ex) {
-            SubsistenceLogger.warn("Failed to parse " + file.getName());
+            SubsistenceLogger.warn("Failed to parse compost recipe: " + file.getName());
         }
     }
 

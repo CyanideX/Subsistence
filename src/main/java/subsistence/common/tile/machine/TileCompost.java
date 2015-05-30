@@ -79,7 +79,7 @@ public class TileCompost extends TileCoreMachine {
                     processingTime++;
 
                     if (processingTime >= maxProcessingTime) {
-                        contents = new ItemStack[]{cachedRecipe.getOutputItem().copy()};
+                        contents = new ItemStack[]{cachedRecipe.outputItem.copy()};
 
                         if (cachedRecipe.requiresCondensate)
                             fluid = null;
@@ -87,7 +87,7 @@ public class TileCompost extends TileCoreMachine {
                         if (cachedRecipe.requiresHeat() && cachedRecipe.condensates) {
                             fluid = new FluidStack(FluidRegistry.WATER, FluidContainerRegistry.BUCKET_VOLUME);
                         } else {
-                            FluidStack output = cachedRecipe.getOutputLiquid();
+                            FluidStack output = cachedRecipe.outputLiquid;
                             if (output != null)
                                 fluid = output.copy();
                         }
@@ -103,16 +103,16 @@ public class TileCompost extends TileCoreMachine {
     private int getProcessingTime() {
         if (cachedRecipe.requiresHeat()) {
             if (HeatSettings.isTorch(worldObj, xCoord, yCoord - 1, zCoord)) {
-                return cachedRecipe.getTimeTorch();
+                return cachedRecipe.timeTorch;
             } else if (HeatSettings.isLava(worldObj, xCoord, yCoord - 1, zCoord)) {
-                return cachedRecipe.getTimeLava();
+                return cachedRecipe.timeLava;
             } else if (HeatSettings.isFire(worldObj, xCoord, yCoord - 1, zCoord)) {
-                return cachedRecipe.getTimeFire();
+                return cachedRecipe.timeFire;
             } else {
                 return -1;
             }
         } else {
-            return cachedRecipe.getTime();
+            return cachedRecipe.time;
         }
     }
 
