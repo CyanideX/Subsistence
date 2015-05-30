@@ -2,10 +2,13 @@ package subsistence.common.core.handler;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
+
+import java.util.Iterator;
 
 public class SpiderTracker {
 
@@ -26,9 +29,11 @@ public class SpiderTracker {
         }
 
         for (WorldServer world : DimensionManager.getWorlds()) {
-            for (Object obj : world.loadedEntityList) {
-                if (obj instanceof EntitySpider) {
-                    EntitySpider spider = (EntitySpider) obj;
+            Iterator<Entity> iterator = world.loadedEntityList.iterator();
+            while(iterator.hasNext()) {
+                Entity entity = iterator.next();
+                if (entity instanceof EntitySpider) {
+                    EntitySpider spider = (EntitySpider) entity;
 
                     if (spider.getAttackTarget() == null && world.rand.nextFloat() <= WEB_CHANCE) {
                         float brightness = world.getLightBrightness((int) spider.posX, (int) spider.posY, (int) spider.posZ);
