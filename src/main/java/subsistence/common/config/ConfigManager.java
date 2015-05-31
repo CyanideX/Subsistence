@@ -122,19 +122,21 @@ public class ConfigManager {
                 Map<String, List<String>> items = Maps.newHashMap();
 
                 for (Object obj : GameData.getItemRegistry().getKeys()) {
-                    String item = obj.toString();
-                    String[] split;
+                    if (obj != null) {
+                        String item = obj.toString();
+                        String[] split;
 
-                    if (item.contains(":")) {
-                        split = item.split(":");
-                    } else {
-                        split = new String[]{"Misc", item};
+                        if (item.contains(":")) {
+                            split = item.split(":");
+                        } else {
+                            split = new String[]{"Misc", item};
+                        }
+
+                        List<String> list = items.get(split[0]);
+                        if (list == null) list = Lists.newArrayList();
+                        list.add(split[1]);
+                        items.put(split[0], list);
                     }
-
-                    List<String> list = items.get(split[0]);
-                    if (list == null) list = Lists.newArrayList();
-                    list.add(split[1]);
-                    items.put(split[0], list);
                 }
 
                 List<String> keys = new ArrayList<String>(items.keySet());

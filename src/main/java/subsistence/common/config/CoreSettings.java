@@ -27,14 +27,19 @@ public class CoreSettings {
 
         public static void parse(File file) {
             if (!file.exists())
-                return;
+                try { file.createNewFile(); } catch (IOException ignore) {}
 
-            try {
-                SubsistenceLogger.info("Parsing " + file.getName());
-                CoreSettings.STATIC = JsonUtil.gson().fromJson(new FileReader(file), CoreSettings.class);
-            } catch (IOException e) {
-                SubsistenceLogger.warn("Failed to parse " + file.getName());
-                e.printStackTrace();
+            // If it still doesn't exist, assume defaults
+            if (!file.exists()) {
+                STATIC = new CoreSettings();
+            } else {
+                try {
+                    SubsistenceLogger.info("Parsing " + file.getName());
+                    CoreSettings.STATIC = JsonUtil.gson().fromJson(new FileReader(file), CoreSettings.class);
+                } catch (IOException e) {
+                    SubsistenceLogger.warn("Failed to parse " + file.getName());
+                    e.printStackTrace();
+                }
             }
         }
 
