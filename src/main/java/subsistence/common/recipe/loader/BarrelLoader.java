@@ -37,7 +37,7 @@ public class BarrelLoader {
         public Input input;
         public Output output;
 
-        public Heat heat;
+        public Heat heat = Heat.BLANK;
 
         public String conditional = "all"; // all/any/any_with_global_limit
 
@@ -65,6 +65,8 @@ public class BarrelLoader {
     }
 
     private static class Heat {
+
+        public static final Heat BLANK = new Heat();
 
         public int torch = -1;
         public int fire = -1;
