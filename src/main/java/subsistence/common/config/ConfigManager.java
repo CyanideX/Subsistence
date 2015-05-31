@@ -2,6 +2,7 @@ package subsistence.common.config;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameData;
 import org.apache.commons.io.FileUtils;
 import subsistence.Subsistence;
@@ -29,25 +30,30 @@ public class ConfigManager {
     public static File itemDump = new File(Subsistence.configPath, "key_dump.txt");
 
     public static void loadAllFiles() {
-//        genDefaultConfigs();
-
         CoreSettings.Loader.parse(mainFile);
         HeatSettings.initialize(heatFile);
         ToolSettings.initialize(toolsFile);
 
-        loadFile("sieve/");
+        // TEMPORARY TO ALLOW FOR HOSTING ON CURSEFORGE
+        if (Loader.isModLoaded("IC2")) {
+            loadFile("sieve/");
 
-        loadFile("barrel/wood");
-        loadFile("barrel/stone");
-        loadFile("barrel/melting");
+            loadFile("barrel/wood");
+            loadFile("barrel/stone");
+            loadFile("barrel/melting");
 
-        loadFile("compost/");
+            loadFile("compost/");
 
-        loadFile("metalpress/");
+            loadFile("metalpress/");
 
-        loadFile("table/smash");
-        loadFile("table/dry");
-        loadFile("table/axe");
+            loadFile("table/smash");
+            loadFile("table/dry");
+            loadFile("table/axe");
+        } else {
+            SubsistenceLogger.info("Failed to detect IC2. Until further notice, recipe handling has been disabled without it!");
+            SubsistenceLogger.info("Go download IC2!");
+            SubsistenceLogger.info("Do it, do it nooooow!");
+        }
 
         tryDumpItems(itemDump);
     }
