@@ -6,6 +6,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import subsistence.Subsistence;
 import subsistence.common.block.prefab.SubsistenceMultiBlock;
 import subsistence.common.util.ArrayHelper;
@@ -26,7 +27,10 @@ public class BlockComponentGround extends SubsistenceMultiBlock {
         super(Material.sand, 0.5F, 0F);
 
         setStepSound(soundTypeGravel);
-        setHarvestLevel("shovel", 0);
+        setHarvestLevel("shovel", 0, 0); //fine sand
+        setHarvestLevel("shovel", 0, 1); //nether grit
+        setHarvestLevel("pickaxe", 0, 2); //nether rind
+        setHarvestLevel("shovel", 0, 3); //soul dust
     }
 
     @Override
@@ -66,5 +70,22 @@ public class BlockComponentGround extends SubsistenceMultiBlock {
         for (int meta = 0; meta < NAMES.length; ++meta) {
             list.add(new ItemStack(item, 1, meta));
         }
+    }
+
+    @Override
+    public float getBlockHardness(World world, int x, int y, int z) {
+        //thing is that we have a dirt-like and a stone-like substance in the same id, so a general hardness wont work
+        int meta = world.getBlockMetadata(x,y,z);
+        switch (meta) {
+            case 0: //fine sand
+                return 1.0F;
+            case 1: //nether grit
+                return 1.0F;
+            case 2: //nether rind
+                return 2.0F;
+            case 3: //soul dust
+                return 1.0F;
+        }
+        return 1.0F;
     }
 }
