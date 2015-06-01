@@ -1,11 +1,11 @@
 package subsistence.common.tile.machine;
 
+import com.google.common.collect.Lists;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.tile.core.TileCoreMachine;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TileKineticCrank extends TileCoreMachine {
@@ -72,7 +72,7 @@ public class TileKineticCrank extends TileCoreMachine {
     }
 
     private List<TileEntity> getConnectedTiles() {
-        List<TileEntity> list = new ArrayList<TileEntity>();
+        List<TileEntity> list = Lists.newArrayList();
 
         int x = xCoord;
         int y = yCoord;

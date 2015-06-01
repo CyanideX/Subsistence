@@ -1,5 +1,6 @@
 package subsistence.common.block;
 
+import com.google.common.collect.Lists;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -210,7 +211,7 @@ public class BlockWormwood extends BlockBush implements IGrowable {
 
     @Override
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune) {
-        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+        ArrayList<ItemStack> ret = Lists.newArrayList();
         Random rand = new Random();
 
         if (meta >= 9) { //dry

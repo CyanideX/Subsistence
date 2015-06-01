@@ -1,18 +1,18 @@
 package subsistence.common.recipe.manager;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
 import subsistence.common.recipe.wrapper.TableAxeRecipe;
 import subsistence.common.recipe.wrapper.TableDryingRecipe;
 import subsistence.common.recipe.wrapper.TableSmashingRecipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TableManager {
 
-    private List<TableSmashingRecipe> recipesSmashing = new ArrayList<TableSmashingRecipe>();
-    private List<TableDryingRecipe> recipesDrying = new ArrayList<TableDryingRecipe>();
-    private List<TableAxeRecipe> recipesAxe = new ArrayList<TableAxeRecipe>();
+    private List<TableSmashingRecipe> recipesSmashing = Lists.newArrayList();
+    private List<TableDryingRecipe> recipesDrying = Lists.newArrayList();
+    private List<TableAxeRecipe> recipesAxe = Lists.newArrayList();
 
     public void register(Object object) {
         if (object instanceof TableSmashingRecipe)

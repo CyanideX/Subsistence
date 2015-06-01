@@ -1,14 +1,14 @@
 package subsistence.common.recipe.manager;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
 import subsistence.common.recipe.wrapper.MetalPressRecipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MetalPressManager {
 
-    private List<MetalPressRecipe> recipes = new ArrayList<MetalPressRecipe>();
+    private List<MetalPressRecipe> recipes = Lists.newArrayList();
 
     public MetalPressRecipe get(ItemStack stack) {
         for (MetalPressRecipe recipe : recipes) {

@@ -1,5 +1,6 @@
 package subsistence.client.render.tile;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Blocks;
@@ -13,12 +14,11 @@ import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.tile.machine.TileBarrel;
 import subsistence.common.util.RenderHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
 
-    private List<ItemStack> foliage = new ArrayList<ItemStack>();
+    private List<ItemStack> foliage = Lists.newArrayList();
 
     public RenderTileBarrel(){
         foliage.add(new ItemStack(Blocks.leaves, 1, OreDictionary.WILDCARD_VALUE));

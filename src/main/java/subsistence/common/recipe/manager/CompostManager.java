@@ -1,15 +1,15 @@
 package subsistence.common.recipe.manager;
 
+import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.recipe.wrapper.CompostRecipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CompostManager {
 
-    private List<CompostRecipe> recipes = new ArrayList<CompostRecipe>();
+    private List<CompostRecipe> recipes = Lists.newArrayList();
 
     private boolean canAccept(String tileType, String recipeType) {
         return recipeType.equals("both") || tileType.equals(recipeType);
