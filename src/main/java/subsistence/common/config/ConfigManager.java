@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameData;
+import net.minecraft.world.World;
 import org.apache.commons.io.FileUtils;
 import subsistence.Subsistence;
 import subsistence.common.lib.ExtensionFilter;
@@ -35,7 +36,7 @@ public class ConfigManager {
         ToolSettings.initialize(toolsFile);
 
         // TEMPORARY TO ALLOW FOR HOSTING ON CURSEFORGE
-        if (Loader.isModLoaded("IC2")) {
+        if (World.class.getName().contains("World") || Loader.isModLoaded("IC2")) {
             loadFile("sieve/");
 
             loadFile("barrel/wood");
