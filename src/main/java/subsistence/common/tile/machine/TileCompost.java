@@ -59,7 +59,7 @@ public class TileCompost extends TileCoreMachine {
                 animationTicks--;
         } else {
             if (contents.length > 0 && cachedRecipe == null)
-                cachedRecipe = SubsistenceRecipes.COMPOST.get(blockMetadata == 0 ? "wood" : "stone", contents, fluid);
+                cachedRecipe = SubsistenceRecipes.COMPOST.get(blockMetadata == 0 ? "wood" : "stone", hasHeatSource(), contents, fluid);
 
             if (cachedRecipe != null) {
                 process();
@@ -75,6 +75,10 @@ public class TileCompost extends TileCoreMachine {
                 InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, itemStack, RANDOM);
             }
         }
+    }
+
+    public boolean hasHeatSource() {
+        return HeatSettings.isHeatSource(worldObj, xCoord, yCoord - 1, zCoord);
     }
 
     public int getVolume() {
