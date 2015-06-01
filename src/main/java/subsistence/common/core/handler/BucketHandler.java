@@ -1,5 +1,6 @@
 package subsistence.common.core.handler;
 
+import com.google.common.collect.Maps;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
@@ -14,14 +15,13 @@ import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import subsistence.common.block.SubsistenceBlocks;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class BucketHandler {
 
     public static BucketHandler INSTANCE = new BucketHandler();
 
-    public Map<Block, Item> buckets = new HashMap<Block, Item>();
+    public Map<Block, Item> buckets = Maps.newHashMap();
 
     private BucketHandler() {
 

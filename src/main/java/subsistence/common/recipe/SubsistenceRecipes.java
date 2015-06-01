@@ -1,5 +1,6 @@
 package subsistence.common.recipe;
 
+import com.google.common.collect.Maps;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -22,7 +23,7 @@ public class SubsistenceRecipes {
     public static CompostManager COMPOST = new CompostManager();
     public static MetalPressManager METAL_PRESS = new MetalPressManager();
 
-    public static HashMap<Item, Integer> PERISHABLE = new HashMap<Item, Integer>();
+    public static HashMap<Item, Integer> PERISHABLE = Maps.newHashMap();
 
     public static void initialize() {
         addCraftingRecipes();
