@@ -117,15 +117,12 @@ public class CompostRecipe {
         return timeTorch > 0 || timeLava > 0 || timeFire > 0;
     }
 
-    public boolean validInput(ItemStack[] input) {
-        int matches = 0;
-        for (ItemStack inputItem : input) {
-            for (ItemStack recipeItem : this.inputItem) {
-                if (inputItem == recipeItem) {
-                    matches++;
-                }
+    public boolean validInput(ItemStack input) {
+        for (ItemStack recipeItem : this.inputItem) {
+            if (input.isItemEqual(recipeItem)) {
+                return true;
             }
         }
-        return matches > 0;
+        return false;
     }
 }
