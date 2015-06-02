@@ -221,6 +221,13 @@ public class BlockWormwood extends BlockBush implements IGrowable {
             if (this.lessThanOneDropChance(rand)) { //0-1 sap
                 ret.add(new ItemStack(SubsistenceItems.component, 1, 3)); //sap
             }
+            ret.add(new ItemStack(SubsistenceItems.component,1,2)); //always 1 sap
+            if (this.lessThanOneDropChance(rand)) {
+                ret.add(new ItemStack(SubsistenceItems.component,1,2)); //maybe extra sap
+                if (this.lessThanOneDropChance(rand)) {
+                    ret.add(new ItemStack(SubsistenceItems.component,1,2)); //really lucky!
+                }
+            }
             ret.add(new ItemStack(SubsistenceItems.seeds, 1, 2)); //always 1 wormwood seed
             if (rand.nextFloat() <= 0.1F) {
                 ret.add(new ItemStack(SubsistenceItems.seeds, 1, 2)); //maybe an extra wormwood seed
@@ -241,6 +248,6 @@ public class BlockWormwood extends BlockBush implements IGrowable {
     }
 
     private boolean lessThanOneDropChance(Random rand) {
-        return rand.nextFloat() <= rand.nextFloat();
+        return rand.nextFloat() <= 0.5F;
     }
 }

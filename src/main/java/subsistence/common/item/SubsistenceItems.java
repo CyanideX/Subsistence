@@ -35,6 +35,7 @@ public class SubsistenceItems {
     public static Item cosmetic;
     public static Item boilingBucket;
     public static Item barrelLid;
+    public static Item woodenBucket;
 
     public static void initialize() {
         hammerWood = new ItemHammer(64, "wood", "plankWood");
@@ -76,10 +77,12 @@ public class SubsistenceItems {
         cosmetic = new ItemCosmetic().setUnlocalizedName("cosmetic");
         boilingBucket = new ItemBoilingBucket(SubsistenceBlocks.boilingWater).setUnlocalizedName("boiling_bucket").setContainerItem(Items.bucket);
         barrelLid = new ItemBarrelLid().setUnlocalizedName("barrel_lid");
+        woodenBucket = new ItemWoodenBucket().setUnlocalizedName("wooden_bucket");
         registerItem(seeds);
         registerItem(cosmetic);
         registerItem(boilingBucket);
         registerItem(barrelLid);
+        registerItem(woodenBucket);
     }
 
     public static void registerItem(Item item) {
