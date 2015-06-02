@@ -55,52 +55,40 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
         boolean flag = this.isFull == Blocks.air;
         MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, flag);
 
-        if (movingobjectposition == null)
-        {
+        if (movingobjectposition == null) {
             return bucket;
-        }
-        else
-        {
+        } else {
             FillBucketEvent event = new FillBucketEvent(player, bucket, world, movingobjectposition);
-            if (MinecraftForge.EVENT_BUS.post(event))
-            {
+            if (MinecraftForge.EVENT_BUS.post(event)) {
                 return bucket;
             }
 
-            if (event.getResult() == Event.Result.ALLOW)
-            {
-                if (player.capabilities.isCreativeMode)
-                {
+            if (event.getResult() == Event.Result.ALLOW) {
+                if (player.capabilities.isCreativeMode) {
                     return bucket;
                 }
 
-                if (--bucket.stackSize <= 0)
-                {
+                if (--bucket.stackSize <= 0) {
                     return event.result;
                 }
 
-                if (!player.inventory.addItemStackToInventory(event.result))
-                {
+                if (!player.inventory.addItemStackToInventory(event.result)) {
                     player.dropPlayerItemWithRandomChoice(event.result, false);
                 }
 
                 return bucket;
             }
-            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
-            {
+            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 int i = movingobjectposition.blockX;
                 int j = movingobjectposition.blockY;
                 int k = movingobjectposition.blockZ;
 
-                if (!world.canMineBlock(player, i, j, k))
-                {
+                if (!world.canMineBlock(player, i, j, k)) {
                     return bucket;
                 }
 
-                if (flag)
-                {
-                    if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, bucket))
-                    {
+                if (flag) {
+                    if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, bucket)) {
                         return bucket;
                     }
 
@@ -124,50 +112,41 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
                 }
                 else
                 {
-                    if (this.isFull == Blocks.air)
-                    {
+                    if (this.isFull == Blocks.air) {
                         System.out.println("bucket full of air");
                         return new ItemStack(SubsistenceItems.woodenBucket,1,0);
                     }
 
-                    if (movingobjectposition.sideHit == 0)
-                    {
+                    if (movingobjectposition.sideHit == 0) {
                         --j;
                     }
 
-                    if (movingobjectposition.sideHit == 1)
-                    {
+                    if (movingobjectposition.sideHit == 1) {
                         ++j;
                     }
 
-                    if (movingobjectposition.sideHit == 2)
-                    {
+                    if (movingobjectposition.sideHit == 2) {
                         --k;
                     }
 
-                    if (movingobjectposition.sideHit == 3)
-                    {
+                    if (movingobjectposition.sideHit == 3) {
                         ++k;
                     }
 
-                    if (movingobjectposition.sideHit == 4)
-                    {
+                    if (movingobjectposition.sideHit == 4) {
                         --i;
                     }
 
-                    if (movingobjectposition.sideHit == 5)
-                    {
+                    if (movingobjectposition.sideHit == 5) {
                         ++i;
                     }
 
-                    if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, bucket))
-                    {
+                    if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, bucket)) {
                         System.out.println("player cant edit block");
                         return bucket;
                     }
 
-                    if (this.tryPlaceContainedLiquid(world, i, j, k) && !player.capabilities.isCreativeMode)
-                    {
+                    if (this.tryPlaceContainedLiquid(world, i, j, k) && !player.capabilities.isCreativeMode) {
                         System.out.println("placed, returning bucket");
                         return new ItemStack(SubsistenceItems.woodenBucket,1,0);
                     }
@@ -177,44 +156,29 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
             return bucket;
         }
     }
-    private ItemStack fillBucket(ItemStack empty, EntityPlayer player, ItemStack full)
-    {
-        if (player.capabilities.isCreativeMode)
-        {
+
+    private ItemStack fillBucket(ItemStack empty, EntityPlayer player, ItemStack full) {
+        if (player.capabilities.isCreativeMode) {
             return empty;
-        }
-        else if (--empty.stackSize <= 0)
-        {
+        } else if (--empty.stackSize <= 0) {
             return full;
-        }
-        else
-        {
-            if (!player.inventory.addItemStackToInventory(full))
-            {
+        } else {
+            if (!player.inventory.addItemStackToInventory(full)) {
                 player.dropPlayerItemWithRandomChoice(full, false);
             }
-
             return empty;
         }
     }
 
-    public boolean tryPlaceContainedLiquid(World world, int x, int y, int z)
-    {
-        if (this.isFull == Blocks.air)
-        {
+    public boolean tryPlaceContainedLiquid(World world, int x, int y, int z) {
+        if (this.isFull == Blocks.air) {
             return false;
-        }
-        else
-        {
+        } else {
             Material material = world.getBlock(x, y, z).getMaterial();
             boolean flag = !material.isSolid();
-
-            if (!world.isAirBlock(x, y, z) && !flag)
-            {
+            if (!world.isAirBlock(x, y, z) && !flag) {
                 return false;
-            }
-            else
-            {
+            } else {
                 //TODO: nether checking?
                 world.setBlock(x, y, z, this.isFull, 0, 3);
                 return true;
