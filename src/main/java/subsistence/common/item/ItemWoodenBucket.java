@@ -22,7 +22,7 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
     public ItemWoodenBucket () {
         super(SubsistenceCreativeTab.TOOLS);
         this.setMaxStackSize(1);
-        this.isFull = Blocks.air;
+        this.isFull = null;
     }
 
     @Override
@@ -38,8 +38,22 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
     @Override
     public void onUpdate (ItemStack item, World world, Entity holder, int whatDisDoo, boolean wutDisDo) {
         EntityPlayer player = (EntityPlayer) holder;
+        int meta = item.getItemDamage();
         if (!world.isRemote) {
-            if (item.getItemDamage() == 3) { //lava
+            if (this.isFull == null) {
+                switch (meta) { //pull from creative
+                    case 0:
+                        this.isFull = Blocks.air;
+                    case 1:
+                        this.isFull = Blocks.water;
+                    case 2:
+                        this.isFull = SubsistenceBlocks.boilingWater;
+                    case 3:
+                        this.isFull = Blocks.lava;
+                }
+                System.out.println("updated bucket data, as it is missing required data");
+            }
+            if (meta == 3) { //lava dump
                 int holderX = MathHelper.floor_double(player.posX);
                 int holderY = MathHelper.floor_double(player.posY);
                 int holderZ = MathHelper.floor_double(player.posZ);
@@ -65,9 +79,11 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
     public ItemStack onItemRightClick(ItemStack bucket, World world, EntityPlayer player)
     {
         boolean flag = this.isFull == Blocks.air;
+        System.out.println("flag is "+flag);
         MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, player, flag);
 
         if (movingobjectposition == null) {
+            System.out.println("moving object position is null, what?");
             return bucket;
         } else {
             FillBucketEvent event = new FillBucketEvent(player, bucket, world, movingobjectposition);
@@ -82,10 +98,12 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
                 }
 
                 if (--bucket.stackSize <= 0) {
+                    System.out.println("fill bucket - event");
                     return event.result;
                 }
 
                 if (!player.inventory.addItemStackToInventory(event.result)) {
+                    System.out.println("drop bucket - event");
                     player.dropPlayerItemWithRandomChoice(event.result, false);
                 }
 
@@ -124,6 +142,7 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
                         world.setBlockToAir(i,j,k);
                         return this.fillBucketFromWorld(bucket, player, new ItemStack(SubsistenceItems.woodenBucket, 1, 2)); //boiling water
                     }
+                    System.out.println("no valid liquid? trying to fill with air?");
                 } else {
                     System.out.println("trying to empty bucket");
                     if (this.isFull == Blocks.air) {
@@ -194,7 +213,7 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
             } else {
                 //TODO: nether checking?
                 world.setBlock(x, y, z, this.isFull, 0, 3);
-                System.out.println("placed liquid");
+                System.out.println("placed "+ this.isFull.getLocalizedName());
                 return true;
             }
         }
