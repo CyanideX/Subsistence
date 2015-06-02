@@ -40,4 +40,17 @@ public class CompostManager {
     public void clear() {
         recipes.clear();
     }
+
+    public boolean isValidInput (ItemStack item) {
+        int matches = 0;
+        ItemStack[] input = new ItemStack[1];
+        input[0] = item;
+
+        for (CompostRecipe recipe : recipes) {
+            if (recipe.validInput(input)) {
+                matches++;
+            }
+        }
+        return matches > 0;
+    }
 }

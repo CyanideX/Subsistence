@@ -116,4 +116,16 @@ public class CompostRecipe {
     public boolean requiresHeat() {
         return timeTorch > 0 || timeLava > 0 || timeFire > 0;
     }
+
+    public boolean validInput(ItemStack[] input) {
+        int matches = 0;
+        for (ItemStack inputItem : input) {
+            for (ItemStack recipeItem : this.inputItem) {
+                if (inputItem == recipeItem) {
+                    matches++;
+                }
+            }
+        }
+        return matches > 0;
+    }
 }

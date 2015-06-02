@@ -11,6 +11,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
+import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.tile.machine.TileCompost;
 import subsistence.common.util.ArrayHelper;
 
@@ -83,15 +84,17 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
                             }
                         }
                     } else {
-                        ItemStack copy = held.copy();
-                        copy.stackSize = 1;
+                        if (SubsistenceRecipes.COMPOST.isValidInput(held)) {
+                            ItemStack copy = held.copy();
+                            copy.stackSize = 1;
 
-                        if (tileCompost.addItem(copy)) {
-                            held.stackSize--;
-                            if (held.stackSize <= 0) {
-                                player.setCurrentItemOrArmor(0, null);
+                            if (tileCompost.addItem(copy)) {
+                                held.stackSize--;
+                                if (held.stackSize <= 0) {
+                                    player.setCurrentItemOrArmor(0, null);
+                                }
+                                tileCompost.markForUpdate();
                             }
-                            tileCompost.markForUpdate();
                         }
                     }
                 }
