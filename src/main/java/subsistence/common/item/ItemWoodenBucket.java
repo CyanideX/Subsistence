@@ -32,18 +32,30 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
 
     @Override
     public String getIconPrefix() {
-        return "wooden_bucket";
+        return "woodbucket";
     }
 
     @Override
     public void onUpdate (ItemStack item, World world, Entity holder, int whatDisDoo, boolean wutDisDo) {
+        EntityPlayer player = (EntityPlayer) holder;
         if (!world.isRemote) {
             if (item.getItemDamage() == 3) { //lava
-                int holderX = MathHelper.floor_double(holder.posX);
-                int holderY = MathHelper.floor_double(holder.posY);
-                int holderZ = MathHelper.floor_double(holder.posZ);
-                world.setBlock(holderX,holderY,holderZ,Blocks.flowing_lava);
-                holder.setCurrentItemOrArmor(0,new ItemStack(SubsistenceItems.woodenBucket,1,0));
+                int holderX = MathHelper.floor_double(player.posX);
+                int holderY = MathHelper.floor_double(player.posY);
+                int holderZ = MathHelper.floor_double(player.posZ);
+                if (world.isAirBlock(holderX,holderY,holderZ)) {
+                    world.setBlock(holderX, holderY, holderZ, Blocks.flowing_lava);
+                }
+                ItemStack[] inventory = player.inventory.mainInventory;
+                ItemStack templateBucket = new ItemStack(SubsistenceItems.woodenBucket,1,3);
+                for (int i = 0; i < inventory.length; i++) {
+                    if (inventory[i] != null) {
+                        if (inventory[i].isItemEqual(templateBucket) && inventory[i].getItemDamage() == templateBucket.getItemDamage()) {
+                            inventory[i] = null;
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
@@ -65,6 +77,7 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
 
             if (event.getResult() == Event.Result.ALLOW) {
                 if (player.capabilities.isCreativeMode) {
+                    System.out.println("player in creative - event");
                     return bucket;
                 }
 
@@ -88,7 +101,9 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
                 }
 
                 if (flag) {
+                    System.out.println("trying to fill bucket");
                     if (!player.canPlayerEdit(i, j, k, movingobjectposition.sideHit, bucket)) {
+                        System.out.println("player cant edit world here!");
                         return bucket;
                     }
 
@@ -97,21 +112,20 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
 
                     if (worldLiquid == Blocks.water && l == 0) {
                         world.setBlockToAir(i, j, k);
-                        return this.fillBucket(bucket, player, new ItemStack(SubsistenceItems.woodenBucket,1,1)); //water
+                        return this.fillBucketFromWorld(bucket, player, new ItemStack(SubsistenceItems.woodenBucket, 1, 1)); //water
                     }
 
                     if (worldLiquid == Blocks.lava && l == 0) {
                         world.setBlockToAir(i, j, k);
-                        return this.fillBucket(bucket, player, new ItemStack(SubsistenceItems.woodenBucket,1,3)); //lava
+                        return this.fillBucketFromWorld(bucket, player, new ItemStack(SubsistenceItems.woodenBucket, 1, 3)); //lava
                     }
 
                     if (worldLiquid == SubsistenceBlocks.boilingWater && l == 0) {
                         world.setBlockToAir(i,j,k);
-                        return this.fillBucket(bucket,player,new ItemStack(SubsistenceItems.woodenBucket,1,2)); //boiling water
+                        return this.fillBucketFromWorld(bucket, player, new ItemStack(SubsistenceItems.woodenBucket, 1, 2)); //boiling water
                     }
-                }
-                else
-                {
+                } else {
+                    System.out.println("trying to empty bucket");
                     if (this.isFull == Blocks.air) {
                         System.out.println("bucket full of air");
                         return new ItemStack(SubsistenceItems.woodenBucket,1,0);
@@ -157,30 +171,30 @@ public class ItemWoodenBucket extends SubsistenceMultiItem {
         }
     }
 
-    private ItemStack fillBucket(ItemStack empty, EntityPlayer player, ItemStack full) {
+    private ItemStack fillBucketFromWorld(ItemStack empty, EntityPlayer player, ItemStack full) {
         if (player.capabilities.isCreativeMode) {
+            System.out.println("player in creative - fill from world");
             return empty;
-        } else if (--empty.stackSize <= 0) {
-            return full;
         } else {
-            if (!player.inventory.addItemStackToInventory(full)) {
-                player.dropPlayerItemWithRandomChoice(full, false);
-            }
-            return empty;
+            System.out.println("filled bucket");
+            return full;
         }
     }
 
     public boolean tryPlaceContainedLiquid(World world, int x, int y, int z) {
         if (this.isFull == Blocks.air) {
+            System.out.println("bucket is empty");
             return false;
         } else {
             Material material = world.getBlock(x, y, z).getMaterial();
             boolean flag = !material.isSolid();
             if (!world.isAirBlock(x, y, z) && !flag) {
+                System.out.println("trying to place in not air, or block is solid");
                 return false;
             } else {
                 //TODO: nether checking?
                 world.setBlock(x, y, z, this.isFull, 0, 3);
+                System.out.println("placed liquid");
                 return true;
             }
         }
