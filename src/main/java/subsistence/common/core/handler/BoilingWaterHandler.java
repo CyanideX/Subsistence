@@ -4,11 +4,13 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
-import subsistence.common.item.SubsistenceItems;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.fluid.SubsistenceFluids;
 
 public class BoilingWaterHandler {
 
@@ -24,8 +26,11 @@ public class BoilingWaterHandler {
             for (int i=0; i < inventoryPlayer.getSizeInventory(); i++) {
                 ItemStack item = inventoryPlayer.getStackInSlot(i);
                 if (item != null) {
-                    if (item.getItem() == Items.water_bucket) {
-                        inventoryPlayer.setInventorySlotContents(i, new ItemStack(SubsistenceItems.boilingBucket));
+                    FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(item);
+                    if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER) {
+                        ItemStack drained = FluidContainerRegistry.drainFluidContainer(item);
+                        ItemStack filled = FluidContainerRegistry.fillFluidContainer(new FluidStack(SubsistenceFluids.boilingWaterFluid, fluidStack.amount), drained);
+                        inventoryPlayer.setInventorySlotContents(0, filled);
                     }
                 }
             }
@@ -40,8 +45,13 @@ public class BoilingWaterHandler {
         final EntityItem entity = event.entityItem;
         final ItemStack item = entity.getEntityItem();
 
-        if (item != null && item.getItem() == Items.water_bucket) {
-            entity.setEntityItemStack(new ItemStack(SubsistenceItems.boilingBucket));
+        if (item != null) {
+            FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(item);
+            if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER) {
+                ItemStack drained = FluidContainerRegistry.drainFluidContainer(item);
+                ItemStack filled = FluidContainerRegistry.fillFluidContainer(new FluidStack(SubsistenceFluids.boilingWaterFluid, fluidStack.amount), drained);
+                entity.setEntityItemStack(filled);
+            }
         }
     }
 

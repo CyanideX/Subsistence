@@ -22,6 +22,5 @@ public class SubsistenceFluids {
 
     public static void initializeFluidContainers() {
         FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("boiling", FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(SubsistenceItems.boilingBucket), new ItemStack(Items.bucket));
-        BucketHandler.INSTANCE.buckets.put(SubsistenceBlocks.boilingWater, SubsistenceItems.boilingBucket);
     }
 }
