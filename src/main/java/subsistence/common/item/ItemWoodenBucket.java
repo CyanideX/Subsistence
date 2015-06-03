@@ -97,9 +97,11 @@ public class ItemWoodenBucket extends SubsistenceItem {
                         return fillContainer(itemStack, entityPlayer, new FluidStack(FluidRegistry.WATER, 1000));
                     } else if (material == Material.lava && metadata == 0) {
                         world.setBlockToAir(x, y, z);
-                        // BUUUUUUUURN
-                        entityPlayer.setFire(100);
-                        itemStack.stackSize--;
+                        if (!world.isRemote) {
+                            BlockCoord pos = new BlockCoord(entityPlayer);
+                            world.setBlock(pos.x, pos.y, pos.z, block, 0, 3);
+                        }
+                        itemStack.damageItem(itemStack.getMaxDamage() + 1, entityPlayer);
                         return itemStack;
                     }
 
