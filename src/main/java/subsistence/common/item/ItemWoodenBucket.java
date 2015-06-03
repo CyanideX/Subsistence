@@ -179,7 +179,8 @@ public class ItemWoodenBucket extends SubsistenceItem {
                     world.func_147480_a(x, y, z, true);
                 }
 
-                world.setBlock(x, y, z, place.getBlock(), 0, 3);
+                if (place != null && place.getBlock() != null)
+                    world.setBlock(x, y, z, place.getBlock(), 0, 3);
 
                 return true;
             }

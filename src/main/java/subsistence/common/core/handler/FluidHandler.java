@@ -1,17 +1,13 @@
 package subsistence.common.core.handler;
 
-import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.fluid.SubsistenceFluids;
 import subsistence.common.item.ItemWoodenBucket;
 import subsistence.common.item.SubsistenceItems;
@@ -36,7 +32,7 @@ public class FluidHandler {
 
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event) {
-        Block block = event.world.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ);
+        /*Block block = event.world.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ);
         int meta = event.world.getBlockMetadata(event.target.blockX, event.target.blockY, event.target.blockZ);
         if (block == SubsistenceBlocks.boilingWater && meta == 0) {
             if (event.current.getItem() == Items.bucket) {
@@ -44,7 +40,7 @@ public class FluidHandler {
                 event.result = new ItemStack(SubsistenceItems.boilingBucket);
                 event.setResult(Event.Result.ALLOW);
             }
-        }
+        }*/
     }
 
     @SubscribeEvent
