@@ -13,6 +13,8 @@ import subsistence.common.util.EventUtil;
 public class CommonProxy {
 
     public void preInit() {
+        ConfigManager.preInit();
+        
         SubsistenceFluids.initializeFluids();
         SubsistenceBlocks.initialize();
         SubsistenceItems.initialize();
@@ -36,6 +38,6 @@ public class CommonProxy {
     }
 
     public void postInit() {
-        ConfigManager.loadAllFiles();
+        ConfigManager.postInit();
     }
 }

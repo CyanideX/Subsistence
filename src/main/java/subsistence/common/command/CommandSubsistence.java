@@ -28,7 +28,8 @@ public class CommandSubsistence extends CommandBase {
     public void processCommand(ICommandSender sender, String[] args) {
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
             ConfigManager.resetLoaded();
-            ConfigManager.loadAllFiles();
+            ConfigManager.preInit();
+            ConfigManager.postInit();
         } else {
             throw new WrongUsageException(getCommandUsage(sender));
         }

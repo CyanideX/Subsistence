@@ -22,6 +22,7 @@ public class CoreSettings {
     public int compostBucketSize = 1;
     public boolean updateChecker = true;
     public boolean dumpItems = false;
+    public int woodenBucketUses = 8;
 
     public static class Loader {
 

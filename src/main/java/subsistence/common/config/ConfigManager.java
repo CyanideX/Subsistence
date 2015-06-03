@@ -30,8 +30,15 @@ public class ConfigManager {
     public static File recipes = new File(Subsistence.configPath, "recipes/");
     public static File itemDump = new File(Subsistence.configPath, "key_dump.txt");
 
-    public static void loadAllFiles() {
+    public static void preInit() {
+        if (!new File(Subsistence.configPath).exists()) {
+            genDefaultConfigs();
+        }
+
         CoreSettings.Loader.parse(mainFile);
+    }
+    
+    public static void postInit() {
         HeatSettings.initialize(heatFile);
         ToolSettings.initialize(toolsFile);
 
