@@ -13,12 +13,12 @@ import subsistence.common.util.EventUtil;
 public class CommonProxy {
 
     public void preInit() {
-        SubsistenceItems.initialize();
         SubsistenceFluids.initializeFluids();
+        SubsistenceBlocks.initialize();
+        SubsistenceItems.initialize();
 
         EventUtil.register(new FluidHandler(), EventUtil.Type.FORGE);
 
-        SubsistenceBlocks.initialize();
         SubsistenceFluids.initializeFluidContainers();
         SubsistenceRecipes.initialize();
 
