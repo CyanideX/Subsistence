@@ -1,23 +1,26 @@
 package subsistence.common.item;
 
 import cpw.mods.fml.common.eventhandler.Event;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.*;
 import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.config.CoreSettings;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.fluid.SubsistenceFluids;
 import subsistence.common.item.prefab.SubsistenceItem;
+import subsistence.common.util.BlockCoord;
 
 public class ItemWoodenBucket extends SubsistenceItem {
-
-    private static final int DURABILITY = 12;
 
     private Fluid fluid;
     private String texture;
@@ -28,7 +31,7 @@ public class ItemWoodenBucket extends SubsistenceItem {
         this.fluid = fluid;
         this.texture = texture;
 
-        setMaxDamage(DURABILITY);
+        setMaxDamage(CoreSettings.STATIC.woodenBucketUses - 1);
         setMaxStackSize(1);
     }
 
@@ -39,6 +42,7 @@ public class ItemWoodenBucket extends SubsistenceItem {
 
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
+        
         boolean pickup = fluid == null;
 
         MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, entityPlayer, pickup);
@@ -47,7 +51,7 @@ public class ItemWoodenBucket extends SubsistenceItem {
         } else {
             FillBucketEvent event = new FillBucketEvent(entityPlayer, itemStack, world, movingobjectposition);
 
-            if (MinecraftForge.EVENT_BUS.post(event)) {
+            if (MinecraftForge.EVENT_BUS.post(event) || event.getResult() == Result.DENY) {
                 return itemStack;
             }
 
@@ -85,60 +89,34 @@ public class ItemWoodenBucket extends SubsistenceItem {
                     Material material = block.getMaterial();
                     int metadata = world.getBlockMetadata(x, y, z);
 
-                    if (block instanceof IFluidBlock) {
-                        FluidStack fluid = ((IFluidBlock) block).drain(world, x, y, z, false);
-                        if (fluid != null) {
-                            return fillContainer(itemStack, entityPlayer, ((IFluidBlock) block).drain(world, x, y, z, true));
-                        }
-                    } else {
-                        if (block == SubsistenceBlocks.boilingWater) {
-                            world.setBlockToAir(x, y, z);
-                            return fillContainer(itemStack, entityPlayer, new FluidStack(SubsistenceFluids.boilingWaterFluid, 1000));
-                        } else if (material == Material.water && metadata == 0) {
-                            world.setBlockToAir(x, y, z);
-                            return fillContainer(itemStack, entityPlayer, new FluidStack(FluidRegistry.WATER, 1000));
-                        } else if (material == Material.lava && metadata == 0) {
-                            world.setBlockToAir(x, y, z);
-                            // BUUUUUUUURN
-                            entityPlayer.setFire(100);
-
-                            itemStack.stackSize--;
-
-                            return itemStack;
-                        }
-                    }
-
-                } else {
-                    if (movingobjectposition.sideHit == 0) {
-                        --y;
-                    }
-
-                    if (movingobjectposition.sideHit == 1) {
-                        ++y;
-                    }
-
-                    if (movingobjectposition.sideHit == 2) {
-                        --z;
-                    }
-
-                    if (movingobjectposition.sideHit == 3) {
-                        ++z;
-                    }
-
-                    if (movingobjectposition.sideHit == 4) {
-                        --x;
-                    }
-
-                    if (movingobjectposition.sideHit == 5) {
-                        ++x;
-                    }
-
-                    if (!entityPlayer.canPlayerEdit(x, y, z, movingobjectposition.sideHit, itemStack)) {
+                    if (block == SubsistenceBlocks.boilingWater) {
+                        world.setBlockToAir(x, y, z);
+                        return fillContainer(itemStack, entityPlayer, new FluidStack(SubsistenceFluids.boilingWaterFluid, 1000));
+                    } else if (block == Blocks.water && metadata == 0) {
+                        world.setBlockToAir(x, y, z);
+                        return fillContainer(itemStack, entityPlayer, new FluidStack(FluidRegistry.WATER, 1000));
+                    } else if (material == Material.lava && metadata == 0) {
+                        world.setBlockToAir(x, y, z);
+                        // BUUUUUUUURN
+                        entityPlayer.setFire(100);
+                        itemStack.stackSize--;
                         return itemStack;
                     }
 
-                    if (this.placeFluid(world, x, y, z) && !entityPlayer.capabilities.isCreativeMode) {
-                        return new ItemStack(SubsistenceItems.woodenBucket);
+                } else {
+                    BlockCoord bc = new BlockCoord(x, y, z);
+                    bc = bc.getLocation(ForgeDirection.getOrientation(movingobjectposition.sideHit));
+
+                    if (!entityPlayer.canPlayerEdit(bc.x, bc.y, bc.z, movingobjectposition.sideHit, itemStack)) {
+                        return itemStack;
+                    }
+
+                    if (this.placeFluid(world, bc.x, bc.y, bc.z) && !entityPlayer.capabilities.isCreativeMode) {
+                        if (itemStack.getItemDamage() >= itemStack.getMaxDamage()) {
+                            itemStack.damageItem(1, entityPlayer);
+                            return itemStack;
+                        }
+                        return new ItemStack(SubsistenceItems.woodenBucket, 1, itemStack.getItemDamage() + 1);
                     }
                 }
             }
@@ -179,11 +157,18 @@ public class ItemWoodenBucket extends SubsistenceItem {
                     world.func_147480_a(x, y, z, true);
                 }
 
-                if (place != null && place.getBlock() != null)
+                if (place != null && place.getBlock() != null) {
                     world.setBlock(x, y, z, place.getBlock(), 0, 3);
+                }
 
                 return true;
             }
+        }
+    }
+
+    public static void registerAllContainers(Fluid fluid, ItemWoodenBucket bucket) {
+        for (int i = 0; i <= bucket.getMaxDamage(); i++) {
+            FluidContainerRegistry.registerFluidContainer(fluid, new ItemStack(bucket, 1, i), new ItemStack(SubsistenceItems.woodenBucket, 1, i));
         }
     }
 }
