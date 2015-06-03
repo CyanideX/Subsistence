@@ -19,7 +19,7 @@ public class TileWaterMill extends TileCoreMachine {
     @NBTHandler.Sync(true)
     public float speed = 0F;
 
-    private float clientSpeed = 0F;
+    public float clientSpeed = 0F;
 
     public float angle = 0F;
 

@@ -19,7 +19,7 @@ public class RenderTileWaterMill extends SubsistenceTileRenderer<TileWaterMill> 
 
         GL11.glTranslated(0, 0.5, 0);
         GL11.glScaled(0.8, 0.8, 0.8);
-        GL11.glRotated(tile.angle, 0, 0, 1);
+        GL11.glRotated(tile.angle + (delta * tile.clientSpeed), 0, 0, 1);
         GL11.glTranslated(0, -0.5, 0);
 
         GL11.glTranslated(-0.5, 0, -0.5);

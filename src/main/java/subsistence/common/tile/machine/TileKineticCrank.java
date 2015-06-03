@@ -14,8 +14,6 @@ public class TileKineticCrank extends TileCoreMachine {
 
     public float angle = 0F;
     
-    private float lastAngle = 0F;
-
     public float speed = 0F;
 
     public boolean stopTick = false;
