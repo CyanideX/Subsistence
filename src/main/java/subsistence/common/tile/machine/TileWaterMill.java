@@ -107,7 +107,7 @@ public class TileWaterMill extends TileCoreMachine {
             speed = ((float) count / (sources * 8));
         else speed = 0;
         
-        speed = Math.max(MAX_SPEED, speed);
+        speed = Math.max(0, Math.min(MAX_SPEED, speed));
         
         crank.speed = speed;
 
