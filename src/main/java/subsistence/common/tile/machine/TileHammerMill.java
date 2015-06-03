@@ -48,7 +48,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
         if (!worldObj.isRemote) {
             // Collect items
             AxisAlignedBB scan = AxisAlignedBB.getBoundingBox(0, 1, 0, 1, 2, 1).offset(xCoord, yCoord, zCoord);
-            List entities = worldObj.getEntitiesWithinAABB(EntityItem.class, scan);
+            List<EntityItem> entities = worldObj.getEntitiesWithinAABB(EntityItem.class, scan);
 
             if (entities != null && entities.size() > 0) {
                 EntityItem item = (EntityItem) entities.get(0);
@@ -68,7 +68,6 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
                 }
             }
 
-            System.out.println(charge);
             // Processing
             if (charge >= CoreSettings.STATIC.processRate && canFunction()) {
                 ItemStack output = getOutput(processing);

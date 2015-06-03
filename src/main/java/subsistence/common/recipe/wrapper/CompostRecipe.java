@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 import subsistence.common.util.ItemHelper;
 
 import java.util.Arrays;
@@ -119,7 +120,7 @@ public class CompostRecipe {
 
     public boolean validInput(ItemStack input) {
         for (ItemStack recipeItem : this.inputItem) {
-            if (input.isItemEqual(recipeItem)) {
+            if (ItemHelper.areItemsEqual(recipeItem, input)) {
                 return true;
             }
         }
