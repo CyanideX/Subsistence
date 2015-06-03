@@ -2,6 +2,7 @@ package subsistence.common.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.util.IIcon;
 import subsistence.Subsistence;
@@ -25,5 +26,10 @@ public class ItemBoilingBucket extends ItemBucket {
     @Override
     public IIcon getIconFromDamage(int damage) {
         return itemIcon;
+    }
+    
+    @Override
+    public Item setUnlocalizedName(String p_77655_1_) {
+        return super.setUnlocalizedName("subsistence." + p_77655_1_);
     }
 }

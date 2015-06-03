@@ -10,14 +10,13 @@ import subsistence.common.core.SubsistenceCreativeTab;
 
 import java.util.List;
 
-public abstract class SubsistenceMultiItem extends Item {
+public abstract class SubsistenceMultiItem extends SubsistenceItem {
 
     protected IIcon[] icons;
 
     public SubsistenceMultiItem(SubsistenceCreativeTab tab) {
-        super();
+        super(tab);
 
-        setCreativeTab(tab.get());
         setHasSubtypes(true);
         setMaxDamage(0);
     }

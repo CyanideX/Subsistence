@@ -21,60 +21,62 @@ itemGroup.subsistence.items=Subsistence Items
 itemGroup.subsistence.tools=Subsistence Tools
 
 # COMPONENT BLOCKS
-tile.component_ground.fine_sand.name=Fine Sand
-tile.component_ground.nether_grit.name=Nether Grit
-tile.component_ground.nether_rind.name=Netherrind
-tile.component_ground.soul_dust.name=Soul Dust
+tile.subsistence.component_ground.fine_sand.name=Fine Sand
+tile.subsistence.component_ground.nether_grit.name=Nether Grit
+tile.subsistence.component_ground.nether_rind.name=Netherrind
+tile.subsistence.component_ground.soul_dust.name=Soul Dust
 
-tile.component_wood.sawdust.name=Sawdust
-tile.component_wood.sawdust_nether.name=Infernal Sawdust
-tile.component_wood.sawdust_nether_glow.name=Glowing Infernal Sawdust
-tile.component_wood.woodchips.name=Woodchips
-tile.component_wood.woodchips_nether.name=Infernal Woodchips
-tile.component_wood.woodchips_nether_glow.name=Glowing Infernal Woodchips
+tile.subsistence.component_wood.sawdust.name=Sawdust
+tile.subsistence.component_wood.sawdust_nether.name=Infernal Sawdust
+tile.subsistence.component_wood.sawdust_nether_glow.name=Glowing Infernal Sawdust
+tile.subsistence.component_wood.woodchips.name=Woodchips
+tile.subsistence.component_wood.woodchips_nether.name=Infernal Woodchips
+tile.subsistence.component_wood.woodchips_nether_glow.name=Glowing Infernal Woodchips
 
 # MISC BLOCKS
-tile.nether_grass.name=Nether Grass
-tile.spawn_marker.name=Nether Spawn Marker
-tile.infernal_log.name=Infernal Log
-tile.infernal_leaves.name=Infernal Leaves
-tile.infernal_sapling.name=Hellfire Sapling
-tile.boiling_water.name=Boiling Water
+tile.subsistence.nether_grass.name=Nether Grass
+tile.subsistence.spawn_marker.name=Nether Spawn Marker
+tile.subsistence.infernal_log.name=Infernal Log
+tile.subsistence.infernal_leaves.name=Infernal Leaves
+tile.subsistence.infernal_sapling.name=Hellfire Sapling
+tile.subsistence.boiling_water.name=Boiling Water
 
 # MACHINES
-tile.table.wood.name=Wooden Table
-tile.table.stone.name=Smashing Table
-tile.table.nether.name=Smashing Table
-tile.table_sieve.name=Table Sieve
-tile.sintering_oven.name=Sintering Oven
-tile.hammer_mill.name=Hammer Mill
-tile.water_mill.name=Water Mill
-tile.kiln.name=Kiln
-tile.metal_press.name=Metal Press
-tile.barrel.wood.name=Wooden Barrel
-tile.barrel.stone.name=Stone Barrel
-tile.compost.wood.name=Wooden Compost Bin
-tile.compost.stone.name=Stone Compost Bin
-tile.hellfire_furnace.name=Hellfire Furnace
-tile.kinetic_crank.name=Kinetic Crank
-tile.crank.name=Crank
-tile.metal_shaft.name=Metal Shaft
+tile.subsistence.table.wood.name=Wooden Table
+tile.subsistence.table.stone.name=Smashing Table
+tile.subsistence.table.nether.name=Smashing Table
+tile.subsistence.table_sieve.name=Table Sieve
+tile.subsistence.sintering_oven.name=Sintering Oven
+tile.subsistence.hammer_mill.name=Hammer Mill
+tile.subsistence.water_mill.name=Water Mill
+tile.subsistence.kiln.name=Kiln
+tile.subsistence.metal_press.name=Metal Press
+tile.subsistence.barrel.wood.name=Wooden Barrel
+tile.subsistence.barrel.stone.name=Stone Barrel
+tile.subsistence.barrel.nether.name=Nether Barrel
+tile.subsistence.compost.wood.name=Wooden Compost Bin
+tile.subsistence.compost.stone.name=Stone Compost Bin
+tile.subsistence.compost.nether.name=Nether Compost Bin
+tile.subsistence.hellfire_furnace.name=Hellfire Furnace
+tile.subsistence.kinetic_crank.name=Kinetic Crank
+tile.subsistence.crank.name=Crank
+tile.subsistence.metal_shaft.name=Metal Shaft
 
 # LIMESTONE
-tile.limestone.limestone.name=Limestone
-tile.limestone.limestoneCobblestone.name=Limestone Cobblestone
-tile.limestone.limestoneBricks.name=Limestone Bricks
-tile.limestone.limestoneScorched.name=Scorched Limestone
-tile.limestone.limestoneScorchedBricks.name=Scorched Limestone Bricks
-tile.limestone.limestoneTiled.name=Tiled Limestone
+tile.subsistence.limestone.limestone.name=Limestone
+tile.subsistence.limestone.limestoneCobblestone.name=Limestone Cobblestone
+tile.subsistence.limestone.limestoneBricks.name=Limestone Bricks
+tile.subsistence.limestone.limestoneScorched.name=Scorched Limestone
+tile.subsistence.limestone.limestoneScorchedBricks.name=Scorched Limestone Bricks
+tile.subsistence.limestone.limestoneTiled.name=Tiled Limestone
 
 # INGOT STORAGE
-tile.storage.copper.name=Copper Block
-tile.storage.lead.name=Lead Block
-tile.storage.nickel.name=Nickel Block
-tile.storage.silver.name=Silver Block
-tile.storage.steel.name=Steel Block
-tile.storage.tin.name=Tin Block
+tile.subsistence.storage.copper.name=Copper Block
+tile.subsistence.storage.lead.name=Lead Block
+tile.subsistence.storage.nickel.name=Nickel Block
+tile.subsistence.storage.silver.name=Silver Block
+tile.subsistence.storage.steel.name=Steel Block
+tile.subsistence.storage.tin.name=Tin Block
 
 # MISC TOOLS
 item.subsistence.net.normal.name=Net
@@ -83,16 +85,17 @@ item.subsistence.hand_sieve.name=Hand Sieve
 item.subsistence.boiling_bucket.name=Boiling Water Bucket
 
 # MISC ITEMS
-item.subsistence.component_item.subsistence.twine.name=Twine
-item.subsistence.component_item.subsistence.twine_mesh.name=Twine Mesh
-item.subsistence.component_item.subsistence.wormwoodLeaves.name=Wormwood Leaves
-item.subsistence.component_item.subsistence.sap.name=Sap
+item.subsistence.component_item.twine.name=Twine
+item.subsistence.component_item.twine_mesh.name=Twine Mesh
+item.subsistence.component_item.wormwoodLeaves.name=Wormwood Leaves
+item.subsistence.component_item.sap.name=Sap
 item.subsistence.seeds.grass.name=Grass Seeds
 item.subsistence.seeds.nether_grass.name=Nether Grass Seeds
 item.subsistence.seeds.wormwoodSeeds.name=Wormwood Seeds
 item.subsistence.tray.name=Tray
 item.subsistence.barrel_lid.wood.name=Wooden Barrel Lid
 item.subsistence.barrel_lid.stone.name=Stone Barrel Lid
+item.subsistence.barrel_lid.nether.name=Nether Barrel Lid
 item.subsistence.cosmetic.corruption.name=Heart of Corruption
 item.subsistence.cosmetic.righteousness.name=Heart of Righteousness
 

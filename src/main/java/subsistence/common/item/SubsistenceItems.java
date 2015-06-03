@@ -1,10 +1,10 @@
 package subsistence.common.item;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.item.resource.ItemResource;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class SubsistenceItems {
 
@@ -49,14 +49,14 @@ public class SubsistenceItems {
         registerItem(hammerSteel);
         registerItem(hammerDiamond);
 
-        net = new ItemNet().setUnlocalizedName("net");
-        registerItem(net);
-        handSieve = new ItemHandSieve().setUnlocalizedName("hand_sieve");
-        registerItem(handSieve);
-        component = new ItemComponent().setUnlocalizedName("component_item");
-        registerItem(component);
-        tray = new ItemTray().setUnlocalizedName("tray");
-        registerItem(tray);
+        net = new ItemNet();
+        register(net, "net");
+        handSieve = new ItemHandSieve();
+        register(handSieve, "hand_sieve");
+        component = new ItemComponent();
+        register(component, "component_item");
+        tray = new ItemTray();
+        register(tray, "tray");
 
         resourceChunk = new ItemResource().setType("Chunk");
         resourceClump = new ItemResource().setType("Clump");
@@ -73,19 +73,28 @@ public class SubsistenceItems {
         registerItem(resourceNugget);
         registerItem(resourcePebble);
 
-        seeds = new ItemSeeds().setUnlocalizedName("seeds");
-        cosmetic = new ItemCosmetic().setUnlocalizedName("cosmetic");
-        boilingBucket = new ItemBoilingBucket(SubsistenceBlocks.boilingWater).setUnlocalizedName("boiling_bucket").setContainerItem(Items.bucket);
-        barrelLid = new ItemBarrelLid().setUnlocalizedName("barrel_lid");
-        woodenBucket = new ItemWoodenBucket(null, "empty").setUnlocalizedName("wooden_bucket");
-        registerItem(seeds);
-        registerItem(cosmetic);
-        registerItem(boilingBucket);
-        registerItem(barrelLid);
-        registerItem(woodenBucket);
+        seeds = new ItemSeeds();
+        cosmetic = new ItemCosmetic();
+        boilingBucket = new ItemBoilingBucket(SubsistenceBlocks.boilingWater).setContainerItem(Items.bucket);
+        barrelLid = new ItemBarrelLid();
+        woodenBucket = new ItemWoodenBucket(null, "empty");
+        register(seeds, "seeds");
+        register(cosmetic, "cosmetic");
+        register(boilingBucket, "boiling_bucket");
+        register(barrelLid, "barrel_lid");
+        register(woodenBucket, "wooden_bucket");
     }
 
+    public static void register(Item item, String reg) {
+        registerItem(item, reg);
+        item.setUnlocalizedName(reg);
+    }
+    
+    public static void registerItem(Item item, String reg) {
+        GameRegistry.registerItem(item, reg);
+    }
+    
     public static void registerItem(Item item) {
-        GameRegistry.registerItem(item, item.getUnlocalizedName().replace("item.subsistence.", ""));
+        registerItem(item, item.getUnlocalizedName().replace("item.subsistence.", ""));
     }
 }

@@ -3,6 +3,7 @@ package subsistence.common.block;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
+import subsistence.Subsistence;
 import subsistence.common.block.core.BlockSpawnMarker;
 import subsistence.common.block.fluid.BlockFluidBoiling;
 import subsistence.common.block.item.ItemBlockCrank;
@@ -50,35 +51,37 @@ public class SubsistenceBlocks {
     public static Block wormwood;
 
     public static void initialize() {
+        
+        String prefix = Subsistence.MODID + ".";
 
-        table = new BlockTable().setBlockName("table");
-        tableSieve = new BlockSieveTable().setBlockName("table_sieve");
-        sinteringOven = new BlockSinteringOven().setBlockName("sintering_oven");
-        hammerMill = new BlockHammerMill().setBlockName("hammer_mill");
-        handCrank = new BlockCrank().setBlockName("crank");
-        kineticCrank = new BlockKineticCrank().setBlockName("kinetic_crank");
-        waterMill = new BlockWaterMill().setBlockName("water_mill");
-        kiln = new BlockKiln().setBlockName("kiln");
-        metalPress = new BlockMetalPress().setBlockName("metal_press");
-        infernalFurnace = new BlockInfernalFurnace().setBlockName("hellfire_furnace");
-        metalShaft = new BlockMetalShaft().setBlockName("metal_shaft");
-        compost = new BlockCompost().setBlockName("compost");
-        barrel = new BlockBarrel().setBlockName("barrel");
+        table = new BlockTable().setBlockName(prefix + "table");
+        tableSieve = new BlockSieveTable().setBlockName(prefix + "table_sieve");
+        sinteringOven = new BlockSinteringOven().setBlockName(prefix + "sintering_oven");
+        hammerMill = new BlockHammerMill().setBlockName(prefix + "hammer_mill");
+        handCrank = new BlockCrank().setBlockName(prefix + "crank");
+        kineticCrank = new BlockKineticCrank().setBlockName(prefix + "kinetic_crank");
+        waterMill = new BlockWaterMill().setBlockName(prefix + "water_mill");
+        kiln = new BlockKiln().setBlockName(prefix + "kiln");
+        metalPress = new BlockMetalPress().setBlockName(prefix + "metal_press");
+        infernalFurnace = new BlockInfernalFurnace().setBlockName(prefix + "hellfire_furnace");
+        metalShaft = new BlockMetalShaft().setBlockName(prefix + "metal_shaft");
+        compost = new BlockCompost().setBlockName(prefix + "compost");
+        barrel = new BlockBarrel().setBlockName(prefix + "barrel");
 
-        componentGround = new BlockComponentGround().setBlockName("component_ground");
-        componentWood = new BlockComponentWood().setBlockName("component_wood");
-        storage = new BlockStorage().setBlockName("storage");
-        limestone = new BlockLimestone().setBlockName("limestone");
-        netherGrass = new BlockNetherGrass().setBlockName("nether_grass");
-        spawnMarker = new BlockSpawnMarker().setBlockName("spawn_marker");
-        infernalLog = new BlockInfernalLog(false).setBlockName("infernal_log");
-        richInfernalLog = new BlockInfernalLog(true).setBlockName("infernal_log");
-        infernalLeaves = new BlockInfernaLeaves().setBlockName("infernal_leaves");
-        infernalSapling = new BlockInfernalSapling().setBlockName("infernal_sapling");
+        componentGround = new BlockComponentGround().setBlockName(prefix + "component_ground");
+        componentWood = new BlockComponentWood().setBlockName(prefix + "component_wood");
+        storage = new BlockStorage().setBlockName(prefix + "storage");
+        limestone = new BlockLimestone().setBlockName(prefix + "limestone");
+        netherGrass = new BlockNetherGrass().setBlockName(prefix + "nether_grass");
+        spawnMarker = new BlockSpawnMarker().setBlockName(prefix + "spawn_marker");
+        infernalLog = new BlockInfernalLog(false).setBlockName(prefix + "infernal_log");
+        richInfernalLog = new BlockInfernalLog(true).setBlockName(prefix + "infernal_log");
+        infernalLeaves = new BlockInfernaLeaves().setBlockName(prefix + "infernal_leaves");
+        infernalSapling = new BlockInfernalSapling().setBlockName(prefix + "infernal_sapling");
 
-        boilingWater = new BlockFluidBoiling(SubsistenceFluids.boilingWaterFluid).setBlockName("boiling_water");
+        boilingWater = new BlockFluidBoiling(SubsistenceFluids.boilingWaterFluid).setBlockName(prefix + "boiling_water");
 
-        wormwood = new BlockWormwood().setBlockName("wormwood");
+        wormwood = new BlockWormwood().setBlockName(prefix + "wormwood");
 
         registerBlock(table, SubsistenceItemMultiBlock.class);
         registerBlock(tableSieve, SubsistenceItemBlock.class);
@@ -125,7 +128,7 @@ public class SubsistenceBlocks {
     }
 
     public static void registerBlock(Block block) {
-        GameRegistry.registerBlock(block, block.getUnlocalizedName().replace("tile.", ""));
+        registerBlock(block, block.getUnlocalizedName().replace("tile.subsistence.", ""));
     }
 
     public static void registerBlock(Block block, String override) {
@@ -133,7 +136,7 @@ public class SubsistenceBlocks {
     }
 
     public static void registerBlock(Block block, Class<? extends ItemBlock> itemBlockClass) {
-        GameRegistry.registerBlock(block, itemBlockClass, block.getUnlocalizedName().replace("tile.", ""));
+        registerBlock(block, itemBlockClass, block.getUnlocalizedName().replace("tile.subsistence.", ""));
     }
 
     public static void registerBlock(Block block, Class<? extends ItemBlock> itemBlockClass, String override) {
