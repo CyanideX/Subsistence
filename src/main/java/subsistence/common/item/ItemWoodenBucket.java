@@ -95,11 +95,11 @@ public class ItemWoodenBucket extends SubsistenceItem {
                     } else if (block == Blocks.water && metadata == 0) {
                         world.setBlockToAir(x, y, z);
                         return fillContainer(itemStack, entityPlayer, new FluidStack(FluidRegistry.WATER, 1000));
-                    } else if (material == Material.lava && metadata == 0) {
+                    } else if (block == Blocks.lava && metadata == 0) {
                         world.setBlockToAir(x, y, z);
                         if (!world.isRemote) {
                             BlockCoord pos = new BlockCoord(entityPlayer);
-                            world.setBlock(pos.x, pos.y, pos.z, block, 0, 3);
+                            world.setBlock(pos.x, pos.y, pos.z, Blocks.flowing_lava, 0, 3);
                         }
                         itemStack.damageItem(itemStack.getMaxDamage() + 1, entityPlayer);
                         return itemStack;
