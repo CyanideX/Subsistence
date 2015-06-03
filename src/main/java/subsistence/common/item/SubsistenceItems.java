@@ -86,6 +86,6 @@ public class SubsistenceItems {
     }
 
     public static void registerItem(Item item) {
-        GameRegistry.registerItem(item, item.getUnlocalizedName().replace("item.", ""));
+        GameRegistry.registerItem(item, item.getUnlocalizedName().replace("item.subsistence.", ""));
     }
 }

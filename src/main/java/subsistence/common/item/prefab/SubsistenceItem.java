@@ -31,4 +31,9 @@ public class SubsistenceItem extends Item {
     public String getIcon() {
         return "";
     }
+
+    @Override
+    public Item setUnlocalizedName(String p_77655_1_) {
+        return super.setUnlocalizedName("subsistence." + p_77655_1_);
+    }
 }

@@ -77,42 +77,42 @@ tile.storage.steel.name=Steel Block
 tile.storage.tin.name=Tin Block
 
 # MISC TOOLS
-item.net.normal.name=Net
-item.net.flies.name=Net with Flies
-item.hand_sieve.name=Hand Sieve
-item.boiling_bucket.name=Boiling Water Bucket
+item.subsistence.net.normal.name=Net
+item.subsistence.net.flies.name=Net with Flies
+item.subsistence.hand_sieve.name=Hand Sieve
+item.subsistence.boiling_bucket.name=Boiling Water Bucket
 
 # MISC ITEMS
-item.component_item.twine.name=Twine
-item.component_item.twine_mesh.name=Twine Mesh
-item.component_item.wormwoodLeaves.name=Wormwood Leaves
-item.component_item.sap.name=Sap
-item.seeds.grass.name=Grass Seeds
-item.seeds.nether_grass.name=Nether Grass Seeds
-item.seeds.wormwoodSeeds.name=Wormwood Seeds
-item.tray.name=Tray
-item.barrel_lid.wood.name=Wooden Barrel Lid
-item.barrel_lid.stone.name=Stone Barrel Lid
-item.cosmetic.corruption.name=Heart of Corruption
-item.cosmetic.righteousness.name=Heart of Righteousness
+item.subsistence.component_item.subsistence.twine.name=Twine
+item.subsistence.component_item.subsistence.twine_mesh.name=Twine Mesh
+item.subsistence.component_item.subsistence.wormwoodLeaves.name=Wormwood Leaves
+item.subsistence.component_item.subsistence.sap.name=Sap
+item.subsistence.seeds.grass.name=Grass Seeds
+item.subsistence.seeds.nether_grass.name=Nether Grass Seeds
+item.subsistence.seeds.wormwoodSeeds.name=Wormwood Seeds
+item.subsistence.tray.name=Tray
+item.subsistence.barrel_lid.wood.name=Wooden Barrel Lid
+item.subsistence.barrel_lid.stone.name=Stone Barrel Lid
+item.subsistence.cosmetic.corruption.name=Heart of Corruption
+item.subsistence.cosmetic.righteousness.name=Heart of Righteousness
 
 # RESOURCE ITEMS
-item.resource.chunk.name=%s Chunk
-item.resource.clump.name=%s Clump
-item.resource.dust.name=%s Dust
-item.resource.flakes.name=%s Flakes
-item.resource.ingot.name=%s Ingot
-item.resource.nugget.name=%s Nugget
-item.resource.pebbles.name=%s Pebbles
+item.subsistence.resource.chunk.name=%s Chunk
+item.subsistence.resource.clump.name=%s Clump
+item.subsistence.resource.dust.name=%s Dust
+item.subsistence.resource.flakes.name=%s Flakes
+item.subsistence.resource.ingot.name=%s Ingot
+item.subsistence.resource.nugget.name=%s Nugget
+item.subsistence.resource.pebbles.name=%s Pebbles
 
 # HAMMERS
-item.hammer_wood.name=Wooden Mallet
-item.hammer_stone.name=Stone Hammer
-item.hammer_iron.name=Iron Hammer
-item.hammer_steel.name=Steel Hammer
-item.hammer_diamond.name=Diamond Hammer
+item.subsistence.hammer_wood.name=Wooden Mallet
+item.subsistence.hammer_stone.name=Stone Hammer
+item.subsistence.hammer_iron.name=Iron Hammer
+item.subsistence.hammer_steel.name=Steel Hammer
+item.subsistence.hammer_diamond.name=Diamond Hammer
 
 # WOODEN BUCKET
-item.wooden_bucket.name=Wooden Bucket
-item.wooden_bucket.water.name=Water Wooden Bucket
-item.wooden_bucket.boiling_water.name=Boiling Water Wooden Bucket
+item.subsistence.wooden_bucket.name=Wooden Bucket
+item.subsistence.wooden_bucket.water.name=Water Wooden Bucket
+item.subsistence.wooden_bucket.boiling_water.name=Boiling Water Wooden Bucket
