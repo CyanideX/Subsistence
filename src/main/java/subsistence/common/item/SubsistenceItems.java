@@ -77,7 +77,7 @@ public class SubsistenceItems {
         cosmetic = new ItemCosmetic().setUnlocalizedName("cosmetic");
         boilingBucket = new ItemBoilingBucket(SubsistenceBlocks.boilingWater).setUnlocalizedName("boiling_bucket").setContainerItem(Items.bucket);
         barrelLid = new ItemBarrelLid().setUnlocalizedName("barrel_lid");
-        woodenBucket = new ItemWoodenBucket().setUnlocalizedName("wooden_bucket");
+        woodenBucket = new ItemWoodenBucket(null, "empty").setUnlocalizedName("wooden_bucket");
         registerItem(seeds);
         registerItem(cosmetic);
         registerItem(boilingBucket);

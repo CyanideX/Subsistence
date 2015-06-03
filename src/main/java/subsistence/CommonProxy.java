@@ -13,9 +13,12 @@ import subsistence.common.util.EventUtil;
 public class CommonProxy {
 
     public void preInit() {
-        SubsistenceFluids.initializeFluids();
-        SubsistenceBlocks.initialize();
         SubsistenceItems.initialize();
+        SubsistenceFluids.initializeFluids();
+
+        EventUtil.register(new FluidHandler(), EventUtil.Type.FORGE);
+
+        SubsistenceBlocks.initialize();
         SubsistenceFluids.initializeFluidContainers();
         SubsistenceRecipes.initialize();
 
@@ -24,7 +27,6 @@ public class CommonProxy {
         NetworkRegistry.INSTANCE.registerGuiHandler(Subsistence.instance, new GuiHandler());
 
         EventUtil.register(new SpiderTracker(), EventUtil.Type.BOTH);
-        EventUtil.register(BucketHandler.INSTANCE, EventUtil.Type.FORGE);
         EventUtil.register(new WebHandler(), EventUtil.Type.FORGE);
         EventUtil.register(new BoilingWaterHandler(), EventUtil.Type.FORGE);
     }
