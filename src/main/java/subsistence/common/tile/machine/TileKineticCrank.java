@@ -13,6 +13,8 @@ public class TileKineticCrank extends TileCoreMachine {
     private static final int MAX_LENGTH = 8;
 
     public float angle = 0F;
+    
+    private float lastAngle = 0F;
 
     public float speed = 0F;
 
@@ -34,7 +36,7 @@ public class TileKineticCrank extends TileCoreMachine {
         if (!worldObj.isRemote) {
             for (TileEntity tile : connectedTilesCache) {
                 if (tile != null && tile instanceof TileHammerMill && (MAX_LENGTH - speed) != 0) {
-                    ((TileHammerMill) tile).charge += CoreSettings.STATIC.waterMill;
+                    ((TileHammerMill) tile).charge += CoreSettings.STATIC.waterMill * (speed / TileWaterMill.MAX_SPEED);
                 }
             }
         } else {

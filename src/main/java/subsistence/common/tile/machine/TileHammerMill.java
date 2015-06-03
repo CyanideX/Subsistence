@@ -68,6 +68,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
                 }
             }
 
+            System.out.println(charge);
             // Processing
             if (charge >= CoreSettings.STATIC.processRate && canFunction()) {
                 ItemStack output = getOutput(processing);
