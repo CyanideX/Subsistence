@@ -6,7 +6,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.block.machine.BarrelType;
-import subsistence.common.block.machine.CompostType;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.config.HeatSettings;
 import subsistence.common.item.SubsistenceItems;
@@ -91,7 +90,7 @@ public final class TileBarrel extends TileCoreMachine {
         return ArrayHelper.safeGetArrayIndex(BarrelType.values(), getBlockMetadata());
     }
 
-    public boolean addFluid(FluidStack fluidStack) {
+    public boolean addFluid(FluidStack fluidStack, boolean dumpExcess) {
         if (fluidContents == null || fluidContents.getFluid() == null) {
             fluidContents = fluidStack.copy();
 
@@ -103,6 +102,11 @@ public final class TileBarrel extends TileCoreMachine {
                 if (fluidContents.amount + fluidStack.amount <= getType().fluidCapacity) {
                     fluidContents.amount += fluidStack.amount;
 
+                    reset();
+                    markForUpdate();
+                    return true;
+                } else if (dumpExcess) {
+                    fluidContents.amount = getType().fluidCapacity;
                     reset();
                     markForUpdate();
                     return true;
@@ -178,7 +182,7 @@ public final class TileBarrel extends TileCoreMachine {
                 rainDelay = RANDOM.nextInt(500);
 
                 if (!hasLid) {
-                    addFluid(new FluidStack(FluidRegistry.WATER, CoreSettings.STATIC.barrelRain));
+                    addFluid(new FluidStack(FluidRegistry.WATER, CoreSettings.STATIC.barrelRain),true);
                 }
             } else {
                 rainDelayTick++;

@@ -7,7 +7,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -78,7 +77,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
                         if (!tileBarrel.hasLid) {
                             if (FluidContainerRegistry.isFilledContainer(held)) {
                                 if (held.stackSize == 1) {
-                                    if (tileBarrel.addFluid(FluidContainerRegistry.getFluidForFilledItem(held))) {
+                                    if (tileBarrel.addFluid(FluidContainerRegistry.getFluidForFilledItem(held),false)) {
                                         player.setCurrentItemOrArmor(0, FluidContainerRegistry.drainFluidContainer(held).copy());
                                         ((EntityPlayerMP)player).updateHeldItem();
                                     }
