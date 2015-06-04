@@ -26,7 +26,7 @@ import java.util.Random;
 
 public class BlockFluidBoiling extends SubsistenceBasicFluid {
 
-    private static final Material water_boiling = (new MaterialLiquid(MapColor.waterColor));
+    public static final Material water_boiling = (new MaterialLiquid(MapColor.waterColor));
 
     EnumParticle particleBubble;
 

@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.block.fluid.BlockFluidBoiling;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.tile.core.TileCoreMachine;
 import subsistence.common.util.SubsistenceReflectionHelper;
@@ -77,7 +78,7 @@ public class TileWaterMill extends TileCoreMachine {
                     if (sy != 0 && (xAxis ? (iz == -1) : (ix == -1))) {
                         Block block = worldObj.getBlock(sx, sy, sz);
 
-                        if (block.getMaterial() == Material.water) {
+                        if (block.getMaterial() == Material.water || block.getMaterial() == BlockFluidBoiling.water_boiling) {
                             // Is the block flowing on the ground?
                             Block below = worldObj.getBlock(sx, sy - 1, sz);
 
