@@ -37,6 +37,8 @@ public class InventoryHelper {
         if (stack.hasTagCompound()) {
             entity.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
         }
+        
+        entity.delayBeforeCanPickup = 10;
 
         world.spawnEntityInWorld(entity);
     }

@@ -1,5 +1,6 @@
 package subsistence.common.block.prefab;
 
+import subsistence.common.tile.core.TileCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -21,8 +22,13 @@ public abstract class SubsistenceTileMultiBlock extends SubsistenceMultiBlock im
 
     /* GRABBED FROM BLOCKCONTAINER */
     public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {
+        TileCore tile = (TileCore) p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+
+        if (tile != null) {
+            tile.onBlockBroken();
+        }
+
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
-        p_149749_1_.removeTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
     }
 
     public boolean onBlockEventReceived(World p_149696_1_, int p_149696_2_, int p_149696_3_, int p_149696_4_, int p_149696_5_, int p_149696_6_) {
