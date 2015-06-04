@@ -1,19 +1,19 @@
 package subsistence.common.tile.machine;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.BlockFluidBase;
 import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.block.fluid.BlockFluidBoiling;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.tile.core.TileCoreMachine;
 import subsistence.common.util.SubsistenceReflectionHelper;
 
 public class TileWaterMill extends TileCoreMachine {
 
-    public static final float MAX_SPEED = 10F;
+    public static final float MAX_SPEED = 11F;
 
     private float lastSpeed = 0F;
 
@@ -25,8 +25,6 @@ public class TileWaterMill extends TileCoreMachine {
     public float angle = 0F;
 
     private float sources;
-
-    private boolean spin;
 
     @Override
     public void updateEntity() {
@@ -65,7 +63,6 @@ public class TileWaterMill extends TileCoreMachine {
         TileKineticCrank crank = (TileKineticCrank) worldObj.getTileEntity(xCoord + orientation.offsetX, yCoord, zCoord + orientation.offsetZ);
         ForgeDirection right = orientation.getRotation(ForgeDirection.UP).getOpposite();
         boolean xAxis = right.offsetX != 0;
-        spin = true;
         int count = 0;
         crank.stopTick = false;
         for (int ix = -1; ix < 2; ix++) {
@@ -78,24 +75,19 @@ public class TileWaterMill extends TileCoreMachine {
                     if (sy != 0 && (xAxis ? (iz == -1) : (ix == -1))) {
                         Block block = worldObj.getBlock(sx, sy, sz);
 
-                        if (block.getMaterial() == Material.water || block.getMaterial() == BlockFluidBoiling.water_boiling) {
-                            // Is the block flowing on the ground?
-                            Block below = worldObj.getBlock(sx, sy - 1, sz);
-
-                            if (!below.isAir(worldObj, sx, sy, sz) && block.getMaterial() != Material.water) {
-                                // It's flowing on something solid
-                                spin = false;
-                                if (count > 0) {
-                                    count--;
-                                } else if (count < 0)
-                                    count++;
+                        if (block instanceof BlockLiquid || block instanceof BlockFluidBase) {
+                            Vec3 vec;
+                            int flow = 0, maxFlow = 8;
+                            if (block instanceof BlockLiquid) {
+                                vec = SubsistenceReflectionHelper.getFlowVector(worldObj, sx, sy, sz);
+                                flow = SubsistenceReflectionHelper.getEffectiveFlowDecay(worldObj, sx, sy, sz);
                             } else {
-                                if (spin) {
-                                    Vec3 vec = SubsistenceReflectionHelper.getFlowVector(worldObj, sx, sy, sz);
-                                    int flow = SubsistenceReflectionHelper.getEffectiveFlowDecay(worldObj, sx, sy, sz);
-                                    count += getDir(right, vec, flow, Vec3.createVectorHelper(sx, sy, sz));
-                                }
+                                BlockFluidBase fluid = (BlockFluidBase) block;
+                                vec = fluid.getFlowVector(worldObj, sx, sy, sz);
+                                maxFlow = SubsistenceReflectionHelper.getQuantaPerBlock(fluid);
+                                flow = maxFlow - fluid.getQuantaValue(worldObj, sx, sy, sz);
                             }
+                            count += getDir(right, vec, flow, maxFlow - 1, Vec3.createVectorHelper(sx, sy, sz));
                         } else if (block != null && block != SubsistenceBlocks.waterMill && !block.isAir(worldObj, sx, sy, sz)) {
                             crank.stopTick = true;
                             count = 0;
@@ -124,7 +116,12 @@ public class TileWaterMill extends TileCoreMachine {
         }
     }
 
-    public double getDir(ForgeDirection dir, Vec3 vec, int flow, Vec3 block) {
+    public double getDir(ForgeDirection dir, Vec3 vec, float flow, float maxFlow, Vec3 block) {
+
+        // get rid of nonsense values
+        flow = Math.max(0, flow);
+        
+        double flowSpeed = ((maxFlow - flow) / maxFlow) * 10;
 
         // handles water rotation and returns a speed
 
@@ -132,15 +129,15 @@ public class TileWaterMill extends TileCoreMachine {
         if (vec.xCoord != 0) {
             sources++;
             if ((dir.offsetX < 0 && vec.xCoord > 0) || (dir.offsetX > 0 && vec.xCoord < 0))
-                return flow - 7;
+                return -flowSpeed;
             else
-                return 7 - flow;
+                return flowSpeed;
         } else if (vec.zCoord != 0) {
             sources++;
             if ((dir.offsetZ < 0 && vec.zCoord > 0) || (dir.offsetZ > 0 && vec.zCoord < 0))
-                return flow - 7;
+                return -flowSpeed;
             else
-                return 7 - flow;
+                return flowSpeed;
         } else if (vec.yCoord == -1) {
             sources = 1;
             if (block.xCoord < xCoord)

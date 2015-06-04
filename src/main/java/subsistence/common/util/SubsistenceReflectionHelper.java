@@ -1,13 +1,15 @@
 package subsistence.common.util;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import net.minecraftforge.fluids.BlockFluidBase;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class SubsistenceReflectionHelper {
 
@@ -15,6 +17,7 @@ public class SubsistenceReflectionHelper {
     private static String[] GET_EFFECTIVE_FLOW_DECAY = new String[]{"getEffectiveFlowDecay", "func_149798_e", "e"};
     private static Method getFlowVector;
     private static Method getEffectiveFlowDecay;
+    private static Field quantaPerBlock;
 
     public static Vec3 getFlowVector(IBlockAccess world, int x, int y, int z) {
         try {
@@ -42,5 +45,19 @@ public class SubsistenceReflectionHelper {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static int getQuantaPerBlock(BlockFluidBase fluid) {
+        if (quantaPerBlock == null) {
+            quantaPerBlock = ReflectionHelper.findField(BlockFluidBase.class, "quantaPerBlock");
+        }
+        try {
+            return quantaPerBlock.getInt(fluid);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return 8;
     }
 }

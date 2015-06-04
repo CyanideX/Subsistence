@@ -1,6 +1,7 @@
 package subsistence.common.block.item;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -9,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.BlockFluidBase;
 import subsistence.Subsistence;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.item.SubsistenceItemBlock;
@@ -78,7 +80,7 @@ public class ItemBlockWaterMill extends SubsistenceItemBlock {
 
                     if (sy != 0 && (xAxis ? (iz == -1) : (ix == -1))) {
                         Block block = world.getBlock(sx, sy, sz);
-                        if (block != Blocks.water && block != Blocks.flowing_water && !world.isAirBlock(sx, sy, sz)) {
+                        if (!(block instanceof BlockLiquid || block instanceof BlockFluidBase || block.isAir(world, sx, sy, sz))) {
                             return false;
                         }
                     }
