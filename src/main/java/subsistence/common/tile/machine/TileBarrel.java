@@ -234,20 +234,17 @@ public final class TileBarrel extends TileCoreMachine {
                 if (processingTime < maxProcessingTime) {
                     processingTime++;
                 } else {
-                    if (getFirstItem() != null) {
-                        if (cachedMeltingRecipe.valid(getFirstItem())) {
-                            removeFirstItem();
+                    if (cachedMeltingRecipe.valid(getFirstItem())) {
+                        removeFirstItem();
 
-                            FluidStack output = cachedMeltingRecipe.output;
-                            if (fluidContents == null) {
-                                fluidContents = output.copy();
-                            } else {
-                                fluidContents.amount += output.amount;
-                            }
-
-                            reset();
-                            markForUpdate();
+                        FluidStack output = cachedMeltingRecipe.output;
+                        if (fluidContents == null) {
+                            fluidContents = output.copy();
+                        } else {
+                            fluidContents.amount += output.amount;
                         }
+                        reset();
+                        markForUpdate();
                     }
                 }
             }
@@ -255,10 +252,12 @@ public final class TileBarrel extends TileCoreMachine {
     }
 
     private ItemStack getFirstItem() {
-        for (int i=0; i<itemContents.length; i++) {
-            ItemStack itemStack = itemContents[i];
-            if (itemStack != null)
-                return itemStack;
+        if (itemContents != null && itemContents.length > 0) {
+            for (int i = 0; i < itemContents.length; i++) {
+                ItemStack itemStack = itemContents[i];
+                if (itemStack != null)
+                    return itemStack;
+            }
         }
         return null;
     }
