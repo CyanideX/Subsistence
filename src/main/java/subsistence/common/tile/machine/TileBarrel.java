@@ -234,18 +234,20 @@ public final class TileBarrel extends TileCoreMachine {
                 if (processingTime < maxProcessingTime) {
                     processingTime++;
                 } else {
-                    if (cachedMeltingRecipe.valid(getFirstItem())) {
-                        removeFirstItem();
+                    if (getFirstItem() != null) {
+                        if (cachedMeltingRecipe.valid(getFirstItem())) {
+                            removeFirstItem();
 
-                        FluidStack output = cachedMeltingRecipe.output;
-                        if (fluidContents == null) {
-                            fluidContents = output.copy();
-                        } else {
-                            fluidContents.amount += output.amount;
+                            FluidStack output = cachedMeltingRecipe.output;
+                            if (fluidContents == null) {
+                                fluidContents = output.copy();
+                            } else {
+                                fluidContents.amount += output.amount;
+                            }
+
+                            reset();
+                            markForUpdate();
                         }
-
-                        reset();
-                        markForUpdate();
                     }
                 }
             }
