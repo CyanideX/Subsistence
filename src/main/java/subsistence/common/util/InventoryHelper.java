@@ -29,6 +29,10 @@ public class InventoryHelper {
     }
 
     public static void dropItem(World world, int x, int y, int z, ForgeDirection side, ItemStack stack, Random random) {
+        if (stack == null || stack.getItem() == null) {
+            return;
+        }
+
         double spawnX = x + 0.5D + 1.5D * side.offsetX;
         double spawnY = y + 0.5D + 1.5D * side.offsetY;
         double spawnZ = z + 0.5D + 1.5D * side.offsetZ;
@@ -37,7 +41,7 @@ public class InventoryHelper {
         if (stack.hasTagCompound()) {
             entity.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
         }
-        
+
         entity.delayBeforeCanPickup = 10;
 
         world.spawnEntityInWorld(entity);
