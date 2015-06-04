@@ -28,11 +28,10 @@ public class BarrelWoodRecipe {
     }
 
     private boolean validItems(ItemStack[] currentStack) {
-        if (inputItem != null && inputItem.length > 0) {
+        if ((inputItem != null && inputItem.length > 0) && (currentStack != null && currentStack.length > 0)) {
             if (conditional.equals("all")) {
                 for (ItemStack required : inputItem) {
                     boolean found = false;
-
                     for (ItemStack content : currentStack) {
                         if (content == null)
                             continue;
@@ -41,7 +40,6 @@ public class BarrelWoodRecipe {
                             found = true;
                         }
                     }
-
                     if (!found)
                         return false;
                 }
