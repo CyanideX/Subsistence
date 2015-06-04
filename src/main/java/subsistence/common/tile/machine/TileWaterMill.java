@@ -33,10 +33,13 @@ public class TileWaterMill extends TileCoreMachine {
         if (!worldObj.isRemote && worldObj.getTotalWorldTime() % 10 == 0) {
             updateSpeed();
         } else if (worldObj.isRemote) {
+            float accel = 0.05f;
             if (clientSpeed > speed) {
-                clientSpeed--;
+                clientSpeed -= accel;
+                clientSpeed = Math.max(clientSpeed, speed);
             } else if (clientSpeed < speed) {
-                clientSpeed++;
+                clientSpeed += accel;
+                clientSpeed = Math.min(clientSpeed, speed);
             }
 
             angle += clientSpeed;
@@ -73,7 +76,6 @@ public class TileWaterMill extends TileCoreMachine {
 
                     if (sy != 0 && (xAxis ? (iz == -1) : (ix == -1))) {
                         Block block = worldObj.getBlock(sx, sy, sz);
-                        int meta = worldObj.getBlockMetadata(sx, sy, sz);
 
                         if (block.getMaterial() == Material.water) {
                             // Is the block flowing on the ground?
