@@ -48,23 +48,22 @@ public final class TileBarrel extends TileCoreMachine {
 
     @Override
     public void updateEntity() {
-        if (worldObj.isRemote)
-            return;
+        if (!worldObj.isRemote) {
+            collectRainWater();
 
-        collectRainWater();
-
-        if (isWood()) {
-            if (fluidContents != null && fluidContents.getFluid() == FluidRegistry.LAVA) {
-                if (fluidContents.amount >= 1000) {
-                    worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.flowing_lava);
-                } else {
-                    worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+            if (isWood()) {
+                if (fluidContents != null && fluidContents.getFluid() == FluidRegistry.LAVA) { //wood barrel cant have lava!
+                    if (fluidContents.amount >= 1000) {
+                        worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.flowing_lava);
+                    } else {
+                        worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+                    }
                 }
+                processWoodRecipe();
+            } else {
+                processWoodRecipe();
+                processStoneRecipe();
             }
-            processWoodRecipe();
-        } else {
-            processWoodRecipe();
-            processStoneRecipe();
         }
     }
 
@@ -85,7 +84,7 @@ public final class TileBarrel extends TileCoreMachine {
         return getType() == BarrelType.WOOD;
     }
 
-    /* GENERAL HELPerS */
+    /* GENERAL HELPERS */
     public BarrelType getType() {
         return ArrayHelper.safeGetArrayIndex(BarrelType.values(), getBlockMetadata());
     }
@@ -152,18 +151,18 @@ public final class TileBarrel extends TileCoreMachine {
             cachedWoodRecipe = SubsistenceRecipes.BARREL.getWooden(itemContents, fluidContents);
         } else {
             // Wood recipes are immediate
-            itemContents = new ItemStack[getType().itemCapacity];
-            fluidContents = null;
+            if (cachedWoodRecipe.valid(itemContents,fluidContents)) { //is current recipe valid?
+                itemContents = new ItemStack[getType().itemCapacity];
+                fluidContents = null;
 
-            if (cachedWoodRecipe.outputItem != null)
-                itemContents = new ItemStack[] {cachedWoodRecipe.outputItem.copy()};
+                if (cachedWoodRecipe.outputItem != null)
+                    itemContents = new ItemStack[]{cachedWoodRecipe.outputItem.copy()};
+                if (cachedWoodRecipe.outputLiquid != null)
+                    fluidContents = cachedWoodRecipe.outputLiquid.copy();
 
-            if (cachedWoodRecipe.outputLiquid != null)
-                fluidContents = cachedWoodRecipe.outputLiquid.copy();
-
-            reset();
-
-            markForUpdate();
+                reset();
+                markForUpdate();
+            }
         }
     }
 
@@ -205,18 +204,18 @@ public final class TileBarrel extends TileCoreMachine {
                 if (processingTime < maxProcessingTime) {
                     processingTime++;
                 } else {
-                    itemContents = new ItemStack[getType().itemCapacity];
-                    fluidContents = null;
+                    if (cachedStoneRecipe.valid(itemContents,fluidContents)) {
+                        itemContents = new ItemStack[getType().itemCapacity];
+                        fluidContents = null;
 
-                    if (cachedStoneRecipe.outputItem != null)
-                        itemContents = new ItemStack[] {cachedStoneRecipe.outputItem.copy()};
+                        if (cachedStoneRecipe.outputItem != null)
+                            itemContents = new ItemStack[]{cachedStoneRecipe.outputItem.copy()};
+                        if (cachedStoneRecipe.outputLiquid != null)
+                            fluidContents = cachedStoneRecipe.outputLiquid.copy();
 
-                    if (cachedStoneRecipe.outputLiquid != null)
-                        fluidContents = cachedStoneRecipe.outputLiquid.copy();
-
-                    reset();
-
-                    markForUpdate();
+                        reset();
+                        markForUpdate();
+                    }
                 }
             }
         }
@@ -235,17 +234,19 @@ public final class TileBarrel extends TileCoreMachine {
                 if (processingTime < maxProcessingTime) {
                     processingTime++;
                 } else {
-                    removeFirstItem();
+                    if (cachedMeltingRecipe.valid(getFirstItem())) {
+                        removeFirstItem();
 
-                    FluidStack output = cachedMeltingRecipe.output;
-                    if (fluidContents == null) {
-                        fluidContents = output.copy();
-                    } else {
-                        fluidContents.amount += output.amount;
+                        FluidStack output = cachedMeltingRecipe.output;
+                        if (fluidContents == null) {
+                            fluidContents = output.copy();
+                        } else {
+                            fluidContents.amount += output.amount;
+                        }
+
+                        reset();
+                        markForUpdate();
                     }
-
-                    reset();
-                    markForUpdate();
                 }
             }
         }

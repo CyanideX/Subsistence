@@ -219,7 +219,6 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
         ItemStack ret = new ItemStack(SubsistenceBlocks.barrel, 1, world.getTileEntity(x, y, z).getBlockMetadata());
-//        ret.setTagCompound(world.getTileEntity(x, y, z));
         return ret;
     }
 }
