@@ -28,8 +28,6 @@ import java.util.Random;
 
 public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
-    private static final String[] NAMES = new String[]{"wood", "stone", "nether"};
-
     public BlockBarrel() {
         super(Material.wood);
         this.setHardness(0.5f);
@@ -37,12 +35,12 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     @Override
     public int[] getSubtypes() {
-        return ArrayHelper.getArrayIndexes(NAMES);
+        return ArrayHelper.getArrayIndexes(BarrelType.values());
     }
 
     @Override
     public String getNameForType(int type) {
-        return ArrayHelper.safeGetArrayIndex(NAMES, type);
+        return ArrayHelper.safeGetArrayIndex(BarrelType.values(), type).toString();
     }
 
     @Override
@@ -131,6 +129,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     @Override
     public void onBlockClicked(World world, int x, int y, int z, EntityPlayer entityPlayer) {
+        super.onBlockClicked(world, x, y, z, entityPlayer);
         if (!world.isRemote) {
             TileBarrel tileBarrel = (TileBarrel) world.getTileEntity(x, y, z);
 
@@ -187,7 +186,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        // Replace with proper textures mimicking model textures?
+        // TODO Replace with proper textures mimicking model textures
         switch (meta) {
             case 1:
                 return Blocks.stone.getIcon(0, 0);

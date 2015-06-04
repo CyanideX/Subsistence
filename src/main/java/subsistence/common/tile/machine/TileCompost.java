@@ -1,17 +1,20 @@
 package subsistence.common.tile.machine;
 
 import com.google.common.collect.Lists;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.block.machine.CompostType;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.config.HeatSettings;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.CompostRecipe;
 import subsistence.common.tile.core.TileCoreMachine;
+import subsistence.common.util.ArrayHelper;
 import subsistence.common.util.InventoryHelper;
 import subsistence.common.util.ItemHelper;
 
@@ -24,9 +27,6 @@ public class TileCompost extends TileCoreMachine {
     public static final float ANGLE_MIN = -21f;
 
     public static final int ANIMATE_TICK_MAX = 20;
-
-    public static final int VOLUME_WOOD = 8;
-    public static final int VOLUME_STONE = 24;
 
     @NBTHandler.Sync(true)
     public boolean lidOpen = true;
@@ -75,6 +75,10 @@ public class TileCompost extends TileCoreMachine {
                 InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, itemStack, RANDOM);
             }
         }
+    }
+    
+    public CompostType getType() {
+        return ArrayHelper.safeGetArrayIndex(CompostType.values(), getBlockMetadata());
     }
 
     public boolean hasHeatSource() {
@@ -136,7 +140,7 @@ public class TileCompost extends TileCoreMachine {
         processingTime = 0;
         maxProcessingTime = 0;
 
-        int volume = blockMetadata == 1 ? VOLUME_STONE : VOLUME_WOOD;
+        int volume = ArrayHelper.safeGetArrayIndex(CompostType.values(), getBlockMetadata()).capacity;
         int total = 0;
 
         List<ItemStack> newContents = Lists.newArrayList();

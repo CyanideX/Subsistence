@@ -29,4 +29,12 @@ public class ArrayHelper {
         }
         return array;
     }
+    
+    public static String[] allToString(Object[] arr) {
+        String[] ret = new String[arr.length];
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = arr[i].toString();
+        }
+        return ret;
+    }
 }

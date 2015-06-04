@@ -6,10 +6,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+
 import org.lwjgl.opengl.GL11;
+
 import subsistence.client.lib.Model;
-import subsistence.client.lib.Texture;
 import subsistence.client.render.SubsistenceTileRenderer;
+import subsistence.common.block.machine.CompostType;
 import subsistence.common.lib.MathFX;
 import subsistence.common.tile.machine.TileCompost;
 import subsistence.common.util.RenderHelper;
@@ -29,25 +31,10 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
         GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
         GL11.glRotated(RenderHelper.getRotationAngle(tile.orientation.getOpposite()), 0, 1, 0);
 
-        int volume;
-
-        switch (tile.getBlockMetadata()) {
-            case 2:
-                volume = TileCompost.VOLUME_STONE;
-                Texture.COMPOST_NETHER.bindTexture();
-                break;
-
-            case 1:
-                volume = TileCompost.VOLUME_STONE;
-                Texture.COMPOST_STONE.bindTexture();
-                break;
-
-            case 0:
-            default:
-                volume = TileCompost.VOLUME_WOOD;
-                Texture.COMPOST_WOOD.bindTexture();
-                break;
-        }
+        CompostType type = tile.getType();
+        int volume = type.capacity;
+        
+        type.texture.bindTexture();
 
         final float thickness = DIMENSION_FILL / (float) volume;
 

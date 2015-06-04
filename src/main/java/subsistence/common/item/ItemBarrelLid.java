@@ -1,12 +1,12 @@
 package subsistence.common.item;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
+import subsistence.common.block.machine.CompostType;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.item.prefab.SubsistenceMultiItem;
+import subsistence.common.util.ArrayHelper;
 
 public class ItemBarrelLid extends SubsistenceMultiItem {
-
-    private static final String[] NAMES = new String[]{"wood", "stone", "nether"};
 
     public ItemBarrelLid() {
         super(SubsistenceCreativeTab.ITEMS);
@@ -16,7 +16,7 @@ public class ItemBarrelLid extends SubsistenceMultiItem {
 
     @Override
     public String[] getNames() {
-        return NAMES;
+        return ArrayHelper.allToString(CompostType.values());
     }
 
     @Override

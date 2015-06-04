@@ -3,9 +3,10 @@ package subsistence.common.tile.machine;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.common.block.machine.BarrelType;
+import subsistence.common.block.machine.CompostType;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.config.HeatSettings;
 import subsistence.common.network.nbt.NBTHandler;
@@ -14,21 +15,18 @@ import subsistence.common.recipe.wrapper.BarrelMeltingRecipe;
 import subsistence.common.recipe.wrapper.BarrelStoneRecipe;
 import subsistence.common.recipe.wrapper.BarrelWoodRecipe;
 import subsistence.common.tile.core.TileCoreMachine;
+import subsistence.common.util.ArrayHelper;
 import subsistence.common.util.InventoryHelper;
 
 public final class TileBarrel extends TileCoreMachine {
-
-    public static final int VOLUME_ITEMS = 2;
-    public static final int VOLUME_FLUID_WOOD = FluidContainerRegistry.BUCKET_VOLUME * 2;
-    public static final int VOLUME_FLUID_STONE = FluidContainerRegistry.BUCKET_VOLUME * 8;
 
     public static final float DIMENSION_FILL = 0.8F - 0.0625F;
 
     /* GENERAL */
     @NBTHandler.Sync(true)
-    public ItemStack[] itemContents = new ItemStack[VOLUME_ITEMS];
+    public ItemStack[] itemContents;
     @NBTHandler.Sync(true)
-    public FluidStack fluidContents = null;
+    public FluidStack fluidContents;
 
     @NBTHandler.Sync(true)
     public boolean hasLid;
@@ -81,12 +79,12 @@ public final class TileBarrel extends TileCoreMachine {
 
     /* STATE */
     private boolean isWood() {
-        return blockMetadata == 0;
+        return getType() == BarrelType.WOOD;
     }
 
     /* GENERAL HELPerS */
-    private int getFluidVolume() {
-        return blockMetadata == 1 ? VOLUME_FLUID_STONE : VOLUME_FLUID_WOOD;
+    public BarrelType getType() {
+        return ArrayHelper.safeGetArrayIndex(BarrelType.values(), getBlockMetadata());
     }
 
     public boolean addFluid(FluidStack fluidStack) {
@@ -98,7 +96,7 @@ public final class TileBarrel extends TileCoreMachine {
             return true;
         } else {
             if (fluidContents.getFluid() == fluidStack.getFluid()) {
-                if (fluidContents.amount + fluidStack.amount <= getFluidVolume()) {
+                if (fluidContents.amount + fluidStack.amount <= getType().fluidCapacity) {
                     fluidContents.amount += fluidStack.amount;
 
                     reset();
@@ -114,8 +112,8 @@ public final class TileBarrel extends TileCoreMachine {
     }
 
     public boolean addItem(ItemStack itemStack) {
-        if (itemContents == null || itemContents.length != VOLUME_ITEMS) {
-            itemContents = new ItemStack[VOLUME_ITEMS];
+        if (itemContents == null || itemContents.length != getType().itemCapacity) {
+            itemContents = new ItemStack[getType().itemCapacity];
         }
 
         for (int i=0; i<itemContents.length; i++) {
@@ -146,7 +144,7 @@ public final class TileBarrel extends TileCoreMachine {
             cachedWoodRecipe = SubsistenceRecipes.BARREL.getWooden(itemContents, fluidContents);
         } else {
             // Wood recipes are immediate
-            itemContents = new ItemStack[VOLUME_ITEMS];
+            itemContents = new ItemStack[getType().itemCapacity];
             fluidContents = null;
 
             if (cachedWoodRecipe.outputItem != null)
@@ -199,7 +197,7 @@ public final class TileBarrel extends TileCoreMachine {
                 if (processingTime < maxProcessingTime) {
                     processingTime++;
                 } else {
-                    itemContents = new ItemStack[VOLUME_ITEMS];
+                    itemContents = new ItemStack[getType().itemCapacity];
                     fluidContents = null;
 
                     if (cachedStoneRecipe.outputItem != null)
@@ -220,7 +218,7 @@ public final class TileBarrel extends TileCoreMachine {
             cachedMeltingRecipe = SubsistenceRecipes.BARREL.getMelting(getFirstItem());
         } else {
             if (fluidContents != null)
-                if (fluidContents.amount + cachedMeltingRecipe.output.amount > VOLUME_FLUID_STONE)
+                if (fluidContents.amount + cachedMeltingRecipe.output.amount > getType().fluidCapacity)
                     return;
 
             if (maxProcessingTime <= 0) {
