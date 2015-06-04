@@ -9,6 +9,7 @@ import subsistence.common.block.machine.BarrelType;
 import subsistence.common.block.machine.CompostType;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.config.HeatSettings;
+import subsistence.common.item.SubsistenceItems;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.BarrelMeltingRecipe;
@@ -74,6 +75,9 @@ public final class TileBarrel extends TileCoreMachine {
             for (ItemStack itemStack : itemContents) {
                 InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, itemStack, RANDOM);
             }
+        }
+        if (hasLid) {
+            InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, new ItemStack(SubsistenceItems.barrelLid, 1, getBlockMetadata()), RANDOM);
         }
     }
 
