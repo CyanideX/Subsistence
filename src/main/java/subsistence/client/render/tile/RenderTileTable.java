@@ -3,10 +3,12 @@ package subsistence.client.render.tile;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemBlock;
+
 import org.lwjgl.opengl.GL11;
+
 import subsistence.client.lib.Model;
-import subsistence.client.lib.Texture;
 import subsistence.client.render.SubsistenceTileRenderer;
+import subsistence.common.block.machine.TableType;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.tile.machine.TileTable;
@@ -22,26 +24,16 @@ public class RenderTileTable extends SubsistenceTileRenderer<TileTable> {
 
         GL11.glTranslated(x, y, z);
 
-        switch (tile.getBlockMetadata()) {
-            case 2:
-                Texture.TABLE_NETHER.bindTexture();
-                Model.TABLE_STONE.renderAll();
-                break;
-            case 1:
-                Texture.TABLE_COBBLESTONE.bindTexture();
-                Model.TABLE_STONE.renderAll();
-                break;
-            case 0:
-            default:
-                Texture.TABLE_WOOD.bindTexture();
-                Model.TABLE_WOOD.renderAll();
-                break;
-        }
+        TableType type = tile.getType();
+
+        Model model = type.isWood() ? Model.TABLE_WOOD : Model.TABLE_STONE;
+        type.texture.bindTexture();
+        model.renderAll();
 
         GL11.glTranslated(0.5, 0, 0.5);
 
         if (tile.stack != null) {
-            float renderMax = tile.getBlockMetadata() == 0 ? WOOD_RENDER_MAX : STONE_RENDER_MAX;
+            float renderMax = type.isWood() ? WOOD_RENDER_MAX : STONE_RENDER_MAX;
             if (tile.stack.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.getBlockFromItem(tile.stack.getItem()).getRenderType())) {
                 Block block = Block.getBlockFromItem(tile.stack.getItem());
                 boolean fixOffset = false;

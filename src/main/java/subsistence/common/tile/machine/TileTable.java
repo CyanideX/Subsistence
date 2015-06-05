@@ -7,6 +7,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.block.SubsistenceBlocks;
+import subsistence.common.block.machine.BarrelType;
+import subsistence.common.block.machine.TableType;
 import subsistence.common.config.ToolSettings;
 import subsistence.common.item.ItemHammer;
 import subsistence.common.network.nbt.NBTHandler;
@@ -16,6 +18,7 @@ import subsistence.common.recipe.wrapper.TableAxeRecipe;
 import subsistence.common.recipe.wrapper.TableDryingRecipe;
 import subsistence.common.recipe.wrapper.TableSmashingRecipe;
 import subsistence.common.tile.core.TileCore;
+import subsistence.common.util.ArrayHelper;
 import subsistence.common.util.InventoryHelper;
 import subsistence.common.util.ItemHelper;
 
@@ -94,16 +97,19 @@ public class TileTable extends TileCore {
             InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, stack, new Random());
         }
     }
-
+    
+    public TableType getType() {
+        return ArrayHelper.safeGetArrayIndex(TableType.values(), getBlockMetadata());
+    }
+    
     public boolean smash(EntityPlayer player) {
-        int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
         ItemStack tool = player.getCurrentEquippedItem();
         Random random = new Random();
 
         if (tool == null)
             return false;
 
-        if (meta == 0) {
+        if (getType().isWood()) {
             boolean converted = false;
             if (stack != null) {
                 if (ItemHelper.isBlock(stack, Blocks.cobblestone) && tool.getItem() instanceof ItemHammer) {
@@ -124,7 +130,7 @@ public class TileTable extends TileCore {
             } else {
                 return false;
             }
-        } else if (meta == 1 || meta == 2) {
+        } else {
             if (stack != null) {
                 if (ToolSettings.isHammer(tool)) {
                     TableSmashingRecipe recipe = SubsistenceRecipes.TABLE.getSmashingRecipe(stack);

@@ -16,8 +16,6 @@ import subsistence.common.util.ArrayHelper;
 
 public class BlockTable extends SubsistenceTileMultiBlock {
 
-    private static final String[] NAMES = new String[]{"wood", "stone", "nether"};
-
     public BlockTable() {
         super(Material.wood);
     }
@@ -98,12 +96,12 @@ public class BlockTable extends SubsistenceTileMultiBlock {
 
     @Override
     public int[] getSubtypes() {
-        return ArrayHelper.getArrayIndexes(NAMES); // Forces all aspects of this block to base themselves off the NAMES array
+        return ArrayHelper.getArrayIndexes(TableType.values()); // Forces all aspects of this block to base themselves off the NAMES array
     }
 
     @Override
     public String getNameForType(int type) {
-        return NAMES[type];
+        return ArrayHelper.safeGetArrayIndex(TableType.values(), type).toString();
     }
 
     @Override
@@ -113,7 +111,7 @@ public class BlockTable extends SubsistenceTileMultiBlock {
 
     @Override
     public IIcon getIcon(int side, int meta) {
-        return Blocks.planks.getIcon(side, meta);
+        return Blocks.planks.getIcon(side, 0);
     }
 
     @Override
