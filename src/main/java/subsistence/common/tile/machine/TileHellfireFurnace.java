@@ -8,8 +8,10 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.tile.core.TileCoreMachine;
+import subsistence.common.util.InventoryHelper;
 
 public class TileHellfireFurnace extends TileCoreMachine implements ISidedInventory {
 
@@ -134,6 +136,17 @@ public class TileHellfireFurnace extends TileCoreMachine implements ISidedInvent
 
             if (inv[0].stackSize <= 0) {
                 inv[0] = null;
+            }
+        }
+    }
+
+    @Override
+    public void onBlockBroken() {
+        for (int i = 0; i < getSizeInventory(); i++) {
+            ItemStack stack = getStackInSlot(i);
+
+            if (stack != null) {
+                InventoryHelper.dropItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN, stack, worldObj.rand);
             }
         }
     }
