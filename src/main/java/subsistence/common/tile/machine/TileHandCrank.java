@@ -1,6 +1,7 @@
 package subsistence.common.tile.machine;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.tile.core.TileCoreMachine;
@@ -28,7 +29,7 @@ public class TileHandCrank extends TileCoreMachine {
     }
 
     public void crank() {
-        if (spin <= 0) {
+        if (spin <= 0 && orientation != ForgeDirection.UNKNOWN) {
             TileHammerMill tile = (TileHammerMill) worldObj.getTileEntity(xCoord + orientation.offsetX, yCoord + orientation.offsetY, zCoord + orientation.offsetZ);
             TileEntity beyond = worldObj.getTileEntity(tile.xCoord + orientation.offsetX, tile.yCoord + orientation.offsetY, tile.zCoord + orientation.offsetZ);
 
