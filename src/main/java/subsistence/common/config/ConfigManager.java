@@ -1,43 +1,54 @@
 package subsistence.common.config;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.GameData;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import net.minecraft.world.World;
+
 import org.apache.commons.io.FileUtils;
+
 import subsistence.Subsistence;
 import subsistence.common.lib.ExtensionFilter;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.loader.*;
+import subsistence.common.recipe.loader.BarrelLoader;
+import subsistence.common.recipe.loader.CompostLoader;
+import subsistence.common.recipe.loader.MetalPressLoader;
+import subsistence.common.recipe.loader.SieveLoader;
+import subsistence.common.recipe.loader.TableLoader;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameData;
 
 public class ConfigManager {
 
-    public static File mainFile = new File(Subsistence.configPath, "main.json");
-    public static File heatFile = new File(Subsistence.configPath, "heat.json");
-    public static File toolsFile = new File(Subsistence.configPath, "tools.json");
-    public static File recipes = new File(Subsistence.configPath, "recipes/");
-    public static File itemDump = new File(Subsistence.configPath, "key_dump.txt");
+    public static final File configDir = new File(Subsistence.configPath);
+    public static final File mainFile = new File(Subsistence.configPath, "main.json");
+    public static final File heatFile = new File(Subsistence.configPath, "heat.json");
+    public static final File toolsFile = new File(Subsistence.configPath, "tools.json");
+    public static final File recipes = new File(Subsistence.configPath, "recipes/");
+    public static final File itemDump = new File(Subsistence.configPath, "key_dump.txt");
 
     public static void preInit() {
-        if (!new File(Subsistence.configPath).exists()) {
-            genDefaultConfigs();
-        }
-
+        genDefaultConfigs();
         CoreSettings.Loader.parse(mainFile);
     }
-    
+
     public static void postInit() {
         HeatSettings.initialize(heatFile);
         ToolSettings.initialize(toolsFile);
@@ -70,19 +81,123 @@ public class ConfigManager {
         if (!recipes.exists()) {
             recipes.mkdirs();
 
-            final String path = "assets/subsistence/recipes";
-            final URL url = ConfigManager.class.getResource("/" + path);
-            if (url != null) {
-                try {
-                    FileUtils.copyDirectory(new File(url.toURI()), recipes);
-                } catch (URISyntaxException ignore) {
-                } catch (IOException ignore) {
-                }
-            }
+            File to = new File(recipes, "defaultrecipes.zip");
+            copyFromJar(Subsistence.class, "subsistence/defaultrecipes.zip", to);
+
+            extractZip(to);
+            safeDelete(to);
         }
 
         if (!mainFile.exists()) {
             CoreSettings.Loader.makeNewFile(mainFile);
+        }
+    }
+
+    /**
+     * Taken from EnderCore
+     * 
+     * @author tterrag
+     * 
+     * @param jarClass
+     *            - A class from the jar in question
+     * @param filename
+     *            - Name of the file to copy, automatically prepended with "/assets/"
+     * @param to
+     *            - File to copy to
+     */
+    public static void copyFromJar(Class<?> jarClass, String filename, File to) {
+        SubsistenceLogger.info("Copying file " + filename + " from jar");
+        URL url = jarClass.getResource("/assets/" + filename);
+
+        try {
+            FileUtils.copyURLToFile(url, to);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * @author Ilias Tsagklis
+     *         <p>
+     *         From <a href= "http://examples.javacodegeeks.com/core-java/util/zip/extract-zip-file-with-subdirectories/" > this site.</a>
+     * 
+     * @param zip
+     *            - The zip file to extract
+     * 
+     * @return The folder extracted to
+     */
+    public static File extractZip(File zip) {
+        String zipPath = zip.getParent();
+        File temp = new File(zipPath);
+        temp.mkdir();
+
+        ZipFile zipFile = null;
+
+        try {
+            zipFile = new ZipFile(zip);
+
+            // get an enumeration of the ZIP file entries
+            Enumeration<? extends ZipEntry> e = zipFile.entries();
+
+            while (e.hasMoreElements()) {
+                ZipEntry entry = e.nextElement();
+
+                File destinationPath = new File(zipPath, entry.getName());
+
+                // create parent directories
+                destinationPath.getParentFile().mkdirs();
+
+                // if the entry is a file extract it
+                if (entry.isDirectory()) {
+                    continue;
+                } else {
+                    SubsistenceLogger.info("Extracting file: " + destinationPath);
+
+                    BufferedInputStream bis = new BufferedInputStream(zipFile.getInputStream(entry));
+
+                    int b;
+                    byte buffer[] = new byte[1024];
+
+                    FileOutputStream fos = new FileOutputStream(destinationPath);
+
+                    BufferedOutputStream bos = new BufferedOutputStream(fos, 1024);
+
+                    while ((b = bis.read(buffer, 0, 1024)) != -1) {
+                        bos.write(buffer, 0, b);
+                    }
+
+                    bos.close();
+                    bis.close();
+                }
+            }
+        } catch (IOException e) {
+            SubsistenceLogger.error("Error opening zip file" + e);
+        } finally {
+            try {
+                if (zipFile != null) {
+                    zipFile.close();
+                }
+            } catch (IOException e) {
+                SubsistenceLogger.error("Error while closing zip file" + e);
+            }
+        }
+
+        return temp;
+    }
+
+    public static void safeDelete(File file) {
+        try {
+            file.delete();
+        } catch (Exception e) {
+            SubsistenceLogger.error("Deleting file " + file.getAbsolutePath() + " failed.");
+        }
+    }
+
+    public static void safeDeleteDirectory(File file) {
+        try {
+            FileUtils.deleteDirectory(file);
+        } catch (Exception e) {
+            SubsistenceLogger.error("Deleting directory " + file.getAbsolutePath() + " failed.");
         }
     }
 
@@ -137,11 +252,12 @@ public class ConfigManager {
                         if (item.contains(":")) {
                             split = item.split(":");
                         } else {
-                            split = new String[]{"Misc", item};
+                            split = new String[] { "Misc", item };
                         }
 
                         List<String> list = items.get(split[0]);
-                        if (list == null) list = Lists.newArrayList();
+                        if (list == null)
+                            list = Lists.newArrayList();
                         list.add(split[1]);
                         items.put(split[0], list);
                     }
