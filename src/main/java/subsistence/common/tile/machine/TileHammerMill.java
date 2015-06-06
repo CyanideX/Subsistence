@@ -28,8 +28,6 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
 
     public static final byte MAX_STAGE = 4;
 
-    private static final Random random = new Random();
-
     @NBTHandler.Sync(true)
     public ItemStack processing;
     @NBTHandler.Sync(true)
@@ -43,6 +41,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
 
     public float angle = 0F;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void updateEntity() {
         if (!worldObj.isRemote) {
@@ -51,7 +50,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
             List<EntityItem> entities = worldObj.getEntitiesWithinAABB(EntityItem.class, scan);
 
             if (entities != null && entities.size() > 0) {
-                EntityItem item = (EntityItem) entities.get(0);
+                EntityItem item = entities.get(0);
                 if (item.getEntityItem() != null) {
                     if (canInput(item.getEntityItem())) {
                         ItemStack stack = item.getEntityItem().copy();
