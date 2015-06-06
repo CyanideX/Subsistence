@@ -29,6 +29,10 @@ public class HammerMillLoader {
                 continue;
             }
 
+            for (ItemStack stack : recipe) {
+                stack.stackSize = 1; // Force stack size
+            }
+
             HammerMillManager.addData(recipe);
         }
     }

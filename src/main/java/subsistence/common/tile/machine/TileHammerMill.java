@@ -69,9 +69,9 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
             // Processing
             if (charge >= CoreSettings.STATIC.processRate && canFunction()) {
                 ItemStack output = getOutput(processing);
-                PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, processing);
 
                 if (output != null) {
+                    PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, processing);
                     worldObj.addBlockEvent(xCoord, yCoord, zCoord, SubsistenceBlocks.hammerMill, Item.getIdFromItem(output.getItem()), output.getItemDamage());
                     IInventory below = getBelowInventory();
                     if (below != null) {
@@ -125,7 +125,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
     }
 
     private ItemStack getOutput(ItemStack stack) {
-        return HammerMillManager.getOutput(stack, grindingStage);
+        return HammerMillManager.getOutput(stack, grindingStage).copy();
     }
 
     private IInventory getBelowInventory() {
