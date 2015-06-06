@@ -31,7 +31,8 @@ public class HammerMillManager {
                 ItemStack stack = wrapper.data[i];
                 if (ItemHelper.areItemsEqual(input, stack)) {
                     if (i < 5 && ((stage + 1) > i)) {
-                        return wrapper.data[stage + 1];
+                        ItemStack out = wrapper.data[stage + 1];
+                        return out != null ? out.copy() : null;
                     }
                 }
             }

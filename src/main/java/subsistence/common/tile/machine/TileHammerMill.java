@@ -125,7 +125,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
     }
 
     private ItemStack getOutput(ItemStack stack) {
-        return HammerMillManager.getOutput(stack, grindingStage).copy();
+        return HammerMillManager.getOutput(stack, grindingStage);
     }
 
     private IInventory getBelowInventory() {
