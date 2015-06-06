@@ -24,6 +24,8 @@ public class BarrelWoodRecipe {
     }
 
     public boolean valid(ItemStack[] currentStack, FluidStack fluidStack) {
+        System.out.println("items valid == "+validItems(currentStack));
+        System.out.println("fluid valid == "+validFluid(fluidStack));
         return validItems(currentStack) && validFluid(fluidStack);
     }
 
@@ -40,10 +42,10 @@ public class BarrelWoodRecipe {
                             found = true;
                         }
                     }
-                    if (!found)
+                    if (!found) {
                         return false;
+                    }
                 }
-
                 return true;
             } else if (conditional.equals("any")) {
                 for (ItemStack required : inputItem) {
@@ -76,7 +78,7 @@ public class BarrelWoodRecipe {
                 }
             }
         }
-        return true;
+        return false;
     }
 
     private boolean validFluid(FluidStack fluidStack) {
