@@ -15,7 +15,7 @@ public class SubsistenceLogger {
     }
 
     public static void all(Object object, Object... args) {
-        log(Level.ALL, object);
+        log(Level.ALL, object, args);
     }
 
     public static void debug(Object object, Object... args) {

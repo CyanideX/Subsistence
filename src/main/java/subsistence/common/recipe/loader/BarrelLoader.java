@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static subsistence.common.recipe.core.ErrorHandler.Loader.info;
+
 public class BarrelLoader {
 
     // Wood recipes are immediate
@@ -76,19 +78,19 @@ public class BarrelLoader {
     public static void parseFile(File file, String type) {
         try {
             if ("wood".equals(type)) {
-                SubsistenceLogger.info("Parsing wood barrel recipe: " + file.getName());
+                info("Barrel - Wood", "Parsing " + file.getName());
                 WoodRecipe[] recipes = JsonUtil.gson().fromJson(new FileReader(file), WoodRecipe[].class);
                 for (WoodRecipe recipe : recipes) {
                     verifyWood(recipe);
                 }
             } else if ("stone".equals(type)) {
-                SubsistenceLogger.info("Parsing stone barrel recipe: " + file.getName());
+                info("Barrel - Stone", "Parsing " + file.getName());
                 StoneRecipe[] recipes = JsonUtil.gson().fromJson(new FileReader(file), StoneRecipe[].class);
                 for (StoneRecipe recipe : recipes) {
                     verifyStone(recipe);
                 }
             } else if ("melting".equals(type)) {
-                SubsistenceLogger.info("Parsing stone barrel melting recipe: " + file.getName());
+                info("Barrel - Stone Melting", "Parsing " + file.getName());
                 MeltingRecipe[] recipes = JsonUtil.gson().fromJson(new FileReader(file), MeltingRecipe[].class);
                 for (MeltingRecipe recipe : recipes) {
                     verifyMelting(recipe);

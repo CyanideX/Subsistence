@@ -7,10 +7,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.block.SubsistenceBlocks;
-import subsistence.common.block.machine.BarrelType;
-import subsistence.common.block.machine.TableType;
 import subsistence.common.config.ToolSettings;
 import subsistence.common.item.ItemHammer;
+import subsistence.common.lib.MachineType;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.network.packet.PacketFX;
 import subsistence.common.recipe.SubsistenceRecipes;
@@ -98,8 +97,8 @@ public class TileTable extends TileCore {
         }
     }
     
-    public TableType getType() {
-        return ArrayHelper.safeGetArrayIndex(TableType.values(), getBlockMetadata());
+    public MachineType.TableType getType() {
+        return ArrayHelper.safeGetArrayIndex(MachineType.TableType.values(), getBlockMetadata());
     }
     
     public boolean smash(EntityPlayer player) {

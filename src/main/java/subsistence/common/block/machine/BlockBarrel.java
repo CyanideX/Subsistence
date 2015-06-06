@@ -18,6 +18,7 @@ import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.fluid.SubsistenceFluids;
 import subsistence.common.item.SubsistenceItems;
+import subsistence.common.lib.MachineType;
 import subsistence.common.lib.client.EnumParticle;
 import subsistence.common.particle.SteamFX;
 import subsistence.common.tile.machine.TileBarrel;
@@ -34,12 +35,12 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
     @Override
     public int[] getSubtypes() {
-        return ArrayHelper.getArrayIndexes(BarrelType.values());
+        return ArrayHelper.getArrayIndexes(MachineType.BarrelType.values());
     }
 
     @Override
     public String getNameForType(int type) {
-        return ArrayHelper.safeGetArrayIndex(BarrelType.values(), type).toString();
+        return ArrayHelper.safeGetArrayIndex(MachineType.BarrelType.values(), type).toString();
     }
 
     @Override

@@ -15,10 +15,12 @@ public class CompostManager {
         return recipeType.equals("both") || tileType.equals(recipeType);
     }
 
-    public CompostRecipe get(String type, boolean heatOnly, ItemStack[] stack, FluidStack fluidStack) {
-        for (CompostRecipe recipe : recipes) {
-            if ((!heatOnly || recipe.requiresHeat()) && canAccept(type, recipe.type) && recipe.valid(stack, fluidStack)) {
-                return recipe;
+    public CompostRecipe get(String type, boolean prioritizeHeat, ItemStack[] stack, FluidStack fluidStack) {
+        if (type.equals("stone") && prioritizeHeat) {
+            for (CompostRecipe recipe : recipes) {
+                if (recipe.requiresHeat() && canAccept(type, recipe.type) && recipe.valid(stack, fluidStack)) {
+                    return recipe;
+                }
             }
         }
 

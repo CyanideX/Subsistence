@@ -7,9 +7,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import subsistence.common.block.machine.CompostType;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.config.HeatSettings;
+import subsistence.common.lib.MachineType;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.CompostRecipe;
@@ -59,7 +59,7 @@ public class TileCompost extends TileCoreMachine {
                 animationTicks--;
         } else {
             if (contents.length > 0 && cachedRecipe == null)
-                cachedRecipe = SubsistenceRecipes.COMPOST.get(blockMetadata == 0 ? "wood" : "stone", hasHeatSource(), contents, fluid);
+                cachedRecipe = SubsistenceRecipes.COMPOST.get(getType().recipeType, hasHeatSource(), contents, fluid);
 
             if (cachedRecipe != null) {
                 process();
@@ -77,8 +77,8 @@ public class TileCompost extends TileCoreMachine {
         }
     }
     
-    public CompostType getType() {
-        return ArrayHelper.safeGetArrayIndex(CompostType.values(), getBlockMetadata());
+    public MachineType.CompostType getType() {
+        return ArrayHelper.safeGetArrayIndex(MachineType.CompostType.values(), getBlockMetadata());
     }
 
     public boolean hasHeatSource() {
@@ -140,7 +140,7 @@ public class TileCompost extends TileCoreMachine {
         processingTime = 0;
         maxProcessingTime = 0;
 
-        int volume = ArrayHelper.safeGetArrayIndex(CompostType.values(), getBlockMetadata()).capacity;
+        int volume = ArrayHelper.safeGetArrayIndex(MachineType.CompostType.values(), getBlockMetadata()).capacity;
         int total = 0;
 
         List<ItemStack> newContents = Lists.newArrayList();

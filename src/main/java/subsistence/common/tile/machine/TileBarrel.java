@@ -5,10 +5,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import subsistence.common.block.machine.BarrelType;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.config.HeatSettings;
 import subsistence.common.item.SubsistenceItems;
+import subsistence.common.lib.MachineType;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.wrapper.BarrelMeltingRecipe;
@@ -81,12 +81,12 @@ public final class TileBarrel extends TileCoreMachine {
 
     /* STATE */
     private boolean isWood() {
-        return getType() == BarrelType.WOOD;
+        return getType() == MachineType.BarrelType.WOOD;
     }
 
     /* GENERAL HELPERS */
-    public BarrelType getType() {
-        return ArrayHelper.safeGetArrayIndex(BarrelType.values(), getBlockMetadata());
+    public MachineType.BarrelType getType() {
+        return ArrayHelper.safeGetArrayIndex(MachineType.BarrelType.values(), getBlockMetadata());
     }
 
     public boolean addFluid(FluidStack fluidStack, boolean dumpExcess) {

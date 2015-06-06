@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 import subsistence.client.lib.Model;
 import subsistence.client.render.FoliageHandler;
 import subsistence.client.render.SubsistenceTileRenderer;
-import subsistence.common.block.machine.CompostType;
+import subsistence.common.lib.MachineType;
 import subsistence.common.lib.MathFX;
 import subsistence.common.tile.machine.TileCompost;
 import subsistence.common.util.RenderHelper;
@@ -33,7 +33,7 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
         GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
         GL11.glRotated(RenderHelper.getRotationAngle(tile.orientation.getOpposite()), 0, 1, 0);
 
-        CompostType type = tile.getType();
+        MachineType.CompostType type = tile.getType();
         int volume = type.capacity;
         
         type.texture.bindTexture();

@@ -8,9 +8,9 @@ import org.lwjgl.opengl.GL11;
 
 import subsistence.client.lib.Model;
 import subsistence.client.render.SubsistenceTileRenderer;
-import subsistence.common.block.machine.TableType;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
+import subsistence.common.lib.MachineType;
 import subsistence.common.tile.machine.TileTable;
 import subsistence.common.util.RenderHelper;
 
@@ -24,7 +24,7 @@ public class RenderTileTable extends SubsistenceTileRenderer<TileTable> {
 
         GL11.glTranslated(x, y, z);
 
-        TableType type = tile.getType();
+        MachineType.TableType type = tile.getType();
 
         Model model = type.isWood() ? Model.TABLE_WOOD : Model.TABLE_STONE;
         type.texture.bindTexture();

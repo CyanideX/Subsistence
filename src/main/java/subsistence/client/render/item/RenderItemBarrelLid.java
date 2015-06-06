@@ -5,7 +5,7 @@ import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
-import subsistence.common.block.machine.BarrelType;
+import subsistence.common.lib.MachineType;
 import subsistence.common.util.ArrayHelper;
 
 public class RenderItemBarrelLid implements IItemRenderer {
@@ -35,7 +35,7 @@ public class RenderItemBarrelLid implements IItemRenderer {
             GL11.glRotated(180D, 0, 1, 0);
         }
 
-        BarrelType barrel = ArrayHelper.safeGetArrayIndex(BarrelType.values(), item.getItemDamage());
+        MachineType.BarrelType barrel = ArrayHelper.safeGetArrayIndex(MachineType.BarrelType.values(), item.getItemDamage());
         barrel.texture.bindTexture();
         barrel.model.renderOnly("lid", "lidHandle");
 

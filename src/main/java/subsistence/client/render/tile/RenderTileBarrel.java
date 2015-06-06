@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import subsistence.client.render.FoliageHandler;
 import subsistence.client.render.SubsistenceTileRenderer;
-import subsistence.common.block.machine.BarrelType;
+import subsistence.common.lib.MachineType;
 import subsistence.common.tile.machine.TileBarrel;
 import subsistence.common.util.RenderHelper;
 
@@ -32,7 +32,7 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
         GL11.glRotated(RenderHelper.getRotationAngle(tile.orientation.getOpposite()), 0, 1, 0);
 
-        BarrelType type = tile.getType();
+        MachineType.BarrelType type = tile.getType();
         type.texture.bindTexture();
         type.model.renderAllExcept("lid", "lidHandle");
 
