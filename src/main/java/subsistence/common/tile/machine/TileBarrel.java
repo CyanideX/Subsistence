@@ -154,7 +154,6 @@ public final class TileBarrel extends TileCoreMachine {
         } else {
             // Wood recipes are immediate
             if (cachedWoodRecipe.valid(itemContents,fluidContents)) { //is current recipe valid?
-                System.out.println("recipe valid, setting items");
                 itemContents = new ItemStack[getType().itemCapacity];
                 fluidContents = null;
 
@@ -238,7 +237,6 @@ public final class TileBarrel extends TileCoreMachine {
                     processingTime++;
                 } else {
                     if (cachedMeltingRecipe.valid(getFirstItem())) {
-                        System.out.println("recipe valid, setting output");
                         removeFirstItem();
 
                         FluidStack output = cachedMeltingRecipe.output;
@@ -260,7 +258,6 @@ public final class TileBarrel extends TileCoreMachine {
             for (int i = 0; i < itemContents.length; i++) {
                 ItemStack itemStack = itemContents[i];
                 if (itemStack != null) {
-                    System.out.println("valid recipe");
                     return itemStack;
                 }
             }
