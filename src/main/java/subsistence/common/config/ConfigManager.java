@@ -1,39 +1,22 @@
 package subsistence.common.config;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.world.World;
-
 import org.apache.commons.io.FileUtils;
-
 import subsistence.Subsistence;
 import subsistence.common.lib.ExtensionFilter;
 import subsistence.common.lib.SubsistenceLogger;
 import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.loader.BarrelLoader;
-import subsistence.common.recipe.loader.CompostLoader;
-import subsistence.common.recipe.loader.MetalPressLoader;
-import subsistence.common.recipe.loader.SieveLoader;
-import subsistence.common.recipe.loader.TableLoader;
+import subsistence.common.recipe.loader.*;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.GameData;
+import java.io.*;
+import java.net.URL;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class ConfigManager {
 
@@ -56,6 +39,8 @@ public class ConfigManager {
         // TEMPORARY TO ALLOW FOR HOSTING ON CURSEFORGE
         if (World.class.getName().contains("World") || Loader.isModLoaded("IC2")) {
             loadFile("sieve/");
+
+            loadFile("hammer_mill/");
 
             loadFile("barrel/wood");
             loadFile("barrel/stone");
@@ -226,6 +211,8 @@ public class ConfigManager {
                     CompostLoader.parseFile(file);
                 } else if (type.equalsIgnoreCase("metalpress")) {
                     MetalPressLoader.parseFile(file);
+                } else if (type.equalsIgnoreCase("hammer_mill")) {
+                    HammerMillLoader.parseFile(file);
                 }
             }
         }

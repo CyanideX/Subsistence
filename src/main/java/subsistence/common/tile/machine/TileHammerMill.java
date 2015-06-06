@@ -12,9 +12,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.config.CoreSettings;
-import subsistence.common.lib.StackReference;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.network.packet.PacketFX;
+import subsistence.common.recipe.manager.HammerMillManager;
 import subsistence.common.tile.core.TileCoreMachine;
 import subsistence.common.util.InventoryHelper;
 import subsistence.common.util.StackHelper;
@@ -25,10 +25,7 @@ import java.util.Random;
 public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
 
     private static final int INVENTORY_SIZE = 1;
-
     public static final byte MAX_STAGE = 4;
-
-    private static final Random random = new Random();
 
     @NBTHandler.Sync(true)
     public ItemStack processing;
@@ -43,6 +40,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
 
     public float angle = 0F;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void updateEntity() {
         if (!worldObj.isRemote) {
@@ -51,7 +49,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
             List<EntityItem> entities = worldObj.getEntitiesWithinAABB(EntityItem.class, scan);
 
             if (entities != null && entities.size() > 0) {
-                EntityItem item = (EntityItem) entities.get(0);
+                EntityItem item = entities.get(0);
                 if (item.getEntityItem() != null) {
                     if (canInput(item.getEntityItem())) {
                         ItemStack stack = item.getEntityItem().copy();
@@ -71,9 +69,9 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
             // Processing
             if (charge >= CoreSettings.STATIC.processRate && canFunction()) {
                 ItemStack output = getOutput(processing);
-                PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, processing);
 
                 if (output != null) {
+                    PacketFX.breakFX(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, processing);
                     worldObj.addBlockEvent(xCoord, yCoord, zCoord, SubsistenceBlocks.hammerMill, Item.getIdFromItem(output.getItem()), output.getItemDamage());
                     IInventory below = getBelowInventory();
                     if (below != null) {
@@ -123,91 +121,11 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
     }
 
     private boolean canInput(ItemStack stack) {
-        return getType(stack) != -1;
-    }
-
-    private int getType(ItemStack stack) {
-        int type = -1; // 0 is vanilla, 1 is nether
-
-        if (stack == null) {
-            return type;
-        }
-
-        if (
-                stack.isItemEqual(StackReference.STONE) ||
-                        stack.isItemEqual(StackReference.COBBLESTONE) ||
-                        stack.isItemEqual(StackReference.GRAVEL) ||
-                        stack.isItemEqual(StackReference.SAND) ||
-                        stack.isItemEqual(StackReference.FINE_SAND)) {
-            type = 0;
-        } else if (
-                stack.isItemEqual(StackReference.NETHER_RIND) ||
-                        stack.isItemEqual(StackReference.NETHERRACK) ||
-                        stack.isItemEqual(StackReference.NETHER_GRIT) ||
-                        stack.isItemEqual(StackReference.SOUL_SAND) ||
-                        stack.isItemEqual(StackReference.SOUL_DUST)) {
-            type = 1;
-        }
-
-        return type;
+        return HammerMillManager.getOutput(stack, grindingStage) != null;
     }
 
     private ItemStack getOutput(ItemStack stack) {
-        int type = getType(stack);
-        if (type == -1)
-            return null;
-
-        ItemStack output = null;
-        switch (grindingStage) {
-            case 0: {
-                switch (type) {
-                    case 1:
-                        output = StackReference.NETHERRACK.copy();
-                        break;
-                    default:
-                        output = StackReference.COBBLESTONE.copy();
-                        break;
-                }
-                break;
-            }
-
-            case 1: {
-                switch (type) {
-                    case 1:
-                        output = StackReference.NETHER_GRIT.copy();
-                        break;
-                    default:
-                        output = StackReference.GRAVEL.copy();
-                        break;
-                }
-                break;
-            }
-
-            case 2: {
-                switch (type) {
-                    case 1:
-                        output = StackReference.SOUL_SAND.copy();
-                        break;
-                    default:
-                        output = StackReference.SAND.copy();
-                        break;
-                }
-                break;
-            }
-
-            case 3: {
-                switch (type) {
-                    case 1:
-                        output = StackReference.SOUL_DUST.copy();
-                        break;
-                    default:
-                        output = StackReference.FINE_SAND.copy();
-                        break;
-                }
-                break;
-            }
-        }
-        return output;
+        return HammerMillManager.getOutput(stack, grindingStage);
     }
 
     private IInventory getBelowInventory() {

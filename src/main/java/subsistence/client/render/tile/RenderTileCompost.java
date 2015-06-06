@@ -2,6 +2,7 @@ package subsistence.client.render.tile;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -10,6 +11,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.lwjgl.opengl.GL11;
 
 import subsistence.client.lib.Model;
+import subsistence.client.render.FoliageHandler;
 import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.block.machine.CompostType;
 import subsistence.common.lib.MathFX;
@@ -55,12 +57,16 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
                 if (tile.contents[i] != null) {
                     final ItemStack itemStack = tile.contents[i];
                     Item item = itemStack.getItem();
-                    if (item instanceof ItemBlock) {
+
+                    if (FoliageHandler.shouldRender(itemStack)) {
+                        RenderHelper.renderColoredIcon(Blocks.dirt.getIcon(1, 0), TextureMap.locationBlocksTexture, Blocks.leaves.getBlockColor(), RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
+                    } else if (item instanceof ItemBlock) {
                         Block block = Block.getBlockFromItem(itemStack.getItem());
                         RenderHelper.renderColoredIcon(block.getIcon(1, 0), TextureMap.locationBlocksTexture, block.getBlockColor(), RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
                     } else {
                         RenderHelper.renderColoredIcon(item.getIcon(itemStack, 0), TextureMap.locationBlocksTexture, 0xFFFFFF, RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
                     }
+
                     lastSize = itemStack.stackSize;
                 }
             }

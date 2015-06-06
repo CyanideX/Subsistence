@@ -83,16 +83,6 @@ public class BlockTable extends SubsistenceTileMultiBlock {
         return !player.isSneaking();
     }
 
-    @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
-        TileCore tile = (TileCore) world.getTileEntity(x, y, z);
-
-        if (tile != null) {
-            tile.onBlockBroken();
-        }
-
-        super.breakBlock(world, x, y, z, block, metadata);
-    }
 
     @Override
     public int[] getSubtypes() {

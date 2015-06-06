@@ -5,12 +5,15 @@ import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import subsistence.client.model.FixedTechneModelLoader;
+import subsistence.client.render.FoliageHandler;
 import subsistence.client.render.item.*;
 import subsistence.client.render.tile.*;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.item.SubsistenceItems;
 import subsistence.common.tile.machine.*;
 import subsistence.common.tile.misc.TileSpawnMarker;
+
+import java.io.File;
 
 public class ClientProxy extends CommonProxy {
 
@@ -19,6 +22,13 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preInit() {
         super.preInit();
+
+        File file = new File(Subsistence.configPath + "foliage.json");
+        if (file.exists()) {
+            FoliageHandler.initialize(file);
+        } else {
+            FoliageHandler.initialize(null);
+        }
 
         AdvancedModelLoader.registerModelHandler(new FixedTechneModelLoader());
 

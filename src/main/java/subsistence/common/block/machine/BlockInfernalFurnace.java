@@ -56,23 +56,6 @@ public class BlockInfernalFurnace extends SubsistenceTileBlock {
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-        TileHellfireFurnace tile = (TileHellfireFurnace) world.getTileEntity(x, y, z);
-
-        if (tile != null) {
-            for (int i = 0; i < tile.getSizeInventory(); i++) {
-                ItemStack stack = tile.getStackInSlot(i);
-
-                if (stack != null)
-                    InventoryHelper.dropItem(world, x, y, z, ForgeDirection.UNKNOWN, stack, world.rand);
-
-            }
-        }
-
-        super.breakBlock(world, x, y, z, block, meta);
-    }
-
-    @Override
     public int getLightValue(IBlockAccess world, int x, int y, int z) {
         return world.getBlockMetadata(x, y, z) == 1 ? (int) (0.875F * 16) : 0;
     }
