@@ -19,7 +19,7 @@ public class TileHandCrank extends TileCoreMachine {
             spin -= 20F;
         }
 
-        if (worldObj.isRemote) {
+        if (worldObj.isRemote && isValid()) {
             TileHammerMill tile = (TileHammerMill) worldObj.getTileEntity(xCoord + orientation.offsetX, yCoord + orientation.offsetY, zCoord + orientation.offsetZ);
 
             if (tile != null) {
@@ -29,7 +29,7 @@ public class TileHandCrank extends TileCoreMachine {
     }
 
     public void crank() {
-        if (spin <= 0 && orientation != ForgeDirection.UNKNOWN) {
+        if (spin <= 0 && isValid()) {
             TileHammerMill tile = (TileHammerMill) worldObj.getTileEntity(xCoord + orientation.offsetX, yCoord + orientation.offsetY, zCoord + orientation.offsetZ);
             TileEntity beyond = worldObj.getTileEntity(tile.xCoord + orientation.offsetX, tile.yCoord + orientation.offsetY, tile.zCoord + orientation.offsetZ);
 
@@ -41,5 +41,9 @@ public class TileHandCrank extends TileCoreMachine {
                 markForUpdate();
             }
         }
+    }
+    
+    private boolean isValid() {
+        return orientation != ForgeDirection.UNKNOWN;
     }
 }
