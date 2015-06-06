@@ -55,8 +55,10 @@ public final class TileBarrel extends TileCoreMachine {
                 if (fluidContents != null && fluidContents.getFluid() == FluidRegistry.LAVA) { //wood barrel cant have lava!
                     if (fluidContents.amount >= 1000) {
                         worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.flowing_lava);
+                        return;
                     } else {
                         worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+                        return;
                     }
                 }
                 processWoodRecipe();
@@ -255,8 +257,9 @@ public final class TileBarrel extends TileCoreMachine {
         if (itemContents != null && itemContents.length > 0) {
             for (int i = 0; i < itemContents.length; i++) {
                 ItemStack itemStack = itemContents[i];
-                if (itemStack != null)
+                if (itemStack != null) {
                     return itemStack;
+                }
             }
         }
         return null;

@@ -83,7 +83,7 @@ public class BarrelStoneRecipe {
                 }
             }
         }
-        return true;
+        return false;
     }
 
     private boolean validFluid(FluidStack fluidStack) {

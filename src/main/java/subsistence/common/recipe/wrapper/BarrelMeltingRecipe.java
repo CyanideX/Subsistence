@@ -22,8 +22,9 @@ public class BarrelMeltingRecipe {
     }
 
     public boolean valid(ItemStack stack) {
-        if (stack == null)
+        if (stack == null) {
             return false;
+        }
 
         for (ItemStack input : this.input.contents) {
             if (input != null && stack.isItemEqual(input)) {

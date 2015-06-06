@@ -40,10 +40,10 @@ public class BarrelWoodRecipe {
                             found = true;
                         }
                     }
-                    if (!found)
+                    if (!found) {
                         return false;
+                    }
                 }
-
                 return true;
             } else if (conditional.equals("any")) {
                 for (ItemStack required : inputItem) {
@@ -76,7 +76,7 @@ public class BarrelWoodRecipe {
                 }
             }
         }
-        return true;
+        return false;
     }
 
     private boolean validFluid(FluidStack fluidStack) {
