@@ -24,8 +24,6 @@ public class BarrelWoodRecipe {
     }
 
     public boolean valid(ItemStack[] currentStack, FluidStack fluidStack) {
-        System.out.println("items valid == "+validItems(currentStack));
-        System.out.println("fluid valid == "+validFluid(fluidStack));
         return validItems(currentStack) && validFluid(fluidStack);
     }
 
