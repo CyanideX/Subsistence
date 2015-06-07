@@ -21,15 +21,16 @@ import java.util.zip.ZipFile;
 public class ConfigManager {
 
     public static final File configDir = new File(Subsistence.configPath);
-    public static final File mainFile = new File(Subsistence.configPath, "main.json");
-    public static final File heatFile = new File(Subsistence.configPath, "heat.json");
-    public static final File toolsFile = new File(Subsistence.configPath, "tools.json");
-    public static final File recipes = new File(Subsistence.configPath, "recipes/");
-    public static final File itemDump = new File(Subsistence.configPath, "key_dump.txt");
+    public static final File recipeDir = new File(configDir, "recipes/");
+
+    public static final File mainFile = new File(configDir, "main.json");
+    public static final File heatFile = new File(configDir, "heat.json");
+    public static final File toolsFile = new File(configDir, "tools.json");
+    public static final File itemDump = new File(configDir, "key_dump.txt");
 
     public static void preInit() {
-        genDefaultConfigs();
         CoreSettings.Loader.parse(mainFile);
+        genDefaultConfigs();
     }
 
     public static void postInit() {
@@ -63,10 +64,10 @@ public class ConfigManager {
     }
 
     private static void genDefaultConfigs() {
-        if (!recipes.exists()) {
-            recipes.mkdirs();
+        if (!recipeDir.exists()) {
+            recipeDir.mkdirs();
 
-            File to = new File(recipes, "defaultrecipes.zip");
+            File to = new File(recipeDir, "defaultrecipes.zip");
             copyFromJar(Subsistence.class, "subsistence/defaultrecipes.zip", to);
 
             extractZip(to);
@@ -196,11 +197,11 @@ public class ConfigManager {
     }
 
     private static void loadFile(String typeAndSubDir) {
-        final File recipeDir = new File(recipes, typeAndSubDir);
+        final File dir = new File(recipeDir, typeAndSubDir);
         final String type = typeAndSubDir.substring(0, typeAndSubDir.lastIndexOf("/"));
 
-        if (recipeDir.isDirectory()) {
-            for (File file : recipeDir.listFiles(ExtensionFilter.JSON)) {
+        if (dir.isDirectory()) {
+            for (File file : dir.listFiles(ExtensionFilter.JSON)) {
                 if (type.equalsIgnoreCase("sieve")) {
                     SieveLoader.parseFile(file);
                 } else if (type.equalsIgnoreCase("table")) {

@@ -27,10 +27,6 @@ public class CoreSettings {
     public static class Loader {
 
         public static void parse(File file) {
-            if (!file.exists())
-                try { file.createNewFile(); } catch (IOException ignore) {}
-
-            // If it still doesn't exist, assume defaults
             if (!file.exists()) {
                 STATIC = new CoreSettings();
             } else {
