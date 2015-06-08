@@ -1,7 +1,6 @@
 package subsistence.common.tile.machine;
 
 import com.google.common.collect.Lists;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -86,7 +85,7 @@ public class TileCompost extends TileCoreMachine {
     }
 
     public int getVolume() {
-        return CoreSettings.STATIC.compostBucketSize * FluidContainerRegistry.BUCKET_VOLUME; //TODO: config value
+        return CoreSettings.STATIC.compostBucketSize * FluidContainerRegistry.BUCKET_VOLUME;
     }
 
     private void process() {
