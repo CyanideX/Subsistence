@@ -24,4 +24,17 @@ public class GenericItem {
     }
 
     public ItemStack[] contents;
+
+    public boolean valid() {
+        if (contents == null || contents.length == 0) {
+            return false;
+        } else {
+            for (ItemStack s : contents) {
+                if (s == null || s.getItem() == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

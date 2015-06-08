@@ -52,18 +52,30 @@ public class BarrelLoader {
         public GenericItem input;
         public FluidStack output;
         public Heat heat;
+        
+        public boolean valid() {
+            return input.valid() && output != null;
+        }
     }
 
     private static class Input {
 
         public GenericItem item;
         public FluidStack fluid;
+        
+        public boolean valid() {
+            return item.valid() && fluid != null;
+        }
     }
 
-    private static class Output {
+    public static class Output {
 
         public ItemStack item;
         public FluidStack fluid;
+        
+        public boolean valid() {
+            return item != null && item.getItem() != null && fluid != null;
+        }
     }
 
     private static class Heat {
@@ -102,37 +114,43 @@ public class BarrelLoader {
     }
 
     private static void verifyWood(WoodRecipe woodRecipe) {
-        SubsistenceRecipes.BARREL.registerWood(new BarrelWoodRecipe(
-                GenericItem.merge(woodRecipe.input.item).contents,
-                woodRecipe.input.fluid,
-                woodRecipe.output.item,
-                woodRecipe.output.fluid,
-                woodRecipe.conditional,
-                woodRecipe.globalLimit
-        ));
+        if (woodRecipe.input.valid() && woodRecipe.output.valid()) {
+            SubsistenceRecipes.BARREL.registerWood(new BarrelWoodRecipe(
+                    GenericItem.merge(woodRecipe.input.item).contents,
+                    woodRecipe.input.fluid,
+                    woodRecipe.output.item,
+                    woodRecipe.output.fluid,
+                    woodRecipe.conditional,
+                    woodRecipe.globalLimit
+                    ));
+        }
     }
 
     private static void verifyStone(StoneRecipe stoneRecipe) {
-        SubsistenceRecipes.BARREL.registerStone(new BarrelStoneRecipe(
-                GenericItem.merge(stoneRecipe.input.item).contents,
-                stoneRecipe.input.fluid,
-                stoneRecipe.output.item,
-                stoneRecipe.output.fluid,
-                stoneRecipe.conditional,
-                stoneRecipe.globalLimit,
-                stoneRecipe.heat.torch,
-                stoneRecipe.heat.fire,
-                stoneRecipe.heat.lava
-        ));
+        if (stoneRecipe.input.valid() && stoneRecipe.output.valid()) {
+            SubsistenceRecipes.BARREL.registerStone(new BarrelStoneRecipe(
+                    GenericItem.merge(stoneRecipe.input.item).contents,
+                    stoneRecipe.input.fluid,
+                    stoneRecipe.output.item,
+                    stoneRecipe.output.fluid,
+                    stoneRecipe.conditional,
+                    stoneRecipe.globalLimit,
+                    stoneRecipe.heat.torch,
+                    stoneRecipe.heat.fire,
+                    stoneRecipe.heat.lava
+                    ));
+        }
     }
 
     private static void verifyMelting(MeltingRecipe meltingRecipe) {
-        SubsistenceRecipes.BARREL.registerMelting(new BarrelMeltingRecipe(
-                meltingRecipe.input,
-                meltingRecipe.output,
-                meltingRecipe.heat.torch,
-                meltingRecipe.heat.fire,
-                meltingRecipe.heat.lava
-        ));
+        if (meltingRecipe.input.valid() && meltingRecipe.output != null) {
+            SubsistenceRecipes.BARREL.registerMelting(new BarrelMeltingRecipe(
+                    meltingRecipe.input,
+                    meltingRecipe.output,
+                    meltingRecipe.heat.torch,
+                    meltingRecipe.heat.fire,
+                    meltingRecipe.heat.lava
+                    ));
+        }
     }
 }

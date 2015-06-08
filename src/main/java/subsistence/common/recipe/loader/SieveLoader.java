@@ -23,6 +23,17 @@ public class SieveLoader {
         public Duration duration = new Duration(20, 20);
         public String type = "both";
 
+        public boolean valid() {
+            if (!input.valid()) {
+                return false;
+            }
+            for (Output o : output) {
+                if (o == null || o.item == null || o.item.getItem() == null) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     public static class Output {
@@ -61,15 +72,19 @@ public class SieveLoader {
     public static void verifyParse(String name, Recipe recipe) {
         List<RandomStack> list = Lists.newArrayList();
 
-        if (recipe.output != null) {
-            for (Output output : recipe.output) {
-                list.add(new RandomStack(output.item, output.chance));
+        if (recipe.valid()) {
+
+            if (recipe.output != null) {
+                for (Output output : recipe.output) {
+                    list.add(new RandomStack(output.item, output.chance));
+                }
+            }
+
+            final RandomStack[] array = list.toArray(new RandomStack[list.size()]);
+
+            for (ItemStack stack : recipe.input.contents) {
+                SubsistenceRecipes.SIEVE.register(new SieveRecipe(stack, array, recipe.duration.block, recipe.duration.hand, recipe.type));
             }
         }
-
-        final RandomStack[] array = list.toArray(new RandomStack[list.size()]);
-
-        for (ItemStack stack : recipe.input.contents)
-            SubsistenceRecipes.SIEVE.register(new SieveRecipe(stack, array, recipe.duration.block, recipe.duration.hand, recipe.type));
     }
 }

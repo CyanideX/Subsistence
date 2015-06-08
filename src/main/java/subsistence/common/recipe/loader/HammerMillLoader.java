@@ -23,13 +23,16 @@ public class HammerMillLoader {
     }
 
     private static void verifyParse(ItemStack[][] data) {
-        for (ItemStack[] recipe : data) {
+        loop: for (ItemStack[] recipe : data) {
             if (recipe.length != 5) {
                 // Error
                 continue;
             }
 
             for (ItemStack stack : recipe) {
+                if (stack == null || stack.getItem() == null) {
+                    continue loop;
+                }
                 stack.stackSize = 1; // Force stack size
             }
 

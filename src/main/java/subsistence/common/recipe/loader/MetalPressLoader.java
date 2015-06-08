@@ -39,8 +39,10 @@ public class MetalPressLoader {
     }
 
     private static void verifyParse(String name, Recipe recipe) {
-        for (ItemStack input : recipe.input.contents) {
-            SubsistenceRecipes.METAL_PRESS.register(new MetalPressRecipe(input, recipe.output, recipe.amount));
+        if (recipe.input != null && recipe.output != null) {
+            for (ItemStack input : recipe.input.contents) {
+                SubsistenceRecipes.METAL_PRESS.register(new MetalPressRecipe(input, recipe.output, recipe.amount));
+            }
         }
     }
 }
