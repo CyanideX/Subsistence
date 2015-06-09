@@ -18,7 +18,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.IModelCustomLoader;
 import net.minecraftforge.client.model.obj.ObjModelLoader;
-import net.minecraftforge.client.model.techne.TechneModelLoader;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -26,10 +25,12 @@ import net.minecraftforge.fluids.FluidStack;
 
 import org.lwjgl.opengl.GL11;
 
+import subsistence.client.model.FixedTechneModelLoader;
 import subsistence.common.fluid.SubsistenceFluids;
 
 import com.google.common.collect.Maps;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -257,11 +258,14 @@ public class RenderHelper {
     // AdvancedModelLoader is client only for no reason...
     private static final Map<String, IModelCustomLoader> loaderMap = Maps.newHashMap();
     static {
-        loaderMap.put("obj",  new ObjModelLoader());
-        loaderMap.put("tcn", new TechneModelLoader());
+        loaderMap.put("obj", new ObjModelLoader());
+        loaderMap.put("tcn", new FixedTechneModelLoader());
     }
     
     public static IModelCustom loadSubsistenceModel(ResourceLocation rl) {
+        if (FMLCommonHandler.instance().getSide().isServer()) {
+            return null;
+        }
         String path = rl.getResourcePath();
         String type = path.substring(path.lastIndexOf(".") + 1);
         IModelCustomLoader loader = loaderMap.get(type);
