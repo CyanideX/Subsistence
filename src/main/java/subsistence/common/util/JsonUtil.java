@@ -2,6 +2,7 @@ package subsistence.common.util;
 
 import com.google.common.collect.Lists;
 import com.google.gson.*;
+
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -10,6 +11,9 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
+import subsistence.common.config.CoreSettings;
+import subsistence.common.lib.SubsistenceLogger;
+import subsistence.common.recipe.core.ErrorHandler;
 import subsistence.common.recipe.wrapper.stack.GenericItem;
 
 import java.lang.reflect.Type;
@@ -112,18 +116,18 @@ public class JsonUtil {
 
                     Item item = GameData.getItemRegistry().getObject(string);
                     if (item == null) {
-                        throw new JsonParseException(string + " is not a valid item!");
+                        return fail(string + " is not a valid item!");
                     }
 
                     return new ItemStack(item);
                 } else {
-                    throw new JsonParseException("Cannot deserialize ItemStack from " + json.getClass().getSimpleName());
+                    return fail("Cannot deserialize ItemStack from " + json.getClass().getSimpleName());
                 }
             } else {
                 JsonObject object = json.getAsJsonObject();
 
                 if (!object.has("item")) {
-                    throw new JsonParseException("ItemStack json object is missing 'item' key");
+                    return fail("ItemStack json object is missing 'item' key");
                 }
 
                 String itemString = object.get("item").getAsString();
@@ -136,7 +140,7 @@ public class JsonUtil {
 
                 Item item = GameData.getItemRegistry().getObject(itemString);
                 if (item == null) {
-                    throw new JsonParseException(itemString + " is not a valid item!");
+                    return fail(itemString + " is not a valid item!");
                 }
 
                 return ItemHelper.sanitizeStack(new ItemStack(GameData.getItemRegistry().getObject(itemString), amount, damage));
@@ -154,18 +158,18 @@ public class JsonUtil {
 
                     Fluid fluid = FluidRegistry.getFluid(string);
                     if (fluid == null) {
-                        throw new JsonParseException(string + " is not a valid fluid!");
+                        return fail(string + " is not a valid fluid!");
                     }
 
                     return new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME);
                 } else {
-                    throw new JsonParseException("Cannot deserialize FluidStack from " + json.getClass().getSimpleName());
+                    return fail("Cannot deserialize FluidStack from " + json.getClass().getSimpleName());
                 }
             } else {
                 JsonObject object = json.getAsJsonObject();
 
                 if (!object.has("fluid")) {
-                    throw new JsonParseException("ItemStack json object is missing 'fluid' key");
+                    fail("ItemStack json object is missing 'fluid' key");
                 }
 
                 String fluidString = object.get("fluid").getAsString();
@@ -173,12 +177,23 @@ public class JsonUtil {
 
                 Fluid fluid = FluidRegistry.getFluid(fluidString);
                 if (fluid == null) {
-                    throw new JsonParseException(fluidString + " is not a valid fluid!");
+                    return fail(fluidString + " is not a valid fluid!");
                 }
 
                 return new FluidStack(FluidRegistry.getFluid(fluidString), amount);
             }
         }
+    }
+
+    private static <T> T fail(String msg, Object... fmt) {
+        String err = String.format(msg, fmt);
+        if (CoreSettings.STATIC.crashOnInvalidData) {
+            throw new JsonParseException(err);
+        } else {
+            SubsistenceLogger.error(err);
+            SubsistenceLogger.info("Swallowing error due to config...");
+        }
+        return null;
     }
 
     public static class ItemDeserializer implements JsonDeserializer<Item> {

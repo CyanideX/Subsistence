@@ -49,6 +49,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public boolean useCustomRender() {
         return true;
     }
@@ -185,6 +186,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         // TODO Replace with proper textures mimicking model textures
         switch (meta) {
@@ -205,8 +207,8 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
         }
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
+    @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
         super.randomDisplayTick(world, x, y, z, rand);
 

@@ -1,5 +1,7 @@
 package subsistence.common.util;
 
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -13,12 +15,24 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.client.model.IModelCustom;
+import net.minecraftforge.client.model.IModelCustomLoader;
+import net.minecraftforge.client.model.obj.ObjModelLoader;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+
 import org.lwjgl.opengl.GL11;
+
+import subsistence.client.model.FixedTechneModelLoader;
 import subsistence.common.fluid.SubsistenceFluids;
+
+import com.google.common.collect.Maps;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class RenderHelper {
 
@@ -143,10 +157,12 @@ public class RenderHelper {
         return 0D;
     }
 
+    @SideOnly(Side.CLIENT)
     public static void renderAllSides(RenderBlocks renderer, Block block) {
         renderAllSides(renderer, block, renderer.overrideBlockTexture);
     }
 
+    @SideOnly(Side.CLIENT)
     public static void renderAllSides(RenderBlocks renderblocks, Block block, IIcon icon) {
         Tessellator tessellator = Tessellator.instance;
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
@@ -189,6 +205,7 @@ public class RenderHelper {
         GL11.glTranslatef(0.5F, 0.5F, 0.5F);
     }
 
+    @SideOnly(Side.CLIENT)
     public static void renderAllSides(int x, int y, int z, Block block, RenderBlocks renderer, IIcon tex) {
         Tessellator tessellator = Tessellator.instance;
 
@@ -206,6 +223,7 @@ public class RenderHelper {
         renderer.renderFaceYPos(block, x, y, z, tex);
     }
 
+    @SideOnly(Side.CLIENT)
     public static void renderAllSidesInverted(int x, int y, int z, Block block, RenderBlocks renderer, IIcon tex) {
         renderer.renderFaceXNeg(block, x + 1, y, z, tex);
         renderer.renderFaceXPos(block, x - 1, y, z, tex);
@@ -235,5 +253,22 @@ public class RenderHelper {
             f3 = f7;
         }
         tessellator.setColorOpaque_F(f * f1, f * f2, f * f3);
+    }
+
+    // AdvancedModelLoader is client only for no reason...
+    private static final Map<String, IModelCustomLoader> loaderMap = Maps.newHashMap();
+    static {
+        loaderMap.put("obj", new ObjModelLoader());
+        loaderMap.put("tcn", new FixedTechneModelLoader());
+    }
+    
+    public static IModelCustom loadSubsistenceModel(ResourceLocation rl) {
+        if (FMLCommonHandler.instance().getSide().isServer()) {
+            return null;
+        }
+        String path = rl.getResourcePath();
+        String type = path.substring(path.lastIndexOf(".") + 1);
+        IModelCustomLoader loader = loaderMap.get(type);
+        return loader == null ? null : loader.loadInstance(rl);
     }
 }

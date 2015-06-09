@@ -85,6 +85,7 @@ public class TileMetalPress extends TileCoreMachine {
     }
 
     private void updateItem() {
+        System.out.println(amount);
         MetalPressRecipe recipe = SubsistenceRecipes.METAL_PRESS.get(itemStack);
 
         // We send an update every time we activate and the render should update

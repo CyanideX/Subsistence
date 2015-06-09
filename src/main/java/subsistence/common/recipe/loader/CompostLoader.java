@@ -1,19 +1,18 @@
 package subsistence.common.recipe.loader;
 
-import com.google.gson.annotations.SerializedName;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import subsistence.common.recipe.SubsistenceRecipes;
-import subsistence.common.recipe.wrapper.CompostRecipe;
-import subsistence.common.recipe.wrapper.stack.GenericItem;
-import subsistence.common.util.JsonUtil;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import static subsistence.common.recipe.core.ErrorHandler.Loader.fail;
-import static subsistence.common.recipe.core.ErrorHandler.Loader.info;
+import subsistence.common.recipe.SubsistenceRecipes;
+import subsistence.common.recipe.loader.BarrelLoader.Output;
+import subsistence.common.recipe.wrapper.CompostRecipe;
+import subsistence.common.recipe.wrapper.stack.GenericItem;
+import subsistence.common.util.JsonUtil;
+
+import com.google.gson.annotations.SerializedName;
+
+import static subsistence.common.recipe.core.ErrorHandler.Loader.*;
 
 public class CompostLoader {
 
@@ -31,12 +30,6 @@ public class CompostLoader {
         public boolean condensates = false;
         @SerializedName("requires_condensate")
         public boolean requiresCondensate = false;
-    }
-
-    public static class Output {
-
-        public ItemStack item;
-        public FluidStack fluid;
     }
 
     public static class Time {
@@ -81,20 +74,22 @@ public class CompostLoader {
             return;
         }
 
-        SubsistenceRecipes.COMPOST.register(
-                new CompostRecipe(
-                        GenericItem.merge(recipe.input).contents,
-                        recipe.output.item,
-                        recipe.output.fluid,
-                        recipe.time.compost,
-                        recipe.time.heat.torch,
-                        recipe.time.heat.lava,
-                        recipe.time.heat.fire,
-                        recipe.type,
-                        recipe.condensates,
-                        recipe.requiresCondensate,
-                        recipe.conditional,
-                        recipe.globalLimit
-                ));
+        if (recipe.input.valid() && recipe.output.valid()) {
+            SubsistenceRecipes.COMPOST.register(
+                    new CompostRecipe(
+                            GenericItem.merge(recipe.input).contents,
+                            recipe.output.item,
+                            recipe.output.fluid,
+                            recipe.time.compost,
+                            recipe.time.heat.torch,
+                            recipe.time.heat.lava,
+                            recipe.time.heat.fire,
+                            recipe.type,
+                            recipe.condensates,
+                            recipe.requiresCondensate,
+                            recipe.conditional,
+                            recipe.globalLimit
+                            ));
+        }
     }
 }

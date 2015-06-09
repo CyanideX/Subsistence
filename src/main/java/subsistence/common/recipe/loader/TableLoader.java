@@ -44,6 +44,10 @@ public class TableLoader {
     }
 
     public static void verifyParse(String name, Recipe recipe, String type) {
+        if (!recipe.input.valid() || recipe.output == null || recipe.output.getItem() == null) {
+            return;
+        }
+
         if ("smash".equals(type)) {
             for (ItemStack itemStack : recipe.input.contents) {
                 SubsistenceRecipes.TABLE.register(new TableSmashingRecipe(itemStack, recipe.output, recipe.durability));

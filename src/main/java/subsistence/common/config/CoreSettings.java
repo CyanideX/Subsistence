@@ -23,6 +23,7 @@ public class CoreSettings {
     public boolean updateChecker = true;
     public boolean dumpItems = false;
     public int woodenBucketUses = 8;
+    public boolean crashOnInvalidData = true;
 
     public static class Loader {
 
