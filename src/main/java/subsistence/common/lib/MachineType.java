@@ -1,5 +1,8 @@
 package subsistence.common.lib;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import subsistence.client.lib.Model;
 import subsistence.client.lib.Texture;
@@ -15,14 +18,18 @@ public class MachineType {
         NETHER(2, 8, Texture.BARREL_NETHER, Model.BARREL_STONE);
 
         public final int itemCapacity, fluidCapacity;
-        public final Texture texture;
-        public final Model model;
+        @SideOnly(Side.CLIENT)
+        public Texture texture;
+        @SideOnly(Side.CLIENT)
+        public Model model;
 
         private BarrelType(int itemCapacity, int fluidCapacity, Texture texture, Model model) {
             this.itemCapacity = itemCapacity;
             this.fluidCapacity = fluidCapacity * FluidContainerRegistry.BUCKET_VOLUME;
-            this.texture = texture;
-            this.model = model;
+            if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+                this.texture = texture;
+                this.model = model;
+            }
         }
 
         public String toString() {
@@ -38,12 +45,15 @@ public class MachineType {
 
         public final int capacity;
         public final String recipeType;
-        public final Texture texture;
+        @SideOnly(Side.CLIENT)
+        public Texture texture;
 
         private CompostType(int capacity, String recipeType, Texture texture) {
             this.capacity = capacity;
             this.recipeType = recipeType;
-            this.texture = texture;
+            if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+                this.texture = texture;
+            }
         }
 
         public String toString() {
@@ -56,10 +66,13 @@ public class MachineType {
         STONE(Texture.TABLE_COBBLESTONE),
         NETHER(Texture.TABLE_NETHER);
 
-        public final Texture texture;
+        @SideOnly(Side.CLIENT)
+        public Texture texture;
 
         private TableType(Texture texture) {
-            this.texture = texture;
+            if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+                this.texture = texture;
+            }
         }
 
         public String toString() {
