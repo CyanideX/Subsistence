@@ -1,8 +1,8 @@
 package subsistence.client.lib;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
+import net.minecraftforge.client.model.techne.TechneModelLoader;
 import subsistence.Subsistence;
 
 public enum Model {
@@ -23,10 +23,11 @@ public enum Model {
     METAL_SHAFT("blocks/shaft.tcn"),
     COMPOST("blocks/compost.tcn");
 
-    private IModelCustom model;
+    private final TechneModelLoader modelLoader = new TechneModelLoader();
+    private final IModelCustom model;
 
-    Model(String path) {
-        this.model = AdvancedModelLoader.loadModel(new ResourceLocation(Subsistence.RESOURCE_PREFIX + "models/" + path));
+    private Model(String path) {
+        this.model = modelLoader.loadInstance(new ResourceLocation(Subsistence.RESOURCE_PREFIX + "models/" + path));
     }
 
     public void renderAll() {
