@@ -43,9 +43,10 @@ public class ItemHandSieve extends SubsistenceItem {
 
         if (stack1 != null) {
             SieveRecipe recipe = SubsistenceRecipes.SIEVE.get(stack1, false);
-
-            ItemHandSieve.setCurrentDuration(stack, 0);
-            ItemHandSieve.setMaxDuration(stack, recipe.getDurationHand());
+            if (recipe != null) {
+                ItemHandSieve.setCurrentDuration(stack, 0);
+                ItemHandSieve.setMaxDuration(stack, recipe.getDurationHand());
+            }
         } else {
             ItemHandSieve.setCurrentDuration(stack, 0);
             ItemHandSieve.setMaxDuration(stack, 0);
