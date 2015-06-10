@@ -74,7 +74,7 @@ public class BarrelLoader {
         public FluidStack fluid;
         
         public boolean valid() {
-            return item != null && item.getItem() != null && fluid != null;
+            return item != null && item.getItem() != null;
         }
     }
 

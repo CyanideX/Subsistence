@@ -1,18 +1,18 @@
 package subsistence.common.recipe.loader;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-
+import com.google.gson.annotations.SerializedName;
 import subsistence.common.recipe.SubsistenceRecipes;
 import subsistence.common.recipe.loader.BarrelLoader.Output;
 import subsistence.common.recipe.wrapper.CompostRecipe;
 import subsistence.common.recipe.wrapper.stack.GenericItem;
 import subsistence.common.util.JsonUtil;
 
-import com.google.gson.annotations.SerializedName;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
-import static subsistence.common.recipe.core.ErrorHandler.Loader.*;
+import static subsistence.common.recipe.core.ErrorHandler.Loader.fail;
+import static subsistence.common.recipe.core.ErrorHandler.Loader.info;
 
 public class CompostLoader {
 
@@ -69,7 +69,7 @@ public class CompostLoader {
         }
 
         // Condensate check - Condensation can only occur with a heat source
-        if (recipe.condensates && !recipe.time.heat.empty()) {
+        if (recipe.condensates && recipe.time.heat.empty()) {
             fail("Compost", "Condensation recipe requires heat");
             return;
         }
