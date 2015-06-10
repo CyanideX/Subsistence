@@ -2,11 +2,9 @@ package subsistence.client.render.item;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-
 import org.lwjgl.opengl.GL11;
-
-import subsistence.common.lib.MachineType;
-import subsistence.common.util.ArrayHelper;
+import subsistence.client.lib.Model;
+import subsistence.client.lib.Texture;
 
 public class RenderItemBarrelLid implements IItemRenderer {
 
@@ -35,9 +33,34 @@ public class RenderItemBarrelLid implements IItemRenderer {
             GL11.glRotated(180D, 0, 1, 0);
         }
 
-        MachineType.BarrelType barrel = ArrayHelper.safeGetArrayIndex(MachineType.BarrelType.values(), item.getItemDamage());
-        barrel.texture.bindTexture();
-        barrel.model.renderOnly("lid", "lidHandle");
+        final Texture texture;
+        switch (item.getItemDamage()) {
+            case 2:
+                texture = Texture.BARREL_STONE;
+                break;
+            case 1:
+                texture = Texture.BARREL_NETHER;
+                break;
+            case 0:
+            default:
+                texture = Texture.BARREL_WOOD;
+                break;
+        }
+
+        final Model model;
+        switch (item.getItemDamage()) {
+            case 2:
+            case 1:
+                model = Model.BARREL_STONE;
+                break;
+            case 0:
+            default:
+                model = Model.BARREL_WOOD;
+                break;
+        }
+
+        texture.bindTexture();
+        model.renderOnly("lid", "lidHandle");
 
         GL11.glPopMatrix();
     }

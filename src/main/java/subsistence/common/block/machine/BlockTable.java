@@ -9,11 +9,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.item.SubsistenceItems;
-import subsistence.common.lib.MachineType;
 import subsistence.common.tile.machine.TileTable;
 import subsistence.common.util.ArrayHelper;
 
 public class BlockTable extends SubsistenceTileMultiBlock {
+
+    public static final String[] TYPES = new String[] {"wood", "stone", "nether"};
 
     public BlockTable() {
         super(Material.wood);
@@ -85,12 +86,12 @@ public class BlockTable extends SubsistenceTileMultiBlock {
 
     @Override
     public int[] getSubtypes() {
-        return ArrayHelper.getArrayIndexes(MachineType.TableType.values()); // Forces all aspects of this block to base themselves off the NAMES array
+        return ArrayHelper.getArrayIndexes(TYPES); // Forces all aspects of this block to base themselves off the NAMES array
     }
 
     @Override
     public String getNameForType(int type) {
-        return ArrayHelper.safeGetArrayIndex(MachineType.TableType.values(), type).toString();
+        return ArrayHelper.safeGetArrayIndex(TYPES, type);
     }
 
     @Override

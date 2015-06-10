@@ -11,6 +11,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.lwjgl.opengl.GL11;
 
 import subsistence.client.lib.Model;
+import subsistence.client.lib.Texture;
 import subsistence.client.render.FoliageHandler;
 import subsistence.client.render.SubsistenceTileRenderer;
 import subsistence.common.lib.MachineType;
@@ -35,8 +36,21 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
 
         MachineType.CompostType type = tile.getType();
         int volume = type.capacity;
-        
-        type.texture.bindTexture();
+
+        final Texture texture;
+        switch (tile.getBlockMetadata()) {
+            case 2:
+                texture = Texture.COMPOST_NETHER;
+                break;
+            case 1:
+                texture = Texture.COMPOST_STONE;
+                break;
+            case 0:
+            default:
+                texture = Texture.COMPOST_WOOD;
+                break;
+        }
+        texture.bindTexture();
 
         final float thickness = DIMENSION_FILL / (float) volume;
 

@@ -1,27 +1,19 @@
 package subsistence.client.render.tile;
 
-import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
+import subsistence.client.lib.Model;
+import subsistence.client.lib.Texture;
 import subsistence.client.render.FoliageHandler;
 import subsistence.client.render.SubsistenceTileRenderer;
-import subsistence.common.lib.MachineType;
 import subsistence.common.tile.machine.TileBarrel;
 import subsistence.common.util.RenderHelper;
 
-import java.util.List;
-
 public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
-
-    private List<ItemStack> foliage = Lists.newArrayList();
-
-    public RenderTileBarrel() {
-
-    }
 
     @Override
     public void renderTileAt(TileBarrel tile, double x, double y, double z, float delta) {
@@ -32,12 +24,38 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
         GL11.glRotated(RenderHelper.getRotationAngle(tile.orientation.getOpposite()), 0, 1, 0);
 
-        MachineType.BarrelType type = tile.getType();
-        type.texture.bindTexture();
-        type.model.renderAllExcept("lid", "lidHandle");
+        final Texture texture;
+        switch (tile.getBlockMetadata()) {
+            case 2:
+                texture = Texture.BARREL_STONE;
+                break;
+            case 1:
+                texture = Texture.BARREL_NETHER;
+                break;
+            case 0:
+            default:
+                texture = Texture.BARREL_WOOD;
+                break;
+        }
+
+        final Model model;
+        switch (tile.getBlockMetadata()) {
+            case 2:
+            case 1:
+                model = Model.BARREL_STONE;
+                break;
+            case 0:
+            default:
+                model = Model.BARREL_WOOD;
+                break;
+        }
+
+        texture.bindTexture();
+        model.renderAllExcept("lid", "lidHandle");
 
         GL11.glPushMatrix();
-        renderLid(tile);
+        if (tile.hasLid)
+            model.renderOnly("lid", "lidHandle");
         GL11.glPopMatrix();
 
         if (tile.itemContents != null) {
@@ -77,11 +95,5 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
         RenderHelper.renderLiquid(tile.fluidContents);
 
         GL11.glPopMatrix();
-    }
-
-    private void renderLid(TileBarrel tile) {
-        if (tile.hasLid) {
-            tile.getType().model.renderOnly("lid", "lidHandle");
-        }
     }
 }

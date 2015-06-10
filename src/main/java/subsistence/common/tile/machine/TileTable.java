@@ -9,7 +9,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.config.ToolSettings;
 import subsistence.common.item.ItemHammer;
-import subsistence.common.lib.MachineType;
 import subsistence.common.network.nbt.NBTHandler;
 import subsistence.common.network.packet.PacketFX;
 import subsistence.common.recipe.SubsistenceRecipes;
@@ -17,7 +16,6 @@ import subsistence.common.recipe.wrapper.TableAxeRecipe;
 import subsistence.common.recipe.wrapper.TableDryingRecipe;
 import subsistence.common.recipe.wrapper.TableSmashingRecipe;
 import subsistence.common.tile.core.TileCore;
-import subsistence.common.util.ArrayHelper;
 import subsistence.common.util.InventoryHelper;
 import subsistence.common.util.ItemHelper;
 
@@ -97,10 +95,10 @@ public class TileTable extends TileCore {
         }
     }
     
-    public MachineType.TableType getType() {
-        return ArrayHelper.safeGetArrayIndex(MachineType.TableType.values(), getBlockMetadata());
+    public String getType() {
+        return getBlockMetadata() == 0 ? "wood" : "stone";
     }
-    
+
     public boolean smash(EntityPlayer player) {
         ItemStack tool = player.getCurrentEquippedItem();
         Random random = new Random();
@@ -108,7 +106,7 @@ public class TileTable extends TileCore {
         if (tool == null)
             return false;
 
-        if (getType().isWood()) {
+        if (getType().equalsIgnoreCase("wood")) {
             boolean converted = false;
             if (stack != null) {
                 if (ItemHelper.isBlock(stack, Blocks.cobblestone) && tool.getItem() instanceof ItemHammer) {
