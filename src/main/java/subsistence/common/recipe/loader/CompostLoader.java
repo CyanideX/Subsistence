@@ -62,10 +62,17 @@ public class CompostLoader {
     }
 
     private static void verifyParse(String name, Recipe recipe) {
+        boolean wood = recipe.type.equalsIgnoreCase("both") || recipe.type.equalsIgnoreCase("wood");
+
         // Heat check - Heat can only be used in a stone barrel
-        if (!recipe.time.heat.empty() && (recipe.type.equalsIgnoreCase("both") || recipe.type.equalsIgnoreCase("wood"))) {
+        if (!recipe.time.heat.empty() && wood) {
             fail("Compost", "Heat can not be used in a wooden compost bin");
             return;
+        }
+
+        // Condensate check - Condensation cannot occur in wooden barrel
+        if (recipe.condensates && wood) {
+            fail("Compost", "Condensation cannot occur in wooden barrel");
         }
 
         // Condensate check - Condensation can only occur with a heat source
