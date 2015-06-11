@@ -110,9 +110,11 @@ public class TileTable extends TileCore {
             boolean converted = false;
             if (stack != null) {
                 if (ItemHelper.isBlock(stack, Blocks.cobblestone) && tool.getItem() instanceof ItemHammer) {
+                    setStack(null); // to prevent the cobble dropping
                     worldObj.setBlock(xCoord, yCoord, zCoord, SubsistenceBlocks.table, 1, 3);
                     converted = true;
                 } else if (ItemHelper.isBlock(stack, SubsistenceBlocks.componentGround) && stack.getItemDamage() == 2 && tool.getItem() instanceof ItemHammer) {
+                    setStack(null); // to prevent the cobble dropping
                     worldObj.setBlock(xCoord, yCoord, zCoord, SubsistenceBlocks.table, 2, 3);
                     converted = true;
                 }
