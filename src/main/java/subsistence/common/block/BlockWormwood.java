@@ -15,8 +15,10 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import subsistence.common.config.HeatSettings;
 import subsistence.common.item.SubsistenceItems;
+import subsistence.common.util.ItemHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class BlockWormwood extends BlockBush implements IGrowable {
@@ -240,7 +242,12 @@ public class BlockWormwood extends BlockBush implements IGrowable {
             ret.add(new ItemStack(SubsistenceItems.seeds, 1, 2)); //always 1 wormwood seed
         }
 
-        return ret;
+        // sanitize drops, just in case
+        List<ItemStack> drops = Lists.newArrayList();
+        for (ItemStack stack : ret) {
+            drops.add(ItemHelper.sanitizeStack(stack));
+        }
+        return (ArrayList<ItemStack>) drops;
     }
 
     private boolean lessThanOneDropChance(Random rand) {
