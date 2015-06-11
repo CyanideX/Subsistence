@@ -24,7 +24,6 @@ public class RenderTileTable extends SubsistenceTileRenderer<TileTable> {
 
         final boolean isWood = tile.getBlockMetadata() == 0;
 
-        final Model model = isWood ? Model.TABLE_WOOD : Model.TABLE_STONE;
         final Texture texture;
         switch (tile.getBlockMetadata()) {
             case 2:
@@ -38,6 +37,10 @@ public class RenderTileTable extends SubsistenceTileRenderer<TileTable> {
                 texture = Texture.TABLE_WOOD;
                 break;
         }
+        final Model model = isWood ? Model.TABLE_WOOD : Model.TABLE_STONE;
+
+        texture.bindTexture();
+        model.renderAll();
 
         GL11.glTranslated(0.5, 0, 0.5);
 
