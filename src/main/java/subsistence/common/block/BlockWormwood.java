@@ -48,7 +48,7 @@ public class BlockWormwood extends BlockBush implements IGrowable {
         int light = world.getBlockLightValue(x, y + 1, z);
         int meta = world.getBlockMetadata(x, y, z);
 
-        if (light >= 9) {
+        if (world.provider.dimensionId == -1 || light >= 9) {
             if (meta < 7) { //if not grown
                 float modifier = getGrowthModifier(world, x, y, z); //get blocks around, to increase speed?
                 if (rand.nextInt((int) (25.0F / modifier) + 1) == 0) {
