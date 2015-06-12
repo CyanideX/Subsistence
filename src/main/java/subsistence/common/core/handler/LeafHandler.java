@@ -92,9 +92,9 @@ public class LeafHandler {
             if (RANDOM.nextInt(100) <= CoreSettings.STATIC.leafSaplingDoubleChance) {
                 InventoryHelper.dropItem(event.world, event.x, event.y, event.z, ForgeDirection.UNKNOWN, new ItemStack(drop, 1, dropMeta), RANDOM);
             }
-
-            event.world.setBlockToAir(event.x, event.y, event.z);
-            PacketFX.breakFX(event.world.provider.dimensionId, event.x, event.y, event.z, new ItemStack(block, 1, meta));
         }
+
+        event.world.setBlockToAir(event.x, event.y, event.z);
+        PacketFX.breakFX(event.world.provider.dimensionId, event.x, event.y, event.z, new ItemStack(block, 1, meta));
     }
 }
