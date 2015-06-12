@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
 import subsistence.common.tile.machine.TileHammerMill;
 
-public class BlockHammerMill extends SubsistenceTileBlock {
+public class   BlockHammerMill extends SubsistenceTileBlock {
 
     public BlockHammerMill() {
         super(Material.iron);

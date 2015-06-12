@@ -31,6 +31,7 @@ public class CommonProxy {
         EventUtil.register(new SpiderTracker(), EventUtil.Type.BOTH);
         EventUtil.register(new WebHandler(), EventUtil.Type.FORGE);
         EventUtil.register(new BoilingWaterHandler(), EventUtil.Type.FORGE);
+        EventUtil.register(new LeafHandler(), EventUtil.Type.FORGE);
     }
 
     public void init() {
