@@ -32,7 +32,7 @@ public class TimerHandler {
 
         public boolean tick() {
             ticks++;
-            return ticks >= duration;
+            return ticks >= duration + 1;
         }
 
         @Override

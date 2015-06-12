@@ -40,7 +40,7 @@ public class ClientTimerHandler {
 
         ticks++;
 
-        if (ticks >= duration)
+        if (ticks >= duration + 1)
             stop();
     }
 
@@ -63,9 +63,9 @@ public class ClientTimerHandler {
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(ICONS);
 
-        final int barWidth = 182;
-        drawTexturedModalRect(width / 2 - 91, height / 2 + 25, 0, 64, barWidth, 5);
-        drawTexturedModalRect(width / 2 - 91, height / 2 + 25, 0, 69, (int) (((float)ticks / (float)duration) * barWidth), 5);
+        final int barWidth = 102;
+        drawTexturedModalRect(width / 2 - (barWidth / 2), height / 2 + 25, 0, 64, barWidth, 5);
+        drawTexturedModalRect(width / 2 - (barWidth / 2), height / 2 + 25, 0, 69, (int) (((float)ticks / (float)duration) * barWidth), 5);
     }
 
     public void drawTexturedModalRect(int p_73729_1_, int p_73729_2_, int p_73729_3_, int p_73729_4_, int p_73729_5_, int p_73729_6_) {

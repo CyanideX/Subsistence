@@ -1,12 +1,11 @@
 package subsistence.common.item;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
@@ -16,18 +15,25 @@ import subsistence.common.item.prefab.SubsistenceItem;
 import subsistence.common.network.packet.PacketFX;
 import subsistence.common.util.InventoryHelper;
 
+import java.util.Random;
+
 import static net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE;
 
 /**
  * @author dmillerw
  */
-public class ItemCrook extends SubsistenceItem {
+public class ItemHatchet extends SubsistenceItem {
 
-    public ItemCrook() {
+    public ItemHatchet() {
         super(SubsistenceCreativeTab.TOOLS);
 
         setMaxDamage(56);
         setMaxStackSize(1);
+    }
+
+    @Override
+    public String getIcon() {
+        return "tools/hatchet_wood";
     }
 
     @Override
