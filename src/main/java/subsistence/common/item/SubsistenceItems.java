@@ -20,6 +20,7 @@ public class SubsistenceItems {
     public static Item handSieve;
     public static Item component;
     public static Item tray;
+    public static Item crook;
 
     // RESOURCES
     public static Item resourceChunk;
@@ -57,6 +58,8 @@ public class SubsistenceItems {
         register(component, "component_item");
         tray = new ItemTray();
         register(tray, "tray");
+        crook = new ItemCrook();
+        register(crook, "crook");
 
         resourceChunk = new ItemResource().setType("Chunk");
         resourceClump = new ItemResource().setType("Clump");

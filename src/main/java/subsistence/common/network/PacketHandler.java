@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import subsistence.Subsistence;
 import subsistence.common.network.packet.PacketFX;
 import subsistence.common.network.packet.PacketSyncConfig;
+import subsistence.common.network.packet.PacketUpdateTimer;
 
 public class PacketHandler {
 
@@ -14,5 +15,6 @@ public class PacketHandler {
     public static void initialize() {
         INSTANCE.registerMessage(PacketSyncConfig.Handler.class, PacketSyncConfig.class, -1, Side.CLIENT);
         INSTANCE.registerMessage(PacketFX.Handler.class, PacketFX.class, -2, Side.CLIENT);
+        INSTANCE.registerMessage(PacketUpdateTimer.Handler.class, PacketUpdateTimer.class, -3, Side.CLIENT);
     }
 }
