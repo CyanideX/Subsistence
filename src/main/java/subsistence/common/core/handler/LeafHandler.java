@@ -34,7 +34,7 @@ public class LeafHandler {
 
     @SubscribeEvent
     public void onLeafInteract(PlayerInteractEvent event) {
-        if (!event.world.isRemote)
+        if (event.world.isRemote)
             return;
 
         if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
