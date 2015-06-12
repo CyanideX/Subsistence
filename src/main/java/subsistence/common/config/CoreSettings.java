@@ -23,8 +23,8 @@ public class CoreSettings {
     public boolean updateChecker = true;
     public boolean dumpItems = false;
     public int woodenBucketUses = 8;
-    public int leafBreakChance = 5; // Out of 100
     public int leafSaplingChance = 10; // Out of 100
+    public int leafSaplingDoubleChance = 5; // Out of 100
     public boolean crashOnInvalidData = true;
 
     public static class Loader {

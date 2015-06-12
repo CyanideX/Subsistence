@@ -6,8 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.S0BPacketAnimation;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.oredict.OreDictionary;
@@ -36,6 +34,9 @@ public class LeafHandler {
 
     @SubscribeEvent
     public void onLeafInteract(PlayerInteractEvent event) {
+        if (!event.world.isRemote)
+            return;
+
         if (event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
             return;
 
@@ -87,7 +88,11 @@ public class LeafHandler {
             final Item drop = block.getItemDropped(meta, RANDOM, 0);
             final int dropMeta = block.damageDropped(meta);
             InventoryHelper.dropItem(event.world, event.x, event.y, event.z, ForgeDirection.UNKNOWN, new ItemStack(drop, 1, dropMeta), RANDOM);
-        } else if (RANDOM.nextInt(100) <= CoreSettings.STATIC.leafBreakChance) {
+
+            if (RANDOM.nextInt(100) <= CoreSettings.STATIC.leafSaplingDoubleChance) {
+                InventoryHelper.dropItem(event.world, event.x, event.y, event.z, ForgeDirection.UNKNOWN, new ItemStack(drop, 1, dropMeta), RANDOM);
+            }
+
             event.world.setBlockToAir(event.x, event.y, event.z);
             PacketFX.breakFX(event.world.provider.dimensionId, event.x, event.y, event.z, new ItemStack(block, 1, meta));
         }
