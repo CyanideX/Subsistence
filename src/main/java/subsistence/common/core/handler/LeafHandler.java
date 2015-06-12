@@ -96,5 +96,6 @@ public class LeafHandler {
 
         event.world.setBlockToAir(event.x, event.y, event.z);
         PacketFX.breakFX(event.world.provider.dimensionId, event.x, event.y, event.z, new ItemStack(block, 1, meta));
+        PacketFX.swingArm(event.entityPlayer);
     }
 }

@@ -1,18 +1,19 @@
 package subsistence.common.network.packet;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import subsistence.common.lib.client.EnumParticle;
+import subsistence.common.network.PacketHandler;
+import subsistence.common.util.BlockCoord;
+import subsistence.common.util.ItemHelper;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import subsistence.common.lib.client.EnumParticle;
-import subsistence.common.network.PacketHandler;
-import subsistence.common.util.ItemHelper;
 
 public class PacketFX implements IMessage {
 
@@ -20,6 +21,7 @@ public class PacketFX implements IMessage {
 
     public static final int FX_PARTICLE = 0;
     public static final int FX_BLOCK_BREAK = 1;
+    public static final int FX_SWING_HAND = 2;
 
     public double x;
     public double y;
@@ -52,6 +54,14 @@ public class PacketFX implements IMessage {
     public static void breakFX(int dim, int x, int y, int z, ItemStack stack) {
         PacketFX packet = new PacketFX(x, y, z, stack);
         PacketHandler.INSTANCE.sendToAllAround(packet, new NetworkRegistry.TargetPoint(dim, x, y, z, MAX_PARTICLE_RANGE));
+    }
+    
+    public static void swingArm(EntityPlayer player) {
+        PacketFX packet = new PacketFX();
+        packet.extraData = new int[] { player.getEntityId() };
+        packet.fxType = FX_SWING_HAND;
+        BlockCoord pos = new BlockCoord(player);
+        PacketHandler.INSTANCE.sendToAllAround(packet, new NetworkRegistry.TargetPoint(player.worldObj.provider.dimensionId, pos.x, pos.y, pos.z, MAX_PARTICLE_RANGE));
     }
 
     @Override
@@ -95,12 +105,18 @@ public class PacketFX implements IMessage {
                     }
 
                     case FX_BLOCK_BREAK: {
+                        BlockCoord bc = new BlockCoord(message.x, message.y, message.z);
                         if (message.extraData[0] > 0 && message.extraData[0] < 4096) {
-                            mc.effectRenderer.addBlockDestroyEffects((int) Math.floor(message.x), (int) Math.floor(message.y), (int) Math.floor(message.z), Block.getBlockById(message.extraData[0]), message.extraData[1]);
+                            mc.theWorld.playAuxSFX(2001, bc.x, bc.y, bc.z, message.extraData[0]);
                         } else {
                             EnumParticle.ITEM_BREAK(new ItemStack(Item.getItemById(message.extraData[0]), message.extraData[1]), mc.thePlayer.worldObj, message.x, message.y, message.z);
                         }
                         break;
+                    }
+                    
+                    case FX_SWING_HAND: {
+                        EntityPlayer player = (EntityPlayer) mc.theWorld.getEntityByID(message.extraData[0]);
+                        player.swingItem();
                     }
                 }
             }
