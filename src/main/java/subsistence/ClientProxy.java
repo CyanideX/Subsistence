@@ -4,6 +4,7 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
+import subsistence.client.handler.ClientTimerHandler;
 import subsistence.client.model.FixedTechneModelLoader;
 import subsistence.client.render.FoliageHandler;
 import subsistence.client.render.item.*;
@@ -12,6 +13,7 @@ import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.item.SubsistenceItems;
 import subsistence.common.tile.machine.*;
 import subsistence.common.tile.misc.TileSpawnMarker;
+import subsistence.common.util.EventUtil;
 
 import java.io.File;
 
@@ -22,6 +24,8 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preInit() {
         super.preInit();
+
+        EventUtil.register(ClientTimerHandler.INSTANCE, EventUtil.Type.BOTH);
 
         File file = new File(Subsistence.configPath + "foliage.json");
         if (file.exists()) {
@@ -46,6 +50,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileMetalShaft.class, new RenderTileMetalShaft());
         ClientRegistry.bindTileEntitySpecialRenderer(TileCompost.class, new RenderTileCompost());
         ClientRegistry.bindTileEntitySpecialRenderer(TileBarrel.class, new RenderTileBarrel());
+
         // ITEM
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(SubsistenceBlocks.table), new RenderItemTable());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(SubsistenceBlocks.tableSieve), new RenderItemSieveTable());
