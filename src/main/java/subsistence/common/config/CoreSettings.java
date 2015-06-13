@@ -9,6 +9,7 @@ import java.lang.reflect.Modifier;
 
 public class CoreSettings {
 
+    // Simply add new variables to this class to have them added to the config
     public static int barrelRain = 10;
     public static int handCrank = 1;
     public static int waterMill = 2;
