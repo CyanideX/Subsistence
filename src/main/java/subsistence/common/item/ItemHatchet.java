@@ -5,7 +5,6 @@ import net.minecraft.block.BlockLeaves;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
@@ -78,11 +77,19 @@ public class ItemHatchet extends SubsistenceItem {
                     int y = (Integer) args[2];
                     int z = (Integer) args[3];
 
+                    ItemStack held = player.getHeldItem();
+                    if (held == null || held.getItem() != ItemHatchet.this)
+                        return;
+
+                    held.damageItem(1, player);
+
                     final Item drop = block.getItemDropped(meta, new Random(), 0);
                     final int dropMeta = block.damageDropped(meta);
                     InventoryHelper.dropItem(world, x, y, z, ForgeDirection.UNKNOWN, new ItemStack(drop, 1, dropMeta), null);
+
                     PacketFX.breakFX(world.provider.dimensionId, x, y, z, new ItemStack(block));
                     PacketFX.swingArm(player);
+
                     world.setBlockToAir(x, y, z);
                 }
             }));
