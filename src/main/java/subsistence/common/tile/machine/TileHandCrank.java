@@ -34,7 +34,7 @@ public class TileHandCrank extends TileCoreMachine {
             TileEntity beyond = worldObj.getTileEntity(tile.xCoord + orientation.offsetX, tile.yCoord + orientation.offsetY, tile.zCoord + orientation.offsetZ);
 
             if (beyond == null || !(beyond instanceof TileHandCrank) && !(beyond instanceof TileKineticCrank) && !(beyond instanceof TileMetalShaft)) {
-                tile.charge += CoreSettings.STATIC.handCrank;
+                tile.charge += CoreSettings.handCrank;
 
                 spin = 360F;
 

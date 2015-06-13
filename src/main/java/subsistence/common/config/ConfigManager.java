@@ -23,13 +23,13 @@ public class ConfigManager {
     public static final File configDir = new File(Subsistence.configPath);
     public static final File recipeDir = new File(configDir, "recipes/");
 
-    public static final File mainFile = new File(configDir, "main.json");
+    public static final File mainFile = new File(configDir, "main.cfg");
     public static final File heatFile = new File(configDir, "heat.json");
     public static final File toolsFile = new File(configDir, "tools.json");
     public static final File itemDump = new File(configDir, "key_dump.txt");
 
     public static void preInit() {
-        CoreSettings.Loader.parse(mainFile);
+        CoreSettings.load(mainFile);
         genDefaultConfigs();
     }
 
@@ -72,10 +72,6 @@ public class ConfigManager {
 
             extractZip(to);
             safeDelete(to);
-        }
-
-        if (!mainFile.exists()) {
-            CoreSettings.Loader.makeNewFile(mainFile);
         }
     }
 
@@ -221,7 +217,7 @@ public class ConfigManager {
 
     public static void tryDumpItems(File file) {
         try {
-            if (CoreSettings.STATIC.dumpItems) {
+            if (CoreSettings.dumpItems) {
                 if (!file.exists()) {
                     file.createNewFile();
                 } else {

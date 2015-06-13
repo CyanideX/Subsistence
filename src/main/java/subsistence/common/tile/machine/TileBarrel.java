@@ -183,7 +183,7 @@ public final class TileBarrel extends TileCoreMachine {
                 rainDelay = RANDOM.nextInt(500);
 
                 if (!hasLid) {
-                    addFluid(new FluidStack(FluidRegistry.WATER, CoreSettings.STATIC.barrelRain),true);
+                    addFluid(new FluidStack(FluidRegistry.WATER, CoreSettings.barrelRain),true);
                 }
             } else {
                 rainDelayTick++;

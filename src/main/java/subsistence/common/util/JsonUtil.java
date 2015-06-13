@@ -187,7 +187,7 @@ public class JsonUtil {
 
     private static <T> T fail(String msg, Object... fmt) {
         String err = String.format(msg, fmt);
-        if (CoreSettings.STATIC.crashOnInvalidData) {
+        if (CoreSettings.crashOnInvalidData) {
             throw new JsonParseException(err);
         } else {
             SubsistenceLogger.error(err);

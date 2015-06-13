@@ -57,7 +57,7 @@ public class Subsistence {
     public void onServerStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandSubsistence());
         event.registerServerCommand(new CommandTPX());
-        if (CoreSettings.STATIC.updateChecker) {
+        if (CoreSettings.updateChecker) {
             UpdateChecker.checkForUpdate();
         }
     }
@@ -67,7 +67,7 @@ public class Subsistence {
         //this comment was created in the 100th commit. HAHA I STOLE IT FROM YOU DYLAN
         if (!event.player.worldObj.isRemote) {
             if (event.player instanceof EntityPlayerMP) {
-                if (CoreSettings.STATIC.updateChecker) {
+                if (CoreSettings.updateChecker) {
                     if (UpdateChecker.updateAvaliable) {
                         event.player.addChatMessage(new ChatComponentText("§dUpdate for Subsistence is available!"));
                     }

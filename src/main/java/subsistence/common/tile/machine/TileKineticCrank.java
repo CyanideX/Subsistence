@@ -34,7 +34,7 @@ public class TileKineticCrank extends TileCoreMachine {
         if (!worldObj.isRemote) {
             for (TileEntity tile : connectedTilesCache) {
                 if (tile != null && tile instanceof TileHammerMill && (MAX_LENGTH - speed) != 0) {
-                    ((TileHammerMill) tile).charge += CoreSettings.STATIC.waterMill * (speed / TileWaterMill.MAX_SPEED);
+                    ((TileHammerMill) tile).charge += CoreSettings.waterMill * (speed / TileWaterMill.MAX_SPEED);
                 }
             }
         } else {

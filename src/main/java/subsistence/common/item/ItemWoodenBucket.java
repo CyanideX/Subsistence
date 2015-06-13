@@ -31,7 +31,7 @@ public class ItemWoodenBucket extends SubsistenceItem {
         this.fluid = fluid;
         this.texture = texture;
 
-        setMaxDamage(CoreSettings.STATIC.woodenBucketUses - 1);
+        setMaxDamage(CoreSettings.woodenBucketUses - 1);
         setMaxStackSize(1);
     }
 

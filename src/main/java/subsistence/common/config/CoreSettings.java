@@ -1,61 +1,49 @@
 package subsistence.common.config;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import net.minecraftforge.common.config.Configuration;
 import subsistence.common.lib.SubsistenceLogger;
-import subsistence.common.util.JsonUtil;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 public class CoreSettings {
 
-    public static CoreSettings STATIC;
+    public static int barrelRain = 10;
+    public static int handCrank = 1;
+    public static int waterMill = 2;
+    public static int processRate = 20;
+    public static int wormwoodDry = 2400;
+    public static int compostBucketSize = 1;
+    public static boolean updateChecker = true;
+    public static boolean dumpItems = false;
+    public static int woodenBucketUses = 8;
+    public static int saplingSearchDuration = 20;
+    public static boolean crashOnInvalidData = true;
 
-    public int barrelRain = 10;
-    public int handCrank = 1;
-    public int waterMill = 2;
-    public int processRate = 20;
-    public int wormwoodDry = 2400;
-    public int compostBucketSize = 1;
-    public boolean updateChecker = true;
-    public boolean dumpItems = false;
-    public int woodenBucketUses = 8;
-    public int leafSaplingChance = 10; // Out of 100
-    public int leafSaplingDoubleChance = 5; // Out of 100
-    public boolean crashOnInvalidData = true;
+    public static void load(File file) {
+        Configuration configuration = new Configuration(file);
+        try {
+            configuration.load();
 
-    public static class Loader {
-
-        public static void parse(File file) {
-            if (!file.exists()) {
-                STATIC = new CoreSettings();
-            } else {
+            for (Field field : CoreSettings.class.getDeclaredFields()) {
                 try {
-                    SubsistenceLogger.info("Parsing " + file.getName());
-                    CoreSettings.STATIC = JsonUtil.gson().fromJson(new FileReader(file), CoreSettings.class);
-                } catch (IOException e) {
-                    SubsistenceLogger.warn("Failed to parse " + file.getName());
-                    e.printStackTrace();
+                    if (Modifier.isStatic(field.getModifiers())) {
+                        if (field.getType() == int.class) {
+                            field.setInt(CoreSettings.class, configuration.get("general", field.getName(), (Integer) field.get(CoreSettings.class)).getInt());
+                        } else if (field.getType() == boolean.class) {
+                            field.setBoolean(CoreSettings.class, configuration.get("general", field.getName(), (Boolean) field.get(CoreSettings.class)).getBoolean());
+                        }
+                    }
+                } catch (Exception ex) {
+                    SubsistenceLogger.warn(String.format("Failed to load '%s' from config. Assuming default value", field.getName()));
                 }
             }
-        }
-
-        public static void makeNewFile(File file) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            try {
-                SubsistenceLogger.info("Creating " + file.getName());
-                CoreSettings obj = new CoreSettings();
-                String json = gson.toJson(obj);
-                FileWriter writer = new FileWriter(file);
-                writer.write(json);
-                writer.close();
-            } catch (IOException e) {
-                SubsistenceLogger.warn("Failed to write " + file.getName());
-                e.printStackTrace();
-            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (configuration.hasChanged())
+                configuration.save();
         }
     }
 }

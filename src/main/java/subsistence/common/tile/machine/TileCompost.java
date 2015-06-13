@@ -85,7 +85,7 @@ public class TileCompost extends TileCoreMachine {
     }
 
     public int getVolume() {
-        return CoreSettings.STATIC.compostBucketSize * FluidContainerRegistry.BUCKET_VOLUME;
+        return CoreSettings.compostBucketSize * FluidContainerRegistry.BUCKET_VOLUME;
     }
 
     private void process() {
