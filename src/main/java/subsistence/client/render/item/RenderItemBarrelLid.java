@@ -36,10 +36,10 @@ public class RenderItemBarrelLid implements IItemRenderer {
         final Texture texture;
         switch (item.getItemDamage()) {
             case 2:
-                texture = Texture.BARREL_STONE;
+                texture = Texture.BARREL_NETHER;
                 break;
             case 1:
-                texture = Texture.BARREL_NETHER;
+                texture = Texture.BARREL_STONE;
                 break;
             case 0:
             default:
