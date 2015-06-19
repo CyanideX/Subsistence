@@ -45,20 +45,17 @@ public class BlockWormwood extends BlockBush implements IGrowable {
 
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
-        int light = world.getBlockLightValue(x, y + 1, z);
         int meta = world.getBlockMetadata(x, y, z);
 
-        if (world.provider.dimensionId == -1 || light >= 9) {
-            if (meta < 7) { //if not grown
-                float modifier = getGrowthModifier(world, x, y, z); //get blocks around, to increase speed?
-                if (rand.nextInt((int) (25.0F / modifier) + 1) == 0) {
-                    world.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
-                }
-            } else if (meta >= 7 && meta < 9) {
-                float modifier = getDryingModifier(world, x, y, z); //get blocks around, to increase speed?
-                if (rand.nextInt((int) (25.0F / modifier) + 1) == 0) {
-                    world.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
-                }
+        if (meta < 7) { //if not grown
+            float modifier = getGrowthModifier(world, x, y, z); //get blocks around, to increase speed?
+            if (rand.nextInt((int) (25.0F / modifier) + 1) == 0) {
+                world.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
+            }
+        } else if (meta >= 7 && meta < 9) {
+            float modifier = getDryingModifier(world, x, y, z); //get blocks around, to increase speed?
+            if (rand.nextInt((int) (25.0F / modifier) + 1) == 0) {
+                world.setBlockMetadataWithNotify(x, y, z, meta + 1, 2);
             }
         }
     }
