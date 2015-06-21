@@ -220,7 +220,7 @@ public class BlockWormwood extends BlockBush implements IGrowable {
             if (this.lessThanOneDropChance(rand)) { //0-1 sap
                 ret.add(new ItemStack(SubsistenceItems.component, 1, 3)); //sap
             }
-            if (this.lessThanOneDropChance(rand)) { //0-1 leaves
+            if (rand.nextFloat() <= 0.1F) { //0-1 leaves
                 ret.add(new ItemStack(SubsistenceItems.component,1,2)); //leaves
             }
             ret.add(new ItemStack(SubsistenceItems.seeds, 1, 2)); //always 1 wormwood seed
@@ -230,6 +230,9 @@ public class BlockWormwood extends BlockBush implements IGrowable {
         } else if (meta >= 7 && meta < 9) { //fully grown
             if (this.lessThanOneDropChance(rand)) { //0-1 twine
                 ret.add(new ItemStack(SubsistenceItems.component, 1, 0)); //twine
+            }
+            if (rand.nextFloat() <= 0.75F) { //0-1 leaves
+                ret.add(new ItemStack(SubsistenceItems.component,1,2)); //leaves
             }
             ret.add(new ItemStack(SubsistenceItems.seeds, 1, 2)); //always 1 wormwood seed
             if (rand.nextFloat() <= 0.1F) {
