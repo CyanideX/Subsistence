@@ -12,8 +12,7 @@ public class TransformerEntitySpider extends CoreTransformer {
     public static final String INVOKE_TARGET_CLASS_NAME = StaticMethods.class.getName().replace(".", "/");
 
     public TransformerEntitySpider() {
-        mappings.put("isAIEnabled", "func_70650_aV");
-        mappings.put("findPlayerToAttack", "func_70782_k");
+        mappings.put("findPlayerToAttack", "bR");
     }
 
     @Override
@@ -32,16 +31,15 @@ public class TransformerEntitySpider extends CoreTransformer {
             if (methodNode.name.equals(getMappedName("findPlayerToAttack"))) {
                 methodNode.instructions.clear();
                 methodNode.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                methodNode.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, INVOKE_TARGET_CLASS_NAME, "findPlayerToAttack", "(Lnet/minecraft/entity/monster/EntitySpider;)Lnet/minecraft/entity/player/EntityPlayer;", false));
+                String desc = obfuscated ? "(Lyn;)Lyz;" : "(Lnet/minecraft/entity/monster/EntitySpider;)Lnet/minecraft/entity/player/EntityPlayer;";
+                methodNode.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, INVOKE_TARGET_CLASS_NAME, "findPlayerToAttack", desc, false));
                 methodNode.instructions.add(new InsnNode(Opcodes.ARETURN));
             }
         }
 
-        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+        //COMPUTE_FRAMES is not added due to an issue with getCommonSuperClass. Refer to this for more info: http://www.minecraftforge.net/forum/index.php?topic=20911.0
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         classNode.accept(classWriter);
-
-//        classNode.accept(new TraceClassVisitor(new PrintWriter(System.out)));
-
         return classWriter.toByteArray();
     }
 }

@@ -21,4 +21,8 @@ public class StaticMethods {
             }
         }
     }
+
+    public static int getMinimumLightLevel() {
+        return 0;
+    }
 }

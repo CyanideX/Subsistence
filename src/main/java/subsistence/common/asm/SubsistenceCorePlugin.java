@@ -1,6 +1,7 @@
 package subsistence.common.asm;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+import subsistence.common.asm.transformer.CoreTransformer;
 
 import java.util.Map;
 
@@ -24,7 +25,8 @@ public class SubsistenceCorePlugin implements IFMLLoadingPlugin {
 
     @Override
     public void injectData(Map<String, Object> data) {
-
+        //Get obfuscation status this way as it will return as not obfuscated for non-vanilla classes
+        CoreTransformer.obfuscated = (Boolean) data.get("runtimeDeobfuscationEnabled");
     }
 
     @Override
