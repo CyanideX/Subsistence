@@ -185,10 +185,12 @@ public final class TileBarrel extends TileCoreMachine {
                 if (!hasLid) {
                     addFluid(new FluidStack(FluidRegistry.WATER, CoreSettings.barrelRain),true);
                 }
+                markForUpdate();
             } else {
                 rainDelayTick++;
             }
         }
+        
     }
 
     /* STONE SPECIFIC */
