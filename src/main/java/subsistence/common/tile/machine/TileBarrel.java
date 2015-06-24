@@ -172,7 +172,7 @@ public final class TileBarrel extends TileCoreMachine {
         if (cachedWoodRecipe != null)
             return;
 
-        if (!worldObj.isRaining() || !worldObj.canBlockSeeTheSky(xCoord, yCoord, zCoord))
+        if (!worldObj.isRaining() || !worldObj.canBlockSeeTheSky(xCoord, yCoord+1, zCoord))
             return;
 
         if (rainDelay == -1) {
@@ -185,6 +185,7 @@ public final class TileBarrel extends TileCoreMachine {
                 if (!hasLid) {
                     addFluid(new FluidStack(FluidRegistry.WATER, CoreSettings.barrelRain),true);
                 }
+                reset();
                 markForUpdate();
             } else {
                 rainDelayTick++;
