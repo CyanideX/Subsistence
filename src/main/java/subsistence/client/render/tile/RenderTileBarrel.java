@@ -66,8 +66,9 @@ public class RenderTileBarrel extends SubsistenceTileRenderer<TileBarrel> {
                     if (FoliageHandler.shouldRender(itemStack)) {
                         RenderHelper.renderColoredIcon(Blocks.dirt.getIcon(1, 0), TextureMap.locationBlocksTexture, Blocks.leaves.getBlockColor(), 0.35F + ((float) i * 0.35F));
                     } else if (itemStack.getItem() instanceof ItemBlock) {
-                        Block block = Block.getBlockFromItem(tile.itemContents[i].getItem());
-                        RenderHelper.renderColoredIcon(block.getIcon(1, 0), TextureMap.locationBlocksTexture, block.getBlockColor(), 0.35F + ((float) i * 0.35F));
+                        ItemStack item = tile.itemContents[i];
+                        Block block = Block.getBlockFromItem(item.getItem());
+                        RenderHelper.renderColoredIcon(block.getIcon(1, item.getItemDamage()), TextureMap.locationBlocksTexture, block.getBlockColor(), 0.35F + ((float) i * 0.35F));
                     } else {
                         RenderHelper.renderColoredIcon(itemStack.getItem().getIcon(itemStack, 0), TextureMap.locationBlocksTexture, 0xFFFFFF, 0.35F + ((float) i * 0.35F));
                     }
