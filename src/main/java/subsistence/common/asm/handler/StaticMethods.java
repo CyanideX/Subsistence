@@ -2,6 +2,8 @@ package subsistence.common.asm.handler;
 
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MouseHelper;
+import org.lwjgl.input.Mouse;
 import subsistence.common.item.SubsistenceItems;
 
 public class StaticMethods {
@@ -24,5 +26,16 @@ public class StaticMethods {
 
     public static int getMinimumLightLevel() {
         return 0;
+    }
+
+    public static boolean lockMouse = false;
+    public static void updateMouse(MouseHelper helper) {
+        if (!lockMouse) {
+            helper.deltaX = Mouse.getDX();
+            helper.deltaY = Mouse.getDY();
+        } else {
+            helper.deltaX = 0;
+            helper.deltaY = 0;
+        }
     }
 }

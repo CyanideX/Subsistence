@@ -12,6 +12,7 @@ public class TransformerDelegate implements IClassTransformer {
     static {
         transformers.add(new TransformerEntitySpider());
         transformers.add(new TransformBlockBOPSapling());
+        transformers.add(new TransformerMouseHelper());
     }
 
     public static byte[] handle(String obfName, String deobfName, byte[] data) {

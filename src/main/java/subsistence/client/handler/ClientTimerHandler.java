@@ -6,7 +6,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Mouse;
+import subsistence.common.asm.handler.StaticMethods;
+import subsistence.common.network.PacketHandler;
+import subsistence.common.network.packet.PacketStopTimer;
 
 /**
  * @author dmillerw
@@ -21,22 +26,56 @@ public class ClientTimerHandler {
     public int ticks;
     public int duration;
 
+    private double playerX;
+    private double playerY;
+    private double playerZ;
+
     public void update(String tag, int ticks, int duration) {
         this.tag = tag;
         this.ticks = ticks;
         this.duration = duration;
+
+        if (this.tag != null && !tag.isEmpty()) {
+            StaticMethods.lockMouse = true;
+        }
+
+        final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        playerX = player.posX;
+        playerY = player.posY;
+        playerZ = player.posZ;
     }
 
     public void stop() {
         tag = null;
         ticks = 0;
         duration = 0;
+
+        StaticMethods.lockMouse = false;
     }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END)
             return;
+
+        if (tag != null && !tag.isEmpty()) {
+            // Hack to ensure the mouse doesn't randomly jump once the timer finishes
+            if (StaticMethods.lockMouse) {
+                Mouse.getDX();
+                Mouse.getDY();
+            }
+
+            // If the player moves while the timer is running, cancel it
+            final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            if (player != null) {
+                if (playerX != player.posX || playerY != player.posY || player.posZ != player.posZ){
+                    PacketHandler.INSTANCE.sendToServer(new PacketStopTimer());
+                    return;
+                }
+            }
+        } else {
+            return;
+        }
 
         ticks++;
 
