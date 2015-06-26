@@ -13,6 +13,10 @@ public class TransformerMouseHelper extends CoreTransformer {
 
     public static final String INVOKE_TARGET_CLASS_NAME = StaticMethods.class.getName().replace(".", "/");
 
+    public TransformerMouseHelper() {
+        mappings.put("mouseXYChange", "func_74374_c");
+    }
+
     @Override
     public String getApplicableClass() {
         return "net.minecraft.util.MouseHelper";
@@ -25,9 +29,10 @@ public class TransformerMouseHelper extends CoreTransformer {
         classReader.accept(classNode, 0);
 
         for (MethodNode methodNode : classNode.methods) {
-            if (methodNode.name.contains("mouseXYChange")) {
+            if (methodNode.name.contains(getMappedName("mouseXYChange"))) {
                 methodNode.instructions.clear();
                 methodNode.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
+                final String desc = obfuscated ? "(Lbbg;)V" : "(Lnet/minecraft/util/MouseHelper;)V";
                 methodNode.instructions.add(new MethodInsnNode(
                         Opcodes.INVOKESTATIC,
                         INVOKE_TARGET_CLASS_NAME,
