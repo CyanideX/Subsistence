@@ -33,6 +33,8 @@ public class InventoryHelper {
             return;
         }
 
+        stack = ItemHelper.sanitizeStack(stack);
+
         double spawnX = x + 0.5D + 1.5D * side.offsetX;
         double spawnY = y + 0.5D + 1.5D * side.offsetY;
         double spawnZ = z + 0.5D + 1.5D * side.offsetZ;
