@@ -28,7 +28,7 @@ public class CommonProxy {
 
         NetworkRegistry.INSTANCE.registerGuiHandler(Subsistence.instance, new GuiHandler());
 
-        EventUtil.register(new SpiderTracker(), EventUtil.Type.BOTH);
+        EventUtil.register(new SpiderTracker(), EventUtil.Type.FORGE);
         EventUtil.register(new WebHandler(), EventUtil.Type.FORGE);
         EventUtil.register(new BoilingWaterHandler(), EventUtil.Type.FORGE);
         EventUtil.register(TimerHandler.INSTANCE, EventUtil.Type.FML);

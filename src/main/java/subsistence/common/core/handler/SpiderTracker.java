@@ -1,48 +1,30 @@
 package subsistence.common.core.handler;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
-
-import java.util.Iterator;
+import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingEvent;
 
 public class SpiderTracker {
 
     private static final int MOB_SPAWN_LIGHT = 7;
-
     private static final float WEB_CHANCE = 0.01F;
 
     private long lastTick = 0L;
 
     @SubscribeEvent
-    public void onSpiderTick(TickEvent.ServerTickEvent event) {
-        // Runs once a second (roughly)
-        long nano = System.nanoTime();
-        if (nano > lastTick) {
-            lastTick = nano + 1000000000L;
-        } else {
-            return;
-        }
+    public void onSpiderTick(LivingEvent.LivingUpdateEvent event) {
+        if (event.entityLiving instanceof EntitySpider) {
+            EntitySpider spider = (EntitySpider) event.entity;
+            World world = spider.worldObj;
 
-        for (WorldServer world : DimensionManager.getWorlds()) {
-            Iterator<Entity> iterator = world.loadedEntityList.iterator();
-            while(iterator.hasNext()) {
-                Entity entity = iterator.next();
-                if (entity instanceof EntitySpider) {
-                    EntitySpider spider = (EntitySpider) entity;
+            if (spider.getAttackTarget() == null && world.rand.nextFloat() <= WEB_CHANCE) {
+                float brightness = world.getLightBrightness((int) spider.posX, (int) spider.posY, (int) spider.posZ);
 
-                    if (spider.getAttackTarget() == null && world.rand.nextFloat() <= WEB_CHANCE) {
-                        float brightness = world.getLightBrightness((int) spider.posX, (int) spider.posY, (int) spider.posZ);
-
-                        if (brightness * 16 <= MOB_SPAWN_LIGHT) {
-                            if (world.isAirBlock((int) spider.posX, (int) spider.posY, (int) spider.posZ) && !world.canBlockSeeTheSky((int) spider.posX, (int) spider.posY, (int) spider.posZ)) {
-                                world.setBlock((int) spider.posX, (int) spider.posY, (int) spider.posZ, Blocks.web);
-                            }
-                        }
+                if (brightness * 16 <= MOB_SPAWN_LIGHT) {
+                    if (world.isAirBlock((int) spider.posX, (int) spider.posY, (int) spider.posZ) && !world.canBlockSeeTheSky((int) spider.posX, (int) spider.posY, (int) spider.posZ)) {
+                        world.setBlock((int) spider.posX, (int) spider.posY, (int) spider.posZ, Blocks.web);
                     }
                 }
             }
