@@ -12,7 +12,7 @@ public class TransformerEntitySpider extends CoreTransformer {
     public static final String INVOKE_TARGET_CLASS_NAME = StaticMethods.class.getName().replace(".", "/");
 
     public TransformerEntitySpider() {
-        mappings.put("findPlayerToAttack", "func_70782_k");
+        mappings.put("findPlayerToAttack", "bR");
     }
 
     @Override
