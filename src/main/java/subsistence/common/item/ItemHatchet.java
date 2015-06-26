@@ -26,7 +26,7 @@ public class ItemHatchet extends SubsistenceItem {
     public ItemHatchet() {
         super(SubsistenceCreativeTab.TOOLS);
 
-        setMaxDamage(56);
+        setMaxDamage(16);
         setMaxStackSize(1);
     }
 
