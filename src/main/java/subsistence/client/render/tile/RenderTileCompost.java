@@ -76,9 +76,9 @@ public class RenderTileCompost extends SubsistenceTileRenderer<TileCompost> {
                         RenderHelper.renderColoredIcon(Blocks.dirt.getIcon(1, 0), TextureMap.locationBlocksTexture, Blocks.leaves.getBlockColor(), RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
                     } else if (item instanceof ItemBlock) {
                         Block block = Block.getBlockFromItem(itemStack.getItem());
-                        RenderHelper.renderColoredIcon(block.getIcon(1, 0), TextureMap.locationBlocksTexture, block.getBlockColor(), RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
+                        RenderHelper.renderColoredIcon(block.getIcon(1, itemStack.getItemDamage()), TextureMap.locationBlocksTexture, block.getBlockColor(), RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
                     } else {
-                        RenderHelper.renderColoredIcon(item.getIcon(itemStack, 0), TextureMap.locationBlocksTexture, 0xFFFFFF, RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
+                        RenderHelper.renderColoredIcon(item.getIcon(itemStack, itemStack.getItemDamage()), TextureMap.locationBlocksTexture, 0xFFFFFF, RENDER_START + (thickness * lastSize) + (thickness * itemStack.stackSize));
                     }
 
                     lastSize = itemStack.stackSize;
