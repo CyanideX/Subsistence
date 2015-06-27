@@ -10,7 +10,7 @@ import subsistence.common.tile.machine.TileSieveTable;
 public class BlockSieveTable extends SubsistenceTileBlock {
 
     public BlockSieveTable() {
-        super(Material.iron);
+        super(Material.wood);
     }
 
     @Override
