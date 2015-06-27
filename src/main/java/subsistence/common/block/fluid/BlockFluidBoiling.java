@@ -117,7 +117,7 @@ public class BlockFluidBoiling extends SubsistenceBasicFluid {
 
             if (flag) {
                 if (world.provider.dimensionId == -1) {
-                    world.setBlock(x, y, z, SubsistenceBlocks.componentGround, 2, 2);
+                    world.setBlock(x, y, z, SubsistenceBlocks.componentStone, 0, 3);
                 } else {
                     int metadata = world.getBlockMetadata(x, y, z);
 
