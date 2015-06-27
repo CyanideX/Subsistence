@@ -24,6 +24,11 @@ public class BlockSieveTable extends SubsistenceTileBlock {
     }
 
     @Override
+    public boolean isNormalCube() {
+        return false;
+    }
+
+    @Override
     public void registerBlockIcons(IIconRegister iconRegister) {
 
     }
