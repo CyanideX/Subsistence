@@ -38,6 +38,7 @@ public class SubsistenceBlocks {
 
     public static Block componentGround;
     public static Block componentWood;
+    public static Block componentStone;
     public static Block storage;
     public static Block limestone;
     public static Block netherGrass;
@@ -70,6 +71,7 @@ public class SubsistenceBlocks {
 
         componentGround = new BlockComponentGround().setBlockName(prefix + "component_ground");
         componentWood = new BlockComponentWood().setBlockName(prefix + "component_wood");
+        componentStone = new BlockComponentStone().setBlockName(prefix + "component_stone");
         storage = new BlockStorage().setBlockName(prefix + "storage");
         limestone = new BlockLimestone().setBlockName(prefix + "limestone");
         netherGrass = new BlockNetherGrass().setBlockName(prefix + "nether_grass");
@@ -99,6 +101,7 @@ public class SubsistenceBlocks {
 
         registerBlock(componentGround, SubsistenceItemMultiBlock.class);
         registerBlock(componentWood, SubsistenceItemMultiBlock.class);
+        registerBlock(componentStone, SubsistenceItemMultiBlock.class);
         registerBlock(storage, SubsistenceItemMultiBlock.class);
         registerBlock(limestone, SubsistenceItemMultiBlock.class);
         registerBlock(netherGrass, SubsistenceItemBlock.class);

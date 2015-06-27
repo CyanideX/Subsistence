@@ -23,8 +23,11 @@ itemGroup.subsistence.tools=Subsistence Tools
 # COMPONENT BLOCKS
 tile.subsistence.component_ground.fine_sand.name=Fine Sand
 tile.subsistence.component_ground.nether_grit.name=Nether Grit
+# TO BE REMOVED VVV
 tile.subsistence.component_ground.nether_rind.name=Netherrind
 tile.subsistence.component_ground.soul_dust.name=Soul Dust
+
+tile.subsistence.component_stone.nether_rind.name=Netherrind
 
 tile.subsistence.component_wood.sawdust.name=Sawdust
 tile.subsistence.component_wood.sawdust_nether.name=Infernal Sawdust

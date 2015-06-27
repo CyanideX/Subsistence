@@ -12,7 +12,9 @@ import subsistence.common.block.prefab.SubsistenceMultiBlock;
 import subsistence.common.util.ArrayHelper;
 
 import java.util.List;
+import java.util.Random;
 
+//TODO Eventually migrate nether_rind to BlockComponentStone permanently
 public class BlockComponentGround extends SubsistenceMultiBlock {
 
     public static final int FINE_SAND = 0;
@@ -25,8 +27,8 @@ public class BlockComponentGround extends SubsistenceMultiBlock {
 
     public BlockComponentGround() {
         super(Material.sand, 0.5F, 0F);
-
         setStepSound(soundTypeGravel);
+
         setHarvestLevel("shovel", 0, 0); //fine sand
         setHarvestLevel("shovel", 0, 1); //nether grit
         setHarvestLevel("pickaxe", 0, 2); //nether rind
@@ -49,6 +51,16 @@ public class BlockComponentGround extends SubsistenceMultiBlock {
     }
 
     @Override
+    public Item getItemDropped(int meta, Random random, int fortune) {
+        // Drop new block if its nether rind
+        if (meta == NETHER_RIND) {
+            return Item.getItemFromBlock(SubsistenceBlocks.componentStone);
+        } else {
+            return super.getItemDropped(meta, random, fortune);
+        }
+    }
+
+    @Override
     public IIcon getIcon(int side, int meta) {
         if (meta < 0 || meta >= NAMES.length) {
             meta = 0;
@@ -68,6 +80,10 @@ public class BlockComponentGround extends SubsistenceMultiBlock {
     @Override
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         for (int meta = 0; meta < NAMES.length; ++meta) {
+            // Prevent old block from appearing
+            if (meta == NETHER_RIND)
+                continue;
+
             list.add(new ItemStack(item, 1, meta));
         }
     }
