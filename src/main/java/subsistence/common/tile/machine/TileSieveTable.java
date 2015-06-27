@@ -172,13 +172,15 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                 // ...we're entirely focused on dumping the stuffed items, and no other processing will take place
                 for (int i = 0; i < stuffed.length; i++) {
                     ItemStack stuff = stuffed[i];
-                    ItemStack drop = stuff.copy();
-                    drop.stackSize = 1;
+                    if (stuff != null) {
+                        ItemStack drop = stuff.copy();
+                        drop.stackSize = 1;
 
-                    if (dropItemStack(drop) == null) {
-                        stuff.stackSize--;
-                        if (stuff.stackSize <= 0) {
-                            stuffed[i] = null;
+                        if (dropItemStack(drop) == null) {
+                            stuff.stackSize--;
+                            if (stuff.stackSize <= 0) {
+                                stuffed[i] = null;
+                            }
                         }
                     }
                 }
