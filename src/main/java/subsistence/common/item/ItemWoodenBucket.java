@@ -4,6 +4,7 @@ import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -12,12 +13,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.fluid.SubsistenceFluids;
 import subsistence.common.item.prefab.SubsistenceItem;
+import subsistence.common.network.packet.PacketForcePlayerSlot;
 import subsistence.common.util.BlockCoord;
 
 public class ItemWoodenBucket extends SubsistenceItem {
@@ -38,6 +43,18 @@ public class ItemWoodenBucket extends SubsistenceItem {
     @Override
     public String getIcon() {
         return "woodbucket/" + texture;
+    }
+
+    // Such a hack, but it allows the lava handling to work universally
+    @Override
+    public void onUpdate(ItemStack itemStack, World world, Entity entity, int slot, boolean somethin) {
+        if (!world.isRemote && entity instanceof EntityPlayer) {
+            if (fluid == FluidRegistry.LAVA) {
+                ((EntityPlayer) entity).inventory.setInventorySlotContents(slot, null);
+                PacketForcePlayerSlot.forceSlot((EntityPlayer)entity, slot, null);
+                world.setBlock((int)Math.floor(entity.posX), (int)Math.floor(entity.posY), (int)Math.floor(entity.posZ), Blocks.flowing_lava, 0, 3);
+            }
+        }
     }
 
     @Override

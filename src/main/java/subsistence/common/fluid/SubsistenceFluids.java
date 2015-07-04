@@ -39,5 +39,13 @@ public class SubsistenceFluids {
         GameRegistry.registerItem(item, "wooden_bucket.boiling_water");
 
         ItemWoodenBucket.registerAllContainers(fluid, item);
+
+        // Wooden bucket - lava
+        fluid = FluidRegistry.LAVA;
+        item = new ItemWoodenBucket(fluid, "lava");
+        item.setUnlocalizedName("wooden_bucket.lava");
+        GameRegistry.registerItem(item, "wooden_bucket.lava");
+
+        ItemWoodenBucket.registerAllContainers(fluid, item);
     }
 }
