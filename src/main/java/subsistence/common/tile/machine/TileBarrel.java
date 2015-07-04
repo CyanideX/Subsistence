@@ -52,7 +52,7 @@ public final class TileBarrel extends TileCoreMachine {
             collectRainWater();
 
             if (isWood()) {
-                if (fluidContents != null && fluidContents.getFluid() == FluidRegistry.LAVA) { //wood barrel cant have lava!
+                if (fluidContents != null && fluidContents.getFluid() == FluidRegistry.LAVA) { // wood barrel cant have lava!
                     if (fluidContents.amount >= 1000) {
                         worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.flowing_lava);
                         return;
