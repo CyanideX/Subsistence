@@ -3,9 +3,11 @@ package subsistence.common.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import subsistence.Subsistence;
 import subsistence.common.block.prefab.SubsistenceMultiBlock;
 import subsistence.common.util.ArrayHelper;
@@ -24,6 +26,26 @@ public class BlockComponentStone extends SubsistenceMultiBlock {
         setStepSound(soundTypeStone);
 
         setHarvestLevel("pickaxe", 0, 0); //nether rind
+    }
+
+    @Override
+    public float getBlockHardness(World world, int x, int y, int z) {
+        switch (world.getBlockMetadata(x, y, z)) {
+            case 0:
+                return 2.5F; // Cobblestone is 2.0
+            default:
+                return super.getBlockHardness(world, x, y, z);
+        }
+    }
+
+    @Override
+    public float getExplosionResistance(Entity entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ) {
+        switch (world.getBlockMetadata(x, y, z)) {
+            case 0:
+                return 10F; // Cobblestone is 10.0
+            default:
+                return super.getBlockHardness(world, x, y, z);
+        }
     }
 
     @Override
