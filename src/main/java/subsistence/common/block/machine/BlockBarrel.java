@@ -138,11 +138,28 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
                 ItemStack held = entityPlayer.getHeldItem();
 
                 if (held != null) {
-                    for (int i=tileBarrel.itemContents.length - 1; i>=0; i--) {
-                        ItemStack itemStack = tileBarrel.itemContents[i];
-                        if (itemStack != null) {
-                            if (held.isItemEqual(itemStack) && (held.stackSize + itemStack.stackSize) <= held.getMaxStackSize()){
-                                held.stackSize += itemStack.stackSize;
+                    if (tileBarrel.itemContents != null && tileBarrel.itemContents.length > 0) {
+                        for (int i=tileBarrel.itemContents.length - 1; i>=0; i--) {
+                            ItemStack itemStack = tileBarrel.itemContents[i];
+                            if (itemStack != null) {
+                                if (held.isItemEqual(itemStack) && (held.stackSize + itemStack.stackSize) <= held.getMaxStackSize()){
+                                    held.stackSize += itemStack.stackSize;
+                                    ((EntityPlayerMP)entityPlayer).updateHeldItem();
+
+                                    tileBarrel.itemContents[i] = null;
+                                    tileBarrel.markForUpdate();
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (tileBarrel.itemContents != null && tileBarrel.itemContents.length > 0) {
+                        for (int i=tileBarrel.itemContents.length - 1; i>=0; i--) {
+                            ItemStack itemStack = tileBarrel.itemContents[i];
+                            if (itemStack != null) {
+                                entityPlayer.setCurrentItemOrArmor(0, itemStack.copy());
                                 ((EntityPlayerMP)entityPlayer).updateHeldItem();
 
                                 tileBarrel.itemContents[i] = null;
@@ -150,19 +167,6 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
                                 break;
                             }
-                        }
-                    }
-                } else {
-                    for (int i=tileBarrel.itemContents.length - 1; i>=0; i--) {
-                        ItemStack itemStack = tileBarrel.itemContents[i];
-                        if (itemStack != null) {
-                            entityPlayer.setCurrentItemOrArmor(0, itemStack.copy());
-                            ((EntityPlayerMP)entityPlayer).updateHeldItem();
-
-                            tileBarrel.itemContents[i] = null;
-                            tileBarrel.markForUpdate();
-
-                            break;
                         }
                     }
                 }
