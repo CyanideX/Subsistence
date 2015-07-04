@@ -30,7 +30,7 @@ public class CommonProxy {
 
         EventUtil.register(new SpiderTracker(), EventUtil.Type.FORGE);
         EventUtil.register(new WebHandler(), EventUtil.Type.FORGE);
-        EventUtil.register(new BoilingWaterHandler(), EventUtil.Type.FORGE);
+        EventUtil.register(new BoilingWaterHandler(), EventUtil.Type.BOTH);
         EventUtil.register(TimerHandler.INSTANCE, EventUtil.Type.FML);
     }
 

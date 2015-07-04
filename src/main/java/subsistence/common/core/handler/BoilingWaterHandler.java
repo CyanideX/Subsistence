@@ -1,7 +1,7 @@
 package subsistence.common.core.handler;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -15,23 +15,23 @@ import subsistence.common.fluid.SubsistenceFluids;
 public class BoilingWaterHandler {
 
     @SubscribeEvent
-    public void onEnterNether(PlayerEvent.PlayerChangedDimensionEvent event) {
-        if (event.toDim != -1) {
-            return;
-        }
-
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
         InventoryPlayer inventoryPlayer = player.inventory;
-        for (int i=0; i < inventoryPlayer.getSizeInventory(); i++) {
-            ItemStack item = inventoryPlayer.getStackInSlot(i);
-            if (item != null) {
-                FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(item);
-                if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER) {
-                    ItemStack drained = FluidContainerRegistry.drainFluidContainer(item);
-                    ItemStack filled = FluidContainerRegistry.fillFluidContainer(new FluidStack(SubsistenceFluids.boilingWaterFluid, fluidStack.amount), drained);
-                    inventoryPlayer.setInventorySlotContents(0, filled);
+
+        if (inventoryPlayer.inventoryChanged) {
+            for (int i=0; i < inventoryPlayer.getSizeInventory(); i++) {
+                ItemStack item = inventoryPlayer.getStackInSlot(i);
+                if (item != null) {
+                    FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(item);
+                    if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER) {
+                        ItemStack drained = FluidContainerRegistry.drainFluidContainer(item);
+                        ItemStack filled = FluidContainerRegistry.fillFluidContainer(new FluidStack(SubsistenceFluids.boilingWaterFluid, fluidStack.amount), drained);
+                        inventoryPlayer.setInventorySlotContents(0, filled);
+                    }
                 }
             }
+            inventoryPlayer.inventoryChanged = false;
         }
     }
 
