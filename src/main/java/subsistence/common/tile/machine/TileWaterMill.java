@@ -101,9 +101,9 @@ public class TileWaterMill extends TileCoreMachine {
         if (sources > 0)
             speed = ((float) count / (sources * 8));
         else speed = 0;
-        
-        speed = Math.max(0, Math.min(MAX_SPEED, speed));
-        
+
+        speed = Math.min(MAX_SPEED, speed);
+
         crank.speed = speed;
 
         if (lastSpeed != speed) {
@@ -120,7 +120,7 @@ public class TileWaterMill extends TileCoreMachine {
 
         // get rid of nonsense values
         flow = Math.max(0, flow);
-        
+
         double flowSpeed = ((maxFlow - flow) / maxFlow) * 10;
 
         // handles water rotation and returns a speed
