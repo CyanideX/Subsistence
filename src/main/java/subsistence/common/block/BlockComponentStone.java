@@ -33,7 +33,7 @@ public class BlockComponentStone extends SubsistenceMultiBlock {
 
     @Override
     public String getNameForType(int type) {
-        return NAMES[type];
+        return ArrayHelper.safeGetArrayIndex(NAMES, type);
     }
 
     @Override
