@@ -159,8 +159,16 @@ public class ItemWoodenBucket extends SubsistenceItem {
                     world.func_147480_a(x, y, z, true);
                 }
 
-                if (place != null && place.getBlock() != null) {
-                    world.setBlock(x, y, z, place.getBlock(), 0, 3);
+                if (place != null) {
+                    Block toPlace = place.getBlock();
+                    if (toPlace != null) {
+                        // Because Vanilla in its INFINITE WISDOM has two blocks for water, and the registry uses
+                        // the stationary version. Why? Because f**k you. (sorry kids)
+                        if (place == FluidRegistry.WATER) {
+                            toPlace = Blocks.flowing_water;
+                        }
+                        world.setBlock(x, y, z, toPlace, 0, 3);
+                    }
                 }
 
                 return true;
