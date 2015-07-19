@@ -206,6 +206,9 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack stack) {
+        if (processing == null)
+            charge = 0;
+
         processing = stack;
     }
 
