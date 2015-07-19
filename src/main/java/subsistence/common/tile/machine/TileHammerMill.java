@@ -55,9 +55,7 @@ public class TileHammerMill extends TileCoreMachine implements ISidedInventory {
                         ItemStack stack = item.getEntityItem().copy();
                         stack.stackSize = 1;
 
-                        ItemStack test = TileEntityHopper.func_145889_a(this, stack, 1);
-                        System.out.println(test);
-                        if (test == null) {
+                        if (TileEntityHopper.func_145889_a(this, stack, 1) == null) {
                             item.getEntityItem().stackSize--;
 
                             if (item.getEntityItem().stackSize <= 0) {
