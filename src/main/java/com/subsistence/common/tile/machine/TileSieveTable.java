@@ -51,7 +51,7 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
 
             if (entities != null && entities.size() > 0) {
                 EntityItem item = (EntityItem) entities.get(0);
-                if (item.getEntityItem() != null) {
+                if (item.getEntityItem() != null && SubsistenceRecipes.SIEVE.get(item.getEntityItem(), true) !=null) {
                     ItemStack stack = item.getEntityItem().copy();
                     stack.stackSize = 1;
 
@@ -65,14 +65,15 @@ public class TileSieveTable extends TileCore implements ISidedInventory {
                                 item.setDead();
                             }
                         }
-                    } else {
-                        InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, stack, new Random());
-                        item.getEntityItem().stackSize--;
-
-                        if (item.getEntityItem().stackSize <= 0) {
-                            item.setDead();
-                        }
                     }
+//                    } else {
+//                        InventoryHelper.ejectItem(worldObj, xCoord, yCoord, zCoord, ForgeDirection.DOWN, stack, new Random());
+//                        item.getEntityItem().stackSize--;
+//
+//                        if (item.getEntityItem().stackSize <= 0) {
+//                            item.setDead();
+//                        }
+//                    }
                 }
             }
 
