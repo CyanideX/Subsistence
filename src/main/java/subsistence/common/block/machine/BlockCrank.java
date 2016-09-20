@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.SubsistenceTileBlock;
@@ -86,6 +87,11 @@ public class BlockCrank extends SubsistenceTileBlock {
         }
 
         return super.collisionRayTrace(world, x, y, z, start, end);
+    }
+
+    @Override
+    public boolean isBlockSolid(IBlockAccess world, int x, int y, int z, int side) {
+        return false;
     }
 
     @Override
