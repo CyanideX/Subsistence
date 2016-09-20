@@ -4,6 +4,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -13,6 +14,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
@@ -23,6 +25,7 @@ import subsistence.common.lib.client.EnumParticle;
 import subsistence.common.particle.SteamFX;
 import subsistence.common.tile.machine.TileBarrel;
 import subsistence.common.util.ArrayHelper;
+import subsistence.common.util.InventoryHelper;
 
 import java.util.Random;
 
@@ -134,42 +137,58 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
         if (!world.isRemote) {
             TileBarrel tileBarrel = (TileBarrel) world.getTileEntity(x, y, z);
 
-            if (tileBarrel != null && !tileBarrel.hasLid  && entityPlayer.isSneaking()) {
-                ItemStack held = entityPlayer.getHeldItem();
+            if (tileBarrel != null && !tileBarrel.hasLid && entityPlayer.isSneaking()) {
+                if (tileBarrel.itemContents != null) {
+                    for (int i = 0; i < tileBarrel.itemContents.length; i++) {
+                        ItemStack stack = tileBarrel.itemContents[i];
+                        if (stack != null) {
+                            EntityItem entityItem = new EntityItem(world, x + 0.5, y + 1.5, z + 0.5, stack);
+                            entityItem.delayBeforeCanPickup = 0;
+                            world.spawnEntityInWorld(entityItem);
 
-                if (held != null) {
-                    if (tileBarrel.itemContents != null && tileBarrel.itemContents.length > 0) {
-                        for (int i=tileBarrel.itemContents.length - 1; i>=0; i--) {
-                            ItemStack itemStack = tileBarrel.itemContents[i];
-                            if (itemStack != null) {
-                                if (held.isItemEqual(itemStack) && (held.stackSize + itemStack.stackSize) <= held.getMaxStackSize()){
-                                    held.stackSize += itemStack.stackSize;
-                                    ((EntityPlayerMP)entityPlayer).updateHeldItem();
+                            tileBarrel.itemContents[i] = null;
+                            tileBarrel.markForUpdate();
 
-                                    tileBarrel.itemContents[i] = null;
-                                    tileBarrel.markForUpdate();
-
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    if (tileBarrel.itemContents != null && tileBarrel.itemContents.length > 0) {
-                        for (int i=tileBarrel.itemContents.length - 1; i>=0; i--) {
-                            ItemStack itemStack = tileBarrel.itemContents[i];
-                            if (itemStack != null) {
-                                entityPlayer.setCurrentItemOrArmor(0, itemStack.copy());
-                                ((EntityPlayerMP)entityPlayer).updateHeldItem();
-
-                                tileBarrel.itemContents[i] = null;
-                                tileBarrel.markForUpdate();
-
-                                break;
-                            }
+                            break;
                         }
                     }
                 }
+
+//                ItemStack held = entityPlayer.getHeldItem();
+
+//                if (held != null) {
+//                    if (tileBarrel.itemContents != null && tileBarrel.itemContents.length > 0) {
+//                        for (int i=tileBarrel.itemContents.length - 1; i>=0; i--) {
+//                            ItemStack itemStack = tileBarrel.itemContents[i];
+//                            if (itemStack != null) {
+//                                if (held.isItemEqual(itemStack) && (held.stackSize + itemStack.stackSize) <= held.getMaxStackSize()){
+//                                    held.stackSize += itemStack.stackSize;
+//                                    ((EntityPlayerMP)entityPlayer).updateHeldItem();
+//
+//                                    tileBarrel.itemContents[i] = null;
+//                                    tileBarrel.markForUpdate();
+//
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    if (tileBarrel.itemContents != null && tileBarrel.itemContents.length > 0) {
+//                        for (int i=tileBarrel.itemContents.length - 1; i>=0; i--) {
+//                            ItemStack itemStack = tileBarrel.itemContents[i];
+//                            if (itemStack != null) {
+//                                entityPlayer.setCurrentItemOrArmor(0, itemStack.copy());
+//                                ((EntityPlayerMP)entityPlayer).updateHeldItem();
+//
+//                                tileBarrel.itemContents[i] = null;
+//                                tileBarrel.markForUpdate();
+//
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
     }

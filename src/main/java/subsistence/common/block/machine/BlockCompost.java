@@ -1,6 +1,7 @@
 package subsistence.common.block.machine;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -110,21 +111,29 @@ public class BlockCompost extends SubsistenceTileMultiBlock {
             TileCompost tileCompost = (TileCompost) world.getTileEntity(x, y, z);
 
             if (tileCompost != null && entityPlayer.isSneaking()) {
-                ItemStack held = entityPlayer.getHeldItem();
+                if (tileCompost.inventoryPeek() != null) {
+                    EntityItem entityItem = new EntityItem(world, x + 0.5, y + 1.5, z + 0.5, tileCompost.inventoryPeek());
+                    entityItem.delayBeforeCanPickup = 0;
+                    world.spawnEntityInWorld(entityItem);
 
-                if (held != null) {
-                    ItemStack output = tileCompost.inventoryPeek();
-                    if (output != null) {
-                        if (held.isItemEqual(output) && (held.stackSize + output.stackSize) <= held.getMaxStackSize()) {
-                            held.stackSize += output.stackSize;
-                            tileCompost.inventoryPop();
-                            tileCompost.updateContents();
-                        }
-                    }
-                } else {
-                    entityPlayer.setCurrentItemOrArmor(0, tileCompost.inventoryPop());
-                    tileCompost.updateContents();
+                    tileCompost.inventoryPop();
+                    tileCompost.markForUpdate();
                 }
+//                ItemStack held = entityPlayer.getHeldItem();
+//
+//                if (held != null) {
+//                    ItemStack output = tileCompost.inventoryPeek();
+//                    if (output != null) {
+//                        if (held.isItemEqual(output) && (held.stackSize + output.stackSize) <= held.getMaxStackSize()) {
+//                            held.stackSize += output.stackSize;
+//                            tileCompost.inventoryPop();
+//                            tileCompost.updateContents();
+//                        }
+//                    }
+//                } else {
+//                    entityPlayer.setCurrentItemOrArmor(0, tileCompost.inventoryPop());
+//                    tileCompost.updateContents();
+//                }
             }
         }
     }
