@@ -19,15 +19,18 @@ public class BoilingWaterHandler {
         EntityPlayer player = event.player;
         InventoryPlayer inventoryPlayer = player.inventory;
 
+        if (player.dimension != -1)
+            return;
+
         if (inventoryPlayer.inventoryChanged) {
-            for (int i=0; i < inventoryPlayer.getSizeInventory(); i++) {
+            for (int i = 0; i < inventoryPlayer.getSizeInventory(); i++) {
                 ItemStack item = inventoryPlayer.getStackInSlot(i);
                 if (item != null) {
                     FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(item);
                     if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER) {
                         ItemStack drained = FluidContainerRegistry.drainFluidContainer(item);
                         ItemStack filled = FluidContainerRegistry.fillFluidContainer(new FluidStack(SubsistenceFluids.boilingWaterFluid, fluidStack.amount), drained);
-                        inventoryPlayer.setInventorySlotContents(0, filled);
+                        inventoryPlayer.setInventorySlotContents(i, filled);
                     }
                 }
             }
