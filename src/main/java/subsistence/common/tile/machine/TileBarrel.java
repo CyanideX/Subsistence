@@ -1,10 +1,15 @@
 package subsistence.common.tile.machine;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import subsistence.Subsistence;
 import subsistence.common.config.CoreSettings;
 import subsistence.common.config.HeatSettings;
 import subsistence.common.item.SubsistenceItems;
@@ -18,7 +23,7 @@ import subsistence.common.tile.core.TileCoreMachine;
 import subsistence.common.util.ArrayHelper;
 import subsistence.common.util.InventoryHelper;
 
-public final class TileBarrel extends TileCoreMachine {
+public final class TileBarrel extends TileCoreMachine implements ISidedInventory {
 
     public static final float DIMENSION_FILL = 0.8F - 0.0625F;
 
@@ -301,5 +306,134 @@ public final class TileBarrel extends TileCoreMachine {
                 return -1;
             }
         }
+    }
+
+    /* ISidedInventory */
+    @Override
+    public int getSizeInventory() {
+        if (itemContents == null) {
+            itemContents = new ItemStack[getType().itemCapacity];
+        }
+        return itemContents.length;
+    }
+
+    @Override
+    public ItemStack getStackInSlot(int p_70301_1_) {
+        return itemContents[p_70301_1_ % itemContents.length];
+    }
+
+    @Override
+    public ItemStack decrStackSize(int slot, int amnt) {
+        if (this.itemContents[slot] != null) {
+            ItemStack itemstack;
+
+            if (this.itemContents[slot].stackSize <= amnt) {
+                itemstack = this.itemContents[slot];
+                this.itemContents[slot] = null;
+                this.markDirty();
+                this.reset();
+                this.markForUpdate();
+                return itemstack;
+            } else {
+                itemstack = this.itemContents[slot].splitStack(amnt);
+
+                if (this.itemContents[slot].stackSize == 0) {
+                    this.itemContents[slot] = null;
+                }
+                
+                this.markDirty();
+                this.reset();
+                this.markForUpdate();
+                return itemstack;
+            }
+            
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public ItemStack getStackInSlotOnClosing(int slot) {
+        if (this.itemContents[slot] != null) {
+            ItemStack itemstack = this.itemContents[slot];
+            this.itemContents[slot] = null;
+            this.reset();
+            this.markForUpdate();
+            return itemstack;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void setInventorySlotContents(int slot, ItemStack stack) {
+        this.itemContents[slot] = stack;
+
+        if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
+            stack.stackSize = this.getInventoryStackLimit();
+        }
+
+        this.reset();
+        this.markDirty();
+        this.markForUpdate();
+    }
+
+    @Override
+    public String getInventoryName() {
+        return Subsistence.RESOURCE_PREFIX + ".barrel";
+    }
+
+    @Override
+    public boolean hasCustomInventoryName() {
+        return false;
+    }
+
+    @Override
+    public int getInventoryStackLimit() {
+        return 1;
+    }
+
+    @Override
+    public boolean isUseableByPlayer(EntityPlayer player) {
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this 
+                && player.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+    }
+
+    @Override
+    public void openInventory() {}
+
+    @Override
+    public void closeInventory() {}
+
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack stack) {
+        return slot < getType().itemCapacity;
+    }
+
+    @Override
+    public int[] getAccessibleSlotsFromSide(int side) {
+        if (itemContents == null) {
+            itemContents = new ItemStack[getType().itemCapacity];
+        }
+        
+        if (side > 2) {
+            return new int[0];
+        } else {
+            int[] slots = new int[itemContents.length];
+            for (int i = 0; i < slots.length; i++) {
+                slots[i] = i;
+            }
+            return slots;
+        }
+    }
+
+    @Override
+    public boolean canInsertItem(int slot, ItemStack stack, int side) {
+        return side == 1 && ArrayUtils.contains(getAccessibleSlotsFromSide(side), slot);
+    }
+
+    @Override
+    public boolean canExtractItem(int slot, ItemStack stack, int side) {
+        return side == 0 && ArrayUtils.contains(getAccessibleSlotsFromSide(side), slot);
     }
 }
