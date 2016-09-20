@@ -14,7 +14,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import subsistence.common.block.SubsistenceBlocks;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
@@ -25,7 +24,6 @@ import subsistence.common.lib.client.EnumParticle;
 import subsistence.common.particle.SteamFX;
 import subsistence.common.tile.machine.TileBarrel;
 import subsistence.common.util.ArrayHelper;
-import subsistence.common.util.InventoryHelper;
 
 import java.util.Random;
 
@@ -139,7 +137,7 @@ public final class BlockBarrel extends SubsistenceTileMultiBlock {
 
             if (tileBarrel != null && !tileBarrel.hasLid && entityPlayer.isSneaking()) {
                 if (tileBarrel.itemContents != null) {
-                    for (int i = 0; i < tileBarrel.itemContents.length; i++) {
+                    for (int i = tileBarrel.itemContents.length - 1; i >= 0; i--) {
                         ItemStack stack = tileBarrel.itemContents[i];
                         if (stack != null) {
                             EntityItem entityItem = new EntityItem(world, x + 0.5, y + 1.5, z + 0.5, stack);
