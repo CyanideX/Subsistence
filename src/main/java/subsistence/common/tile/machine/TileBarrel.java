@@ -158,7 +158,7 @@ public final class TileBarrel extends TileCoreMachine {
                 fluidContents = null;
 
                 if (cachedWoodRecipe.outputItem != null)
-                    itemContents = new ItemStack[]{cachedWoodRecipe.outputItem.copy()};
+                    itemContents[0] = cachedWoodRecipe.outputItem.copy();
                 if (cachedWoodRecipe.outputLiquid != null)
                     fluidContents = cachedWoodRecipe.outputLiquid.copy();
 
@@ -212,7 +212,7 @@ public final class TileBarrel extends TileCoreMachine {
                         fluidContents = null;
 
                         if (cachedStoneRecipe.outputItem != null)
-                            itemContents = new ItemStack[]{cachedStoneRecipe.outputItem.copy()};
+                            itemContents[0] = cachedWoodRecipe.outputItem.copy();
                         if (cachedStoneRecipe.outputLiquid != null)
                             fluidContents = cachedStoneRecipe.outputLiquid.copy();
 
