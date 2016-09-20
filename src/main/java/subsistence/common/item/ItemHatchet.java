@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
+import subsistence.common.block.BlockInfernaLeaves;
 import subsistence.common.core.SubsistenceCreativeTab;
 import subsistence.common.core.handler.TimerHandler;
 import subsistence.common.item.prefab.SubsistenceItem;
@@ -62,8 +63,9 @@ public class ItemHatchet extends SubsistenceItem {
                     }
                 }
             } else {
-                // Otherwise, we simply are
-                isLeaf = true;
+                if (!block.getClass().equals(BlockInfernaLeaves.class))
+                    // Otherwise, we simply are (unless infernal leaves)
+                    isLeaf = true;
             }
 
             if (!isLeaf)
