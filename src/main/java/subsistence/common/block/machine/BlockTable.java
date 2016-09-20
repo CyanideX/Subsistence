@@ -6,6 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import subsistence.common.block.prefab.SubsistenceTileMultiBlock;
 import subsistence.common.item.SubsistenceItems;
@@ -83,7 +84,15 @@ public class BlockTable extends SubsistenceTileMultiBlock {
         return !player.isSneaking();
     }
 
-
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+        if (world.getBlockMetadata(x, y, z) == 0) {
+            setBlockBounds(1/32f, 0, 1/32f, 1 - 1/32f, 9/16f, 1 - 1/32f);
+        } else {
+            setBlockBounds(0, 0, 0, 1, 14/16f, 1);
+        }
+    }
+    
     @Override
     public int[] getSubtypes() {
         return ArrayHelper.getArrayIndexes(TYPES); // Forces all aspects of this block to base themselves off the NAMES array
