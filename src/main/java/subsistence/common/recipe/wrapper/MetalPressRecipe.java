@@ -15,6 +15,6 @@ public class MetalPressRecipe {
     }
 
     public boolean valid(ItemStack input) {
-        return input.getItem() == this.inputItem.getItem();
+        return input.isItemEqual(inputItem);
     }
 }
