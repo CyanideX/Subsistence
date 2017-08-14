@@ -1,78 +1,44 @@
 package subsistence;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.ChatComponentText;
-import subsistence.common.command.CommandSubsistence;
-import subsistence.common.command.CommandTPX;
-import subsistence.common.config.CoreSettings;
-import subsistence.common.network.PacketHandler;
-import subsistence.common.network.UpdateChecker;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import subsistence.proxy.CommonProxy;
 
-import java.io.File;
-
-@Mod(modid = Subsistence.MODID, name = Subsistence.NAME, version = Subsistence.VERSION, dependencies = "required-after:Forge@[%FORGE_VERSION%,)")
+@Mod.EventBusSubscriber
+@Mod(modid = Subsistence.MODID, version = Subsistence.VERSION, acceptedMinecraftVersions = "{1.12,1.13)")
 public class Subsistence {
-
-    public static final String MODID = "subsistence";
-    public static final String NAME = "Subsistence";
-    public static final String VERSION = "Alpha";
-    public static final String RESOURCE_PREFIX = "subsistence:";
-
-    @Mod.Instance(Subsistence.MODID)
+    public static final String MODID = "atmtweaks";
+    public static final String VERSION = "1.0";
+    public static final CreativeTabs creativeTab = new SubsistenceCreativeTab();
+    @SidedProxy(clientSide = "atm.bloodworkxgaming.atmtweaks.proxy.ClientProxy", serverSide = "atm.bloodworkxgaming.atmtweaks.proxy.ServerProxy")
+    public static CommonProxy proxy;
+    @Mod.Instance(MODID)
     public static Subsistence instance;
 
-    @SidedProxy(clientSide = "subsistence.ClientProxy", serverSide = "subsistence.CommonProxy")
-    public static CommonProxy proxy;
-
-    public static String configPath;
-
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        FMLCommonHandler.instance().bus().register(instance);
-        PacketHandler.initialize();
-        configPath = event.getModConfigurationDirectory().getPath() + File.separator + "/Subsistence/";
-        proxy.preInit();
-    }
-
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        proxy.init();
-    }
-
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        proxy.postInit();
-    }
-
-    @Mod.EventHandler
-    public void onServerStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand(new CommandSubsistence());
-        event.registerServerCommand(new CommandTPX());
-        if (CoreSettings.updateChecker) {
-            UpdateChecker.checkForUpdate();
-        }
-    }
-
     @SubscribeEvent
-    public void onPlayerJoinServer(PlayerEvent.PlayerLoggedInEvent event) {
-        //this comment was created in the 100th commit. HAHA I STOLE IT FROM YOU DYLAN
-        if (!event.player.worldObj.isRemote) {
-            if (event.player instanceof EntityPlayerMP) {
-                if (CoreSettings.updateChecker) {
-                    if (UpdateChecker.updateAvaliable) {
-                        event.player.addChatMessage(new ChatComponentText("§dUpdate for Subsistence is available!"));
-                    }
-                }
-            }
-        }
+    public static void registerModels(ModelRegistryEvent event) {
+        proxy.registerModels(event);
+    }
+
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        proxy.preInit(event);
+    }
+
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        proxy.init(event);
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        proxy.postInit(event);
     }
 }
