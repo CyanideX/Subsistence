@@ -2,6 +2,7 @@ package subsistence;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import subsistence.items.ItemCosmetic;
 
 public class SubsistenceCreativeTab extends CreativeTabs {
     public SubsistenceCreativeTab() {
@@ -10,7 +11,6 @@ public class SubsistenceCreativeTab extends CreativeTabs {
 
     @Override
     public ItemStack getTabIconItem() {
-        // return ItemMaterial.createItemStack(EnumItemMaterial.ATM_STAR, 1);
-        return ItemStack.EMPTY;
+        return ModItems.COSMETIC.createItemStack(ItemCosmetic.HEART_CORRUPTION, 1);
     }
 }

@@ -7,17 +7,17 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
-import subsistence.items.ItemMaterial;
+import subsistence.items.ItemCosmetic;
 import subsistence.util.Data;
 import subsistence.util.IHasModel;
 import subsistence.util.IHasSpecialRegistry;
 
 public class ModItems {
 
-    public static final ItemMaterial itemMaterial;
+    public static final ItemCosmetic COSMETIC;
 
     static {
-        itemMaterial = new ItemMaterial();
+        COSMETIC = new ItemCosmetic();
     }
 
     public static void registerItems(IForgeRegistry<Item> registry) {

@@ -1,0 +1,46 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "transform": "forge:default-block",
+    "model": "cube_column",
+    "textures": {
+      "all": "subsistence:blocks/world/infernal_log_normal",
+      "side": "subsistence:blocks/world/infernal_log_normal",
+      "end": "subsistence:blocks/world/infernal_log_top",
+      "particle": "#all"
+    }
+  },
+  "variants": {
+    "is_rich": {
+      "true": {
+        "textures": {
+          "side": "subsistence:blocks/world/infernal_log_rich",
+          "all": "subsistence:blocks/world/infernal_log_rich"
+        }
+      },
+      "false": {
+        "textures": {
+          "side": "subsistence:blocks/world/infernal_log_normal",
+          "all": "subsistence:blocks/world/infernal_log_normal"
+        }
+      }
+    },
+    "axis": {
+      "none": {
+        "model": "cube_all",
+        "__comment": "nothing to rotate"
+      },
+      "y": {
+        "__comment": "nothing to rotate"
+      },
+      "z": {
+        "x": 90
+      },
+      "x": {
+        "x": 90,
+        "y": 90
+      }
+    },
+    "inventory":[{}]
+  }
+}

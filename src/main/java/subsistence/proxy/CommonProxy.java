@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import subsistence.ModBlocks;
 import subsistence.ModItems;
 
 @Mod.EventBusSubscriber
@@ -17,7 +18,7 @@ public abstract class CommonProxy {
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        // ModBlocks.registerBlocks(event.getRegistry());
+        ModBlocks.registerBlocks(event.getRegistry());
     }
 
     @SubscribeEvent

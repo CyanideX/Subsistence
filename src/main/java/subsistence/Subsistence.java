@@ -14,11 +14,13 @@ import subsistence.proxy.CommonProxy;
 @Mod.EventBusSubscriber
 @Mod(modid = Subsistence.MODID, version = Subsistence.VERSION, acceptedMinecraftVersions = "{1.12,1.13)")
 public class Subsistence {
-    public static final String MODID = "atmtweaks";
-    public static final String VERSION = "1.0";
+    public static final String MODID = "subsistence";
+    public static final String VERSION = "0.0";
     public static final CreativeTabs creativeTab = new SubsistenceCreativeTab();
-    @SidedProxy(clientSide = "atm.bloodworkxgaming.atmtweaks.proxy.ClientProxy", serverSide = "atm.bloodworkxgaming.atmtweaks.proxy.ServerProxy")
+
+    @SidedProxy(clientSide = "subsistence.proxy.ClientProxy", serverSide = "subsistence.proxy.ServerProxy")
     public static CommonProxy proxy;
+
     @Mod.Instance(MODID)
     public static Subsistence instance;
 

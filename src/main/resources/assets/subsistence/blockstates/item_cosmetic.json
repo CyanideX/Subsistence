@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "builtin/generated",
+    "transform": "forge:default-item"
+  },
+  "variants": {
+    "type": {
+      "heart_corruption": {
+        "textures": {
+          "layer0": "subsistence:items/heart/corruption"
+        }
+      },
+      "heart_righteousness": {
+        "textures": {
+          "layer0": "subsistence:items/heart/righteousness"
+        }
+      }
+    }
+  }
+}

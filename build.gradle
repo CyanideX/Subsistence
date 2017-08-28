@@ -48,7 +48,7 @@ processResources {
 
 // jar {
 //     manifest {
-//         attributes 'FMLCorePlugin': 'oldStuff.common.asm.SubsistenceCorePlugin'
+//         attributes 'FMLCorePlugin': 'common.asm.SubsistenceCorePlugin'
 //         attributes 'FMLCorePluginContainsFMLMod': 'true'
 //     }
 //
